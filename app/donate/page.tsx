@@ -5,6 +5,7 @@ import { ChevronLeft, Trophy, Heart, DollarSign, Coffee } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { JSX } from "react"
 
 export default function DonatePage() {
   // Calculate percentage of monthly goal
@@ -39,7 +40,9 @@ export default function DonatePage() {
                 ${currentAmount} of ${monthlyGoal}
               </span>
             </div>
-            <Progress value={percentComplete} className="h-3 bg-gray-800" indicatorClassName="bg-yellow-500" />
+            <Progress value={percentComplete} className="h-3 bg-gray-800">
+              <div className="h-3 bg-yellow-500" style={{ width: `${percentComplete}%` }} />
+            </Progress>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
@@ -217,7 +220,7 @@ export default function DonatePage() {
 }
 
 // Donation Tier Component
-function DonationTier({ title, amount, period, benefits, icon, highlighted = false }) {
+function DonationTier({ title, amount, period, benefits, icon, highlighted = false }: { title: string; amount: string; period: string; benefits: string[]; icon: JSX.Element; highlighted?: boolean }) {
   return (
     <div
       className={`rounded-lg p-6 flex flex-col h-full ${highlighted ? "bg-yellow-500/10 border border-yellow-500/30" : "bg-gray-900 border border-gray-800"}`}
@@ -248,7 +251,7 @@ function DonationTier({ title, amount, period, benefits, icon, highlighted = fal
 }
 
 // One-time Donation Component
-function OneTimeDonation({ amount }) {
+function OneTimeDonation({ amount }: { amount: string }) {
   return (
     <div className="bg-gray-900 border border-gray-800 rounded-lg p-4 text-center hover:border-yellow-500/30 transition-colors cursor-pointer">
       <div className="flex justify-center mb-2">

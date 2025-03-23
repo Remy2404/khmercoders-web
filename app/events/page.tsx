@@ -88,7 +88,18 @@ export default function EventsPage() {
 }
 
 // Event Card Component
-function EventCard({ event, isUpcoming }) {
+interface Event {
+  title: string;
+  date: string;
+  description: string;
+  location?: string;
+  time?: string;
+  attendees?: string;
+  image?: string;
+  badge?: string;
+}
+
+function EventCard({ event, isUpcoming }: { event: Event; isUpcoming: boolean }) {
   return (
     <div className="bg-gray-900 rounded-lg overflow-hidden border border-gray-800 flex flex-col h-full">
       <div className="relative h-48 w-full">

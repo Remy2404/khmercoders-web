@@ -100,8 +100,16 @@ export default function PartnersPage() {
   )
 }
 
+// Define the Partner type
+type Partner = {
+  name: string;
+  description?: string;
+  logo: string;
+  website: string;
+};
+
 // Partner Card Component
-function PartnerCard({ partner, tier }) {
+function PartnerCard({ partner, tier }: { partner: Partner; tier: "platinum" | "gold" | "silver" }) {
   // Different styling based on partner tier
   const cardClasses = {
     platinum: "bg-gray-900 rounded-lg overflow-hidden border border-yellow-500/30 flex flex-col h-full",

@@ -1,6 +1,6 @@
-import Link from "next/link"
-import Image from "next/image"
-import { notFound } from "next/navigation"
+import Link from "next/link";
+import Image from "next/image";
+import { notFound } from "next/navigation";
 import {
   ChevronLeft,
   Github,
@@ -12,46 +12,50 @@ import {
   Award,
   Calendar,
   GraduationCap,
-} from "lucide-react"
+} from "lucide-react";
 
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
 // This would typically come from a database
 const getMembers = () => {
-  return [...techLeaders, ...entrepreneurs, ...risingStars]
+  return [...techLeaders, ...entrepreneurs, ...risingStars];
+};
+
+interface Params {
+  id: string;
 }
 
-export async function generateMetadata({ params }) {
-  const members = getMembers()
-  const member = members.find((m) => m.id === params.id)
+export async function generateMetadata({ params }: { params: Params }) {
+  const members = getMembers();
+  const member = members.find((m) => m.id === params.id);
 
   if (!member) {
     return {
       title: "Member Not Found | Khmer Coders",
       description: "The requested member profile could not be found.",
-    }
+    };
   }
 
   return {
     title: `${member.name} | Khmer Coders`,
     description: member.shortBio,
-  }
+  };
 }
 
-export default function MemberProfile({ params }) {
-  const members = getMembers()
-  const member = members.find((m) => m.id === params.id)
+export default function MemberProfile({ params }: { params: Params }) {
+  const members = getMembers();
+  const member = members.find((m) => m.id === params.id);
 
   if (!member) {
-    notFound()
+    notFound();
   }
 
   // Combine the sample data with the detailed profile data
   const profile = {
     ...member,
-    ...memberProfiles[params.id],
-  }
+    ...(memberProfiles[params.id as keyof typeof memberProfiles] || {}),
+  };
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -85,15 +89,21 @@ export default function MemberProfile({ params }) {
               <div className="md:w-1/3 flex flex-col items-center md:items-start">
                 <div className="h-32 w-32 rounded-full overflow-hidden border-4 border-gray-900 relative mb-4">
                   <Image
-                    src={profile.image || "/placeholder.svg?height=200&width=200"}
+                    src={
+                      profile.image || "/placeholder.svg?height=200&width=200"
+                    }
                     alt={profile.name}
                     fill
                     className="object-cover"
                   />
                 </div>
 
-                <h1 className="text-2xl md:text-3xl font-bold mb-1 text-center md:text-left">{profile.name}</h1>
-                <p className="text-yellow-500 mb-4 text-center md:text-left">{profile.role}</p>
+                <h1 className="text-2xl md:text-3xl font-bold mb-1 text-center md:text-left">
+                  {profile.name}
+                </h1>
+                <p className="text-yellow-500 mb-4 text-center md:text-left">
+                  {profile.role}
+                </p>
 
                 {profile.location && (
                   <div className="flex items-center gap-2 text-gray-400 mb-3">
@@ -105,7 +115,11 @@ export default function MemberProfile({ params }) {
                 {profile.badges && profile.badges.length > 0 && (
                   <div className="flex flex-wrap gap-2 mb-6">
                     {profile.badges.map((badge, index) => (
-                      <Badge key={index} variant="outline" className="border-yellow-500/30 text-yellow-500">
+                      <Badge
+                        key={index}
+                        variant="outline"
+                        className="border-yellow-500/30 text-yellow-500"
+                      >
                         {badge}
                       </Badge>
                     ))}
@@ -160,7 +174,10 @@ export default function MemberProfile({ params }) {
                     <h3 className="font-bold mb-3">Skills</h3>
                     <div className="flex flex-wrap gap-2">
                       {profile.skills.map((skill, index) => (
-                        <Badge key={index} className="bg-gray-800 hover:bg-gray-700 text-white">
+                        <Badge
+                          key={index}
+                          className="bg-gray-800 hover:bg-gray-700 text-white"
+                        >
                           {skill}
                         </Badge>
                       ))}
@@ -188,10 +205,15 @@ export default function MemberProfile({ params }) {
                     </h2>
                     <div className="space-y-6">
                       {profile.experience.map((exp, index) => (
-                        <div key={index} className="border-l-2 border-gray-800 pl-4 pb-2">
+                        <div
+                          key={index}
+                          className="border-l-2 border-gray-800 pl-4 pb-2"
+                        >
                           <h3 className="font-bold">{exp.role}</h3>
                           <p className="text-yellow-500">{exp.company}</p>
-                          <p className="text-sm text-gray-400 mb-2">{exp.period}</p>
+                          <p className="text-sm text-gray-400 mb-2">
+                            {exp.period}
+                          </p>
                           <p className="text-gray-300">{exp.description}</p>
                         </div>
                       ))}
@@ -209,8 +231,12 @@ export default function MemberProfile({ params }) {
                       {profile.achievements.map((achievement, index) => (
                         <div key={index} className="bg-gray-800 p-4 rounded-lg">
                           <h3 className="font-bold">{achievement.title}</h3>
-                          <p className="text-sm text-gray-400 mb-1">{achievement.year}</p>
-                          <p className="text-gray-300">{achievement.description}</p>
+                          <p className="text-sm text-gray-400 mb-1">
+                            {achievement.year}
+                          </p>
+                          <p className="text-gray-300">
+                            {achievement.description}
+                          </p>
                         </div>
                       ))}
                     </div>
@@ -225,7 +251,10 @@ export default function MemberProfile({ params }) {
                     </h2>
                     <div className="space-y-4">
                       {profile.education.map((edu, index) => (
-                        <div key={index} className="border-l-2 border-gray-800 pl-4 pb-2">
+                        <div
+                          key={index}
+                          className="border-l-2 border-gray-800 pl-4 pb-2"
+                        >
                           <h3 className="font-bold">{edu.degree}</h3>
                           <p className="text-yellow-500">{edu.institution}</p>
                           <p className="text-sm text-gray-400">{edu.period}</p>
@@ -251,7 +280,9 @@ export default function MemberProfile({ params }) {
               {profile.contributions.map((contribution, index) => (
                 <div key={index} className="bg-gray-800 p-4 rounded-lg">
                   <h3 className="font-bold mb-2">{contribution.title}</h3>
-                  <p className="text-sm text-gray-400 mb-2">{contribution.date}</p>
+                  <p className="text-sm text-gray-400 mb-2">
+                    {contribution.date}
+                  </p>
                   <p className="text-gray-300">{contribution.description}</p>
                 </div>
               ))}
@@ -269,11 +300,13 @@ export default function MemberProfile({ params }) {
 
       <footer className="bg-black border-t border-gray-800 py-8">
         <div className="container mx-auto px-4 text-center text-gray-500 text-sm">
-          <p>&copy; {new Date().getFullYear()} Khmer Coders. All rights reserved.</p>
+          <p>
+            &copy; {new Date().getFullYear()} Khmer Coders. All rights reserved.
+          </p>
         </div>
       </footer>
     </div>
-  )
+  );
 }
 
 // Sample Data for Member Profiles
@@ -284,7 +317,16 @@ const memberProfiles = {
       "Visal is a technology leader with over 15 years of experience in software development and architecture. As the CTO of TechCambodia, he leads a team of 50+ engineers building innovative solutions for both local and international clients.",
       "He is passionate about mentoring the next generation of Cambodian developers and regularly contributes to open source projects. Visal is also an AWS Certified Solutions Architect and has spoken at numerous tech conferences across Southeast Asia.",
     ],
-    skills: ["Cloud Architecture", "System Design", "Microservices", "DevOps", "Java", "Golang", "AWS", "Kubernetes"],
+    skills: [
+      "Cloud Architecture",
+      "System Design",
+      "Microservices",
+      "DevOps",
+      "Java",
+      "Golang",
+      "AWS",
+      "Kubernetes",
+    ],
     experience: [
       {
         role: "Chief Technology Officer",
@@ -304,7 +346,8 @@ const memberProfiles = {
         role: "Software Engineer",
         company: "StartupHub Cambodia",
         period: "2010 - 2014",
-        description: "Developed web applications and APIs for early-stage startups in the Cambodian ecosystem.",
+        description:
+          "Developed web applications and APIs for early-stage startups in the Cambodian ecosystem.",
       },
     ],
     achievements: [
@@ -317,7 +360,8 @@ const memberProfiles = {
       {
         title: "Best Tech Leadership Award",
         year: "2020",
-        description: "Awarded by the Cambodia ICT Federation for excellence in technology leadership and innovation.",
+        description:
+          "Awarded by the Cambodia ICT Federation for excellence in technology leadership and innovation.",
       },
     ],
     education: [
@@ -401,7 +445,8 @@ const memberProfiles = {
       {
         title: "Google Developer Expert in Machine Learning",
         year: "2021",
-        description: "Recognized for expertise and contributions to the machine learning developer community.",
+        description:
+          "Recognized for expertise and contributions to the machine learning developer community.",
       },
       {
         title: "Best Paper Award at NeurIPS",
@@ -431,7 +476,8 @@ const memberProfiles = {
       {
         title: "AI Workshop Series",
         date: "2022",
-        description: "Conducted virtual workshops on machine learning fundamentals for Cambodian developers.",
+        description:
+          "Conducted virtual workshops on machine learning fundamentals for Cambodian developers.",
       },
       {
         title: "Scholarship Program",
@@ -442,7 +488,8 @@ const memberProfiles = {
       {
         title: "Technical Advisor",
         date: "2018 - Present",
-        description: "Provides guidance on AI curriculum and learning resources for the community.",
+        description:
+          "Provides guidance on AI curriculum and learning resources for the community.",
       },
     ],
   },
@@ -472,25 +519,29 @@ const memberProfiles = {
         role: "Co-founder",
         company: "CamboTech Ventures",
         period: "2018 - Present",
-        description: "Co-founded an angel investment firm focusing on early-stage tech startups in Cambodia.",
+        description:
+          "Co-founded an angel investment firm focusing on early-stage tech startups in Cambodia.",
       },
       {
         role: "Software Developer",
         company: "International Tech Firm",
         period: "2010 - 2015",
-        description: "Worked as a full-stack developer on enterprise applications for banking and finance sectors.",
+        description:
+          "Worked as a full-stack developer on enterprise applications for banking and finance sectors.",
       },
     ],
     achievements: [
       {
         title: "Entrepreneur of the Year",
         year: "2021",
-        description: "Awarded by the Cambodia Chamber of Commerce for outstanding business leadership and innovation.",
+        description:
+          "Awarded by the Cambodia Chamber of Commerce for outstanding business leadership and innovation.",
       },
       {
         title: "30 Under 30",
         year: "2018",
-        description: "Named in Forbes Asia's 30 Under 30 list in the Enterprise Technology category.",
+        description:
+          "Named in Forbes Asia's 30 Under 30 list in the Enterprise Technology category.",
       },
     ],
     education: [
@@ -510,16 +561,18 @@ const memberProfiles = {
       {
         title: "Internship Initiative",
         date: "2017 - Present",
-        description: "Created a structured internship program at KhmerDev that has trained over 100 junior developers.",
+        description:
+          "Created a structured internship program at KhmerDev that has trained over 100 junior developers.",
       },
       {
         title: "Khmer Coders Sponsor",
         date: "2018 - Present",
-        description: "Provides financial support and venue space for community events and hackathons.",
+        description:
+          "Provides financial support and venue space for community events and hackathons.",
       },
     ],
   },
-}
+};
 
 // Re-export the sample data from the members page
 const techLeaders = [
@@ -543,7 +596,11 @@ const techLeaders = [
     role: "Lead Engineer at Google",
     shortBio:
       "Software engineer with experience at global tech companies. Specializes in machine learning and AI applications.",
-    badges: ["Google Developer Expert", "AI Specialist", "PhD in Computer Science"],
+    badges: [
+      "Google Developer Expert",
+      "AI Specialist",
+      "PhD in Computer Science",
+    ],
     image: "/placeholder.svg?height=200&width=200",
     coverImage: "/placeholder.svg?height=400&width=600",
     github: "https://github.com",
@@ -553,7 +610,8 @@ const techLeaders = [
     id: "bopha-pich",
     name: "Bopha Pich",
     role: "Senior Developer Advocate",
-    shortBio: "Developer advocate focusing on cloud technologies. Regular speaker at international tech conferences.",
+    shortBio:
+      "Developer advocate focusing on cloud technologies. Regular speaker at international tech conferences.",
     badges: ["Cloud Expert", "Tech Educator", "Community Builder"],
     image: "/placeholder.svg?height=200&width=200",
     coverImage: "/placeholder.svg?height=400&width=600",
@@ -561,14 +619,16 @@ const techLeaders = [
     linkedin: "https://linkedin.com",
     website: "https://example.com",
   },
-]
+];
 
 const entrepreneurs = [
   {
     id: "sovann-tech",
     name: "Sovann Tech",
     role: "Founder & CEO of KhmerDev",
-    shortBio: "Founded KhmerDev, a successful software development company employing over 50 Cambodian developers.",
+    bio: [],
+    shortBio:
+      "Founded KhmerDev, a successful software development company employing over 50 Cambodian developers.",
     badges: ["Startup Founder", "Tech Investor", "Mentor"],
     image: "/placeholder.svg?height=200&width=200",
     coverImage: "/placeholder.svg?height=400&width=600",
@@ -579,7 +639,9 @@ const entrepreneurs = [
     id: "channary-rin",
     name: "Channary Rin",
     role: "Co-founder of EduTech Cambodia",
-    shortBio: "Building educational technology solutions to improve access to quality education across Cambodia.",
+    bio: [],
+    shortBio:
+      "Building educational technology solutions to improve access to quality education across Cambodia.",
     badges: ["EdTech Pioneer", "Social Entrepreneur", "Women in Tech"],
     image: "/placeholder.svg?height=200&width=200",
     coverImage: "/placeholder.svg?height=400&width=600",
@@ -590,7 +652,9 @@ const entrepreneurs = [
     id: "makara-pen",
     name: "Makara Pen",
     role: "Founder of FinTech Startup",
-    shortBio: "Developing innovative financial technology solutions to increase financial inclusion in Cambodia.",
+    shortBio:
+      "Developing innovative financial technology solutions to increase financial inclusion in Cambodia.",
+    bio: [],
     badges: ["FinTech Innovator", "Blockchain Expert", "Angel Investor"],
     image: "/placeholder.svg?height=200&width=200",
     coverImage: "/placeholder.svg?height=400&width=600",
@@ -598,7 +662,7 @@ const entrepreneurs = [
     linkedin: "https://linkedin.com",
     website: "https://example.com",
   },
-]
+];
 
 const risingStars = [
   {
@@ -607,6 +671,7 @@ const risingStars = [
     role: "Frontend Developer & UI/UX Designer",
     shortBio:
       "Award-winning designer creating beautiful and accessible web experiences. Active open source contributor.",
+    bio: [],
     badges: ["UI/UX Specialist", "React Expert", "Design Systems"],
     image: "/placeholder.svg?height=200&width=200",
     coverImage: "/placeholder.svg?height=400&width=600",
@@ -620,6 +685,7 @@ const risingStars = [
     role: "Mobile App Developer",
     shortBio:
       "Self-taught developer who has published several popular mobile apps with over 500,000 combined downloads.",
+    bio: [],
     badges: ["Flutter Expert", "Firebase Specialist", "Mobile UI"],
     image: "/placeholder.svg?height=200&width=200",
     coverImage: "/placeholder.svg?height=400&width=600",
@@ -630,7 +696,9 @@ const risingStars = [
     id: "theary-choun",
     name: "Theary Choun",
     role: "Data Scientist & ML Engineer",
-    shortBio: "Working on machine learning applications to solve local challenges in agriculture and healthcare.",
+    shortBio:
+      "Working on machine learning applications to solve local challenges in agriculture and healthcare.",
+    bio: [],
     badges: ["AI Researcher", "Python Expert", "TensorFlow"],
     image: "/placeholder.svg?height=200&width=200",
     coverImage: "/placeholder.svg?height=400&width=600",
@@ -638,5 +706,4 @@ const risingStars = [
     linkedin: "https://linkedin.com",
     twitter: "https://twitter.com",
   },
-]
-
+];

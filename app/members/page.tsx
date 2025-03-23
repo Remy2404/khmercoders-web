@@ -89,7 +89,23 @@ export default function MembersPage() {
 }
 
 // Member Card Component
-function MemberCard({ member }) {
+// Define the Member type
+interface IMember {
+  id: string;
+  name: string;
+  role: string;
+  shortBio: string;
+  bio?: string;
+  badges?: string[];
+  image?: string;
+  coverImage?: string;
+  github?: string;
+  twitter?: string;
+  linkedin?: string;
+  website?: string;
+}
+
+function MemberCard({ member }: { member: IMember }) {
   return (
     <div className="bg-gray-900 rounded-lg overflow-hidden border border-gray-800 flex flex-col h-full">
       <div className="relative">
