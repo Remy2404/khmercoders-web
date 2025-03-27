@@ -3,7 +3,7 @@ import Image from "next/image"
 import { ChevronLeft, ExternalLink } from "lucide-react"
 
 import { Button } from "@/components/generated/button"
-import { goldPartners, platinumPartners, silverPartners } from "@/data/partners"
+import { partners } from "@/data/partners"
 
 export default function PartnersPage() {
   return (
@@ -23,7 +23,7 @@ export default function PartnersPage() {
 
       <main className="container mx-auto px-4 pb-20">
         {/* Platinum Partners */}
-        <section className="mb-20">
+        {/* <section className="mb-20">
           <div className="flex items-center justify-center mb-12">
             <div className="h-px bg-gray-800 flex-grow"></div>
             <h2 className="text-2xl md:text-3xl font-bold px-6">Platinum Partners</h2>
@@ -35,25 +35,25 @@ export default function PartnersPage() {
               <PartnerCard key={index} partner={partner} tier="platinum" />
             ))}
           </div>
-        </section>
+        </section> */}
 
         {/* Gold Partners */}
         <section className="mb-20">
           <div className="flex items-center justify-center mb-12">
             <div className="h-px bg-gray-800 flex-grow"></div>
-            <h2 className="text-2xl md:text-3xl font-bold px-6">Gold Partners</h2>
+            <h2 className="text-2xl md:text-3xl font-bold px-6">Partners</h2>
             <div className="h-px bg-gray-800 flex-grow"></div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {goldPartners.map((partner, index) => (
+            {partners.map((partner, index) => (
               <PartnerCard key={index} partner={partner} tier="gold" />
             ))}
           </div>
         </section>
 
         {/* Silver Partners */}
-        <section>
+        {/* <section>
           <div className="flex items-center justify-center mb-12">
             <div className="h-px bg-gray-800 flex-grow"></div>
             <h2 className="text-2xl md:text-3xl font-bold px-6">Silver Partners</h2>
@@ -65,7 +65,7 @@ export default function PartnersPage() {
               <PartnerCard key={index} partner={partner} tier="silver" />
             ))}
           </div>
-        </section>
+        </section> */}
 
         {/* Become a Partner CTA */}
         <section className="mt-24 bg-gray-900 rounded-lg p-8 md:p-12">
