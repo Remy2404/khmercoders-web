@@ -3,7 +3,7 @@ export const foundingMembers = [
   {
     name: "Visal In",
     role: "Co-founder",
-    bio: "Founded Khmer Coders in 2011 to foster a supportive tech community in Cambodia. He is also a serial startup founder and an active open-source maintainer.",
+    bio: "Founded Khmer Coders in 2018 to foster a supportive tech community in Cambodia. He is also a serial startup founder and an active open-source maintainer.",
     image: "/teams/invisal.jpg",
     github: "https://github.com/invisal",
     twitter: "https://x.com/invisal89",

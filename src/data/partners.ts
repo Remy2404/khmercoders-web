@@ -1,49 +1,71 @@
 export const partners = [
   {
     name: "Bill24",
-    description: "Easy Bills, Easy Payments!",
+    description:
+      "​Bill24 streamlines bill payments, connecting businesses and customers through multiple channels. ",
     logo: "/assets/images/partners/bill24.png?height=200&width=400",
     website: "https://bill24.io/kh/",
   },
   {
     name: "Plasgate",
-    description: "Create Your Own SMS CAMPAIGN",
+    description:
+      "​PlasGate is Cambodia's largest authorized SMS gateway, connecting businesses to all major networks.",
     logo: "/assets/images/partners/plusgate.webp?height=200&width=400",
     website: "https://plasgate.com/",
   },
   {
     name: "Techbodia",
-    description: "we provide professional it solutions.",
+    description:
+      "​Techbodia is a leading Cambodian IT company offering customer-satisfaction-driven services. ",
     logo: "/assets/images/partners/techbodia.png?height=200&width=400",
     website: "https://www.techbodia.com/",
   },
   {
+    name: "Jobify",
+    description:
+      "​Jobify is Cambodia's leading IT job matching service, offering recruitment and staffing solutions to connect companies with skilled tech professionals.",
+    logo: "/assets/images/partners/jobify.jpg",
+    website: "https://jobify.works",
+  },
+  {
+    name: "DataU",
+    description:
+      "​DataU Academy offers live, interactive data science and AI training programs in Cambodia.",
+    logo: "/assets/images/partners/datau.png?height=200&width=400",
+    website: "https://wedatau.org",
+  },
+  {
     name: "Daun Penh Data Center",
-    description: "Leading Innovative Cloud and Digital Solutions, Tailored for your Businesses in Cambodia",
+    description:
+      "​Daun Penh Data Center offers colocation, dedicated servers, VPS, cloud solutions, and web hosting services in Cambodia.",
     logo: "/assets/images/partners/daunpenh.png?height=200&width=400",
     website: "https://dpdatacenter.com/en",
   },
   {
     name: "Cambodian Network Exchange",
-    description: "Keeping traffic local since 2008",
+    description:
+      "​Cambodian Network Exchange (CNX) is an open, neutral internet exchange in Cambodia. ",
     logo: "/assets/images/partners/cnx.png?height=200&width=400",
     website: "https://cnx.net.kh/",
   },
   {
     name: "Sabay TeKh",
-    description: "Unlock the power of the cloud. Streamline your business with secure, scalable solutions, and local.",
+    description:
+      "​Sabay Cloud offers cloud-based video streaming, storage, and transcoding services in Cambodia.",
     logo: "/assets/images/partners/sabaytekh.png?height=200&width=400",
     website: "https://cloud.sabay.com/",
   },
   {
     name: "AI Farm",
-    description: "AI FARM Trailer in AMS Economy",
+    description:
+      "​AI Farm Robotic Factory, a subsidiary of Khamsa Group of Businesses (KGB), is a technology-driven company based in Phnom Penh, Cambodia.",
     logo: "/assets/images/partners/aifarm.png?height=200&width=400",
     website: "https://aifarm.dev/",
   },
   {
     name: "Dreamlab",
-    description: "Empowering Innovative spark Solutions for an Open World Future",
+    description:
+      "​DreamsLAB is a Cambodian software solutions company specializing in custom software, mobile apps, cloud services, AI, and blockchain integration. ",
     logo: "/assets/images/partners/dreamslab.svg?height=200&width=400",
     website: "https://www.dreamslab.dev/",
   },

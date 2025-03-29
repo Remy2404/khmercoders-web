@@ -53,7 +53,7 @@ export default function LandingPage() {
               <div className="flex items-center gap-3">
                 <Users className="h-6 w-6 text-blue-500" />
                 <div>
-                  <p className="text-2xl font-bold">5,000+</p>
+                  <p className="text-2xl font-bold">10,000+</p>
                   <p className="text-sm text-gray-400">Community Members</p>
                 </div>
               </div>
@@ -70,7 +70,7 @@ export default function LandingPage() {
               <div className="flex items-center gap-4">
                 <Users className="h-10 w-10 text-yellow-500" />
                 <div>
-                  <p className="text-3xl font-bold">5,000+</p>
+                  <p className="text-3xl font-bold">10,000+</p>
                   <p className="text-gray-400">Active Members</p>
                 </div>
               </div>
@@ -79,7 +79,7 @@ export default function LandingPage() {
               <div className="flex items-center gap-4">
                 <Calendar className="h-10 w-10 text-blue-500" />
                 <div>
-                  <p className="text-3xl font-bold">120+</p>
+                  <p className="text-3xl font-bold">6+</p>
                   <p className="text-gray-400">Events Per Year</p>
                 </div>
               </div>
@@ -88,7 +88,7 @@ export default function LandingPage() {
               <div className="flex items-center gap-4">
                 <MessageSquare className="h-10 w-10 text-green-500" />
                 <div>
-                  <p className="text-3xl font-bold">50+</p>
+                  <p className="text-3xl font-bold">10+</p>
                   <p className="text-gray-400">Partner Companies</p>
                 </div>
               </div>
