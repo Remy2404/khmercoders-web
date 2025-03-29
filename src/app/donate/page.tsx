@@ -153,6 +153,23 @@ function GoalSection({ currentTotal }: { currentTotal: number }) {
             style={{ width: `${percentComplete}%` }}
           />
         </Progress>
+
+        <div className="mt-8 flex flex-col md:flex-row gap-8">
+          <div className="max-w-[300px] p-4 bg-white border border-4 border-yellow-500 rounded-lg">
+            <img src="/qrcode.svg" className="w-full" />
+            <div className="text-center mt-2 text-black">
+              <p className="font-bold text-lg">IN V. & SUM S. & VOR S.</p>
+            </div>
+          </div>
+
+          <div className="flex-1 flex items-center">
+            <p className="text-lg">
+              Please scan the QR code with your preferred Cambodian banking
+              application. Include your name in the transaction remarks to be
+              recognized on our supporters list.
+            </p>
+          </div>
+        </div>
       </div>
     </section>
   );
