@@ -39,17 +39,17 @@ export default function LandingPage() {
               </Button>
             </div>
           </div>
-          <div className="flex-1 relative">
+          <div className="flex-1 relative w-full md:w-auto">
             <div className="relative h-[350px] w-full md:w-[500px] rounded-lg overflow-hidden border-2 border-gray-800">
               <Image
-                src="/placeholder.svg?height=700&width=1000"
+                src="/hero-banner.jpg"
                 alt="Khmer Coders Community"
                 fill
                 className="object-cover"
                 priority
               />
             </div>
-            <div className="absolute -bottom-6 -left-6 bg-gray-900 p-4 rounded-lg border border-gray-800">
+            <div className="absolute bottom-2 md:-bottom-6 left-2 md:-left-6 bg-gray-900 p-4 rounded-lg border border-gray-800">
               <div className="flex items-center gap-3">
                 <Users className="h-6 w-6 text-blue-500" />
                 <div>

@@ -30,7 +30,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <div className="min-h-screen bg-black text-white">
-            <header className="container mx-auto py-6 px-4 flex items-center gap-12 mb-12">
+            <header className="container mx-auto py-6 px-4 flex items-center gap-12 mb-8">
               <Link href="/" className="flex items-center gap-2">
                 <Code className="h-8 w-8 text-yellow-500" />
                 <span className="text-xl font-bold">Khmer Coders</span>
