@@ -3,29 +3,35 @@ import Image from "next/image";
 import { ChevronLeft, ExternalLink } from "lucide-react";
 
 import { Button } from "@/components/generated/button";
-import { IPartner, partners } from "@/data/partners";
+import { IPartner, partners as PartnerDatabase } from "@/data/partners";
 import { useMemo } from "react";
 import { cn } from "@/utils";
 
-export default function PartnersPage() {
+function calculateScore(partner: IPartner) {
+  return partner.tags.reduce((acc, tag) => {
+    if (tag.type === "Gold Sponsor") return acc + (tag.badge ?? 0) * 10;
+    if (tag.type === "Silver Sponsor") return acc + (tag.badge ?? 0) * 3;
+    if (tag.type === "Co-organizer") return acc + (tag.badge ?? 0) * 1;
+    if (tag.type === "Venue") return acc + (tag.badge ?? 0) * 3;
+    return acc + (tag.badge ?? 0);
+  }, 0);
+}
+
+export default async function PartnersPage() {
+  const partners = PartnerDatabase.sort((a, b) => {
+    const aScore = calculateScore(a);
+    const bScore = calculateScore(b);
+
+    if (aScore === bScore) {
+      // Sort by name if scores are equal
+      return a.name.localeCompare(b.name);
+    }
+
+    return bScore - aScore;
+  });
+
   return (
     <main className="container mx-auto px-4 pb-20">
-      {/* Platinum Partners */}
-      {/* <section className="mb-20">
-          <div className="flex items-center justify-center mb-12">
-            <div className="h-px bg-gray-800 flex-grow"></div>
-            <h2 className="text-2xl md:text-3xl font-bold px-6">Platinum Partners</h2>
-            <div className="h-px bg-gray-800 flex-grow"></div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {platinumPartners.map((partner, index) => (
-              <PartnerCard key={index} partner={partner} tier="platinum" />
-            ))}
-          </div>
-        </section> */}
-
-      {/* Gold Partners */}
       <section className="mb-20">
         <div className="flex items-center justify-center mb-12">
           <div className="h-px bg-gray-800 flex-grow"></div>
@@ -40,22 +46,6 @@ export default function PartnersPage() {
         </div>
       </section>
 
-      {/* Silver Partners */}
-      {/* <section>
-          <div className="flex items-center justify-center mb-12">
-            <div className="h-px bg-gray-800 flex-grow"></div>
-            <h2 className="text-2xl md:text-3xl font-bold px-6">Silver Partners</h2>
-            <div className="h-px bg-gray-800 flex-grow"></div>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {silverPartners.map((partner, index) => (
-              <PartnerCard key={index} partner={partner} tier="silver" />
-            ))}
-          </div>
-        </section> */}
-
-      {/* Become a Partner CTA */}
       <section className="mt-24 bg-gray-900 rounded-lg p-8 md:p-12">
         <div className="flex flex-col md:flex-row items-center gap-8">
           <div className="flex-1">
@@ -129,8 +119,9 @@ function PartnerCard({
               className={cn(tagClass, "px-2 py-1 rounded flex gap-2")}
               key={tag.type}
             >
-              <span>{tag.type}</span>
-              {tag.badge && <span className="">| x{tag.badge}</span>}
+              <span>
+                {tag.type} {tag.badge ? ` • ${tag.badge}` : ""}
+              </span>
             </div>
           );
         })}

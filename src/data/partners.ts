@@ -13,10 +13,18 @@ export const partners: IPartner[] = [
   {
     name: "Bill24",
     description:
-      "​Bill24 streamlines bill payments, connecting businesses and customers through multiple channels. ",
+      "​Bill24 streamlines bill payments, connecting businesses and customers through multiple channels.",
     logo: "/assets/images/partners/bill24.png?height=200&width=400",
     website: "https://bill24.io/kh/",
     tags: [{ type: "Silver Sponsor", badge: 3 }],
+  },
+  {
+    name: "Binance Academy",
+    description:
+      "​Binance Academy offers free, comprehensive education on blockchain and cryptocurrency topics. ",
+    logo: "/assets/images/partners/academy-h.png?height=200&width=400",
+    website: "https://academy.binance.com",
+    tags: [{ type: "Gold Sponsor", badge: 1 }],
   },
   {
     name: "Plasgate",
@@ -43,7 +51,7 @@ export const partners: IPartner[] = [
       "​Jobify is Cambodia's leading IT job matching service, offering recruitment and staffing solutions to connect companies with skilled tech professionals.",
     logo: "/assets/images/partners/jobify.jpg",
     website: "https://jobify.works",
-    tags: [{ type: "Co-organizer" }],
+    tags: [{ type: "Co-organizer", badge: 5 }],
   },
   {
     name: "DataU",
@@ -51,7 +59,7 @@ export const partners: IPartner[] = [
       "​DataU Academy offers live, interactive data science and AI training programs in Cambodia.",
     logo: "/assets/images/partners/datau.png?height=200&width=400",
     website: "https://wedatau.org",
-    tags: [{ type: "Co-organizer" }],
+    tags: [{ type: "Co-organizer", badge: 5 }],
   },
   {
     name: "Daun Penh Data Center",
@@ -73,7 +81,7 @@ export const partners: IPartner[] = [
     name: "Sabay TeKh",
     description:
       "​Sabay Cloud offers cloud-based video streaming, storage, and transcoding services in Cambodia.",
-    logo: "/assets/images/partners/sabaytekh.png?height=200&width=400",
+    logo: "/assets/images/partners/sabay-tekh.png?height=200&width=400",
     website: "https://cloud.sabay.com/",
     tags: [{ type: "Silver Sponsor", badge: 1 }],
   },
@@ -96,89 +104,28 @@ export const partners: IPartner[] = [
       { type: "Venue", badge: 1 },
     ],
   },
-];
-
-// Sample Data
-export const platinumPartners = [
   {
-    name: "Cambodia Tech Innovation Hub",
+    name: "Connexion",
     description:
-      "A leading technology innovation center supporting startups and tech education throughout Cambodia.",
-    logo: "/placeholder.svg?height=200&width=400",
-    website: "https://example.com",
+      "Connexion is a 'work & lifestyle' sustainable hub in the center of Koh Pich, Phnom Penh.",
+    logo: "/assets/images/partners/connexion2.png",
+    website: "https://www.facebook.com/connexionkohpich",
+    tags: [{ type: "Venue", badge: 1 }],
   },
   {
-    name: "Digital Cambodia",
+    name: "Raintree",
     description:
-      "Government initiative to promote digital literacy and technology adoption across the country.",
-    logo: "/placeholder.svg?height=200&width=400",
-    website: "https://example.com",
+      "​Raintree is Cambodia's first creative office development, offering flexible workspaces and event venues in Phnom Penh's central business district",
+    logo: "/assets/images/partners/raintree.png",
+    website: "https://www.raintreecambodia.com/",
+    tags: [{ type: "Venue", badge: 1 }],
   },
-];
-
-export const goldPartners = [
   {
-    name: "Phnom Penh Software Solutions",
+    name: "Peanex",
     description:
-      "Custom software development company specializing in web and mobile applications.",
-    logo: "/placeholder.svg?height=200&width=400",
-    website: "https://example.com",
-  },
-  {
-    name: "Angkor Cloud Services",
-    description:
-      "Cloud infrastructure and hosting provider with data centers in Cambodia.",
-    logo: "/placeholder.svg?height=200&width=400",
-    website: "https://example.com",
-  },
-  {
-    name: "Mekong Tech Academy",
-    description:
-      "Educational institution offering coding bootcamps and tech courses.",
-    logo: "/placeholder.svg?height=200&width=400",
-    website: "https://example.com",
-  },
-];
-
-export const silverPartners = [
-  {
-    name: "BattleBridge Co-working",
-    logo: "/placeholder.svg?height=150&width=300",
-    website: "https://example.com",
-  },
-  {
-    name: "Raintree Cambodia",
-    logo: "/placeholder.svg?height=150&width=300",
-    website: "https://example.com",
-  },
-  {
-    name: "Factory Phnom Penh",
-    logo: "/placeholder.svg?height=150&width=300",
-    website: "https://example.com",
-  },
-  {
-    name: "Cambodian Developers Association",
-    logo: "/placeholder.svg?height=150&width=300",
-    website: "https://example.com",
-  },
-  {
-    name: "Startup Cambodia",
-    logo: "/placeholder.svg?height=150&width=300",
-    website: "https://example.com",
-  },
-  {
-    name: "Khmer Enterprise",
-    logo: "/placeholder.svg?height=150&width=300",
-    website: "https://example.com",
-  },
-  {
-    name: "Impact Hub Phnom Penh",
-    logo: "/placeholder.svg?height=150&width=300",
-    website: "https://example.com",
-  },
-  {
-    name: "SmallWorld Cambodia",
-    logo: "/placeholder.svg?height=150&width=300",
-    website: "https://example.com",
+      "Versatile event venue with catering, decor, and ample parking.",
+    logo: "/assets/images/partners/raintree.png",
+    website: "https://www.facebook.com/people/Peanex-Venue/61568431050449",
+    tags: [{ type: "Venue", badge: 1 }],
   },
 ];
