@@ -42,9 +42,8 @@ export const volunteers = [
   {
     name: "Neup Orng",
     role: "Event Coordinator",
-    image: "/placeholder.svg?height=400&width=400",
-    website: "https://example.com",
-    linkedin: "https://linkedin.com",
+    image: "/teams/neup-orng.jpg",
+    linkedin: "https://www.linkedin.com/in/orng-neup-91ab14230",
   },
   {
     name: "Sok Pisey",
