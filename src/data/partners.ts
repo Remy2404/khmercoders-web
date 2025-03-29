@@ -124,7 +124,7 @@ export const partners: IPartner[] = [
     name: "Peanex",
     description:
       "Versatile event venue with catering, decor, and ample parking.",
-    logo: "/assets/images/partners/raintree.png",
+    logo: "/assets/images/partners/peanex.png",
     website: "https://www.facebook.com/people/Peanex-Venue/61568431050449",
     tags: [{ type: "Venue", badge: 1 }],
   },
