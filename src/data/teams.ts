@@ -88,22 +88,20 @@ export const volunteers = [
 
 export const moderators = [
   {
-    name: "Sovann Heng",
+    name: "Sliden",
     role: "Discord Moderator",
-    image: "/placeholder.svg?height=400&width=400",
-    github: "https://github.com",
-    discord: "https://discord.com",
+    image: "/teams/sliden.jpg",
+    github: "https://github.com/Sliden101",
   },
   {
-    name: "Kunthea Nhep",
-    role: "Facebook Group Moderator",
-    image: "/placeholder.svg?height=400&width=400",
-    linkedin: "https://linkedin.com",
-    facebook: "https://facebook.com",
+    name: "Kim Thean",
+    role: "Discord Moderator",
+    image: "/teams/thean.jpg",
+    github: "https://github.com/Kimthean",
   },
   {
-    name: "Makara Sun",
-    role: "Telegram Channel Moderator",
+    name: "Ave Aristov",
+    role: "Discord Moderator",
     image: "/placeholder.svg?height=400&width=400",
     github: "https://github.com",
     linkedin: "https://linkedin.com",
