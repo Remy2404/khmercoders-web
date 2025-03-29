@@ -9,6 +9,7 @@ export interface ITeamMember {
   twitter?: string;
   linkedin?: string;
   website?: string;
+  telegram?: string;
 }
 
 // Member Card Component

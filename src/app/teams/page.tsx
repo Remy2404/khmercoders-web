@@ -1,8 +1,14 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ChevronLeft, Github, Twitter, Linkedin, Globe } from "lucide-react";
-
-import { Button } from "@/components/generated/button";
+import {
+  Github,
+  Twitter,
+  Linkedin,
+  Globe,
+  PlaneTakeoff,
+  PlaneIcon,
+  Send,
+} from "lucide-react";
 import { ITeamMember } from "@/types";
 import { foundingMembers, moderators, volunteers } from "@/data/teams";
 
@@ -128,10 +134,10 @@ function SimpleMemberCard({ member }: { member: ITeamMember }) {
       </div>
       <h3 className="font-medium text-center">{member.name}</h3>
       <p className="text-yellow-500 text-sm mb-3 text-center">{member.role}</p>
-      <div className="flex gap-2">
+      <div className="flex gap-3">
         {member.github && (
           <Link href={member.github} className="text-gray-400 hover:text-white">
-            <Github className="h-4 w-4" />
+            <Github className="h-5 w-5" />
           </Link>
         )}
         {member.twitter && (
@@ -139,7 +145,7 @@ function SimpleMemberCard({ member }: { member: ITeamMember }) {
             href={member.twitter}
             className="text-gray-400 hover:text-white"
           >
-            <Twitter className="h-4 w-4" />
+            <Twitter className="h-5 w-5" />
           </Link>
         )}
         {member.linkedin && (
@@ -147,15 +153,25 @@ function SimpleMemberCard({ member }: { member: ITeamMember }) {
             href={member.linkedin}
             className="text-gray-400 hover:text-white"
           >
-            <Linkedin className="h-4 w-4" />
+            <Linkedin className="h-5 w-5" />
           </Link>
         )}
+
+        {member.telegram && (
+          <Link
+            href={member.telegram}
+            className="text-gray-400 hover:text-white"
+          >
+            <Send className="h-5 w-5" />
+          </Link>
+        )}
+
         {member.website && (
           <Link
             href={member.website}
             className="text-gray-400 hover:text-white"
           >
-            <Globe className="h-4 w-4" />
+            <Globe className="h-5 w-5" />
           </Link>
         )}
       </div>

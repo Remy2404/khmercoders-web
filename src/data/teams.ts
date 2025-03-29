@@ -30,7 +30,6 @@ export const volunteers = [
     name: "Theara Soeung",
     role: "Event Coordinator",
     image: "/teams/theara-256.jpg",
-    linkedin: "https://linkedin.com",
   },
   {
     name: "Banly Tong",
@@ -49,22 +48,18 @@ export const volunteers = [
     name: "Sok Pisey",
     role: "Event Coordinator",
     image: "/teams/pisey.png",
-    linkedin: "https://linkedin.com",
-    twitter: "https://twitter.com",
   },
   {
     name: "Tep Thean",
     role: "Event Coordinator",
     image: "/teams/tep-thean-256.jpg",
-    github: "https://github.com",
-    linkedin: "https://linkedin.com",
   },
   {
     name: "Sarun Rathpanha",
     role: "Beer Coordinator",
     image: "/teams/rathpanha-256.jpg",
-    github: "https://github.com",
-    linkedin: "https://linkedin.com",
+    github: "https://github.com/Rathpanha",
+    website: "https://rathpanha.com",
   },
 ];
 
