@@ -64,8 +64,8 @@ export const partners: IPartner[] = [
   {
     name: "Daun Penh Data Center",
     description:
-      "​Daun Penh Data Center offers colocation, dedicated servers, VPS, cloud solutions, and web hosting services in Cambodia.",
-    logo: "/assets/images/partners/daunpenh.png?height=200&width=400",
+      "​DP CLOUD offers VPS, dedicated servers, web hosting, and other cloud services located in Cambodia.",
+    logo: "/assets/images/partners/dpcloud_logo.png?height=200&width=400",
     website: "https://dpdatacenter.com/en",
     tags: [{ type: "Silver Sponsor", badge: 3 }],
   },

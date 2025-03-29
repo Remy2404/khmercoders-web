@@ -35,9 +35,9 @@ export const volunteers = [
   {
     name: "Banly Tong",
     role: "Event Coordinator",
-    image: "/placeholder.svg?height=400&width=400",
-    github: "https://github.com",
-    twitter: "https://twitter.com",
+    image: "/teams/banly.jpg",
+    github: "https://github.com/BanlyTong",
+    linkedin: "https://www.linkedin.com/in/banly-tong-271458199",
   },
   {
     name: "Neup Orng",
@@ -56,6 +56,13 @@ export const volunteers = [
     name: "Tep Thean",
     role: "Event Coordinator",
     image: "/teams/tep-thean-256.jpg",
+    github: "https://github.com",
+    linkedin: "https://linkedin.com",
+  },
+  {
+    name: "Sarun Rathpanha",
+    role: "Beer Coordinator",
+    image: "/teams/rathpanha-256.jpg",
     github: "https://github.com",
     linkedin: "https://linkedin.com",
   },
@@ -79,5 +86,23 @@ export const moderators = [
     role: "Discord Moderator",
     image: "/teams/ave.svg",
     website: "https://avearistov.com",
+  },
+  {
+    name: "Thor Mengkheang",
+    role: "Facebook Moderator",
+    image: "/teams/ave.svg",
+    website: "https://avearistov.com",
+  },
+  {
+    name: "Ratana Sat",
+    role: "Facebook Moderator",
+    website: "https://www.facebook.com/sat.ratana",
+    image: "/teams/ratana-256.jpg",
+  },
+  {
+    name: "Ri Rat",
+    role: "Facebook Moderator",
+    github: "https://github.com/roth-dev",
+    image: "/teams/riroth.jpg",
   },
 ];
