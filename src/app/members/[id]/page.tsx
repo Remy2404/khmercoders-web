@@ -16,7 +16,14 @@ import {
 
 import { Button } from "@/components/generated/button";
 import { Badge } from "@/components/generated/badge";
-import { entrepreneurs, memberProfiles, risingStars, techLeaders } from "@/data/member-profiles";
+import {
+  entrepreneurs,
+  memberProfiles,
+  risingStars,
+  techLeaders,
+} from "@/data/member-profiles";
+
+export const runtime = "edge";
 
 // This would typically come from a database
 const getMembers = () => {
