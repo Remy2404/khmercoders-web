@@ -30,18 +30,12 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <div className="min-h-screen bg-black text-white">
-            <header className="container mx-auto py-6 px-4 flex items-center justify-between">
-              <div className="flex items-center gap-2">
+            <header className="container mx-auto py-6 px-4 flex items-center gap-12 mb-12">
+              <Link href="/" className="flex items-center gap-2">
                 <Code className="h-8 w-8 text-yellow-500" />
                 <span className="text-xl font-bold">Khmer Coders</span>
-              </div>
+              </Link>
               <nav className="hidden md:flex items-center gap-6">
-                <Link
-                  href="#about"
-                  className="text-sm hover:text-yellow-500 transition-colors"
-                >
-                  About
-                </Link>
                 <Link
                   href="/events"
                   className="text-sm hover:text-yellow-500 transition-colors"
@@ -49,23 +43,17 @@ export default function RootLayout({
                   Events
                 </Link>
                 <Link
-                  href="#community"
-                  className="text-sm hover:text-yellow-500 transition-colors"
-                >
-                  Community
-                </Link>
-                <Link
                   href="/teams"
                   className="text-sm hover:text-yellow-500 transition-colors"
                 >
                   Teams
                 </Link>
-                <Link
+                {/* <Link
                   href="/members"
                   className="text-sm hover:text-yellow-500 transition-colors"
                 >
                   Members
-                </Link>
+                </Link> */}
                 <Link
                   href="/partners"
                   className="text-sm hover:text-yellow-500 transition-colors"
@@ -79,9 +67,6 @@ export default function RootLayout({
                   Donate
                 </Link>
               </nav>
-              <Button className="bg-yellow-500 hover:bg-yellow-600 text-black">
-                Join Us
-              </Button>
             </header>
             {children}
             <footer className="bg-black border-t border-gray-800 py-12">
