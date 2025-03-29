@@ -3,7 +3,9 @@ import Image from "next/image";
 import { ChevronLeft, ExternalLink } from "lucide-react";
 
 import { Button } from "@/components/generated/button";
-import { partners } from "@/data/partners";
+import { IPartner, partners } from "@/data/partners";
+import { useMemo } from "react";
+import { cn } from "@/utils";
 
 export default function PartnersPage() {
   return (
@@ -85,20 +87,12 @@ export default function PartnersPage() {
   );
 }
 
-// Define the Partner type
-type Partner = {
-  name: string;
-  description?: string;
-  logo: string;
-  website: string;
-};
-
 // Partner Card Component
 function PartnerCard({
   partner,
   tier,
 }: {
-  partner: Partner;
+  partner: IPartner;
   tier: "platinum" | "gold" | "silver";
 }) {
   // Different styling based on partner tier
@@ -115,6 +109,34 @@ function PartnerCard({
     gold: "h-20",
     silver: "h-16",
   };
+
+  const tagElements = useMemo(() => {
+    return (
+      <div className="text-sm flex gap-2 mb-4">
+        {partner.tags.map((tag) => {
+          let tagClass = "bg-gray-600";
+
+          if (tag.type === "Venue") {
+            tagClass = "bg-green-700";
+          } else if (tag.type === "Gold Sponsor") {
+            tagClass = "bg-yellow-700";
+          } else if (tag.type === "Co-organizer") {
+            tagClass = "bg-blue-700";
+          }
+
+          return (
+            <div
+              className={cn(tagClass, "px-2 py-1 rounded flex gap-2")}
+              key={tag.type}
+            >
+              <span>{tag.type}</span>
+              {tag.badge && <span className="">| x{tag.badge}</span>}
+            </div>
+          );
+        })}
+      </div>
+    );
+  }, [partner.tags]);
 
   return (
     <div className={cardClasses[tier]}>
@@ -146,6 +168,8 @@ function PartnerCard({
             />
           </div>
         )}
+
+        {tagElements}
 
         <h3
           className={`font-bold ${
