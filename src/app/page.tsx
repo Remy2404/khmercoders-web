@@ -11,14 +11,40 @@ import {
 } from "lucide-react";
 
 import { Button } from "@/components/generated/button";
+import { AspectRatio } from "@/components/generated/aspect-ratio";
+import { StatsSection } from "@/components/organisms/stats-section";
 
 export default function LandingPage() {
+  const statsItems = [
+    {
+      icon: <Users className={`size-8 text-yellow-500`} />,
+      value: "10,000+",
+      label: "Active Members",
+      color: "text-yellow-500",
+    },
+    {
+      icon: <Calendar className={`size-8 text-yellow-500`} />,
+      value: "6+",
+      label: "Events Per Year",
+      color: "text-yellow-500",
+    },
+    {
+      icon: <MessageSquare className={`size-8 text-yellow-500`} />,
+      value: "10+",
+      label: "Partner Companies",
+      color: "text-yellow-500",
+    },
+  ];
+
   return (
-    <main>
+    <main className="relative">
       {/* Hero Section */}
-      <section className="container mx-auto py-20 px-4">
+      <section className="container mx-auto md:py-20 px-4">
         <div className="flex flex-col md:flex-row items-center gap-12">
           <div className="flex-1 space-y-6">
+            <div className="inline-flex items-center rounded-full border border-amber-500/30 bg-amber-500/10 px-3 py-1 text-sm text-amber-500">
+              <span className="font-medium">Cambodia's Tech Hub</span>
+            </div>
             <h1 className="text-4xl md:text-6xl font-bold leading-tight">
               Cambodia&apos;s Largest{" "}
               <span className="text-yellow-500">Coding Community</span>
@@ -28,19 +54,20 @@ export default function LandingPage() {
               of tech in Cambodia.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button className="bg-yellow-500 hover:bg-yellow-600 text-black">
-                Join Our Community
+              <Button className="rounded-full w-fit text-white bg-yellow-500 hover:bg-yellow-500/90">
+                ✨ Join Our Community
               </Button>
-              <Button
-                variant="outline"
-                className="border-gray-700 text-white hover:bg-gray-800"
-              >
-                Learn More <ChevronRight className="ml-2 h-4 w-4" />
+
+              <Button variant="outline" className="rounded-full w-fit bg-slate">
+                Learn More <ChevronRight />
               </Button>
             </div>
           </div>
           <div className="flex-1 relative w-full md:w-auto">
-            <div className="relative h-[350px] w-full md:w-[500px] rounded-lg overflow-hidden border-2 border-gray-800">
+            <AspectRatio
+              ratio={16 / 9}
+              className="relative rounded-lg overflow-hidden border-2 border-gray-800"
+            >
               <Image
                 src="/hero-banner.jpg"
                 alt="Khmer Coders Community"
@@ -48,13 +75,17 @@ export default function LandingPage() {
                 className="object-cover"
                 priority
               />
-            </div>
-            <div className="absolute bottom-2 md:-bottom-6 left-2 md:-left-6 bg-gray-900 p-4 rounded-lg border border-gray-800">
+            </AspectRatio>
+            <div className="absolute bottom-2 md:-bottom-6 left-2 md:-left-6 bg-yellow-500/10 backdrop-blur-lg rounded-xl p-4 border border-yellow-500/20 shadow-lg">
               <div className="flex items-center gap-3">
-                <Users className="h-6 w-6 text-blue-500" />
+                <div className="p-2 bg-yellow-500/20 rounded-lg">
+                  <Users className="h-6 w-6 text-yellow-500" />
+                </div>
                 <div>
-                  <p className="text-2xl font-bold">10,000+</p>
-                  <p className="text-sm text-gray-400">Community Members</p>
+                  <p className="text-2xl font-bold text-yellow-500">10,000+</p>
+                  <p className="text-sm text-yellow-600 dark:text-yellow-400/80 font-medium">
+                    Active Members
+                  </p>
                 </div>
               </div>
             </div>
@@ -63,44 +94,12 @@ export default function LandingPage() {
       </section>
 
       {/* Stats Section */}
-      <section className="bg-gray-900 py-16">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
-              <div className="flex items-center gap-4">
-                <Users className="h-10 w-10 text-yellow-500" />
-                <div>
-                  <p className="text-3xl font-bold">10,000+</p>
-                  <p className="text-gray-400">Active Members</p>
-                </div>
-              </div>
-            </div>
-            <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
-              <div className="flex items-center gap-4">
-                <Calendar className="h-10 w-10 text-blue-500" />
-                <div>
-                  <p className="text-3xl font-bold">6+</p>
-                  <p className="text-gray-400">Events Per Year</p>
-                </div>
-              </div>
-            </div>
-            <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
-              <div className="flex items-center gap-4">
-                <MessageSquare className="h-10 w-10 text-green-500" />
-                <div>
-                  <p className="text-3xl font-bold">10+</p>
-                  <p className="text-gray-400">Partner Companies</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <StatsSection items={statsItems} />
 
       {/* About Section */}
       <section id="about" className="container mx-auto py-20 px-4">
         <div className="max-w-3xl mx-auto text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">
+          <h2 className="text-yellow-500 text-3xl md:text-4xl font-bold mb-6">
             About Khmer Coders
           </h2>
           <p className="text-gray-400 text-lg">
