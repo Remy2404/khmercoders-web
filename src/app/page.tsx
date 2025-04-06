@@ -8,13 +8,16 @@ import {
   ChevronRight,
   Github,
   Twitter,
+  Pin,
+  Map,
 } from "lucide-react";
 
 import { Button } from "@/components/generated/button";
 import { AspectRatio } from "@/components/generated/aspect-ratio";
 import { StatsSection } from "@/components/organisms/stats-section";
+import { eventsDatabase } from "@/data/events";
 
-export default function LandingPage() {
+export default async function LandingPage() {
   const statsItems = [
     {
       icon: <Users className={`size-8 text-yellow-500`} />,
@@ -35,6 +38,8 @@ export default function LandingPage() {
       color: "text-yellow-500",
     },
   ];
+
+  const events = [...eventsDatabase].reverse().slice(0, 3);
 
   return (
     <main className="relative">
@@ -198,9 +203,7 @@ export default function LandingPage() {
       <section id="events" className="bg-gray-900 py-20">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">
-              Upcoming Events
-            </h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">Events</h2>
             <p className="text-gray-400 text-lg">
               Join us for our regular meetups, workshops, and special events
               throughout the year.
@@ -208,100 +211,40 @@ export default function LandingPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="bg-black rounded-lg overflow-hidden border border-gray-800">
-              <div className="h-48 relative">
-                <Image
-                  src="/placeholder.svg?height=400&width=600"
-                  alt="Hackathon Event"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <div className="p-6">
-                <div className="flex items-center gap-2 text-yellow-500 mb-2">
-                  <Calendar className="h-4 w-4" />
-                  <span className="text-sm">March 25, 2025</span>
-                </div>
-                <h3 className="text-xl font-bold mb-2">
-                  Web Development Workshop
-                </h3>
-                <p className="text-gray-400 mb-4">
-                  Learn modern web development techniques with React and
-                  Next.js.
-                </p>
-                <Button
-                  variant="outline"
-                  className="w-full border-gray-700 hover:bg-gray-800"
+            {events.map((event) => {
+              return (
+                <div
+                  key={event.title}
+                  className="bg-black rounded-lg overflow-hidden border border-gray-800"
                 >
-                  Register Now
-                </Button>
-              </div>
-            </div>
-
-            <div className="bg-black rounded-lg overflow-hidden border border-gray-800">
-              <div className="h-48 relative">
-                <Image
-                  src="/placeholder.svg?height=400&width=600"
-                  alt="Meetup Event"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <div className="p-6">
-                <div className="flex items-center gap-2 text-yellow-500 mb-2">
-                  <Calendar className="h-4 w-4" />
-                  <span className="text-sm">April 10, 2025</span>
+                  <div className="w-full relative">
+                    <AspectRatio ratio={16 / 9}>
+                      <Image
+                        src={event.image}
+                        alt={event.title}
+                        fill
+                        className="object-cover"
+                      />
+                    </AspectRatio>
+                  </div>
+                  <div className="p-6">
+                    <h3 className="text-xl font-bold mb-2 text-yellow-500">
+                      {event.title}
+                    </h3>
+                    <div className="flex items-center gap-2 mb-2">
+                      <Calendar className="h-4 w-4" />
+                      <span className="text-sm">
+                        {event.date} - {event.time}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2 mb-2">
+                      <Map className="h-4 w-4" />
+                      <span className="text-sm">{event.location}</span>
+                    </div>
+                  </div>
                 </div>
-                <h3 className="text-xl font-bold mb-2">
-                  Phnom Penh Tech Meetup
-                </h3>
-                <p className="text-gray-400 mb-4">
-                  Network with local developers and tech companies in a casual
-                  setting.
-                </p>
-                <Button
-                  variant="outline"
-                  className="w-full border-gray-700 hover:bg-gray-800"
-                >
-                  Register Now
-                </Button>
-              </div>
-            </div>
-
-            <div className="bg-black rounded-lg overflow-hidden border border-gray-800">
-              <div className="h-48 relative">
-                <Image
-                  src="/placeholder.svg?height=400&width=600"
-                  alt="Hackathon Event"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <div className="p-6">
-                <div className="flex items-center gap-2 text-yellow-500 mb-2">
-                  <Calendar className="h-4 w-4" />
-                  <span className="text-sm">May 15-16, 2025</span>
-                </div>
-                <h3 className="text-xl font-bold mb-2">
-                  Cambodia Code Hackathon
-                </h3>
-                <p className="text-gray-400 mb-4">
-                  48-hour hackathon to build solutions for local challenges.
-                </p>
-                <Button
-                  variant="outline"
-                  className="w-full border-gray-700 hover:bg-gray-800"
-                >
-                  Register Now
-                </Button>
-              </div>
-            </div>
-          </div>
-
-          <div className="text-center mt-12">
-            <Button className="bg-yellow-500 hover:bg-yellow-600 text-black">
-              View All Events <ChevronRight className="ml-2 h-4 w-4" />
-            </Button>
+              );
+            })}
           </div>
         </div>
       </section>

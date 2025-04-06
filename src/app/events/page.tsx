@@ -11,49 +11,24 @@ import {
 
 import { Button } from "@/components/generated/button";
 import { Badge } from "@/components/generated/badge";
-import { pastEvents, upcomingEvents } from "@/data/events";
+import { eventsDatabase } from "@/data/events";
 
-export default function EventsPage() {
+export default async function EventsPage() {
+  const eventsReversed = [...eventsDatabase].reverse();
+
   return (
     <main className="container mx-auto px-4 pb-20">
-      {/* Upcoming Events Section */}
       <section className="mb-20">
         <div className="flex items-center justify-center mb-12">
           <div className="h-px bg-gray-800 flex-grow"></div>
-          <h2 className="text-2xl md:text-3xl font-bold px-6">
-            Upcoming Events
-          </h2>
+          <h2 className="text-2xl md:text-3xl font-bold px-6">Events</h2>
           <div className="h-px bg-gray-800 flex-grow"></div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {upcomingEvents.map((event, index) => (
+          {eventsReversed.map((event, index) => (
             <EventCard key={index} event={event} isUpcoming={true} />
           ))}
-        </div>
-      </section>
-
-      {/* Past Events Section */}
-      <section>
-        <div className="flex items-center justify-center mb-12">
-          <div className="h-px bg-gray-800 flex-grow"></div>
-          <h2 className="text-2xl md:text-3xl font-bold px-6">Past Events</h2>
-          <div className="h-px bg-gray-800 flex-grow"></div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {pastEvents.map((event, index) => (
-            <EventCard key={index} event={event} isUpcoming={false} />
-          ))}
-        </div>
-
-        <div className="text-center mt-12">
-          <Button
-            variant="outline"
-            className="border-gray-700 hover:bg-gray-800"
-          >
-            View All Past Events <ArrowRight className="ml-2 h-4 w-4" />
-          </Button>
         </div>
       </section>
 
@@ -152,20 +127,6 @@ function EventCard({
             </div>
           )}
         </div>
-      </div>
-      <div className="p-6 pt-0">
-        {isUpcoming ? (
-          <Button className="w-full bg-yellow-500 hover:bg-yellow-600 text-black">
-            Register Now
-          </Button>
-        ) : (
-          <Button
-            variant="outline"
-            className="w-full border-gray-700 hover:bg-gray-800"
-          >
-            View Details
-          </Button>
-        )}
       </div>
     </div>
   );
