@@ -23,8 +23,6 @@ import {
   techLeaders,
 } from "@/data/member-profiles";
 
-export const runtime = "edge";
-
 // This would typically come from a database
 const getMembers = () => {
   return [...techLeaders, ...entrepreneurs, ...risingStars];
