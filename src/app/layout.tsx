@@ -3,9 +3,11 @@ import "@/app/globals.css";
 import { Inter } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import Link from "next/link";
-import { Code, Github, Twitter } from "lucide-react";
+import { Code, Facebook, Github, Twitter } from "lucide-react";
 import Navbar from "@/components/atoms/nav-bar";
 import Image from "next/image";
+import { KCLinks } from "@/data/link";
+import { DiscordIcon } from "@/components/atoms/icons";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,11 +26,6 @@ export default function RootLayout({
     <html lang="en" className="dark" suppressHydrationWarning={true}>
       <head>
         <link rel="icon" href="/favicon.png" type="image/png" />
-        <script
-          defer
-          src="https://static.cloudflareinsights.com/beacon.min.js"
-          data-cf-beacon='{"token": "34a714a291184a34b25ff7acf8b3c64f"}'
-        ></script>
       </head>
       <body className={inter.className}>
         <ThemeProvider
@@ -70,16 +67,22 @@ export default function RootLayout({
                       </p>
                       <div className="flex gap-4">
                         <Link
-                          href="#"
+                          href={KCLinks.facebookGroupLink}
+                          className="text-gray-400 hover:text-white"
+                        >
+                          <Facebook className="h-5 w-5" />
+                        </Link>
+                        <Link
+                          href={KCLinks.discordLink}
+                          className="text-gray-400 hover:text-white"
+                        >
+                          <DiscordIcon className="h-5 w-5" />
+                        </Link>
+                        <Link
+                          href={KCLinks.githubLink}
                           className="text-gray-400 hover:text-white"
                         >
                           <Github className="h-5 w-5" />
-                        </Link>
-                        <Link
-                          href="#"
-                          className="text-gray-400 hover:text-white"
-                        >
-                          <Twitter className="h-5 w-5" />
                         </Link>
                       </div>
                     </div>
@@ -147,53 +150,6 @@ export default function RootLayout({
                             className="text-gray-400 hover:text-white"
                           >
                             Support Us
-                          </Link>
-                        </li>
-                        <li>
-                          <Link
-                            href="#"
-                            className="text-gray-400 hover:text-white"
-                          >
-                            Learning Materials
-                          </Link>
-                        </li>
-                        <li>
-                          <Link
-                            href="#"
-                            className="text-gray-400 hover:text-white"
-                          >
-                            Job Board
-                          </Link>
-                        </li>
-                      </ul>
-                    </div>
-
-                    <div>
-                      <h3 className="font-bold mb-4">Contact</h3>
-                      <ul className="space-y-2">
-                        <li className="text-gray-400">Phnom Penh, Cambodia</li>
-                        <li>
-                          <Link
-                            href="mailto:info@khmercoders.org"
-                            className="text-gray-400 hover:text-white"
-                          >
-                            info@khmercoders.org
-                          </Link>
-                        </li>
-                        <li>
-                          <Link
-                            href="#"
-                            className="text-gray-400 hover:text-white"
-                          >
-                            Partner With Us
-                          </Link>
-                        </li>
-                        <li>
-                          <Link
-                            href="#"
-                            className="text-gray-400 hover:text-white"
-                          >
-                            Sponsor an Event
                           </Link>
                         </li>
                       </ul>

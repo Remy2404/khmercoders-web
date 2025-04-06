@@ -1,44 +1,15 @@
 import Link from "next/link";
 import Image from "next/image";
-import {
-  Code,
-  Users,
-  Calendar,
-  MessageSquare,
-  ChevronRight,
-  Github,
-  Twitter,
-  Pin,
-  Map,
-} from "lucide-react";
+import { Code, Users, Calendar, Map, Facebook } from "lucide-react";
 
-import { Button } from "@/components/generated/button";
+import { Button, buttonVariants } from "@/components/generated/button";
 import { AspectRatio } from "@/components/generated/aspect-ratio";
-import { StatsSection } from "@/components/organisms/stats-section";
 import { eventsDatabase } from "@/data/events";
+import { KCLinks } from "@/data/link";
+import { cn } from "@/utils";
+import { DiscordIcon } from "@/components/atoms/icons";
 
 export default async function LandingPage() {
-  const statsItems = [
-    {
-      icon: <Users className={`size-8 text-yellow-500`} />,
-      value: "10,000+",
-      label: "Active Members",
-      color: "text-yellow-500",
-    },
-    {
-      icon: <Calendar className={`size-8 text-yellow-500`} />,
-      value: "6+",
-      label: "Events Per Year",
-      color: "text-yellow-500",
-    },
-    {
-      icon: <MessageSquare className={`size-8 text-yellow-500`} />,
-      value: "10+",
-      label: "Partner Companies",
-      color: "text-yellow-500",
-    },
-  ];
-
   const events = [...eventsDatabase].reverse().slice(0, 3);
 
   return (
@@ -58,14 +29,30 @@ export default async function LandingPage() {
               Connecting developers, sharing knowledge, and building the future
               of tech in Cambodia.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button className="rounded-full w-fit text-white bg-yellow-500 hover:bg-yellow-500/90">
-                ✨ Join Our Community
-              </Button>
+            <div className="flex flex-col sm:flex-row gap-2">
+              <Link
+                href={KCLinks.facebookGroupLink}
+                target="_blank"
+                className={cn(
+                  buttonVariants(),
+                  "text-black bg-yellow-500 hover:bg-yellow-500/90"
+                )}
+              >
+                <Facebook className="h-4 w-4" />
+                Join Facebook
+              </Link>
 
-              <Button variant="outline" className="rounded-full w-fit bg-slate">
-                Learn More <ChevronRight />
-              </Button>
+              <Link
+                href={KCLinks.facebookGroupLink}
+                target="_blank"
+                className={cn(
+                  buttonVariants(),
+                  "text-black bg-yellow-500 hover:bg-yellow-500/90"
+                )}
+              >
+                <DiscordIcon className="w-16 h-16" />
+                Join Discord
+              </Link>
             </div>
           </div>
           <div className="flex-1 relative w-full md:w-auto">
@@ -97,9 +84,6 @@ export default async function LandingPage() {
           </div>
         </div>
       </section>
-
-      {/* Stats Section */}
-      <StatsSection items={statsItems} />
 
       {/* About Section */}
       <section id="about" className="container mx-auto py-20 px-4">
@@ -175,23 +159,18 @@ export default async function LandingPage() {
             everyone.
           </p>
 
-          <div className="flex flex-wrap gap-4">
-            <div className="bg-yellow-500/20 backdrop-blur-lg rounded-xl p-4 border border-yellow-500/80 shadow-lg w-[200px]">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            <div className="bg-yellow-500/20 backdrop-blur-lg rounded-xl p-4 border border-yellow-500/80 shadow-lg">
               <div className="text-2xl font-bold">10,000+</div>
               <div className="text-sm">Subscribers</div>
             </div>
 
-            <div className="bg-yellow-500/20 backdrop-blur-lg rounded-xl p-4 border border-yellow-500/80 shadow-lg w-[200px]">
+            <div className="bg-yellow-500/20 backdrop-blur-lg rounded-xl p-4 border border-yellow-500/80 shadow-lg">
               <div className="text-2xl font-bold">1,000,000+</div>
               <div className="text-sm">Views</div>
             </div>
 
-            <div className="bg-yellow-500/20 backdrop-blur-lg rounded-xl p-4 border border-yellow-500/80 shadow-lg w-[200px]">
-              <div className="text-2xl font-bold">200,000+</div>
-              <div className="text-sm">Engagement</div>
-            </div>
-
-            <div className="bg-yellow-500/20 backdrop-blur-lg rounded-xl p-4 border border-yellow-500/80 shadow-lg w-[200px]">
+            <div className="bg-yellow-500/20 backdrop-blur-lg rounded-xl p-4 border border-yellow-500/80 shadow-lg">
               <div className="text-2xl font-bold">200,000+</div>
               <div className="text-sm">Engagement</div>
             </div>
@@ -318,15 +297,29 @@ export default async function LandingPage() {
             growing tech ecosystem in Cambodia.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button className="bg-yellow-500 hover:bg-yellow-600 text-black">
-              Join Our Discord
-            </Button>
-            <Button
-              variant="outline"
-              className="border-white/20 hover:bg-white/10"
+            <Link
+              href={KCLinks.facebookGroupLink}
+              target="_blank"
+              className={cn(
+                buttonVariants(),
+                "text-black bg-yellow-500 hover:bg-yellow-500/90"
+              )}
             >
-              Attend Next Event
-            </Button>
+              <Facebook className="h-4 w-4" />
+              Join Facebook
+            </Link>
+
+            <Link
+              href={KCLinks.facebookGroupLink}
+              target="_blank"
+              className={cn(
+                buttonVariants(),
+                "text-black bg-yellow-500 hover:bg-yellow-500/90"
+              )}
+            >
+              <DiscordIcon className="w-16 h-16" />
+              Join Discord
+            </Link>
           </div>
         </div>
       </section>
