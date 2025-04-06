@@ -24,6 +24,11 @@ export default function RootLayout({
     <html lang="en" className="dark" suppressHydrationWarning={true}>
       <head>
         <link rel="icon" href="/favicon.png" type="image/png" />
+        <script
+          defer
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          data-cf-beacon='{"token": "34a714a291184a34b25ff7acf8b3c64f"}'
+        ></script>
       </head>
       <body className={inter.className}>
         <ThemeProvider
