@@ -15,8 +15,8 @@
   "d1_databases": [
     {
       "binding": "DB",
-      "database_name": "d1-test",
-      "database_id": "7e2ecaba-4e9c-4be0-a9df-892fcf02d99e",
+      "database_name": "khmercoders",
+      "database_id": "8a80951e-1838-4a5d-b810-b113d1a3d9a1",
       "migrations_table": "__drizzle_migrations",
       "migrations_dir": "drizzle"
     }

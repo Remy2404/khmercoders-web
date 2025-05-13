@@ -11,8 +11,8 @@
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
     "db:generate": "drizzle-kit generate",
-    "db:migrate": "wrangler d1 migrations apply d1-test --local",
-    "db:migrate:prod": "drizzle-kit migrate"
+    "db:migrate": "wrangler d1 migrations apply khmercoders --local",
+    "db:migrate:prod": "wrangler d1 migrations apply khmercoders --remote"
   },
   "dependencies": {
     "@hookform/resolvers": "^4.1.3",
