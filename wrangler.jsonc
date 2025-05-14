@@ -11,5 +11,14 @@
   "observability": {
     "enabled": true,
     "head_sampling_rate": 1
-  }
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "khmercoders",
+      "database_id": "8a80951e-1838-4a5d-b810-b113d1a3d9a1",
+      "migrations_table": "__drizzle_migrations",
+      "migrations_dir": "drizzle"
+    }
+  ]
 }
