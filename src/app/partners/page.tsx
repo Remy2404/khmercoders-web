@@ -50,40 +50,6 @@ export default async function PartnersPage() {
           ))}
         </div>
       </section>
-
-      <section
-        className="mt-24 bg-gray-900 rounded-lg p-8 md:p-12"
-        aria-labelledby="become-a-partner-heading"
-      >
-        <div className="flex flex-col md:flex-row items-center gap-8">
-          <div className="flex-1">
-            <h2
-              id="become-a-partner-heading"
-              className="text-2xl md:text-3xl font-bold mb-4"
-            >
-              Become a Partner
-            </h2>
-            <p className="text-gray-400 mb-6">
-              Partner with Khmer Coders to support Cambodia's tech community and
-              gain visibility for your organization. We offer various
-              partnership tiers with different benefits.
-            </p>
-            <Button className="bg-yellow-500 hover:bg-yellow-600 text-black">
-              Partnership Opportunities
-            </Button>
-          </div>
-          <div className="flex-1 flex justify-center">
-            <figure className="relative h-64 w-full max-w-md rounded-lg overflow-hidden">
-              <Image
-                src="/placeholder.svg?height=400&width=600"
-                alt="Become a partner"
-                fill
-                className="object-cover"
-              />
-            </figure>
-          </div>
-        </div>
-      </section>
     </main>
   );
 }
@@ -155,4 +121,3 @@ function PartnerCard({ partner }: { partner: IPartner }) {
     </article>
   );
 }
-

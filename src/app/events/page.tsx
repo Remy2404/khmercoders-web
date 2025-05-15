@@ -31,36 +31,6 @@ export default async function EventsPage() {
           ))}
         </div>
       </section>
-
-      {/* Host an Event CTA */}
-      <section className="mt-24 bg-gray-900 rounded-lg p-8 md:p-12">
-        <div className="flex flex-col md:flex-row items-center gap-8">
-          <div className="flex-1">
-            <h2 className="text-2xl md:text-3xl font-bold mb-4">
-              Want to Host an Event?
-            </h2>
-            <p className="text-gray-400 mb-6">
-              If you're interested in hosting a workshop, talk, or other tech
-              event with Khmer Coders, we'd love to collaborate with you. We can
-              provide venue support, promotion, and connect you with our
-              community.
-            </p>
-            <Button className="bg-yellow-500 hover:bg-yellow-600 text-black">
-              Submit Event Proposal
-            </Button>
-          </div>
-          <div className="flex-1 flex justify-center">
-            <div className="relative h-64 w-full max-w-md rounded-lg overflow-hidden">
-              <Image
-                src="/placeholder.svg?height=400&width=600"
-                alt="Host an event"
-                fill
-                className="object-cover"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
     </main>
   );
 }
