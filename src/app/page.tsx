@@ -1,8 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Code, Users, Calendar, Map, Facebook } from "lucide-react";
+import { Code, Users, Calendar, Map, Facebook, Send } from "lucide-react";
 
-import { Button, buttonVariants } from "@/components/generated/button";
+import { buttonVariants } from "@/components/generated/button";
 import { AspectRatio } from "@/components/generated/aspect-ratio";
 import { eventsDatabase } from "@/data/events";
 import { KCLinks } from "@/data/link";
@@ -43,7 +43,7 @@ export default async function LandingPage() {
               </Link>
 
               <Link
-                href={KCLinks.facebookGroupLink}
+                href={KCLinks.discordLink}
                 target="_blank"
                 className={cn(
                   buttonVariants(),
@@ -52,6 +52,18 @@ export default async function LandingPage() {
               >
                 <DiscordIcon className="w-16 h-16" />
                 Join Discord
+              </Link>
+
+              <Link
+                href={KCLinks.telegramLink}
+                target="_blank"
+                className={cn(
+                  buttonVariants(),
+                  "text-black bg-yellow-500 hover:bg-yellow-500/90"
+                )}
+              >
+                <Send className="w-16 h-16" />
+                Join Telegram
               </Link>
             </div>
           </div>
@@ -192,8 +204,9 @@ export default async function LandingPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {events.map((event) => {
               return (
-                <div
-                  key={event.title}
+                <Link
+                  href={`/events/${event.id}`}
+                  key={event.id}
                   className="bg-black rounded-lg overflow-hidden border border-gray-800"
                 >
                   <div className="w-full relative">
@@ -221,7 +234,7 @@ export default async function LandingPage() {
                       <span className="text-sm">{event.location}</span>
                     </div>
                   </div>
-                </div>
+                </Link>
               );
             })}
           </div>
@@ -326,4 +339,3 @@ export default async function LandingPage() {
     </main>
   );
 }
-

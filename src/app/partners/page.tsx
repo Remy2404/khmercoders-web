@@ -2,23 +2,41 @@ import Link from "next/link";
 import Image from "next/image";
 import { ExternalLink } from "lucide-react";
 
-import { Button } from "@/components/generated/button";
-import { type IPartner, partners as PartnerDatabase } from "@/data/partners";
+import {
+  type IPartner,
+  IPartnerWithTags,
+  partners as PartnerDatabase,
+  SponsorType,
+} from "@/data/partners";
 import { useMemo } from "react";
 import { cn } from "@/utils";
+import { eventsDatabase } from "@/data/events";
+import { PartnerCard } from "@/components/atoms/partner-card";
 
-function calculateScore(partner: IPartner) {
-  return partner.tags.reduce((acc, tag) => {
-    if (tag.type === "Gold Sponsor") return acc + (tag.badge ?? 0) * 10;
-    if (tag.type === "Silver Sponsor") return acc + (tag.badge ?? 0) * 3;
-    if (tag.type === "Co-organizer") return acc + (tag.badge ?? 0) * 1;
-    if (tag.type === "Venue") return acc + (tag.badge ?? 0) * 3;
-    return acc + (tag.badge ?? 0);
-  }, 0);
+function calculateScore(partner: IPartnerWithTags) {
+  return (
+    (partner.tags["Gold Sponsor"] ?? 0) * 700 +
+    (partner.tags["Silver Sponsor"] ?? 0) * 300 +
+    (partner.tags["Co-organizer"] ?? 0) * 150 +
+    (partner.tags["Venue"] ?? 0) * 150 +
+    (partner.tags["Media Partner"] ?? 0) * 100 +
+    (partner.tags["Ticket Partner"] ?? 0) * 100
+  );
 }
 
 export default async function PartnersPage() {
-  const partners = PartnerDatabase.sort((a, b) => {
+  const partners = PartnerDatabase.map((partner) => {
+    return {
+      ...partner,
+      tags: eventsDatabase.reduce((acc, event) => {
+        const tag = event.sponsors.find((sponsor) => sponsor.id === partner.id);
+        if (tag) {
+          acc[tag.type] = (acc[tag.type] ?? 0) + 1;
+        }
+        return acc;
+      }, {} as Record<SponsorType, number>),
+    } as IPartnerWithTags;
+  }).sort((a, b) => {
     const aScore = calculateScore(a);
     const bScore = calculateScore(b);
 
@@ -46,78 +64,10 @@ export default async function PartnersPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {partners.map((partner) => (
-            <PartnerCard key={partner.website} partner={partner} />
+            <PartnerCard key={partner.id} partner={partner} />
           ))}
         </div>
       </section>
     </main>
-  );
-}
-
-// Partner Card Component
-function PartnerCard({ partner }: { partner: IPartner }) {
-  const cardClasses =
-    "bg-gray-900 rounded-lg overflow-hidden border border-gray-800 flex flex-col h-full";
-
-  const TAG_STYLES = {
-    Venue: "bg-green-700",
-    "Gold Sponsor": "bg-yellow-700",
-    "Co-organizer": "bg-blue-700",
-    "Silver Sponsor": "bg-gray-600",
-    default: "bg-gray-600",
-  } as const;
-
-  const tagElements = useMemo(
-    () => (
-      <div className="text-sm flex gap-2 mb-4">
-        {partner.tags.map((tag) => (
-          <div
-            className={cn(
-              TAG_STYLES[tag.type as keyof typeof TAG_STYLES] ||
-                TAG_STYLES.default,
-              "px-2 py-1 rounded flex gap-2"
-            )}
-            key={tag.type}
-          >
-            <span>
-              {tag.type}
-              {tag.badge && ` • ${tag.badge}`}
-            </span>
-          </div>
-        ))}
-      </div>
-    ),
-    [partner.tags, TAG_STYLES]
-  );
-
-  return (
-    <article className={cardClasses}>
-      <div className="relative aspect-[2/1] w-full bg-gray-800 flex items-center justify-center p-6">
-        <figure className="relative w-full h-full max-w-[240px] max-h-[120px]">
-          <Image
-            src={partner.logo || "/placeholder.svg"}
-            alt={partner.name}
-            fill
-            className="object-contain"
-          />
-        </figure>
-      </div>
-
-      <section className="p-6 flex-grow" aria-labelledby="partner-name">
-        {tagElements}
-        <h3 id="partner-name" className="text-xl font-bold mb-2">
-          {partner.name}
-        </h3>
-        <p className="text-gray-400 mb-4">{partner.description}</p>
-        <Link
-          href={partner.website}
-          className="inline-flex items-center text-yellow-500 hover:text-yellow-400"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Visit Website <ExternalLink className="ml-1 h-3 w-3" />
-        </Link>
-      </section>
-    </article>
   );
 }

@@ -1,17 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
-import {
-  ChevronLeft,
-  Calendar,
-  MapPin,
-  Clock,
-  ArrowRight,
-  Users,
-} from "lucide-react";
+import { Calendar, MapPin, Clock, Users } from "lucide-react";
 
-import { Button } from "@/components/generated/button";
 import { Badge } from "@/components/generated/badge";
-import { eventsDatabase } from "@/data/events";
+import { type EventData, eventsDatabase } from "@/data/events";
 
 export default async function EventsPage() {
   const eventsReversed = [...eventsDatabase].reverse();
@@ -26,8 +18,8 @@ export default async function EventsPage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {eventsReversed.map((event, index) => (
-            <EventCard key={index} event={event} isUpcoming={true} />
+          {eventsReversed.map((event) => (
+            <EventCard key={event.id} event={event} />
           ))}
         </div>
       </section>
@@ -35,27 +27,12 @@ export default async function EventsPage() {
   );
 }
 
-// Event Card Component
-interface Event {
-  title: string;
-  date: string;
-  description: string;
-  location?: string;
-  time?: string;
-  attendees?: string;
-  image?: string;
-  badge?: string;
-}
-
-function EventCard({
-  event,
-  isUpcoming,
-}: {
-  event: Event;
-  isUpcoming: boolean;
-}) {
+function EventCard({ event }: { event: EventData }) {
   return (
-    <div className="bg-gray-900 rounded-lg overflow-hidden border border-gray-800 flex flex-col h-full">
+    <Link
+      className="bg-gray-900 rounded-lg overflow-hidden border border-gray-800 flex flex-col h-full"
+      href={`/events/${event.id}`}
+    >
       <div className="relative h-48 w-full">
         <Image
           src={event.image || "/placeholder.svg"}
@@ -90,14 +67,8 @@ function EventCard({
               <span>{event.time}</span>
             </div>
           )}
-          {event.attendees && (
-            <div className="flex items-start gap-2 text-sm text-gray-400">
-              <Users className="h-4 w-4 mt-0.5 flex-shrink-0" />
-              <span>{event.attendees}</span>
-            </div>
-          )}
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
