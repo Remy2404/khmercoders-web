@@ -17,8 +17,8 @@ export function HomeHeroBanner() {
       </div>
 
       <div className="flex gap-4 flex-wrap">
-        <div className="border border-4 border-gray-400 border-double p-4 font-mono">
-          <div>Facebook Group</div>
+        <div className="border border-4 border-gray-400 border-double p-4 font-mono w-full md:w-auto">
+          <div className="font-bold">Facebook Group</div>
           <div>11,724</div>
           <Link
             target="_blank"
@@ -29,8 +29,8 @@ export function HomeHeroBanner() {
           </Link>
         </div>
 
-        <div className="border border-4 border-gray-400 border-double p-4 font-mono">
-          <div>Telegram Group</div>
+        <div className="border border-4 border-gray-400 border-double p-4 font-mono w-full md:w-auto">
+          <div className="font-bold">Telegram Group</div>
           <div>1,297</div>
           <Link
             target="_blank"
@@ -41,8 +41,8 @@ export function HomeHeroBanner() {
           </Link>
         </div>
 
-        <div className="border border-4 border-gray-400 border-double p-4 font-mono">
-          <div>Discord Group</div>
+        <div className="border border-4 border-gray-400 border-double p-4 font-mono w-full md:w-auto">
+          <div className="font-bold">Discord Group</div>
           <div>1,047</div>
           <Link
             target="_blank"

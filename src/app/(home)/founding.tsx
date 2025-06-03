@@ -17,9 +17,6 @@ function BackerSection() {
   return (
     <div>
       <h2 className="font-retro text-5xl my-4">Backers</h2>
-      <p>
-        We are backed by community members, local companies and global companies
-      </p>
 
       <div className="flex gap-4">
         <div className="my-4 border border-double border-gray-400 border-4 p-4 w-[150px] text-center">
@@ -45,7 +42,11 @@ function BackerSection() {
         </div>
       </div>
 
-      <div></div>
+      <p className="text-lg max-w-2xl mt-6">
+        Our community thrives with support from passionate individuals, local
+        businesses, and international organizations committed to supporting the
+        Cambodian developer community.
+      </p>
     </div>
   );
 }

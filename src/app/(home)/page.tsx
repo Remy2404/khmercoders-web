@@ -1,13 +1,3 @@
-import Link from "next/link";
-import Image from "next/image";
-import { Code, Users, Calendar, Map, Facebook, Send, Home } from "lucide-react";
-
-import { buttonVariants } from "@/components/generated/button";
-import { AspectRatio } from "@/components/generated/aspect-ratio";
-import { eventsDatabase } from "@/data/events";
-import { KCLinks } from "@/data/link";
-import { cn } from "@/utils";
-import { DiscordIcon } from "@/components/atoms/icons";
 import { HomeHeroBanner } from "./hero";
 import { HomeEventSection } from "./events";
 import { HomeFoundingSection } from "./founding";
