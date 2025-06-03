@@ -1,3 +1,4 @@
+import { KCLinks } from "@/data/link";
 import Link from "next/link";
 
 export function HomeHeroBanner() {
@@ -18,9 +19,10 @@ export function HomeHeroBanner() {
       <div className="flex gap-4">
         <div className="border border-4 border-gray-400 border-double p-4 font-mono">
           <div>Facebook Group</div>
-          <div>11,541</div>
+          <div>11,724</div>
           <Link
-            href="#"
+            target="_blank"
+            href={KCLinks.facebookGroupLink}
             className="text-yellow-500 hover:underline hover:decoration-double"
           >
             Join here
@@ -29,9 +31,10 @@ export function HomeHeroBanner() {
 
         <div className="border border-4 border-gray-400 border-double p-4 font-mono">
           <div>Telegram Group</div>
-          <div>1,531</div>
+          <div>1,297</div>
           <Link
-            href="#"
+            target="_blank"
+            href={KCLinks.telegramLink}
             className="text-yellow-500 hover:underline hover:decoration-double"
           >
             Join here
@@ -40,9 +43,10 @@ export function HomeHeroBanner() {
 
         <div className="border border-4 border-gray-400 border-double p-4 font-mono">
           <div>Discord Group</div>
-          <div>1,031</div>
+          <div>1,047</div>
           <Link
-            href="#"
+            target="_blank"
+            href={KCLinks.discordLink}
             className="text-yellow-500 hover:underline hover:decoration-double"
           >
             Join here
