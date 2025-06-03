@@ -27,7 +27,7 @@ export default async function CommunityPage() {
             Metrics showing activity in our Telegram and Discord communities
             over the last 30 days.
           </p>
-        </div>{" "}
+        </div>
         <ClientOnly>
           <ChatMetricsChart data={chatMetrics} />
         </ClientOnly>

@@ -101,7 +101,7 @@ export function ChatMetricsChart({ data }: ChatMetricsProps) {
   };
 
   return (
-    <div className="border border-double border-4 border-gray-400 rounded-lg bg-surface p-2">
+    <div className="border border-double border-4 border-gray-500 rounded-lg bg-surface p-2">
       <ChartContainer config={chartConfig} className="h-[250px] w-full">
         <ResponsiveContainer width="100%">
           <AreaChart data={chartData}>

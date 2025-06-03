@@ -30,9 +30,9 @@ export function UserLeaderboardComponent({ data }: UserLeaderboardProps) {
       <h2 className="text-2xl font-bold">Top Contributors</h2>
       <p>Most active members in our community chats over the last 30 days</p>
 
-      <Table className="border border-4 border-double border-gray-400 my-4 rounded-lg">
+      <Table className="border border-8 border-double border-gray-500 my-4 rounded-lg">
         <TableHeader>
-          <TableRow className="border-gray-400">
+          <TableRow className="border-gray-500">
             <TableHead className="w-12">#</TableHead>
             <TableHead>Name</TableHead>
             <TableHead className="text-right">Messages</TableHead>
@@ -42,12 +42,12 @@ export function UserLeaderboardComponent({ data }: UserLeaderboardProps) {
           {sortedData.map((user, index) => (
             <TableRow
               key={`${user.platform}-${user.display_name}-${index}`}
-              className="border-gray-400"
+              className="border-gray-500"
             >
-              <TableCell className="font-medium border-gray-400">
+              <TableCell className="font-medium border-gray-500">
                 {index + 1}
               </TableCell>
-              <TableCell className="border-gray-400">
+              <TableCell className="border-gray-400 font-bold">
                 {user.platform === "telegram" ? (
                   <img
                     src="/telegram.svg"
