@@ -13,17 +13,17 @@ export const metadata: Metadata = {
 export default async function CommunityPage() {
   const [chatMetrics, userLeaderboard] = await Promise.all([
     getChatMetrics(),
-    getUserLeaderboard(10), // Get top 10 users
+    getUserLeaderboard(30), // Get top 10 users
   ]);
 
   return (
-    <div className="container py-12">
-      <div className="mx-auto max-w-5xl space-y-8">
-        <div className="space-y-2">
+    <div className="container py-12 px-2">
+      <div className="mx-auto max-w-5xl space-y-8 font-mono">
+        <div className="space-y-2 text-lg">
           <h1 className="text-3xl font-bold tracking-tight">
             Community Engagement
           </h1>
-          <p className="text-muted-foreground">
+          <p>
             Metrics showing activity in our Telegram and Discord communities
             over the last 30 days.
           </p>

@@ -101,75 +101,66 @@ export function ChatMetricsChart({ data }: ChatMetricsProps) {
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Chat Activity</CardTitle>
-        <CardDescription>
-          Message count trends from community chat platforms over the last 30
-          days
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <div className="min-h-[400px]">
-          <ChartContainer config={chartConfig}>
-            <AreaChart data={chartData}>
-              <defs>
-                {platforms.map((platform) => (
-                  <linearGradient
-                    key={`gradient-${platform}`}
-                    id={`gradient-${platform}`}
-                    x1="0"
-                    y1="0"
-                    x2="0"
-                    y2="1"
-                  >
-                    <stop
-                      offset="5%"
-                      stopColor={chartConfig[platform].color}
-                      stopOpacity={0.8}
-                    />
-                    <stop
-                      offset="95%"
-                      stopColor={chartConfig[platform].color}
-                      stopOpacity={0.2}
-                    />
-                  </linearGradient>
-                ))}
-              </defs>
-              <CartesianGrid strokeDasharray="3 3" vertical={false} />
-              <XAxis
-                dataKey="date"
-                tickFormatter={formatDate}
-                tick={{ fontSize: 12 }}
-                tickMargin={10}
-              />
-              <YAxis />
-              <Tooltip
-                formatter={(value: number, name: string, props: any) => {
-                  // Extract platform name from the dataKey (e.g., "telegram_count" -> "Telegram")
-                  const platform = name.split("_")[0];
-                  const platformLabel =
-                    platform.charAt(0).toUpperCase() + platform.slice(1);
-                  return [`${value} messages`, platformLabel];
-                }}
-                labelFormatter={(label) => formatDate(label as string)}
-              />
-              <Legend />
+    <div className="border border-double border-4 border-gray-400 rounded-lg bg-surface p-2">
+      <ChartContainer config={chartConfig} className="h-[250px] w-full">
+        <ResponsiveContainer width="100%">
+          <AreaChart data={chartData}>
+            <defs>
               {platforms.map((platform) => (
-                <Area
-                  key={platform}
-                  type="monotone"
-                  dataKey={`${platform}_count`}
-                  name={chartConfig[platform].label}
-                  stroke={chartConfig[platform].color}
-                  fill={`url(#gradient-${platform})`}
-                  fillOpacity={1}
-                />
+                <linearGradient
+                  key={`gradient-${platform}`}
+                  id={`gradient-${platform}`}
+                  x1="0"
+                  y1="0"
+                  x2="0"
+                  y2="1"
+                >
+                  <stop
+                    offset="5%"
+                    stopColor={chartConfig[platform].color}
+                    stopOpacity={0.8}
+                  />
+                  <stop
+                    offset="95%"
+                    stopColor={chartConfig[platform].color}
+                    stopOpacity={0.2}
+                  />
+                </linearGradient>
               ))}
-            </AreaChart>
-          </ChartContainer>
-        </div>
-      </CardContent>
-    </Card>
+            </defs>
+            <CartesianGrid strokeDasharray="3 3" vertical={false} />
+            <XAxis
+              dataKey="date"
+              tickFormatter={formatDate}
+              tick={{ fontSize: 12 }}
+              tickMargin={10}
+            />
+
+            <Tooltip
+              formatter={(value: number, name: string, props: any) => {
+                // Extract platform name from the dataKey (e.g., "telegram_count" -> "Telegram")
+                const platform = name.split("_")[0];
+                const platformLabel =
+                  platform.charAt(0).toUpperCase() + platform.slice(1);
+                return [`${value} messages`, platformLabel];
+              }}
+              labelFormatter={(label) => formatDate(label as string)}
+            />
+            <Legend />
+            {platforms.map((platform) => (
+              <Area
+                key={platform}
+                type="monotone"
+                dataKey={`${platform}_count`}
+                name={chartConfig[platform].label}
+                stroke={chartConfig[platform].color}
+                fill={`url(#gradient-${platform})`}
+                fillOpacity={1}
+              />
+            ))}
+          </AreaChart>
+        </ResponsiveContainer>
+      </ChartContainer>
+    </div>
   );
 }
