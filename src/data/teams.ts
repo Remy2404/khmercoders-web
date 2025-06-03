@@ -3,6 +3,8 @@ export const foundingMembers = [
   {
     name: "Visal In",
     role: "Co-founder",
+    role2: "Founder",
+    role3: "Started in 2018",
     bio: "Founded Khmer Coders in 2018 to foster a supportive tech community in Cambodia. He is also a serial startup founder and an active open-source maintainer.",
     image: "/teams/invisal.jpg",
     github: "https://github.com/invisal",
@@ -12,6 +14,8 @@ export const foundingMembers = [
   {
     name: "Sopha Sum",
     role: "CEO at Jobify",
+    role2: "Co-Founder",
+    role3: "Joined in 2024",
     bio: "Sum Sopha is Founder & CEO of Jobify, a tech-focused job platform, and a key leader in Cambodia’s startup and coding communities with a Software Engineering background.",
     image: "/teams/sopha-256.jpg",
     linkedin: "https://www.linkedin.com/in/sopha-sum-kh",
@@ -19,6 +23,8 @@ export const foundingMembers = [
   {
     name: "Sokhna Vor",
     role: "Co-Founder at DataU",
+    role2: "Co-Founder",
+    role3: "Joined in 2024",
     bio: "Sokhna is a Tech and AI leader with decades of experience driving data-powered solutions across industries, blending human insight with machine intelligence to unlock business growth and innovation.",
     image: "/teams/sokhna.jpg",
     linkedin: "https://www.linkedin.com/in/sokhnavor",
