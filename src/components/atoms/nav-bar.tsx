@@ -73,6 +73,12 @@ export const Navbar = async () => {
                     Partners
                   </NavbarLink>
                   <NavbarLink
+                    href="/community"
+                    className="w-full justify-start px-4 rounded-xl hover:bg-amber-500/10"
+                  >
+                    Community
+                  </NavbarLink>
+                  <NavbarLink
                     href="/donate"
                     className="w-full justify-start px-4 rounded-xl hover:bg-amber-500/10"
                   >
@@ -89,6 +95,7 @@ export const Navbar = async () => {
           <NavbarLink href="/events">Events</NavbarLink>
           <NavbarLink href="/teams">Teams</NavbarLink>
           <NavbarLink href="/partners">Partners</NavbarLink>
+          <NavbarLink href="/community">Community</NavbarLink>
           <NavbarLink href="/donate">Donate</NavbarLink>
         </NavbarContainer>
         <UserAvatar user={session?.user} />
@@ -144,4 +151,3 @@ export const NavbarLink = ({
     </Link>
   );
 };
-

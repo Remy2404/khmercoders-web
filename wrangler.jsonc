@@ -19,6 +19,11 @@
       "database_id": "8a80951e-1838-4a5d-b810-b113d1a3d9a1",
       "migrations_table": "__drizzle_migrations",
       "migrations_dir": "drizzle"
+    },
+    {
+      "binding": "DB_CHATBOT",
+      "database_name": "kcc-chatbot",
+      "database_id": "48058eec-0cb2-42e7-a166-6bc3cca3c686"
     }
   ]
 }
