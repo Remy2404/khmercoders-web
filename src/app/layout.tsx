@@ -26,6 +26,16 @@ export default function RootLayout({
     <html lang="en" className="dark" suppressHydrationWarning={true}>
       <head>
         <link rel="icon" href="/favicon.png" type="image/png" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=VT323&display=swap"
+          rel="stylesheet"
+        ></link>
       </head>
       <body className={inter.className}>
         <ThemeProvider
@@ -171,4 +181,3 @@ export default function RootLayout({
     </html>
   );
 }
-
