@@ -89,7 +89,7 @@ export const moderators = [
     website: "https://avearistov.com",
   },
   {
-    name: "Mengkheang Thor",
+    name: "Kheang",
     role: "Facebook Moderator",
     image: "/teams/kheang.jpg",
     website: "https://thormengkheang.github.io/",
