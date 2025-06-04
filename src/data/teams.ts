@@ -89,10 +89,12 @@ export const moderators = [
     website: "https://avearistov.com",
   },
   {
-    name: "Thor Mengkheang",
+    name: "Mengkheang Thor",
     role: "Facebook Moderator",
-    image: "/teams/ave.svg",
-    website: "https://avearistov.com",
+    image: "/teams/kheang.jpg",
+    website: "https://thormengkheang.github.io/",
+    github: "https://github.com/thormengkheang",
+    linkedin: "https://www.linkedin.com/in/thormengkheang/",
   },
   {
     name: "Ratana Sat",
