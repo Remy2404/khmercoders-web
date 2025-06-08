@@ -1,12 +1,19 @@
 // For App Router
-"use client";
 import { GithubIcon } from "@/components/atoms/icons";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { notFound } from "next/navigation";
 
-export default function UserProfilePage() {
-  const params = useParams();
-  const username = params.username as string;
+export default async function UserProfilePage({
+  params,
+}: {
+  params: Promise<{ username: string }>;
+}) {
+  const username = (await params).username;
+  console.log("Username:", username);
+
+  if (username.substring(0, 3) !== "%40") {
+    return notFound();
+  }
 
   const socialLink = {
     telegram: "#",
