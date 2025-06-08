@@ -112,13 +112,7 @@ export const NavbarContainer = ({
   ...props
 }: ComponentProps<"nav">) => {
   return (
-    <nav
-      className={cn(
-        "flex w-fit backdrop-blur-md border border-amber-500/30 bg-amber-500/10  rounded-2xl shadow-xl shadow-black/5 p-px relative",
-        className
-      )}
-      {...props}
-    >
+    <nav className={cn("flex w-fit", className)} {...props}>
       <ul className="flex w-fit items-center justify-between">{children}</ul>
     </nav>
   );

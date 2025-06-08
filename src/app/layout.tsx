@@ -45,19 +45,20 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <div className="min-h-screen bg-black text-white relative">
-            {/* Background gradient */}
-            <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:35px_34px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
             {/* Content container */}
             <div className="relative">
-              <header className="container mx-auto py-2 px-4 flex items-center gap-12 mb-8 justify-between">
-                <Link href="/" className="flex items-center gap-2 z-9999">
+              <header className="py-1 px-4 flex items-center gap-12 mb-8 justify-between border-b border-yellow-600 shadow-[0_8px_16px_-1px_rgba(251,146,60,0.4)]">
+                <Link href="/" className="flex items-center z-9999">
                   <Image
                     src="/khmer-coder.svg"
                     alt="Khmer Coders"
-                    width={100}
-                    height={100}
+                    width={48}
+                    height={48}
                     className="object-contain"
                   />
+                  <span className="text-orange-400 font-mono tracking-tight font-semibold">
+                    KhmerCoders
+                  </span>
                 </Link>
                 <div className="flex-1 lg:hidden" />
                 <Navbar />
