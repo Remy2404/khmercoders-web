@@ -11,10 +11,13 @@
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
     "db:generate": "drizzle-kit generate",
+    "db:clean": "node ./scripts/clean-database.js",
+    "db:seed": "wrangler d1 execute khmercoders --local --file=./db/main/seed.sql",
     "db:migrate": "wrangler d1 migrations apply khmercoders --local",
     "db:migrate:prod": "wrangler d1 migrations apply khmercoders --remote",
     "db:chatbot:schema": "wrangler d1 execute kcc-chatbot --local --file=./db/chatbot/schema.sql",
-    "db:chatbot:seed": "wrangler d1 execute kcc-chatbot --local --file=./db/chatbot/seed.sql"
+    "db:chatbot:seed": "wrangler d1 execute kcc-chatbot --local --file=./db/chatbot/seed.sql",
+    "generate:main-schema": "node ./scripts/generate-main-schema.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^4.1.3",
