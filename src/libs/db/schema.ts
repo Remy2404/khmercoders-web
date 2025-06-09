@@ -54,3 +54,31 @@ export const verification = sqliteTable("verification", {
   updatedAt: integer("updated_at", { mode: "timestamp" }),
 });
 
+export const memberProfile = sqliteTable("member_profile", {
+  userId: text("user_id")
+    .primaryKey()
+    .references(() => user.id, { onDelete: "cascade" }),
+  alias: text("alias").notNull().unique(),
+  aliasUpdatedAt: integer("alias_updated_at", { mode: "timestamp" }),
+  picture: text("picture"),
+  title: text("title"),
+  bio: text("bio"),
+  createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull(),
+});
+
+export const workExperience = sqliteTable("work_experience", {
+  id: text("id").primaryKey(),
+  userId: text("user_id")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
+  startYear: integer("start_year").notNull(),
+  endYear: integer("end_year"), // Null means currently working there
+  companyName: text("company_name").notNull(),
+  companyLogo: text("company_logo"),
+  companyId: text("company_id"), // Nullable field for future company relationship
+  role: text("role").notNull(),
+  description: text("description"),
+  createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull(),
+});

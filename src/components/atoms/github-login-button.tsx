@@ -7,7 +7,9 @@ import { GithubIcon } from "./icons";
 export function SignInButton() {
   return (
     <Button
-      onClick={() => signIn()}
+      onClick={() => {
+        signIn();
+      }}
       className="text-black bg-yellow-500 hover:bg-yellow-500/90"
     >
       <GithubIcon className="w-4 h-4" />
@@ -21,4 +23,3 @@ export default SignInButton;
 export function SignOutButton() {
   return <Button onClick={() => signOut()}>Sign out</Button>;
 }
-

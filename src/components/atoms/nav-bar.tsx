@@ -1,3 +1,5 @@
+"use client";
+
 import { cn } from "@/utils";
 import type { ComponentProps } from "react";
 import { Menu, X } from "lucide-react";
@@ -11,13 +13,10 @@ import {
 import Image from "next/image";
 import { UserAvatar } from "./user-avatar";
 import Link from "next/link";
-import { auth } from "@/utils/auth";
-import { headers } from "next/headers";
+import { useSession } from "../auth-provider";
 
-export const Navbar = async () => {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+export const Navbar = () => {
+  const { session } = useSession();
 
   return (
     <div className="flex items-center flex-row">
