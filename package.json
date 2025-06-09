@@ -17,7 +17,8 @@
     "db:migrate:prod": "wrangler d1 migrations apply khmercoders --remote",
     "db:chatbot:schema": "wrangler d1 execute kcc-chatbot --local --file=./db/chatbot/schema.sql",
     "db:chatbot:seed": "wrangler d1 execute kcc-chatbot --local --file=./db/chatbot/seed.sql",
-    "generate:main-schema": "node ./scripts/generate-main-schema.js"
+    "generate:main-schema": "node ./scripts/generate-main-schema.js",
+    "setup": "node ./scripts/setup.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^4.1.3",

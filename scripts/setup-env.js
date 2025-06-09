@@ -10,39 +10,29 @@ const generateSecret = () => {
 // Path to .env file
 const envPath = path.join(__dirname, "..", ".env");
 
-// Check if .env file exists
 const updateEnvFile = () => {
   try {
-    let envContent = "";
-
-    // Read existing .env file if it exists
+    // Check if .env file already exists
     if (fs.existsSync(envPath)) {
-      envContent = fs.readFileSync(envPath, "utf8");
+      console.log(".env file already exists. Skipping creation.");
+      return;
     }
 
     // Generate a new secret
     const newSecret = generateSecret();
 
-    // Check if BETTER_AUTH_SECRET already exists in the file
-    if (envContent.includes("BETTER_AUTH_SECRET=")) {
-      // Replace existing BETTER_AUTH_SECRET
-      envContent = envContent.replace(
-        /BETTER_AUTH_SECRET=.*/,
-        `BETTER_AUTH_SECRET="${newSecret}"`
-      );
-    } else {
-      // Add BETTER_AUTH_SECRET to the end of the file
-      if (envContent && !envContent.endsWith("\n")) {
-        envContent += "\n";
-      }
-      envContent += `BETTER_AUTH_SECRET="${newSecret}"\n`;
-    }
+    // Create the .env content with all required variables
+    const envContent = `BETTER_AUTH_SECRET="${newSecret}"
+BETTER_AUTH_URL=http://localhost:3000
+GITHUB_CLIENT_ID=
+GITHUB_CLIENT_SECRET=
+`;
 
-    // Write the updated content back to .env
+    // Write the content to .env file (only if it doesn't exist)
     fs.writeFileSync(envPath, envContent);
-    console.log("BETTER_AUTH_SECRET has been generated and added to .env file");
+    console.log(".env file has been created with the required variables");
   } catch (error) {
-    console.error("Error updating .env file:", error);
+    console.error("Error creating .env file:", error);
     process.exit(1);
   }
 };
