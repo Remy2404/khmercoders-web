@@ -1,5 +1,8 @@
 // For App Router
 import { GithubIcon } from "@/components/atoms/icons";
+import { getDB } from "@/libs/db";
+import * as schema from "@/libs/db/schema";
+import { eq } from "drizzle-orm";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -12,6 +15,20 @@ export default async function UserProfilePage({
   console.log("Username:", username);
 
   if (username.substring(0, 3) !== "%40") {
+    return notFound();
+  }
+
+  const normalizedUsername = username.substring(3).toLowerCase();
+  const db = await getDB();
+
+  const profile = await db
+    .select()
+    .from(schema.memberProfile)
+    .innerJoin(schema.user, eq(schema.memberProfile.userId, schema.user.id))
+    .where(eq(schema.memberProfile.alias, normalizedUsername))
+    .get();
+
+  if (!profile) {
     return notFound();
   }
 
@@ -74,9 +91,13 @@ export default async function UserProfilePage({
         <div className="container relative z-10 mx-auto py-4 px-4 flex gap-2">
           <div className="w-20 h-20 rounded-full border-2 border-orange-400 bg-orange-100" />
           <div className="flex flex-col justify-center">
-            <p className="font-semibold">Loren</p>
-            <p className="text-gray-400 text-sm">Software Engineer at XYZ</p>
-            <p className="text-gray-400 text-sm font-mono">@loren</p>
+            <p className="font-semibold">{profile.user.name}</p>
+            <p className="text-gray-400 text-sm">
+              {profile.member_profile.title}
+            </p>
+            <p className="text-gray-400 text-sm font-mono">
+              @{profile.member_profile.alias}
+            </p>
           </div>
         </div>
 
