@@ -21,7 +21,7 @@ export const Navbar = () => {
   return (
     <div className="flex items-center flex-row">
       <div className="flex gap-4 items-center sm:hidden">
-        <UserAvatar user={session?.user} />
+        <UserAvatar />
         <NavbarContainer
           className="items-center flex-row"
           aria-label="Mobile Navigation"
@@ -97,7 +97,7 @@ export const Navbar = () => {
           <NavbarLink href="/community">Community</NavbarLink>
           <NavbarLink href="/donate">Donate</NavbarLink>
         </NavbarContainer>
-        <UserAvatar user={session?.user} />
+        <UserAvatar />
       </div>
     </div>
   );

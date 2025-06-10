@@ -9,22 +9,12 @@ import {
 } from "../generated/dropdown-menu";
 import { User, Settings } from "lucide-react";
 import Link from "next/link";
+import { useSession } from "../auth-provider";
 
-interface UserAvatarProps {
-  user?:
-    | {
-        id: string;
-        name: string;
-        email: string;
-        emailVerified: boolean;
-        createdAt: Date;
-        updatedAt: Date;
-        image?: string | null | undefined;
-      }
-    | undefined;
-}
+export function UserAvatar() {
+  const { profile, session } = useSession();
+  const user = session?.user;
 
-export function UserAvatar({ user }: UserAvatarProps) {
   if (!user) {
     return <SignInButton />;
   }
@@ -53,7 +43,10 @@ export function UserAvatar({ user }: UserAvatarProps) {
         </div>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
-          <Link href="/profile" className="cursor-pointer">
+          <Link
+            href={profile ? `/@${profile.alias}` : "/profile/setup"}
+            className="cursor-pointer"
+          >
             <User className="mr-2 h-4 w-4" />
             Profile
           </Link>
@@ -72,4 +65,3 @@ export function UserAvatar({ user }: UserAvatarProps) {
     </DropdownMenu>
   );
 }
-
