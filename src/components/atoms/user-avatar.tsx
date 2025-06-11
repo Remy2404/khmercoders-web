@@ -44,7 +44,7 @@ export function UserAvatar() {
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
           <Link
-            href={profile ? `/@${profile.alias}` : "/profile/setup"}
+            href={profile ? `/@${profile.alias}` : "/profile/setup/alias"}
             className="cursor-pointer"
           >
             <User className="mr-2 h-4 w-4" />
@@ -52,7 +52,7 @@ export function UserAvatar() {
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <Link href="/settings" className="cursor-pointer">
+          <Link href="/profile/setup" className="cursor-pointer">
             <Settings className="mr-2 h-4 w-4" />
             Settings
           </Link>
