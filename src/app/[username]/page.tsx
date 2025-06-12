@@ -2,7 +2,7 @@
 import { GithubIcon } from "@/components/atoms/icons";
 import { getDB } from "@/libs/db";
 import * as schema from "@/libs/db/schema";
-import { eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
@@ -86,59 +86,12 @@ export default async function UserProfilePage({
 
   if (!profile) {
     return notFound();
-  }
-
-  const socialLink = {
-    telegram: "#",
-    linkedin: "#",
-    github: "#",
-    website: "#",
-    youtube: "#",
-    tiktok: "#",
-  };
-
-  const experiences = [
-    {
-      company: "Tech Innovators Inc.",
-      role: "Senior Frontend Developer",
-      startYear: 2021,
-      endYear: null, // current
-      description:
-        "Leading the development of web applications using React and TypeScript. Implemented CI/CD pipelines and improved code coverage by 35%.",
-    },
-    {
-      company: "Digital Solutions Co.",
-      role: "Full Stack Developer",
-      startYear: 2018,
-      endYear: 2021,
-      description:
-        "Developed and maintained multiple client projects using MERN stack. Optimized database queries resulting in 40% performance improvement.",
-    },
-    {
-      company: "WebCraft Agency",
-      role: "Junior Developer",
-      startYear: 2016,
-      endYear: 2018,
-      description:
-        "Collaborated in agile teams to build responsive web applications. Specialized in frontend development using React and Redux.",
-    },
-    {
-      company: "TechStart Startup",
-      role: "Software Engineering Intern",
-      startYear: 2015,
-      endYear: 2016,
-      description:
-        "Assisted in developing MVP for an e-commerce platform. Implemented user authentication and product catalog features.",
-    },
-    {
-      company: "CodeLab University",
-      role: "Research Assistant",
-      startYear: 2014,
-      endYear: 2015,
-      description:
-        "Supported faculty research on ML algorithms. Developed data visualization tools and conducted literature reviews.",
-    },
-  ];
+  } // Getting the experience
+  const experiences = await db
+    .select()
+    .from(schema.workExperience)
+    .where(eq(schema.workExperience.userId, profile.user.id))
+    .orderBy(desc(schema.workExperience.startYear));
 
   return (
     <>
@@ -166,7 +119,7 @@ export default async function UserProfilePage({
       </div>
       <div className="container mx-auto flex gap-4 my-4 mb-12">
         <div>
-          <div className="my-4 flex gap-2 flex-wrap">
+          {/* <div className="my-4 flex gap-2 flex-wrap">
             {socialLink.telegram && (
               <SocialLink type="Telegram" link={socialLink.telegram} />
             )}
@@ -185,7 +138,7 @@ export default async function UserProfilePage({
             {socialLink.tiktok && (
               <SocialLink type="TikTok" link={socialLink.tiktok} />
             )}
-          </div>
+          </div> */}
 
           <div className="text-sm whitespace-pre-wrap">
             {profile.member_profile.bio?.split("\n").map((line, index) => (
@@ -200,13 +153,11 @@ export default async function UserProfilePage({
               <div key={index} className="flex gap-2">
                 <div className="border border-gray-500 bg-gray-800 h-12 w-12 rounded shrink-0" />
                 <div>
-                  <h3 className="text-sm font-semibold">{exp.role}</h3>
-
+                  <h3 className="text-sm font-semibold">{exp.role}</h3>{" "}
                   <p className="text-sm text-gray-400">
-                    <span className="text-yellow-400">{exp.company}</span> (
+                    <span className="text-yellow-400">{exp.companyName}</span> (
                     {exp.startYear} - {exp.endYear ? exp.endYear : "Present"})
                   </p>
-
                   <p className="text-sm text-gray-400">{exp.description}</p>
                 </div>
               </div>

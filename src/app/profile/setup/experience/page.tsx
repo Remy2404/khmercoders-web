@@ -27,6 +27,7 @@ import {
   createExperienceAction,
   getUserExperiencesAction,
   removeExperienceAction,
+  updateExperienceAction,
 } from "@/actions/experiences";
 import * as schema from "@/libs/db/schema";
 import { MoreHorizontal, Pencil, Trash2 } from "lucide-react";
@@ -46,9 +47,12 @@ export default function ProfileSetupExperiencePage() {
   const [experienceToDelete, setExperienceToDelete] = useState<string | null>(
     null
   );
-
+  const [experienceToEdit, setExperienceToEdit] = useState<
+    typeof schema.workExperience.$inferSelect | null
+  >(null);
   const handleCloseDialog = () => {
     setIsDialogOpen(false);
+    setExperienceToEdit(null);
   };
   const handleSubmit = useCallback(async (data: ProfileSetupExperienceData) => {
     const result = await createExperienceAction({
@@ -59,16 +63,41 @@ export default function ProfileSetupExperiencePage() {
       description: data.description.trim(),
     });
 
-    const refreshExperinece = await getUserExperiencesAction();
+    const refreshExperience = await getUserExperiencesAction();
 
     if (result.success) {
-      setData(refreshExperinece.experiences);
+      setData(refreshExperience.experiences);
     } else {
       throw new Error(
         result.message || "Failed to create experience. Please try again."
       );
     }
   }, []);
+
+  const handleEditSubmit = useCallback(
+    async (data: ProfileSetupExperienceData) => {
+      if (!experienceToEdit) return;
+
+      const result = await updateExperienceAction(experienceToEdit.id, {
+        startYear: parseInt(data.startYear, 10),
+        endYear: data.endYear ? parseInt(data.endYear, 10) : null,
+        companyName: data.companyName.trim(),
+        role: data.role.trim(),
+        description: data.description.trim(),
+      });
+
+      const refreshExperience = await getUserExperiencesAction();
+
+      if (result.success) {
+        setData(refreshExperience.experiences);
+      } else {
+        throw new Error(
+          result.message || "Failed to update experience. Please try again."
+        );
+      }
+    },
+    [experienceToEdit]
+  );
 
   const handleDeleteConfirm = async () => {
     if (!experienceToDelete) return;
@@ -196,10 +225,17 @@ export default function ProfileSetupExperiencePage() {
                               </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end" className="w-36">
-                              <DropdownMenuItem className="cursor-pointer">
+                              {" "}
+                              <DropdownMenuItem
+                                className="cursor-pointer"
+                                onClick={() => {
+                                  setExperienceToEdit(experience);
+                                  setIsDialogOpen(true);
+                                }}
+                              >
                                 <Pencil className="mr-2 h-4 w-4" />
                                 <span>Edit</span>
-                              </DropdownMenuItem>{" "}
+                              </DropdownMenuItem>
                               <DropdownMenuItem
                                 className="cursor-pointer text-destructive focus:text-destructive"
                                 onClick={() => {
@@ -224,8 +260,22 @@ export default function ProfileSetupExperiencePage() {
       </div>{" "}
       {isDialogOpen && (
         <ProfileSetupExperienceDialog
+          initialData={
+            experienceToEdit
+              ? {
+                  startYear: experienceToEdit.startYear.toString(),
+                  endYear: experienceToEdit.endYear
+                    ? experienceToEdit.endYear.toString()
+                    : null,
+                  companyName: experienceToEdit.companyName,
+                  role: experienceToEdit.role,
+                  description: experienceToEdit.description || "",
+                }
+              : undefined
+          }
           onClose={handleCloseDialog}
-          onSubmit={handleSubmit}
+          onSubmit={experienceToEdit ? handleEditSubmit : handleSubmit}
+          isEditing={!!experienceToEdit}
         />
       )}
       <AlertDialog open={deleteConfirmOpen} onOpenChange={setDeleteConfirmOpen}>
@@ -264,10 +314,12 @@ function ProfileSetupExperienceDialog({
   initialData,
   onClose,
   onSubmit,
+  isEditing = false,
 }: {
   initialData?: ProfileSetupExperienceData;
   onClose: () => void;
   onSubmit: (data: ProfileSetupExperienceData) => Promise<void>;
+  isEditing?: boolean;
 }) {
   const [startYear, setStartYear] = useState<string>(
     initialData?.startYear || ""
@@ -296,10 +348,15 @@ function ProfileSetupExperienceDialog({
       }}
     >
       <DialogContent className="sm:max-w-[425px]">
+        {" "}
         <DialogHeader>
-          <DialogTitle>Add Experience</DialogTitle>
+          <DialogTitle>
+            {isEditing ? "Edit Experience" : "Add Experience"}
+          </DialogTitle>
           <DialogDescription>
-            Add details about your professional experience.
+            {isEditing
+              ? "Update details about your professional experience."
+              : "Add details about your professional experience."}
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
@@ -412,7 +469,7 @@ function ProfileSetupExperienceDialog({
               }}
               disabled={loading}
             >
-              {loading ? "Saving..." : "Save"}
+              {loading ? "Saving..." : isEditing ? "Update" : "Save"}
             </Button>
           </div>
         </DialogFooter>
