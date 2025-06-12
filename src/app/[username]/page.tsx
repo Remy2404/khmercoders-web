@@ -5,14 +5,70 @@ import * as schema from "@/libs/db/schema";
 import { eq } from "drizzle-orm";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Metadata } from "next";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { username: string };
+}): Promise<Metadata> {
+  const username = params.username;
+
+  if (username.substring(0, 3) !== "%40") {
+    return {
+      title: "Profile Not Found | Khmer Coders",
+      description: "The requested profile could not be found.",
+    };
+  }
+
+  const normalizedUsername = username.substring(3).toLowerCase();
+  const db = await getDB();
+
+  const profile = await db
+    .select()
+    .from(schema.memberProfile)
+    .innerJoin(schema.user, eq(schema.memberProfile.userId, schema.user.id))
+    .where(eq(schema.memberProfile.alias, normalizedUsername))
+    .get();
+
+  if (!profile) {
+    return {
+      title: "Profile Not Found | Khmer Coders",
+      description: "The requested profile could not be found.",
+    };
+  }
+
+  return {
+    title: `${profile.user.name} (${profile.member_profile.title}) | Khmer Coders`,
+    description:
+      profile.member_profile.bio?.substring(0, 160) ||
+      `${profile.user.name} is a member of Khmer Coders, Cambodia's largest coding community.`,
+    openGraph: {
+      title: `${profile.user.name} | Khmer Coders`,
+      description:
+        profile.member_profile.bio?.substring(0, 200) ||
+        `${profile.user.name} is a member of Khmer Coders.`,
+      type: "profile",
+      url: `https://khmercoder.com/${username}`,
+      images: [profile.user.image || "/placeholder-user.jpg"],
+    },
+    twitter: {
+      card: "summary",
+      title: `${profile.user.name} | Khmer Coders`,
+      description:
+        profile.member_profile.bio?.substring(0, 200) ||
+        `${profile.user.name} is a member of Khmer Coders.`,
+      images: [profile.user.image || "/placeholder-user.jpg"],
+    },
+  };
+}
 
 export default async function UserProfilePage({
   params,
 }: {
-  params: Promise<{ username: string }>;
+  params: { username: string };
 }) {
-  const username = (await params).username;
-  console.log("Username:", username);
+  const username = params.username;
 
   if (username.substring(0, 3) !== "%40") {
     return notFound();
