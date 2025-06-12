@@ -11,11 +11,22 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/generated/dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/generated/alert-dialog";
 import { useCallback, useEffect, useState } from "react";
 import { Checkbox } from "@/components/generated/checkbox";
 import {
   createExperienceAction,
   getUserExperiencesAction,
+  removeExperienceAction,
 } from "@/actions/experiences";
 import * as schema from "@/libs/db/schema";
 import { MoreHorizontal, Pencil, Trash2 } from "lucide-react";
@@ -31,11 +42,14 @@ export default function ProfileSetupExperiencePage() {
   const [data, setData] = useState<
     (typeof schema.workExperience.$inferSelect)[]
   >([]);
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
+  const [experienceToDelete, setExperienceToDelete] = useState<string | null>(
+    null
+  );
 
   const handleCloseDialog = () => {
     setIsDialogOpen(false);
   };
-
   const handleSubmit = useCallback(async (data: ProfileSetupExperienceData) => {
     const result = await createExperienceAction({
       startYear: parseInt(data.startYear, 10),
@@ -55,6 +69,28 @@ export default function ProfileSetupExperiencePage() {
       );
     }
   }, []);
+
+  const handleDeleteConfirm = async () => {
+    if (!experienceToDelete) return;
+
+    try {
+      const result = await removeExperienceAction(experienceToDelete);
+
+      if (result.success) {
+        const refreshResult = await getUserExperiencesAction();
+        if (refreshResult.success) {
+          setData(refreshResult.experiences);
+        }
+      } else {
+        console.error("Failed to delete experience:", result.message);
+      }
+    } catch (error) {
+      console.error("Error deleting experience:", error);
+    } finally {
+      setDeleteConfirmOpen(false);
+      setExperienceToDelete(null);
+    }
+  };
 
   useEffect(() => {
     const fetchExperiences = async () => {
@@ -79,7 +115,6 @@ export default function ProfileSetupExperiencePage() {
           Add your professional experience to showcase your career journey.
         </p>
       </div>
-
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-xl font-semibold">Your Experiences</h2>
         <Button
@@ -89,7 +124,6 @@ export default function ProfileSetupExperiencePage() {
           Add Experience
         </Button>
       </div>
-
       <div className="mt-6 space-y-4">
         {data.length === 0 ? (
           <div className="text-center py-10 border border-dashed border-gray-700 rounded-lg">
@@ -165,8 +199,14 @@ export default function ProfileSetupExperiencePage() {
                               <DropdownMenuItem className="cursor-pointer">
                                 <Pencil className="mr-2 h-4 w-4" />
                                 <span>Edit</span>
-                              </DropdownMenuItem>
-                              <DropdownMenuItem className="cursor-pointer text-destructive focus:text-destructive">
+                              </DropdownMenuItem>{" "}
+                              <DropdownMenuItem
+                                className="cursor-pointer text-destructive focus:text-destructive"
+                                onClick={() => {
+                                  setExperienceToDelete(experience.id);
+                                  setDeleteConfirmOpen(true);
+                                }}
+                              >
                                 <Trash2 className="mr-2 h-4 w-4" />
                                 <span>Delete</span>
                               </DropdownMenuItem>
@@ -181,14 +221,33 @@ export default function ProfileSetupExperiencePage() {
             </table>
           </div>
         )}
-      </div>
-
+      </div>{" "}
       {isDialogOpen && (
         <ProfileSetupExperienceDialog
           onClose={handleCloseDialog}
           onSubmit={handleSubmit}
         />
       )}
+      <AlertDialog open={deleteConfirmOpen} onOpenChange={setDeleteConfirmOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete the
+              experience from your profile.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleDeleteConfirm}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
