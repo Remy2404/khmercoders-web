@@ -89,10 +89,32 @@ export const updateUserProfileAction = withAuthAction(
       name: string;
       title: string;
       bio: string;
+      websiteUrl?: string;
+      telegramUrl?: string;
+      githubUrl?: string;
+      facebookUrl?: string;
+      xUrl?: string;
+      tiktokUrl?: string;
+      instagramUrl?: string;
+      linkedinUrl?: string;
+      youtubeUrl?: string;
     }
   ) => {
     const now = new Date();
-    const { name, title, bio } = data;
+    const {
+      name,
+      title,
+      bio,
+      websiteUrl,
+      telegramUrl,
+      githubUrl,
+      facebookUrl,
+      xUrl,
+      tiktokUrl,
+      instagramUrl,
+      linkedinUrl,
+      youtubeUrl,
+    } = data;
 
     // Validate inputs
     if (!name || name.trim().length < 2) {
@@ -138,6 +160,15 @@ export const updateUserProfileAction = withAuthAction(
             updatedAt: now,
             title: title?.trim() || "",
             bio: bio?.trim() || "",
+            websiteUrl: websiteUrl?.trim() || null,
+            telegramUrl: telegramUrl?.trim() || null,
+            githubUrl: githubUrl?.trim() || null,
+            facebookUrl: facebookUrl?.trim() || null,
+            xUrl: xUrl?.trim() || null,
+            tiktokUrl: tiktokUrl?.trim() || null,
+            instagramUrl: instagramUrl?.trim() || null,
+            linkedinUrl: linkedinUrl?.trim() || null,
+            youtubeUrl: youtubeUrl?.trim() || null,
           })
           .where(eq(schema.memberProfile.userId, user.id)),
       ]);

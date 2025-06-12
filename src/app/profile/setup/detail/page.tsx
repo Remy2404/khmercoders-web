@@ -22,19 +22,35 @@ export default function ProfileSetupDetailPage() {
   const router = useRouter();
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
-
   // Form state using useState hooks
   const [name, setName] = useState(session?.user.name || "");
   const [title, setTitle] = useState(profile?.title || "");
   const [bio, setBio] = useState(profile?.bio || "");
+  const [websiteUrl, setWebsiteUrl] = useState(profile?.websiteUrl || "");
+  const [telegramUrl, setTelegramUrl] = useState(profile?.telegramUrl || "");
+  const [githubUrl, setGithubUrl] = useState(profile?.githubUrl || "");
+  const [facebookUrl, setFacebookUrl] = useState(profile?.facebookUrl || "");
+  const [xUrl, setXUrl] = useState(profile?.xUrl || "");
+  const [tiktokUrl, setTiktokUrl] = useState(profile?.tiktokUrl || "");
+  const [instagramUrl, setInstagramUrl] = useState(profile?.instagramUrl || "");
+  const [linkedinUrl, setLinkedinUrl] = useState(profile?.linkedinUrl || "");
+  const [youtubeUrl, setYoutubeUrl] = useState(profile?.youtubeUrl || "");
 
   // Validation errors
   const [errors, setErrors] = useState({
     name: "",
     title: "",
     bio: "",
+    websiteUrl: "",
+    telegramUrl: "",
+    githubUrl: "",
+    facebookUrl: "",
+    xUrl: "",
+    tiktokUrl: "",
+    instagramUrl: "",
+    linkedinUrl: "",
+    youtubeUrl: "",
   });
-
   // Validate form data using useCallback
   const validateForm = useCallback(() => {
     let valid = true;
@@ -42,6 +58,15 @@ export default function ProfileSetupDetailPage() {
       name: "",
       title: "",
       bio: "",
+      websiteUrl: "",
+      telegramUrl: "",
+      githubUrl: "",
+      facebookUrl: "",
+      xUrl: "",
+      tiktokUrl: "",
+      instagramUrl: "",
+      linkedinUrl: "",
+      youtubeUrl: "",
     };
 
     // Validate name
@@ -65,10 +90,46 @@ export default function ProfileSetupDetailPage() {
       valid = false;
     }
 
+    // Simple URL validation for social media links
+    const validateUrl = (url: string) => {
+      if (url && !url.startsWith("http://") && !url.startsWith("https://")) {
+        return "URL must start with http:// or https://";
+      }
+      return "";
+    };
+
+    // Validate social media URLs if provided
+    if (websiteUrl) newErrors.websiteUrl = validateUrl(websiteUrl);
+    if (telegramUrl) newErrors.telegramUrl = validateUrl(telegramUrl);
+    if (githubUrl) newErrors.githubUrl = validateUrl(githubUrl);
+    if (facebookUrl) newErrors.facebookUrl = validateUrl(facebookUrl);
+    if (xUrl) newErrors.xUrl = validateUrl(xUrl);
+    if (tiktokUrl) newErrors.tiktokUrl = validateUrl(tiktokUrl);
+    if (instagramUrl) newErrors.instagramUrl = validateUrl(instagramUrl);
+    if (linkedinUrl) newErrors.linkedinUrl = validateUrl(linkedinUrl);
+    if (youtubeUrl) newErrors.youtubeUrl = validateUrl(youtubeUrl);
+
+    // Check if any URL validation failed
+    if (Object.values(newErrors).some((error) => error !== "")) {
+      valid = false;
+    }
+
     setErrors(newErrors);
     return valid;
-  }, [name, title, bio]); // Dependencies - recompute when these values change
-
+  }, [
+    name,
+    title,
+    bio,
+    websiteUrl,
+    telegramUrl,
+    githubUrl,
+    facebookUrl,
+    xUrl,
+    tiktokUrl,
+    instagramUrl,
+    linkedinUrl,
+    youtubeUrl,
+  ]); // Dependencies - recompute when these values change
   const handleSubmit = useCallback(async () => {
     // Validate form before submission
     if (!validateForm()) {
@@ -82,6 +143,15 @@ export default function ProfileSetupDetailPage() {
         name: name.trim(),
         title: title.trim(),
         bio: bio.trim(),
+        websiteUrl: websiteUrl.trim(),
+        telegramUrl: telegramUrl.trim(),
+        githubUrl: githubUrl.trim(),
+        facebookUrl: facebookUrl.trim(),
+        xUrl: xUrl.trim(),
+        tiktokUrl: tiktokUrl.trim(),
+        instagramUrl: instagramUrl.trim(),
+        linkedinUrl: linkedinUrl.trim(),
+        youtubeUrl: youtubeUrl.trim(),
       });
 
       if (result.success) {
@@ -112,7 +182,24 @@ export default function ProfileSetupDetailPage() {
     } finally {
       setIsSubmitting(false);
     }
-  }, [validateForm, name, title, bio, profile, router, toast]); // Dependencies for handleSubmit
+  }, [
+    validateForm,
+    name,
+    title,
+    bio,
+    websiteUrl,
+    telegramUrl,
+    githubUrl,
+    facebookUrl,
+    xUrl,
+    tiktokUrl,
+    instagramUrl,
+    linkedinUrl,
+    youtubeUrl,
+    profile,
+    router,
+    toast,
+  ]); // Dependencies for handleSubmit
 
   if (!session) {
     return null; // or some loading state, or redirect to login
@@ -146,7 +233,6 @@ export default function ProfileSetupDetailPage() {
               This is your public display name.
             </p>
           </div>
-
           <div className="space-y-2">
             <label htmlFor="title" className="text-sm font-medium">
               Professional Title
@@ -163,8 +249,7 @@ export default function ProfileSetupDetailPage() {
             <p className="text-sm text-muted-foreground">
               Your professional title or current position.
             </p>
-          </div>
-
+          </div>{" "}
           <div className="space-y-2">
             <label htmlFor="bio" className="text-sm font-medium">
               Bio
@@ -181,6 +266,149 @@ export default function ProfileSetupDetailPage() {
               A brief introduction about yourself. This will be displayed on
               your profile.
             </p>
+          </div>
+          <div className="border-t pt-4">
+            <h3 className="text-lg font-medium mb-4">Social Media Links</h3>
+            <div className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <label htmlFor="websiteUrl" className="text-sm font-medium">
+                    Website
+                  </label>
+                  <Input
+                    id="websiteUrl"
+                    placeholder="https://yourwebsite.com"
+                    value={websiteUrl}
+                    onChange={(e) => setWebsiteUrl(e.target.value)}
+                  />
+                  {errors.websiteUrl && (
+                    <p className="text-sm text-red-500">{errors.websiteUrl}</p>
+                  )}
+                </div>
+
+                <div className="space-y-2">
+                  <label htmlFor="linkedinUrl" className="text-sm font-medium">
+                    LinkedIn
+                  </label>
+                  <Input
+                    id="linkedinUrl"
+                    placeholder="https://linkedin.com/in/yourusername"
+                    value={linkedinUrl}
+                    onChange={(e) => setLinkedinUrl(e.target.value)}
+                  />
+                  {errors.linkedinUrl && (
+                    <p className="text-sm text-red-500">{errors.linkedinUrl}</p>
+                  )}
+                </div>
+
+                <div className="space-y-2">
+                  <label htmlFor="githubUrl" className="text-sm font-medium">
+                    GitHub
+                  </label>
+                  <Input
+                    id="githubUrl"
+                    placeholder="https://github.com/yourusername"
+                    value={githubUrl}
+                    onChange={(e) => setGithubUrl(e.target.value)}
+                  />
+                  {errors.githubUrl && (
+                    <p className="text-sm text-red-500">{errors.githubUrl}</p>
+                  )}
+                </div>
+
+                <div className="space-y-2">
+                  <label htmlFor="telegramUrl" className="text-sm font-medium">
+                    Telegram
+                  </label>
+                  <Input
+                    id="telegramUrl"
+                    placeholder="https://t.me/yourusername"
+                    value={telegramUrl}
+                    onChange={(e) => setTelegramUrl(e.target.value)}
+                  />
+                  {errors.telegramUrl && (
+                    <p className="text-sm text-red-500">{errors.telegramUrl}</p>
+                  )}
+                </div>
+
+                <div className="space-y-2">
+                  <label htmlFor="xUrl" className="text-sm font-medium">
+                    X (Twitter)
+                  </label>
+                  <Input
+                    id="xUrl"
+                    placeholder="https://x.com/yourusername"
+                    value={xUrl}
+                    onChange={(e) => setXUrl(e.target.value)}
+                  />
+                  {errors.xUrl && (
+                    <p className="text-sm text-red-500">{errors.xUrl}</p>
+                  )}
+                </div>
+
+                <div className="space-y-2">
+                  <label htmlFor="facebookUrl" className="text-sm font-medium">
+                    Facebook
+                  </label>
+                  <Input
+                    id="facebookUrl"
+                    placeholder="https://facebook.com/yourusername"
+                    value={facebookUrl}
+                    onChange={(e) => setFacebookUrl(e.target.value)}
+                  />
+                  {errors.facebookUrl && (
+                    <p className="text-sm text-red-500">{errors.facebookUrl}</p>
+                  )}
+                </div>
+
+                <div className="space-y-2">
+                  <label htmlFor="instagramUrl" className="text-sm font-medium">
+                    Instagram
+                  </label>
+                  <Input
+                    id="instagramUrl"
+                    placeholder="https://instagram.com/yourusername"
+                    value={instagramUrl}
+                    onChange={(e) => setInstagramUrl(e.target.value)}
+                  />
+                  {errors.instagramUrl && (
+                    <p className="text-sm text-red-500">
+                      {errors.instagramUrl}
+                    </p>
+                  )}
+                </div>
+
+                <div className="space-y-2">
+                  <label htmlFor="youtubeUrl" className="text-sm font-medium">
+                    YouTube
+                  </label>
+                  <Input
+                    id="youtubeUrl"
+                    placeholder="https://youtube.com/@yourchannel"
+                    value={youtubeUrl}
+                    onChange={(e) => setYoutubeUrl(e.target.value)}
+                  />
+                  {errors.youtubeUrl && (
+                    <p className="text-sm text-red-500">{errors.youtubeUrl}</p>
+                  )}
+                </div>
+
+                <div className="space-y-2">
+                  <label htmlFor="tiktokUrl" className="text-sm font-medium">
+                    TikTok
+                  </label>
+                  <Input
+                    id="tiktokUrl"
+                    placeholder="https://tiktok.com/@yourusername"
+                    value={tiktokUrl}
+                    onChange={(e) => setTiktokUrl(e.target.value)}
+                  />
+                  {errors.tiktokUrl && (
+                    <p className="text-sm text-red-500">{errors.tiktokUrl}</p>
+                  )}
+                </div>
+              </div>
+            </div>
           </div>
         </CardContent>
         <CardFooter className="flex justify-between">
