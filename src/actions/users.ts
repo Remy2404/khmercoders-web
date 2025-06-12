@@ -2,6 +2,7 @@
 import { withAuthAction } from "./middleware";
 import { isValidAlias } from "@/utils/validate";
 import * as schema from "@/libs/db/schema";
+import { eq } from "drizzle-orm";
 
 export const updateUserAliasAction = withAuthAction(
   async ({ db, user, profile }, alias: string) => {
@@ -78,5 +79,79 @@ export const updateUserAliasAction = withAuthAction(
       message: "Alias updated successfully.",
       alias: normalizedAlias,
     };
+  }
+);
+
+export const updateUserProfileAction = withAuthAction(
+  async (
+    { db, user },
+    data: {
+      name: string;
+      title: string;
+      bio: string;
+    }
+  ) => {
+    const now = new Date();
+    const { name, title, bio } = data;
+
+    // Validate inputs
+    if (!name || name.trim().length < 2) {
+      return {
+        success: false,
+        message: "Name must be at least 2 characters.",
+      };
+    }
+
+    if (name.trim().length > 50) {
+      return {
+        success: false,
+        message: "Name must be less than 50 characters.",
+      };
+    }
+
+    if (title && title.trim().length > 100) {
+      return {
+        success: false,
+        message: "Title must be less than 100 characters.",
+      };
+    }
+
+    if (bio && bio.trim().length > 500) {
+      return {
+        success: false,
+        message: "Bio must be less than 500 characters.",
+      };
+    }
+
+    try {
+      await db.batch([
+        db
+          .update(schema.user)
+          .set({
+            updatedAt: now,
+            name: name.trim(),
+          })
+          .where(eq(schema.user.id, user.id)),
+        db
+          .update(schema.memberProfile)
+          .set({
+            updatedAt: now,
+            title: title?.trim() || "",
+            bio: bio?.trim() || "",
+          })
+          .where(eq(schema.memberProfile.userId, user.id)),
+      ]);
+
+      return {
+        success: true,
+        message: "Profile updated successfully.",
+      };
+    } catch (error) {
+      console.error("Failed to update profile:", error);
+      return {
+        success: false,
+        message: "Failed to update profile. Please try again later.",
+      };
+    }
   }
 );

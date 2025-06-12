@@ -131,13 +131,13 @@ export default async function UserProfilePage({
             )}
           </div>
 
-          <p className="text-sm">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed viverra
-            nisl quis erat ornare, sit amet dignissim lectus volutpat. Morbi eu
-            lobortis eros. Suspendisse sed rutrum mi. Morbi efficitur quam vel
-            fringilla gravida. Morbi nec tincidunt magna. Duis id euismod ante,
-            sit amet malesuada orci. Duis nec sollicitudi
-          </p>
+          <div className="text-sm whitespace-pre-wrap">
+            {profile.member_profile.bio?.split("\n").map((line, index) => (
+              <p key={index} className={index > 0 ? "mt-2" : ""}>
+                {line}
+              </p>
+            ))}
+          </div>
 
           <div className="mt-6 flex flex-col gap-4">
             {experiences.map((exp, index) => (

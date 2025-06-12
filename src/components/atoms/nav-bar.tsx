@@ -13,11 +13,8 @@ import {
 import Image from "next/image";
 import { UserAvatar } from "./user-avatar";
 import Link from "next/link";
-import { useSession } from "../auth-provider";
 
 export const Navbar = () => {
-  const { session } = useSession();
-
   return (
     <div className="flex items-center flex-row">
       <div className="flex gap-4 items-center sm:hidden">

@@ -1,3 +1,4 @@
+"use client";
 import { Avatar, AvatarFallback, AvatarImage } from "../generated/avatar";
 import SignInButton, { SignOutButton } from "./github-login-button";
 import {
@@ -13,6 +14,7 @@ import { useSession } from "../auth-provider";
 
 export function UserAvatar() {
   const { profile, session } = useSession();
+
   const user = session?.user;
 
   if (!user) {
