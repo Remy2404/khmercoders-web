@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ChevronRight, AtSign, User, Briefcase } from "lucide-react";
+import { ChevronRight, AtSign, User, Briefcase, Image } from "lucide-react";
 import { Card } from "@/components/generated/card";
 
 export default function ProfileSetupPage() {
@@ -65,6 +65,26 @@ export default function ProfileSetupPage() {
                     <h3 className="font-medium text-lg">Working Experience</h3>
                     <p className="text-muted-foreground">
                       Add your work history and skills
+                    </p>
+                  </div>
+                </div>
+                <ChevronRight className="h-5 w-5 text-muted-foreground" />
+              </div>
+            </Card>
+          </Link>
+
+          {/* Setup Profile Picture Option */}
+          <Link href="/profile/setup/picture" className="block">
+            <Card className="p-6 hover:bg-accent/50 transition-colors">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <div className="bg-primary/10 p-3 rounded-full">
+                    <Image className="h-6 w-6 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="font-medium text-lg">Profile Picture</h3>
+                    <p className="text-muted-foreground">
+                      Upload or update your profile photo
                     </p>
                   </div>
                 </div>
