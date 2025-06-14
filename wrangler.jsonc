@@ -12,6 +12,15 @@
     "enabled": true,
     "head_sampling_rate": 1
   },
+  "r2_buckets": [
+    {
+      "binding": "USER_UPLOADS",
+      "bucket_name": "khmercoders"
+    }
+  ],
+  "images": {
+    "binding": "IMAGES"
+  },
   "d1_databases": [
     {
       "binding": "DB",
