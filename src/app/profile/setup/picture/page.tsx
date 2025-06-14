@@ -28,7 +28,7 @@ export default function ProfileSetupPicturePage() {
   const [uploadProgress, setUploadProgress] = useState(0);
 
   // Get the current user image
-  const userImage = session?.user?.image ? session?.user?.image : null;
+  const userImage = session?.user?.image;
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -108,7 +108,6 @@ export default function ProfileSetupPicturePage() {
       setTimeout(() => {
         // Force a refresh to reload the session data
         router.refresh();
-        router.push("/profile/setup");
       }, 1000);
     } catch (error) {
       console.error("Upload error:", error);
