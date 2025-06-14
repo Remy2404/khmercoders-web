@@ -192,7 +192,13 @@ export default async function UserProfilePage({
           <div className="mt-6 flex flex-col gap-4">
             {experiences.map((exp, index) => (
               <div key={index} className="flex gap-2">
-                <div className="border border-gray-500 bg-gray-800 h-12 w-12 rounded shrink-0" />
+                <div className="border border-gray-500 bg-gray-800 h-12 w-12 rounded shrink-0 flex items-center justify-center text-orange-400 font-bold">
+                  {exp.companyName
+                    .split(" ")
+                    .slice(0, 2)
+                    .map((word) => word.charAt(0).toUpperCase())
+                    .join("")}
+                </div>
                 <div>
                   <h3 className="text-sm font-semibold">{exp.role}</h3>{" "}
                   <p className="text-sm text-gray-400">
@@ -207,7 +213,7 @@ export default async function UserProfilePage({
         </div>
         <div className="max-w-[400px] text-sm hidden lg:block">
           <div className="border border-4 border-gray-500 p-2 rounded-lg text-gray-400">
-            <div className="relative h-24 mb-2 overflow-hidden rounded">
+            <div className="relative h-32 mb-2 overflow-hidden rounded">
               <img
                 src="/kc-banner.png"
                 alt="Khmer Coders Community Banner"
