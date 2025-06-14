@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { withApiAuth, ApiAuthContext } from "../../middleware";
+import * as schema from "@/libs/db/schema";
 import { v4 as uuidv4 } from "uuid";
 import { z } from "zod";
+import { eq } from "drizzle-orm";
 
 // Schema for file validation
 const fileSchema = z.object({
@@ -17,7 +19,7 @@ const fileSchema = z.object({
  * - Returns the URL of the uploaded file
  */
 export const POST = withApiAuth(
-  async (req: NextRequest, { env }: ApiAuthContext) => {
+  async (req: NextRequest, { env, user, db }: ApiAuthContext) => {
     try {
       // Make sure we have the R2 bucket available
       if (!env || !env.USER_UPLOADS) {
@@ -67,10 +69,19 @@ export const POST = withApiAuth(
         },
       });
 
+      const finalPath = `https://cdn.khmercoder.com/${profilePath}`;
+
+      await db
+        .update(schema.user)
+        .set({
+          image: profilePath,
+        })
+        .where(eq(schema.user.id, user.id));
+
       // Return the URL and path of the uploaded file
       return NextResponse.json({
         success: true,
-        url: `https://cdn.khmercoder.com/${profilePath}`,
+        url: finalPath,
         path: profilePath,
       });
     } catch (error) {
