@@ -4,6 +4,7 @@ import { eq } from "drizzle-orm";
 import { headers } from "next/headers";
 import * as schema from "@/libs/db/schema";
 import { DrizzleD1Database } from "drizzle-orm/d1";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { NextRequest, NextResponse } from "next/server";
 
 export type ApiAuthContext = {
@@ -41,13 +42,15 @@ export function withApiAuth<ResponseType = any>(
       where: eq(schema.memberProfile.userId, session.user.id),
     });
 
+    const { env } = await getCloudflareContext({ async: true });
+
     const authContext: ApiAuthContext = {
       db,
       profile,
       session: session.session as typeof schema.session.$inferSelect,
       user: session.user as typeof schema.user.$inferSelect,
       // Add Cloudflare environment when available
-      env: (req as any).cf?.env as CloudflareEnv,
+      env,
     };
 
     return handler(req, authContext);
