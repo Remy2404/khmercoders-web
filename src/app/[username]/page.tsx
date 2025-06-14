@@ -98,7 +98,18 @@ export default async function UserProfilePage({
       <div className="relative border-b border-gray-600">
         <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,#f59e0b1a_1px,transparent_1px),linear-gradient(to_bottom,#f59e0b1a_1px,transparent_1px)] bg-[size:35px_34px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
         <div className="container relative z-10 mx-auto py-4 px-4 flex gap-2">
-          <div className="w-20 h-20 rounded-full border-2 border-orange-400 bg-orange-100" />
+          <div
+            className="w-20 h-20 rounded-full border-2 border-orange-400 bg-orange-100 overflow-hidden"
+            style={
+              profile.user.image
+                ? {
+                    backgroundImage: `url(${profile.user.image})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                  }
+                : {}
+            }
+          />
           <div className="flex flex-col justify-center">
             <p className="font-semibold">{profile.user.name}</p>
             <p className="text-gray-400 text-sm">
@@ -112,14 +123,10 @@ export default async function UserProfilePage({
 
         <ul className="container relative z-10 mx-auto text-sm flex">
           <li className="p-2 px-4 border-b-4 border-orange-500">Profile</li>
-          <li className="p-2 px-4 border-b-4 border-transparent hover:border-orange-300 transition-colors">
-            Posts
-          </li>
         </ul>
       </div>
       <div className="container mx-auto flex gap-4 my-4 mb-12">
-        {" "}
-        <div>
+        <div className="grow">
           <div className="my-4 flex gap-2 flex-wrap">
             {profile.member_profile.telegramUrl && (
               <SocialLink
@@ -200,7 +207,14 @@ export default async function UserProfilePage({
         </div>
         <div className="max-w-[400px] text-sm hidden lg:block">
           <div className="border border-4 border-gray-500 p-2 rounded-lg text-gray-400">
-            <div className="h-24 bg-gray-500 rounded"></div>
+            <div className="relative h-24 mb-2 overflow-hidden rounded">
+              <img
+                src="/kc-banner.png"
+                alt="Khmer Coders Community Banner"
+                className="object-cover w-full h-full"
+              />
+            </div>
+
             <p className="p-2">
               Founded in 2018, Khmer Coders has grown to become Cambodia's
               largest coding community. We bring together developers, designers,

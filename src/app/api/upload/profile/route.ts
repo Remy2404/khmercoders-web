@@ -123,7 +123,7 @@ export const POST = withApiAuth(
       await db
         .update(schema.user)
         .set({
-          image: profilePath,
+          image: finalPath,
         })
         .where(eq(schema.user.id, user.id));
 
