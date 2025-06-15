@@ -21,7 +21,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/generated/alert-dialog";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useId, useState } from "react";
 import { Checkbox } from "@/components/generated/checkbox";
 import {
   createExperienceAction,
@@ -50,10 +50,14 @@ export default function ProfileSetupExperiencePage() {
   const [experienceToEdit, setExperienceToEdit] = useState<
     typeof schema.workExperience.$inferSelect | null
   >(null);
+  // Track which dropdown is currently open to manage UI state properly
+  const [openDropdownId, setOpenDropdownId] = useState<string | null>(null);
+
   const handleCloseDialog = () => {
     setIsDialogOpen(false);
     setExperienceToEdit(null);
   };
+
   const handleSubmit = useCallback(async (data: ProfileSetupExperienceData) => {
     const result = await createExperienceAction({
       startYear: parseInt(data.startYear, 10),
@@ -166,7 +170,6 @@ export default function ProfileSetupExperiencePage() {
         ) : (
           <div className="border rounded-lg overflow-hidden">
             <table className="w-full text-sm">
-              {" "}
               <thead className="bg-muted/30">
                 <tr>
                   <th
@@ -212,35 +215,53 @@ export default function ProfileSetupExperiencePage() {
                     </td>
                     <td className="py-2 px-4 text-right align-top">
                       <div className="flex justify-end gap-2">
+                        {" "}
                         <div className="relative">
-                          <DropdownMenu>
+                          <DropdownMenu
+                            open={openDropdownId === experience.id}
+                            onOpenChange={(open) => {
+                              setOpenDropdownId(open ? experience.id : null);
+                            }}
+                          >
                             <DropdownMenuTrigger asChild>
                               <Button
                                 variant="ghost"
                                 size="sm"
                                 className="h-8 w-8 p-0"
+                                disabled={isDialogOpen || deleteConfirmOpen}
                               >
                                 <span className="sr-only">Open menu</span>
                                 <MoreHorizontal className="h-4 w-4" />
                               </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end" className="w-36">
-                              {" "}
                               <DropdownMenuItem
                                 className="cursor-pointer"
-                                onClick={() => {
+                                onSelect={(e) => {
+                                  e.preventDefault();
+                                  e.stopPropagation();
+                                  // Close dropdown first, then open dialog after a brief delay
+                                  setOpenDropdownId(null);
                                   setExperienceToEdit(experience);
-                                  setIsDialogOpen(true);
+                                  setTimeout(() => {
+                                    setIsDialogOpen(true);
+                                  }, 10);
                                 }}
                               >
                                 <Pencil className="mr-2 h-4 w-4" />
                                 <span>Edit</span>
                               </DropdownMenuItem>
                               <DropdownMenuItem
-                                className="cursor-pointer text-destructive focus:text-destructive"
-                                onClick={() => {
+                                className="cursor-pointer"
+                                onSelect={(e) => {
+                                  e.preventDefault();
+                                  e.stopPropagation();
+                                  // Close dropdown first, then open dialog after a brief delay
+                                  setOpenDropdownId(null);
                                   setExperienceToDelete(experience.id);
-                                  setDeleteConfirmOpen(true);
+                                  setTimeout(() => {
+                                    setDeleteConfirmOpen(true);
+                                  }, 10);
                                 }}
                               >
                                 <Trash2 className="mr-2 h-4 w-4" />
@@ -273,12 +294,29 @@ export default function ProfileSetupExperiencePage() {
                 }
               : undefined
           }
-          onClose={handleCloseDialog}
+          onClose={() => {
+            handleCloseDialog();
+            // Wait a moment before allowing dropdowns to be opened again
+            setTimeout(() => {
+              setOpenDropdownId(null);
+            }, 100);
+          }}
           onSubmit={experienceToEdit ? handleEditSubmit : handleSubmit}
           isEditing={!!experienceToEdit}
         />
       )}
-      <AlertDialog open={deleteConfirmOpen} onOpenChange={setDeleteConfirmOpen}>
+      <AlertDialog
+        open={deleteConfirmOpen}
+        onOpenChange={(open) => {
+          setDeleteConfirmOpen(open);
+          if (!open) {
+            // Wait a moment before allowing dropdowns to be opened again
+            setTimeout(() => {
+              setOpenDropdownId(null);
+            }, 100);
+          }
+        }}
+      >
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Are you sure?</AlertDialogTitle>
@@ -339,7 +377,6 @@ function ProfileSetupExperienceDialog({
   );
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
-
   return (
     <Dialog
       open={true}
@@ -347,8 +384,14 @@ function ProfileSetupExperienceDialog({
         if (!state) onClose();
       }}
     >
-      <DialogContent className="sm:max-w-[425px]">
-        {" "}
+      <DialogContent
+        className="sm:max-w-[425px]"
+        onPointerDownOutside={(e) => e.preventDefault()}
+        onEscapeKeyDown={(e) => {
+          // Allow escape key to close dialog
+          onClose();
+        }}
+      >
         <DialogHeader>
           <DialogTitle>
             {isEditing ? "Edit Experience" : "Add Experience"}
