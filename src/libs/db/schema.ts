@@ -1,3 +1,4 @@
+import { UserLevel } from "@/types";
 import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
 
 export const user = sqliteTable("user", {
@@ -8,6 +9,15 @@ export const user = sqliteTable("user", {
   image: text("image"),
   createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
   updatedAt: integer("updated_at", { mode: "timestamp" }).notNull(),
+
+  // Additional fields for user profile
+  reputation: integer("reputation").notNull().default(0),
+
+  // User level represented as integer but mapped to enum
+  level: integer("level")
+    .notNull()
+    .default(UserLevel.Regular)
+    .$type<UserLevel>(),
 });
 
 export const session = sqliteTable("session", {

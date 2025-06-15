@@ -51,3 +51,11 @@ export interface Session {
   };
 }
 
+export enum UserLevel {
+  Basic = 0,
+  Regular = 1,
+  Premium = 5,
+  Volunteer = 8,
+  Moderator = 10,
+  SuperAdmin = 20,
+}
