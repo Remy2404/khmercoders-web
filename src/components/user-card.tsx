@@ -6,18 +6,18 @@ export function UserCard({ user, profile }: UserCardProps) {
   return (
     <Link
       href={`/@${profile.alias}`}
-      className="flex gap-3 bg-zinc-950 p-2 rounded border items-center cursor-pointer hover:border-yellow-700 transition-colors"
+      className="flex gap-3 bg-zinc-950 p-3 rounded border border-zinc-600 border-2 cursor-pointer hover:border-yellow-700 transition-colors"
     >
       {user.image && (
         <img src={user.image} className="rounded-full w-16 h-16 shrink-0" />
       )}
-      <div className="flex flex-col justify-center">
-        <div className="flex gap-2 items-center mb-0.5">
-          <span className="font-semibold">{user.name}</span>
-          <UserLevelBadge level={user.level} />
-        </div>
-        <div className="text-sm line-clamp-2 text-gray-400">
+      <div className="flex flex-col justify-center leading-tight">
+        <div className="font-semibold">{user.name}</div>
+        <div className="text-xs text-zinc-400 line-clamp-2">
           {profile.title}
+        </div>
+        <div className="mt-1.5">
+          <UserLevelBadge level={user.level} />
         </div>
       </div>
     </Link>
