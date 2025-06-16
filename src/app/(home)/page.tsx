@@ -2,6 +2,8 @@ import { HomeHeroBanner } from "./hero";
 import { HomeEventSection } from "./events";
 import { HomeFoundingSection } from "./founding";
 
+export const revalidate = 3600; // Cache the page for 3600 seconds (1 hour)
+
 export default async function LandingPage() {
   return (
     <main className="relative">

@@ -1,7 +1,20 @@
 import { KCLinks } from "@/data/link";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 import Link from "next/link";
 
-export function HomeHeroBanner() {
+export async function HomeHeroBanner() {
+  const { env } = getCloudflareContext();
+
+  const counter = await env.KV.get([
+    "telegram_member_count",
+    "discord_member_count",
+    "facebook_member_count",
+  ]);
+
+  const telegramMemberCount = Number(counter.get("telegram_member_count") || 0);
+  const discordMemberCount = Number(counter.get("discord_member_count") || 0);
+  const facebookMemberCount = Number(counter.get("facebook_member_count") || 0);
+
   return (
     <section className="container mx-auto my-12 text-lg tracking-tight">
       <h1 className="font-retro text-5xl text-yellow-500 leading-12">
@@ -19,7 +32,12 @@ export function HomeHeroBanner() {
       <div className="flex gap-4 flex-wrap">
         <div className="border border-4 border-gray-400 border-double p-4 font-mono w-full md:w-auto">
           <div className="font-bold">Facebook Group</div>
-          <div>11,724</div>
+          <div>
+            {facebookMemberCount.toLocaleString(undefined, {
+              minimumFractionDigits: 0,
+              maximumFractionDigits: 0,
+            })}
+          </div>
           <Link
             target="_blank"
             href={KCLinks.facebookGroupLink}
@@ -31,7 +49,12 @@ export function HomeHeroBanner() {
 
         <div className="border border-4 border-gray-400 border-double p-4 font-mono w-full md:w-auto">
           <div className="font-bold">Telegram Group</div>
-          <div>1,297</div>
+          <div>
+            {telegramMemberCount.toLocaleString(undefined, {
+              minimumFractionDigits: 0,
+              maximumFractionDigits: 0,
+            })}
+          </div>
           <Link
             target="_blank"
             href={KCLinks.telegramLink}
@@ -43,7 +66,12 @@ export function HomeHeroBanner() {
 
         <div className="border border-4 border-gray-400 border-double p-4 font-mono w-full md:w-auto">
           <div className="font-bold">Discord Group</div>
-          <div>1,047</div>
+          <div>
+            {discordMemberCount.toLocaleString(undefined, {
+              minimumFractionDigits: 0,
+              maximumFractionDigits: 0,
+            })}
+          </div>
           <Link
             target="_blank"
             href={KCLinks.discordLink}
