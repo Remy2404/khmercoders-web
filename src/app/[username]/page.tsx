@@ -11,6 +11,8 @@ import { UserLevelBadge } from "@/components/user-level-badge";
 import crypto from "crypto";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 
+export const revalidate = 0;
+
 export async function generateMetadata({
   params,
 }: {
