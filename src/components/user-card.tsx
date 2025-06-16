@@ -6,7 +6,7 @@ export function UserCard({ user, profile }: UserCardProps) {
   return (
     <Link
       href={`/@${profile.alias}`}
-      className="flex gap-3 bg-zinc-950 p-3 rounded border border-zinc-600 border-2 cursor-pointer hover:border-yellow-700 transition-colors"
+      className="flex gap-3 bg-zinc-900 p-3 rounded hover:ring hover:ring-2 cursor-pointer transition-colors"
     >
       {user.image && (
         <img src={user.image} className="rounded-full w-16 h-16 shrink-0" />
