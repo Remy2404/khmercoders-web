@@ -12,11 +12,9 @@ export function UserCard({ user, profile }: UserCardProps) {
         <img src={user.image} className="rounded-full w-16 h-16 shrink-0" />
       )}
       <div className="flex flex-col justify-center">
-        <div className="text-sm">{user.name}</div>
-        <div className="text-sm text-gray-500 line-clamp-1">
-          {profile.title}
-        </div>
-        <div>
+        <div className="text-sm text-yellow-400">{user.name}</div>
+        <div className="text-xs line-clamp-1">{profile.title}</div>
+        <div className="mt-1">
           <UserLevelBadge level={user.level} />
         </div>
       </div>
