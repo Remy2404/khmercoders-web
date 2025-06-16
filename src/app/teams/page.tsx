@@ -1,10 +1,12 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Github, Twitter, Linkedin, Globe, Send } from "lucide-react";
+import { Github, Twitter, Linkedin, Globe } from "lucide-react";
 import { ITeamMember, UserLevel } from "@/types";
-import { foundingMembers, moderators, volunteers } from "@/data/teams";
+import { foundingMembers } from "@/data/teams";
 import { getUserFromLevels } from "@/libs/users";
 import { UserCard } from "@/components/user-card";
+
+export const revalidate = 0; // This disables static generation and makes the page dynamic
 
 export default async function TeamsPage() {
   const members = await getUserFromLevels([UserLevel.Moderator]);
