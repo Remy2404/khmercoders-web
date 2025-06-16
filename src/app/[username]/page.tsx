@@ -216,7 +216,7 @@ export default async function UserProfilePage({
             ))}
           </div>
         </div>
-        <div className="max-w-[400px] text-sm hidden lg:block">
+        <div className="w-[400px] shrink-0 text-sm hidden lg:block">
           <div className="border border-4 border-gray-500 p-2 rounded-lg text-gray-400">
             <div className="relative h-32 mb-2 overflow-hidden rounded">
               <img
