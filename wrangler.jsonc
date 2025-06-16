@@ -40,5 +40,11 @@
       "binding": "KV",
       "id": "4a1cb635d683447c8b90a31a7e2c08e0"
     }
+  ],
+  "analytics_engine_datasets": [
+    {
+      "binding": "PROFILE_ANALYTICS",
+      "dataset": "profile_analytics"
+    }
   ]
 }

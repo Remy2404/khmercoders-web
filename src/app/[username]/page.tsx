@@ -6,8 +6,10 @@ import { desc, eq } from "drizzle-orm";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
+import { headers } from "next/headers";
 import { UserLevelBadge } from "@/components/user-level-badge";
-import { UserLevel } from "@/types";
+import crypto from "crypto";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 
 export async function generateMetadata({
   params,
@@ -94,6 +96,38 @@ export default async function UserProfilePage({
     .from(schema.workExperience)
     .where(eq(schema.workExperience.userId, profile.user.id))
     .orderBy(desc(schema.workExperience.startYear));
+
+  const { cf, env } = getCloudflareContext();
+  const headerContext = await headers();
+
+  if (cf && headerContext && env.PROFILE_ANALYTICS) {
+    const countryCode = cf.country;
+    const deviceType = headerContext.get("cf-device-type") || "unknown";
+    const path = headerContext.get("x-url") || "";
+    const referer = headerContext.get("referer") || "";
+
+    const ipAddress =
+      headerContext.get("cf-connecting-ip") ||
+      headerContext.get("x-forwarded-for") ||
+      "unknown";
+
+    const uniqueSessionId = crypto
+      .createHash("sha1")
+      .update(ipAddress)
+      .digest("hex");
+
+    env.PROFILE_ANALYTICS.writeDataPoint({
+      indexes: [profile.user.id],
+      blobs: [
+        "pageview", // blob1, event type
+        countryCode || "", // blob2
+        deviceType, // blob3
+        uniqueSessionId, // blob4
+        referer, // blob5
+        path, // blob6
+      ],
+    });
+  }
 
   return (
     <>
