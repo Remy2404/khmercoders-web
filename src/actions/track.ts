@@ -4,7 +4,13 @@ import crypto from "crypto";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { headers } from "next/headers";
 
-export async function trackProfileVisitAction({ userId }: { userId: string }) {
+export async function trackProfileVisitAction({
+  userId,
+  referrer,
+}: {
+  userId: string;
+  referrer?: string;
+}) {
   const { cf, env } = getCloudflareContext();
   const headerContext = await headers();
 
@@ -12,8 +18,6 @@ export async function trackProfileVisitAction({ userId }: { userId: string }) {
     const countryCode = cf.country;
     const deviceType = headerContext.get("cf-device-type") || "unknown";
     const path = headerContext.get("x-url") || "";
-    const referer = headerContext.get("referer") || "";
-
     const ipAddress =
       headerContext.get("cf-connecting-ip") ||
       headerContext.get("x-forwarded-for") ||
@@ -31,7 +35,7 @@ export async function trackProfileVisitAction({ userId }: { userId: string }) {
         countryCode || "", // blob2
         deviceType, // blob3
         uniqueSessionId, // blob4
-        referer, // blob5
+        referrer || "", // blob5
         path, // blob6
       ],
     });

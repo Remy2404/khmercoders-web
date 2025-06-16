@@ -4,7 +4,11 @@ import { useEffect } from "react";
 
 export function ProfileTrackingComponent({ userId }: { userId: string }) {
   useEffect(() => {
-    trackProfileVisitAction({ userId }).then().catch();
+    if (typeof window === "undefined" || !userId) {
+      trackProfileVisitAction({ userId, referrer: window.document.referrer })
+        .then()
+        .catch();
+    }
   }, [userId]);
 
   return null;
