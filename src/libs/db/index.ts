@@ -21,4 +21,3 @@ export const getDB = async () => {
 
   return db;
 };
-
