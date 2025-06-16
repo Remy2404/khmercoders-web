@@ -5,7 +5,7 @@ export function ProfileTrackingComponent({ userId }: { userId: string }) {
   "use client";
 
   useEffect(() => {
-    trackProfileVisitAction({ userId }).then();
+    trackProfileVisitAction({ userId }).then().catch();
   }, [userId]);
 
   return null;

@@ -7,6 +7,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import { UserLevelBadge } from "@/components/user-level-badge";
+import { ProfileTrackingComponent } from "./tracker";
 
 export async function generateMetadata({
   params,
@@ -96,6 +97,7 @@ export default async function UserProfilePage({
 
   return (
     <>
+      <ProfileTrackingComponent userId={profile.user.id} />
       <div className="relative border-b border-gray-600">
         <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,#f59e0b1a_1px,transparent_1px),linear-gradient(to_bottom,#f59e0b1a_1px,transparent_1px)] bg-[size:35px_34px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
         <div className="container relative z-10 mx-auto py-4 px-4 flex gap-3">
