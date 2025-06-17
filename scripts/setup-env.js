@@ -26,6 +26,7 @@ const updateEnvFile = () => {
 BETTER_AUTH_URL=http://localhost:3000
 GITHUB_CLIENT_ID=
 GITHUB_CLIENT_SECRET=
+WAE_TOKEN=
 `;
 
     // Write the content to .env file (only if it doesn't exist)
