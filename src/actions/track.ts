@@ -11,7 +11,7 @@ export async function trackProfileVisitAction({
   userId: string;
   referrer?: string;
 }) {
-  const { cf, env } = getCloudflareContext();
+  const { cf, env } = await getCloudflareContext({ async: true });
   const headerContext = await headers();
 
   if (cf && headerContext && env.PROFILE_ANALYTICS) {
