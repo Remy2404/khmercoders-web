@@ -1,12 +1,31 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import { Calendar, MapPin, Clock, Users } from "lucide-react";
+import { useMemo, useState } from "react";
 
 import { Badge } from "@/components/generated/badge";
 import { type EventData, eventsDatabase } from "@/data/events";
 
-export default async function EventsPage() {
-  const eventsReversed = [...eventsDatabase].reverse();
+const LOCATION_CHIPS = ["All", "Phnom Penh", "Siem Reap"];
+
+function getEventLocationGroup(location?: string): "Phnom Penh" | "Siem Reap" {
+  if (!location) return "Phnom Penh";
+  return location.toLowerCase().includes("siem reap") ? "Siem Reap" : "Phnom Penh";
+}
+
+export default function EventsPage() {
+  const [selectedLocation, setSelectedLocation] = useState<string>("All");
+
+  const eventsReversed = useMemo(() => [...eventsDatabase].reverse(), []);
+
+  const filteredEvents = useMemo(() => {
+    if (selectedLocation === "All") return eventsReversed;
+    return eventsReversed.filter(
+      (event) => getEventLocationGroup(event.location) === selectedLocation
+    );
+  }, [selectedLocation, eventsReversed]);
 
   return (
     <main className="container mx-auto px-4 pb-20">
@@ -17,8 +36,26 @@ export default async function EventsPage() {
           <div className="h-px bg-gray-800 flex-grow"></div>
         </div>
 
+        {/* Location Filter Chips */}
+        <div className="flex flex-wrap gap-2 justify-start mb-8">
+          {LOCATION_CHIPS.map((loc) => (
+            <button
+              key={loc}
+              className={`px-4 py-1 rounded-full border transition-colors text-sm font-medium
+                ${selectedLocation === loc
+                  ? "bg-yellow-500 text-black border-yellow-500"
+                  : "bg-gray-800 text-gray-200 border-gray-700 hover:bg-yellow-700 hover:text-black hover:border-yellow-700"}
+              `}
+              onClick={() => setSelectedLocation(loc)}
+              type="button"
+            >
+              {loc}
+            </button>
+          ))}
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {eventsReversed.map((event) => (
+          {filteredEvents.map((event) => (
             <EventCard key={event.id} event={event} />
           ))}
         </div>
