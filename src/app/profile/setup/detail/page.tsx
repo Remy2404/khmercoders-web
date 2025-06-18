@@ -249,7 +249,7 @@ export default function ProfileSetupDetailPage() {
             <p className="text-sm text-muted-foreground">
               Your professional title or current position.
             </p>
-          </div>{" "}
+          </div>
           <div className="space-y-2">
             <label htmlFor="bio" className="text-sm font-medium">
               Bio
