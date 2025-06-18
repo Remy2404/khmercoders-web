@@ -30,7 +30,7 @@ export const Navbar = () => {
               </button>
             </SheetTrigger>
             <SheetContent
-              side="left"
+              side="right"
               className="w-[280px] border-0 border-amber-500/30 bg-black/95 backdrop-blur-md [&>button]:hidden"
             >
               <div className="flex flex-col h-full">

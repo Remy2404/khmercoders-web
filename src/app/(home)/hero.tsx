@@ -17,7 +17,7 @@ export async function HomeHeroBanner() {
 
   return (
     <section className="container mx-auto my-12 text-lg tracking-tight">
-      <h1 className="font-retro text-5xl text-yellow-500 leading-12">
+      <h1 className="font-retro text-5xl md:text-6xl lg:text-7xl text-yellow-500 leading-[1.1]">
         Cambodia's Largest
         <br />
         Coding Community
