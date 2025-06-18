@@ -211,14 +211,16 @@ export default async function UserProfilePage({
                     <span className="text-yellow-400">{exp.companyName}</span> (
                     {exp.startYear} - {exp.endYear ? exp.endYear : "Present"})
                   </p>
-                  <p className="text-sm text-gray-400">{exp.description}</p>
+                  <p className="text-sm text-gray-400 whitespace-pre-line">
+                    {exp.description}
+                  </p>
                 </div>
               </div>
             ))}
           </div>
         </div>
         <div className="w-[400px] shrink-0 text-sm hidden lg:block">
-          <div className="border border-4 border-gray-500 p-2 rounded-lg text-gray-400">
+          <div className="border-4 border-gray-500 p-2 rounded-lg text-gray-400">
             <div className="relative h-32 mb-2 overflow-hidden rounded">
               <img
                 src="/kc-banner.png"

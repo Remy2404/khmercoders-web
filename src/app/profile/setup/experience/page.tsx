@@ -21,7 +21,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/generated/alert-dialog";
-import { useCallback, useEffect, useId, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Checkbox } from "@/components/generated/checkbox";
 import {
   createExperienceAction,
@@ -37,6 +37,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/generated/dropdown-menu";
+import { cn } from "@/utils";
 
 export default function ProfileSetupExperiencePage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -52,6 +53,13 @@ export default function ProfileSetupExperiencePage() {
   >(null);
   // Track which dropdown is currently open to manage UI state properly
   const [openDropdownId, setOpenDropdownId] = useState<string | null>(null);
+  const [expandedExperienceId, setExpandedExperienceId] = useState<
+    string | null
+  >();
+
+  const toggleExperienceDetails = (id: string) => {
+    setExpandedExperienceId((prev) => (prev === id ? null : id));
+  };
 
   const handleCloseDialog = () => {
     setIsDialogOpen(false);
@@ -205,17 +213,38 @@ export default function ProfileSetupExperiencePage() {
                       <div className="text-sm text-amber-500">
                         {experience.companyName}
                       </div>
-                      <div className="text-xs text-muted-foreground mt-2 line-clamp-3">
+                      <div
+                        className={cn(
+                          "text-xs text-muted-foreground mt-2",
+                          expandedExperienceId === experience.id
+                            ? ""
+                            : "line-clamp-3"
+                        )}
+                      >
                         {experience.description ? (
-                          <span>{experience.description}</span>
+                          <span className="whitespace-pre-line">
+                            {experience.description}
+                          </span>
                         ) : (
                           "No description provided"
                         )}
                       </div>
+                      {experience.description &&
+                        experience.description.split(/\r?\n/).length > 3 && (
+                          <button
+                            className="text-blue-500 hover:text-blue-700 hover:underline font-medium text-xs"
+                            onClick={() =>
+                              toggleExperienceDetails(experience.id)
+                            }
+                          >
+                            {expandedExperienceId === experience.id
+                              ? "Show less"
+                              : "Show more"}
+                          </button>
+                        )}
                     </td>
                     <td className="py-2 px-4 text-right align-top">
                       <div className="flex justify-end gap-2">
-                        {" "}
                         <div className="relative">
                           <DropdownMenu
                             open={openDropdownId === experience.id}
@@ -278,7 +307,7 @@ export default function ProfileSetupExperiencePage() {
             </table>
           </div>
         )}
-      </div>{" "}
+      </div>
       {isDialogOpen && (
         <ProfileSetupExperienceDialog
           initialData={
