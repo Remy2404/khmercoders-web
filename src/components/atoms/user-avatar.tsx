@@ -54,6 +54,12 @@ export function UserAvatar() {
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
+          <Link href={"/profile/insight"} className="cursor-pointer">
+            <User className="mr-2 h-4 w-4" />
+            Profile Insight
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
           <Link href="/profile/setup" className="cursor-pointer">
             <Settings className="mr-2 h-4 w-4" />
             Settings

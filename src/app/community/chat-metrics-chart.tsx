@@ -8,19 +8,9 @@ import {
   Legend,
   Tooltip,
   XAxis,
-  YAxis,
   ResponsiveContainer,
-  Dot,
 } from "recharts";
 import { format, parseISO } from "date-fns";
-
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/generated/card";
 import { ChartContainer } from "@/components/generated/chart";
 import { ChatMetric } from "@/libs/db/chatbot";
 
