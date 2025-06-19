@@ -127,6 +127,19 @@ export const POST = withApiAuth(
         })
         .where(eq(schema.user.id, user.id));
 
+      // Record the upload in the user_upload table
+      const uploadId = uuidv4();
+      await db.insert(schema.userUpload).values({
+        id: uploadId,
+        userId: user.id, // Use the authenticated user's ID
+        fileName: fileName,
+        fileType: useWebP ? "image/webp" : file.type,
+        fileSize: file.size,
+        fileUrl: finalPath,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      });
+
       // Return the URL and path of the uploaded file
       return NextResponse.json({
         success: true,
