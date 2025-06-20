@@ -10,6 +10,7 @@ import {
   CardTitle,
 } from "@/components/generated/card";
 import { useSession } from "@/components/auth-provider";
+import { formatSize } from "@/utils/format";
 
 export default function ProfileSetupPage() {
   const { session } = useSession();
@@ -23,8 +24,7 @@ export default function ProfileSetupPage() {
           <Card>
             <CardHeader>
               <CardTitle>
-                {((session?.user?.storageUsed ?? 0) / 1073741824).toFixed(5)}GB
-                / 1GB
+                {formatSize(session?.user?.storageUsed ?? 0)}/ 1GB
               </CardTitle>
               <CardDescription>Storage Usage</CardDescription>
             </CardHeader>
