@@ -24,7 +24,7 @@ export default function ProfileSetupPage() {
           <Card>
             <CardHeader>
               <CardTitle>
-                {formatSize(session?.user?.storageUsed ?? 0)}/ 1GB
+                {formatSize(session?.user?.storageUsed ?? 0)} / 1GB
               </CardTitle>
               <CardDescription>Storage Usage</CardDescription>
             </CardHeader>
