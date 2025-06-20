@@ -18,6 +18,9 @@ export const user = sqliteTable("user", {
     .notNull()
     .default(UserLevel.Regular)
     .$type<UserLevel>(),
+
+  // Storage usages
+  storageUsed: integer("storage_used").notNull().default(0),
 });
 
 export const session = sqliteTable("session", {
