@@ -81,7 +81,7 @@ function InsightSection({ insight }: { insight: ProfileInsight }) {
 
       {/* Chart Section */}
       <ChartContainer config={chartConfig} className="h-[300px] w-full">
-        <ResponsiveContainer width={"100%"}>
+        <ResponsiveContainer height={"100%"} width={"100%"}>
           <AreaChart data={chartData}>
             <defs>
               <linearGradient id="page_view" x1="0" y1="0" x2="0" y2="1">
