@@ -10,6 +10,7 @@ drizzle
 # Ignore all JSON files:
 *.json
 *.jsonc
+*.js
 package-lock.json
 
 # Ignore all markdown files:
@@ -18,3 +19,6 @@ package-lock.json
 # Ignore specific config files:
 next.config.mjs
 tailwind.config.ts
+cloudflare-env.d.ts
+
+src/components/generated

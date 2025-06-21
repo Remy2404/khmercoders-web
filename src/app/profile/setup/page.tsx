@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { ChevronRight, AtSign, User, Briefcase, Image } from "lucide-react";
+import Link from 'next/link';
+import { ChevronRight, AtSign, User, Briefcase, Image } from 'lucide-react';
 import {
   Card,
   CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/generated/card";
-import { useSession } from "@/components/auth-provider";
-import { formatSize } from "@/utils/format";
+} from '@/components/generated/card';
+import { useSession } from '@/components/auth-provider';
+import { formatSize } from '@/utils/format';
 
 export default function ProfileSetupPage() {
   const { session } = useSession();
@@ -23,9 +23,7 @@ export default function ProfileSetupPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
           <Card>
             <CardHeader>
-              <CardTitle>
-                {formatSize(session?.user?.storageUsed ?? 0)} / 1GB
-              </CardTitle>
+              <CardTitle>{formatSize(session?.user?.storageUsed ?? 0)} / 1GB</CardTitle>
               <CardDescription>Storage Usage</CardDescription>
             </CardHeader>
             <CardFooter>
@@ -39,8 +37,7 @@ export default function ProfileSetupPage() {
         </div>
 
         <p className="text-muted-foreground mb-8">
-          Complete your profile information to get the most out of KhmerCoders
-          platform.
+          Complete your profile information to get the most out of KhmerCoders platform.
         </p>
 
         <div className="space-y-4">
@@ -54,9 +51,7 @@ export default function ProfileSetupPage() {
                   </div>
                   <div>
                     <h3 className="font-medium text-lg">Setup Alias</h3>
-                    <p className="text-muted-foreground">
-                      Choose your unique username alias
-                    </p>
+                    <p className="text-muted-foreground">Choose your unique username alias</p>
                   </div>
                 </div>
                 <ChevronRight className="h-5 w-5 text-muted-foreground" />
@@ -74,9 +69,7 @@ export default function ProfileSetupPage() {
                   </div>
                   <div>
                     <h3 className="font-medium text-lg">Profile Details</h3>
-                    <p className="text-muted-foreground">
-                      Update your personal information
-                    </p>
+                    <p className="text-muted-foreground">Update your personal information</p>
                   </div>
                 </div>
                 <ChevronRight className="h-5 w-5 text-muted-foreground" />
@@ -94,9 +87,7 @@ export default function ProfileSetupPage() {
                   </div>
                   <div>
                     <h3 className="font-medium text-lg">Working Experience</h3>
-                    <p className="text-muted-foreground">
-                      Add your work history and skills
-                    </p>
+                    <p className="text-muted-foreground">Add your work history and skills</p>
                   </div>
                 </div>
                 <ChevronRight className="h-5 w-5 text-muted-foreground" />
@@ -114,9 +105,7 @@ export default function ProfileSetupPage() {
                   </div>
                   <div>
                     <h3 className="font-medium text-lg">Profile Picture</h3>
-                    <p className="text-muted-foreground">
-                      Upload or update your profile photo
-                    </p>
+                    <p className="text-muted-foreground">Upload or update your profile photo</p>
                   </div>
                 </div>
                 <ChevronRight className="h-5 w-5 text-muted-foreground" />

@@ -1,14 +1,11 @@
-import { getDB } from "@/libs/db";
-import { auth } from "@/utils/auth";
-import { eq } from "drizzle-orm";
-import { headers } from "next/headers";
-import * as schema from "@/libs/db/schema";
-import { DrizzleD1Database } from "drizzle-orm/d1";
+import { getDB } from '@/libs/db';
+import { auth } from '@/utils/auth';
+import { eq } from 'drizzle-orm';
+import { headers } from 'next/headers';
+import * as schema from '@/libs/db/schema';
+import { DrizzleD1Database } from 'drizzle-orm/d1';
 
-export function withAuthAction<
-  ParamsType extends unknown[] = unknown[],
-  ReturnType = unknown
->(
+export function withAuthAction<ParamsType extends unknown[] = unknown[], ReturnType = unknown>(
   callback: (
     auth: {
       profile?: typeof schema.memberProfile.$inferSelect;
@@ -24,7 +21,7 @@ export function withAuthAction<
       headers: await headers(),
     });
 
-    if (!session) throw new Error("Unauthorized");
+    if (!session) throw new Error('Unauthorized');
 
     const db = await getDB();
     const profile = await db.query.memberProfile.findFirst({

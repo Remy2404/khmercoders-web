@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { useState, useRef } from "react";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { Upload, ImageIcon, Loader2, X, Check } from "lucide-react";
-import { useSession } from "@/components/auth-provider";
-import { useToast } from "@/hooks/use-toast";
+import { useState, useRef } from 'react';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { Upload, ImageIcon, Loader2, X, Check } from 'lucide-react';
+import { useSession } from '@/components/auth-provider';
+import { useToast } from '@/hooks/use-toast';
 import {
   Card,
   CardContent,
@@ -13,8 +13,8 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/generated/card";
-import { Button } from "@/components/generated/button";
+} from '@/components/generated/card';
+import { Button } from '@/components/generated/button';
 
 export default function ProfileSetupPicturePage() {
   const router = useRouter();
@@ -35,11 +35,11 @@ export default function ProfileSetupPicturePage() {
     if (!file) return;
 
     // Validate file type
-    if (!file.type.startsWith("image/")) {
+    if (!file.type.startsWith('image/')) {
       toast({
-        title: "Invalid file type",
-        description: "Please select an image file.",
-        variant: "destructive",
+        title: 'Invalid file type',
+        description: 'Please select an image file.',
+        variant: 'destructive',
       });
       return;
     }
@@ -47,9 +47,9 @@ export default function ProfileSetupPicturePage() {
     // Validate file size (5MB max)
     if (file.size > 5 * 1024 * 1024) {
       toast({
-        title: "File too large",
-        description: "Image must be less than 5MB.",
-        variant: "destructive",
+        title: 'File too large',
+        description: 'Image must be less than 5MB.',
+        variant: 'destructive',
       });
       return;
     }
@@ -71,19 +71,19 @@ export default function ProfileSetupPicturePage() {
 
       // Create form data
       const formData = new FormData();
-      formData.append("file", selectedFile);
+      formData.append('file', selectedFile);
 
       // Simulate progress for better UX
       const progressInterval = setInterval(() => {
-        setUploadProgress((prev) => {
+        setUploadProgress(prev => {
           const nextProgress = prev + Math.random() * 15;
           return nextProgress >= 90 ? 90 : nextProgress;
         });
       }, 300);
 
       // Upload the image
-      const response = await fetch("/api/upload/profile", {
-        method: "POST",
+      const response = await fetch('/api/upload/profile', {
+        method: 'POST',
         body: formData,
       });
 
@@ -91,14 +91,14 @@ export default function ProfileSetupPicturePage() {
 
       if (!response.ok) {
         const errorData = (await response.json()) as { error?: string };
-        throw new Error(errorData.error || "Failed to upload image");
+        throw new Error(errorData.error || 'Failed to upload image');
       }
 
       setUploadProgress(100);
 
       toast({
-        title: "Profile picture updated",
-        description: "Your profile picture has been updated successfully.",
+        title: 'Profile picture updated',
+        description: 'Your profile picture has been updated successfully.',
       });
 
       // Clear the selected file
@@ -110,12 +110,11 @@ export default function ProfileSetupPicturePage() {
         router.refresh();
       }, 1000);
     } catch (error) {
-      console.error("Upload error:", error);
+      console.error('Upload error:', error);
       toast({
-        title: "Upload failed",
-        description:
-          error instanceof Error ? error.message : "Failed to upload image",
-        variant: "destructive",
+        title: 'Upload failed',
+        description: error instanceof Error ? error.message : 'Failed to upload image',
+        variant: 'destructive',
       });
     } finally {
       setIsUploading(false);
@@ -130,7 +129,7 @@ export default function ProfileSetupPicturePage() {
 
     // Reset the file input
     if (fileInputRef.current) {
-      fileInputRef.current.value = "";
+      fileInputRef.current.value = '';
     }
   };
 
@@ -146,8 +145,8 @@ export default function ProfileSetupPicturePage() {
           <CardHeader>
             <CardTitle>Upload Profile Picture</CardTitle>
             <CardDescription>
-              Choose an image to represent you on the platform. The image will
-              be resized to 512x512 pixels.
+              Choose an image to represent you on the platform. The image will be resized to 512x512
+              pixels.
             </CardDescription>
           </CardHeader>
 
@@ -180,10 +179,7 @@ export default function ProfileSetupPicturePage() {
               {uploadProgress > 0 && uploadProgress < 100 && (
                 <div className="w-full max-w-xs">
                   <div className="h-2 w-full bg-muted rounded-full overflow-hidden">
-                    <div
-                      className="h-full bg-primary"
-                      style={{ width: `${uploadProgress}%` }}
-                    />
+                    <div className="h-full bg-primary" style={{ width: `${uploadProgress}%` }} />
                   </div>
                   <p className="text-xs text-muted-foreground mt-1 text-center">
                     Uploading: {Math.round(uploadProgress)}%
@@ -244,7 +240,7 @@ export default function ProfileSetupPicturePage() {
           <CardFooter className="flex justify-between">
             <Button
               variant="outline"
-              onClick={() => router.push("/profile/setup")}
+              onClick={() => router.push('/profile/setup')}
               disabled={isUploading}
             >
               Cancel
@@ -255,12 +251,8 @@ export default function ProfileSetupPicturePage() {
               disabled={!selectedFile || isUploading}
               className="min-w-[100px]"
             >
-              {isUploading ? (
-                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-              ) : (
-                <></>
-              )}
-              {isUploading ? "Uploading..." : "Upload"}
+              {isUploading ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <></>}
+              {isUploading ? 'Uploading...' : 'Upload'}
             </Button>
           </CardFooter>
         </Card>

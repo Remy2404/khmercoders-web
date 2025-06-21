@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/generated/button";
+import { Button } from '@/components/generated/button';
 import {
   Card,
   CardContent,
@@ -8,14 +8,14 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/generated/card";
-import { Input } from "@/components/generated/input";
-import { Textarea } from "@/components/generated/textarea";
-import { useSession } from "@/components/auth-provider";
-import { useRouter } from "next/navigation";
-import { useToast } from "@/hooks/use-toast";
-import { useState, useCallback } from "react";
-import { updateUserProfileAction } from "@/actions/users";
+} from '@/components/generated/card';
+import { Input } from '@/components/generated/input';
+import { Textarea } from '@/components/generated/textarea';
+import { useSession } from '@/components/auth-provider';
+import { useRouter } from 'next/navigation';
+import { useToast } from '@/hooks/use-toast';
+import { useState, useCallback } from 'react';
+import { updateUserProfileAction } from '@/actions/users';
 
 export default function ProfileSetupDetailPage() {
   const { session, profile } = useSession();
@@ -23,79 +23,79 @@ export default function ProfileSetupDetailPage() {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   // Form state using useState hooks
-  const [name, setName] = useState(session?.user.name || "");
-  const [title, setTitle] = useState(profile?.title || "");
-  const [bio, setBio] = useState(profile?.bio || "");
-  const [websiteUrl, setWebsiteUrl] = useState(profile?.websiteUrl || "");
-  const [telegramUrl, setTelegramUrl] = useState(profile?.telegramUrl || "");
-  const [githubUrl, setGithubUrl] = useState(profile?.githubUrl || "");
-  const [facebookUrl, setFacebookUrl] = useState(profile?.facebookUrl || "");
-  const [xUrl, setXUrl] = useState(profile?.xUrl || "");
-  const [tiktokUrl, setTiktokUrl] = useState(profile?.tiktokUrl || "");
-  const [instagramUrl, setInstagramUrl] = useState(profile?.instagramUrl || "");
-  const [linkedinUrl, setLinkedinUrl] = useState(profile?.linkedinUrl || "");
-  const [youtubeUrl, setYoutubeUrl] = useState(profile?.youtubeUrl || "");
+  const [name, setName] = useState(session?.user.name || '');
+  const [title, setTitle] = useState(profile?.title || '');
+  const [bio, setBio] = useState(profile?.bio || '');
+  const [websiteUrl, setWebsiteUrl] = useState(profile?.websiteUrl || '');
+  const [telegramUrl, setTelegramUrl] = useState(profile?.telegramUrl || '');
+  const [githubUrl, setGithubUrl] = useState(profile?.githubUrl || '');
+  const [facebookUrl, setFacebookUrl] = useState(profile?.facebookUrl || '');
+  const [xUrl, setXUrl] = useState(profile?.xUrl || '');
+  const [tiktokUrl, setTiktokUrl] = useState(profile?.tiktokUrl || '');
+  const [instagramUrl, setInstagramUrl] = useState(profile?.instagramUrl || '');
+  const [linkedinUrl, setLinkedinUrl] = useState(profile?.linkedinUrl || '');
+  const [youtubeUrl, setYoutubeUrl] = useState(profile?.youtubeUrl || '');
 
   // Validation errors
   const [errors, setErrors] = useState({
-    name: "",
-    title: "",
-    bio: "",
-    websiteUrl: "",
-    telegramUrl: "",
-    githubUrl: "",
-    facebookUrl: "",
-    xUrl: "",
-    tiktokUrl: "",
-    instagramUrl: "",
-    linkedinUrl: "",
-    youtubeUrl: "",
+    name: '',
+    title: '',
+    bio: '',
+    websiteUrl: '',
+    telegramUrl: '',
+    githubUrl: '',
+    facebookUrl: '',
+    xUrl: '',
+    tiktokUrl: '',
+    instagramUrl: '',
+    linkedinUrl: '',
+    youtubeUrl: '',
   });
   // Validate form data using useCallback
   const validateForm = useCallback(() => {
     let valid = true;
     const newErrors = {
-      name: "",
-      title: "",
-      bio: "",
-      websiteUrl: "",
-      telegramUrl: "",
-      githubUrl: "",
-      facebookUrl: "",
-      xUrl: "",
-      tiktokUrl: "",
-      instagramUrl: "",
-      linkedinUrl: "",
-      youtubeUrl: "",
+      name: '',
+      title: '',
+      bio: '',
+      websiteUrl: '',
+      telegramUrl: '',
+      githubUrl: '',
+      facebookUrl: '',
+      xUrl: '',
+      tiktokUrl: '',
+      instagramUrl: '',
+      linkedinUrl: '',
+      youtubeUrl: '',
     };
 
     // Validate name
     if (name.trim().length < 2) {
-      newErrors.name = "Name must be at least 2 characters";
+      newErrors.name = 'Name must be at least 2 characters';
       valid = false;
     } else if (name.trim().length > 50) {
-      newErrors.name = "Name must be less than 50 characters";
+      newErrors.name = 'Name must be less than 50 characters';
       valid = false;
     }
 
     // Validate title
     if (title && title.trim().length > 100) {
-      newErrors.title = "Title must be less than 100 characters";
+      newErrors.title = 'Title must be less than 100 characters';
       valid = false;
     }
 
     // Validate bio
     if (bio && bio.trim().length > 500) {
-      newErrors.bio = "Bio must be less than 500 characters";
+      newErrors.bio = 'Bio must be less than 500 characters';
       valid = false;
     }
 
     // Simple URL validation for social media links
     const validateUrl = (url: string) => {
-      if (url && !url.startsWith("http://") && !url.startsWith("https://")) {
-        return "URL must start with http:// or https://";
+      if (url && !url.startsWith('http://') && !url.startsWith('https://')) {
+        return 'URL must start with http:// or https://';
       }
-      return "";
+      return '';
     };
 
     // Validate social media URLs if provided
@@ -110,7 +110,7 @@ export default function ProfileSetupDetailPage() {
     if (youtubeUrl) newErrors.youtubeUrl = validateUrl(youtubeUrl);
 
     // Check if any URL validation failed
-    if (Object.values(newErrors).some((error) => error !== "")) {
+    if (Object.values(newErrors).some(error => error !== '')) {
       valid = false;
     }
 
@@ -156,7 +156,7 @@ export default function ProfileSetupDetailPage() {
 
       if (result.success) {
         toast({
-          title: "Success",
+          title: 'Success',
           description: result.message,
         });
 
@@ -164,20 +164,20 @@ export default function ProfileSetupDetailPage() {
         if (profile?.alias) {
           router.push(`/@${profile.alias}`);
         } else {
-          router.push("/profile");
+          router.push('/profile');
         }
       } else {
         toast({
-          title: "Error",
+          title: 'Error',
           description: result.message,
-          variant: "destructive",
+          variant: 'destructive',
         });
       }
     } catch (error) {
       toast({
-        title: "Error",
-        description: "An unexpected error occurred. Please try again later.",
-        variant: "destructive",
+        title: 'Error',
+        description: 'An unexpected error occurred. Please try again later.',
+        variant: 'destructive',
       });
     } finally {
       setIsSubmitting(false);
@@ -211,8 +211,7 @@ export default function ProfileSetupDetailPage() {
         <CardHeader>
           <CardTitle>Complete Your Profile</CardTitle>
           <CardDescription>
-            Tell us more about yourself. This information will be displayed on
-            your public profile.
+            Tell us more about yourself. This information will be displayed on your public profile.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
@@ -224,14 +223,10 @@ export default function ProfileSetupDetailPage() {
               id="name"
               placeholder="Your name"
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={e => setName(e.target.value)}
             />
-            {errors.name && (
-              <p className="text-sm text-red-500">{errors.name}</p>
-            )}
-            <p className="text-sm text-muted-foreground">
-              This is your public display name.
-            </p>
+            {errors.name && <p className="text-sm text-red-500">{errors.name}</p>}
+            <p className="text-sm text-muted-foreground">This is your public display name.</p>
           </div>
           <div className="space-y-2">
             <label htmlFor="title" className="text-sm font-medium">
@@ -241,11 +236,9 @@ export default function ProfileSetupDetailPage() {
               id="title"
               placeholder="e.g. Full Stack Developer at Company"
               value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              onChange={e => setTitle(e.target.value)}
             />
-            {errors.title && (
-              <p className="text-sm text-red-500">{errors.title}</p>
-            )}
+            {errors.title && <p className="text-sm text-red-500">{errors.title}</p>}
             <p className="text-sm text-muted-foreground">
               Your professional title or current position.
             </p>
@@ -259,12 +252,11 @@ export default function ProfileSetupDetailPage() {
               placeholder="Tell us about yourself, your skills, experiences, and interests..."
               className="min-h-[120px]"
               value={bio}
-              onChange={(e) => setBio(e.target.value)}
+              onChange={e => setBio(e.target.value)}
             />
             {errors.bio && <p className="text-sm text-red-500">{errors.bio}</p>}
             <p className="text-sm text-muted-foreground">
-              A brief introduction about yourself. This will be displayed on
-              your profile.
+              A brief introduction about yourself. This will be displayed on your profile.
             </p>
           </div>
           <div className="border-t pt-4">
@@ -279,11 +271,9 @@ export default function ProfileSetupDetailPage() {
                     id="websiteUrl"
                     placeholder="https://yourwebsite.com"
                     value={websiteUrl}
-                    onChange={(e) => setWebsiteUrl(e.target.value)}
+                    onChange={e => setWebsiteUrl(e.target.value)}
                   />
-                  {errors.websiteUrl && (
-                    <p className="text-sm text-red-500">{errors.websiteUrl}</p>
-                  )}
+                  {errors.websiteUrl && <p className="text-sm text-red-500">{errors.websiteUrl}</p>}
                 </div>
 
                 <div className="space-y-2">
@@ -294,7 +284,7 @@ export default function ProfileSetupDetailPage() {
                     id="linkedinUrl"
                     placeholder="https://linkedin.com/in/yourusername"
                     value={linkedinUrl}
-                    onChange={(e) => setLinkedinUrl(e.target.value)}
+                    onChange={e => setLinkedinUrl(e.target.value)}
                   />
                   {errors.linkedinUrl && (
                     <p className="text-sm text-red-500">{errors.linkedinUrl}</p>
@@ -309,11 +299,9 @@ export default function ProfileSetupDetailPage() {
                     id="githubUrl"
                     placeholder="https://github.com/yourusername"
                     value={githubUrl}
-                    onChange={(e) => setGithubUrl(e.target.value)}
+                    onChange={e => setGithubUrl(e.target.value)}
                   />
-                  {errors.githubUrl && (
-                    <p className="text-sm text-red-500">{errors.githubUrl}</p>
-                  )}
+                  {errors.githubUrl && <p className="text-sm text-red-500">{errors.githubUrl}</p>}
                 </div>
 
                 <div className="space-y-2">
@@ -324,7 +312,7 @@ export default function ProfileSetupDetailPage() {
                     id="telegramUrl"
                     placeholder="https://t.me/yourusername"
                     value={telegramUrl}
-                    onChange={(e) => setTelegramUrl(e.target.value)}
+                    onChange={e => setTelegramUrl(e.target.value)}
                   />
                   {errors.telegramUrl && (
                     <p className="text-sm text-red-500">{errors.telegramUrl}</p>
@@ -339,11 +327,9 @@ export default function ProfileSetupDetailPage() {
                     id="xUrl"
                     placeholder="https://x.com/yourusername"
                     value={xUrl}
-                    onChange={(e) => setXUrl(e.target.value)}
+                    onChange={e => setXUrl(e.target.value)}
                   />
-                  {errors.xUrl && (
-                    <p className="text-sm text-red-500">{errors.xUrl}</p>
-                  )}
+                  {errors.xUrl && <p className="text-sm text-red-500">{errors.xUrl}</p>}
                 </div>
 
                 <div className="space-y-2">
@@ -354,7 +340,7 @@ export default function ProfileSetupDetailPage() {
                     id="facebookUrl"
                     placeholder="https://facebook.com/yourusername"
                     value={facebookUrl}
-                    onChange={(e) => setFacebookUrl(e.target.value)}
+                    onChange={e => setFacebookUrl(e.target.value)}
                   />
                   {errors.facebookUrl && (
                     <p className="text-sm text-red-500">{errors.facebookUrl}</p>
@@ -369,12 +355,10 @@ export default function ProfileSetupDetailPage() {
                     id="instagramUrl"
                     placeholder="https://instagram.com/yourusername"
                     value={instagramUrl}
-                    onChange={(e) => setInstagramUrl(e.target.value)}
+                    onChange={e => setInstagramUrl(e.target.value)}
                   />
                   {errors.instagramUrl && (
-                    <p className="text-sm text-red-500">
-                      {errors.instagramUrl}
-                    </p>
+                    <p className="text-sm text-red-500">{errors.instagramUrl}</p>
                   )}
                 </div>
 
@@ -386,11 +370,9 @@ export default function ProfileSetupDetailPage() {
                     id="youtubeUrl"
                     placeholder="https://youtube.com/@yourchannel"
                     value={youtubeUrl}
-                    onChange={(e) => setYoutubeUrl(e.target.value)}
+                    onChange={e => setYoutubeUrl(e.target.value)}
                   />
-                  {errors.youtubeUrl && (
-                    <p className="text-sm text-red-500">{errors.youtubeUrl}</p>
-                  )}
+                  {errors.youtubeUrl && <p className="text-sm text-red-500">{errors.youtubeUrl}</p>}
                 </div>
 
                 <div className="space-y-2">
@@ -401,11 +383,9 @@ export default function ProfileSetupDetailPage() {
                     id="tiktokUrl"
                     placeholder="https://tiktok.com/@yourusername"
                     value={tiktokUrl}
-                    onChange={(e) => setTiktokUrl(e.target.value)}
+                    onChange={e => setTiktokUrl(e.target.value)}
                   />
-                  {errors.tiktokUrl && (
-                    <p className="text-sm text-red-500">{errors.tiktokUrl}</p>
-                  )}
+                  {errors.tiktokUrl && <p className="text-sm text-red-500">{errors.tiktokUrl}</p>}
                 </div>
               </div>
             </div>
@@ -416,7 +396,7 @@ export default function ProfileSetupDetailPage() {
             Cancel
           </Button>
           <Button type="button" disabled={isSubmitting} onClick={handleSubmit}>
-            {isSubmitting ? "Saving..." : "Save Profile"}
+            {isSubmitting ? 'Saving...' : 'Save Profile'}
           </Button>
         </CardFooter>
       </Card>

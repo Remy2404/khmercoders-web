@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/generated/button";
-import { DialogHeader, DialogFooter } from "@/components/generated/dialog";
-import { Input } from "@/components/generated/input";
-import { Label } from "@/components/generated/label";
-import { Textarea } from "@/components/generated/textarea";
+import { Button } from '@/components/generated/button';
+import { DialogHeader, DialogFooter } from '@/components/generated/dialog';
+import { Input } from '@/components/generated/input';
+import { Label } from '@/components/generated/label';
+import { Textarea } from '@/components/generated/textarea';
 import {
   Dialog,
   DialogContent,
   DialogTitle,
   DialogDescription,
-} from "@/components/generated/dialog";
+} from '@/components/generated/dialog';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -20,45 +20,39 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/generated/alert-dialog";
-import { useCallback, useEffect, useState } from "react";
-import { Checkbox } from "@/components/generated/checkbox";
+} from '@/components/generated/alert-dialog';
+import { useCallback, useEffect, useState } from 'react';
+import { Checkbox } from '@/components/generated/checkbox';
 import {
   createExperienceAction,
   getUserExperiencesAction,
   removeExperienceAction,
   updateExperienceAction,
-} from "@/actions/experiences";
-import * as schema from "@/libs/db/schema";
-import { MoreHorizontal, Pencil, Trash2 } from "lucide-react";
+} from '@/actions/experiences';
+import * as schema from '@/libs/db/schema';
+import { MoreHorizontal, Pencil, Trash2 } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/generated/dropdown-menu";
-import { cn } from "@/utils";
+} from '@/components/generated/dropdown-menu';
+import { cn } from '@/utils';
 
 export default function ProfileSetupExperiencePage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [data, setData] = useState<
-    (typeof schema.workExperience.$inferSelect)[]
-  >([]);
+  const [data, setData] = useState<(typeof schema.workExperience.$inferSelect)[]>([]);
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
-  const [experienceToDelete, setExperienceToDelete] = useState<string | null>(
-    null
-  );
+  const [experienceToDelete, setExperienceToDelete] = useState<string | null>(null);
   const [experienceToEdit, setExperienceToEdit] = useState<
     typeof schema.workExperience.$inferSelect | null
   >(null);
   // Track which dropdown is currently open to manage UI state properly
   const [openDropdownId, setOpenDropdownId] = useState<string | null>(null);
-  const [expandedExperienceId, setExpandedExperienceId] = useState<
-    string | null
-  >();
+  const [expandedExperienceId, setExpandedExperienceId] = useState<string | null>();
 
   const toggleExperienceDetails = (id: string) => {
-    setExpandedExperienceId((prev) => (prev === id ? null : id));
+    setExpandedExperienceId(prev => (prev === id ? null : id));
   };
 
   const handleCloseDialog = () => {
@@ -80,9 +74,7 @@ export default function ProfileSetupExperiencePage() {
     if (result.success) {
       setData(refreshExperience.experiences);
     } else {
-      throw new Error(
-        result.message || "Failed to create experience. Please try again."
-      );
+      throw new Error(result.message || 'Failed to create experience. Please try again.');
     }
   }, []);
 
@@ -103,9 +95,7 @@ export default function ProfileSetupExperiencePage() {
       if (result.success) {
         setData(refreshExperience.experiences);
       } else {
-        throw new Error(
-          result.message || "Failed to update experience. Please try again."
-        );
+        throw new Error(result.message || 'Failed to update experience. Please try again.');
       }
     },
     [experienceToEdit]
@@ -123,10 +113,10 @@ export default function ProfileSetupExperiencePage() {
           setData(refreshResult.experiences);
         }
       } else {
-        console.error("Failed to delete experience:", result.message);
+        console.error('Failed to delete experience:', result.message);
       }
     } catch (error) {
-      console.error("Error deleting experience:", error);
+      console.error('Error deleting experience:', error);
     } finally {
       setDeleteConfirmOpen(false);
       setExperienceToDelete(null);
@@ -139,7 +129,7 @@ export default function ProfileSetupExperiencePage() {
       if (result.success) {
         setData(result.experiences);
       } else {
-        console.error("Failed to fetch experiences:", result.message);
+        console.error('Failed to fetch experiences:', result.message);
       }
     };
 
@@ -149,9 +139,7 @@ export default function ProfileSetupExperiencePage() {
   return (
     <div className="container mx-auto my-8 max-w-4xl px-4">
       <div className="mb-8 border-b border-gray-800 pb-4">
-        <h1 className="text-3xl font-bold tracking-tight mb-2">
-          Work Experience
-        </h1>
+        <h1 className="text-3xl font-bold tracking-tight mb-2">Work Experience</h1>
         <p className="text-muted-foreground">
           Add your professional experience to showcase your career journey.
         </p>
@@ -168,9 +156,7 @@ export default function ProfileSetupExperiencePage() {
       <div className="mt-6 space-y-4">
         {data.length === 0 ? (
           <div className="text-center py-10 border border-dashed border-gray-700 rounded-lg">
-            <p className="text-muted-foreground mb-2">
-              No experiences added yet.
-            </p>
+            <p className="text-muted-foreground mb-2">No experiences added yet.</p>
             <p className="text-sm text-muted-foreground">
               Click the Add Experience button to get started.
             </p>
@@ -180,23 +166,17 @@ export default function ProfileSetupExperiencePage() {
             <table className="w-full text-sm">
               <thead className="bg-muted/30">
                 <tr>
-                  <th
-                    className="text-left py-3 px-4 font-medium"
-                    style={{ width: "20%" }}
-                  >
+                  <th className="text-left py-3 px-4 font-medium" style={{ width: '20%' }}>
                     Period
                   </th>
                   <th className="text-left py-3 px-4 font-medium">Details</th>
-                  <th
-                    className="text-right py-3 px-4 font-medium"
-                    style={{ width: "10%" }}
-                  >
+                  <th className="text-right py-3 px-4 font-medium" style={{ width: '10%' }}>
                     Actions
                   </th>
                 </tr>
               </thead>
               <tbody>
-                {data.map((experience) => (
+                {data.map(experience => (
                   <tr
                     key={experience.id}
                     className="border-t border-gray-800 hover:bg-muted/20 transition-colors"
@@ -205,41 +185,31 @@ export default function ProfileSetupExperiencePage() {
                       <div className="font-medium">
                         <span>{experience.startYear}</span>
                         <span className="px-1">-</span>
-                        <span>{experience.endYear ?? "Present"}</span>
+                        <span>{experience.endYear ?? 'Present'}</span>
                       </div>
                     </td>
                     <td className="py-3 px-4">
                       <div className="font-medium">{experience.role}</div>
-                      <div className="text-sm text-amber-500">
-                        {experience.companyName}
-                      </div>
+                      <div className="text-sm text-amber-500">{experience.companyName}</div>
                       <div
                         className={cn(
-                          "text-xs text-muted-foreground mt-2",
-                          expandedExperienceId === experience.id
-                            ? ""
-                            : "line-clamp-3"
+                          'text-xs text-muted-foreground mt-2',
+                          expandedExperienceId === experience.id ? '' : 'line-clamp-3'
                         )}
                       >
                         {experience.description ? (
-                          <span className="whitespace-pre-line">
-                            {experience.description}
-                          </span>
+                          <span className="whitespace-pre-line">{experience.description}</span>
                         ) : (
-                          "No description provided"
+                          'No description provided'
                         )}
                       </div>
                       {experience.description &&
                         experience.description.split(/\r?\n/).length > 3 && (
                           <button
                             className="text-blue-500 hover:text-blue-700 hover:underline font-medium text-xs"
-                            onClick={() =>
-                              toggleExperienceDetails(experience.id)
-                            }
+                            onClick={() => toggleExperienceDetails(experience.id)}
                           >
-                            {expandedExperienceId === experience.id
-                              ? "Show less"
-                              : "Show more"}
+                            {expandedExperienceId === experience.id ? 'Show less' : 'Show more'}
                           </button>
                         )}
                     </td>
@@ -248,7 +218,7 @@ export default function ProfileSetupExperiencePage() {
                         <div className="relative">
                           <DropdownMenu
                             open={openDropdownId === experience.id}
-                            onOpenChange={(open) => {
+                            onOpenChange={open => {
                               setOpenDropdownId(open ? experience.id : null);
                             }}
                           >
@@ -266,7 +236,7 @@ export default function ProfileSetupExperiencePage() {
                             <DropdownMenuContent align="end" className="w-36">
                               <DropdownMenuItem
                                 className="cursor-pointer"
-                                onSelect={(e) => {
+                                onSelect={e => {
                                   e.preventDefault();
                                   e.stopPropagation();
                                   // Close dropdown first, then open dialog after a brief delay
@@ -282,7 +252,7 @@ export default function ProfileSetupExperiencePage() {
                               </DropdownMenuItem>
                               <DropdownMenuItem
                                 className="cursor-pointer"
-                                onSelect={(e) => {
+                                onSelect={e => {
                                   e.preventDefault();
                                   e.stopPropagation();
                                   // Close dropdown first, then open dialog after a brief delay
@@ -314,12 +284,10 @@ export default function ProfileSetupExperiencePage() {
             experienceToEdit
               ? {
                   startYear: experienceToEdit.startYear.toString(),
-                  endYear: experienceToEdit.endYear
-                    ? experienceToEdit.endYear.toString()
-                    : null,
+                  endYear: experienceToEdit.endYear ? experienceToEdit.endYear.toString() : null,
                   companyName: experienceToEdit.companyName,
                   role: experienceToEdit.role,
-                  description: experienceToEdit.description || "",
+                  description: experienceToEdit.description || '',
                 }
               : undefined
           }
@@ -336,7 +304,7 @@ export default function ProfileSetupExperiencePage() {
       )}
       <AlertDialog
         open={deleteConfirmOpen}
-        onOpenChange={(open) => {
+        onOpenChange={open => {
           setDeleteConfirmOpen(open);
           if (!open) {
             // Wait a moment before allowing dropdowns to be opened again
@@ -350,8 +318,8 @@ export default function ProfileSetupExperiencePage() {
           <AlertDialogHeader>
             <AlertDialogTitle>Are you sure?</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete the
-              experience from your profile.
+              This action cannot be undone. This will permanently delete the experience from your
+              profile.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -388,47 +356,35 @@ function ProfileSetupExperienceDialog({
   onSubmit: (data: ProfileSetupExperienceData) => Promise<void>;
   isEditing?: boolean;
 }) {
-  const [startYear, setStartYear] = useState<string>(
-    initialData?.startYear || ""
-  );
-  const [endYear, setEndYear] = useState<string | null>(
-    initialData?.endYear || ""
-  );
-  const [isPresent, setIsPresent] = useState<boolean>(
-    initialData?.endYear === null
-  );
-  const [companyName, setCompanyName] = useState<string>(
-    initialData?.companyName || ""
-  );
-  const [role, setRole] = useState<string>(initialData?.role || "");
-  const [description, setDescription] = useState<string>(
-    initialData?.description || ""
-  );
-  const [error, setError] = useState<string>("");
+  const [startYear, setStartYear] = useState<string>(initialData?.startYear || '');
+  const [endYear, setEndYear] = useState<string | null>(initialData?.endYear || '');
+  const [isPresent, setIsPresent] = useState<boolean>(initialData?.endYear === null);
+  const [companyName, setCompanyName] = useState<string>(initialData?.companyName || '');
+  const [role, setRole] = useState<string>(initialData?.role || '');
+  const [description, setDescription] = useState<string>(initialData?.description || '');
+  const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   return (
     <Dialog
       open={true}
-      onOpenChange={(state) => {
+      onOpenChange={state => {
         if (!state) onClose();
       }}
     >
       <DialogContent
         className="sm:max-w-[425px]"
-        onPointerDownOutside={(e) => e.preventDefault()}
-        onEscapeKeyDown={(e) => {
+        onPointerDownOutside={e => e.preventDefault()}
+        onEscapeKeyDown={e => {
           // Allow escape key to close dialog
           onClose();
         }}
       >
         <DialogHeader>
-          <DialogTitle>
-            {isEditing ? "Edit Experience" : "Add Experience"}
-          </DialogTitle>
+          <DialogTitle>{isEditing ? 'Edit Experience' : 'Add Experience'}</DialogTitle>
           <DialogDescription>
             {isEditing
-              ? "Update details about your professional experience."
-              : "Add details about your professional experience."}
+              ? 'Update details about your professional experience.'
+              : 'Add details about your professional experience.'}
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
@@ -440,7 +396,7 @@ function ProfileSetupExperienceDialog({
                 type="number"
                 placeholder="e.g., 2020"
                 value={startYear}
-                onChange={(e) => setStartYear(e.target.value)}
+                onChange={e => setStartYear(e.target.value)}
                 autoComplete="off"
               />
             </div>
@@ -449,9 +405,9 @@ function ProfileSetupExperienceDialog({
               <Input
                 id="endYear"
                 type="number"
-                placeholder={isPresent ? "Present" : "e.g., 2023"}
-                value={isPresent ? "" : endYear ?? ""}
-                onChange={(e) => setEndYear(e.target.value || null)}
+                placeholder={isPresent ? 'Present' : 'e.g., 2023'}
+                value={isPresent ? '' : (endYear ?? '')}
+                onChange={e => setEndYear(e.target.value || null)}
                 disabled={isPresent}
                 autoComplete="off"
               />
@@ -461,7 +417,7 @@ function ProfileSetupExperienceDialog({
             <Checkbox
               id="isPresent"
               checked={isPresent}
-              onCheckedChange={(checked) => {
+              onCheckedChange={checked => {
                 const isChecked = Boolean(checked);
                 setIsPresent(isChecked);
                 if (isChecked) {
@@ -469,10 +425,7 @@ function ProfileSetupExperienceDialog({
                 }
               }}
             />
-            <Label
-              htmlFor="isPresent"
-              className="text-sm font-normal ml-2 cursor-pointer"
-            >
+            <Label htmlFor="isPresent" className="text-sm font-normal ml-2 cursor-pointer">
               I currently work here
             </Label>
           </div>
@@ -483,7 +436,7 @@ function ProfileSetupExperienceDialog({
             id="companyName"
             placeholder="Company name"
             value={companyName}
-            onChange={(e) => setCompanyName(e.currentTarget.value)}
+            onChange={e => setCompanyName(e.currentTarget.value)}
             autoComplete="off"
           />
         </div>
@@ -493,7 +446,7 @@ function ProfileSetupExperienceDialog({
             id="role"
             placeholder="Your position"
             value={role}
-            onChange={(e) => {
+            onChange={e => {
               setRole(e.target.value);
             }}
             autoComplete="off"
@@ -505,7 +458,7 @@ function ProfileSetupExperienceDialog({
             id="description"
             placeholder="Describe your responsibilities and achievements"
             value={description}
-            onChange={(e) => {
+            onChange={e => {
               setDescription(e.target.value);
             }}
             autoComplete="off"
@@ -520,7 +473,7 @@ function ProfileSetupExperienceDialog({
               onClick={async () => {
                 try {
                   setLoading(true);
-                  setError("");
+                  setError('');
                   await onSubmit({
                     startYear,
                     endYear: isPresent ? null : endYear,
@@ -530,18 +483,14 @@ function ProfileSetupExperienceDialog({
                   });
                   onClose();
                 } catch (err) {
-                  setError(
-                    err instanceof Error
-                      ? err.message
-                      : "Failed to save experience"
-                  );
+                  setError(err instanceof Error ? err.message : 'Failed to save experience');
                 } finally {
                   setLoading(false);
                 }
               }}
               disabled={loading}
             >
-              {loading ? "Saving..." : isEditing ? "Update" : "Save"}
+              {loading ? 'Saving...' : isEditing ? 'Update' : 'Save'}
             </Button>
           </div>
         </DialogFooter>

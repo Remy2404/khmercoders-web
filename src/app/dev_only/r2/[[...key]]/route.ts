@@ -10,8 +10,8 @@
  * Example usage: /dev/r2/images/profile.jpg would retrieve the file at key path "images/profile.jpg"
  */
 
-import { getContentTypeFromExtension } from "@/utils/content-type";
-import { getCloudflareContext } from "@opennextjs/cloudflare";
+import { getContentTypeFromExtension } from '@/utils/content-type';
+import { getCloudflareContext } from '@opennextjs/cloudflare';
 
 /**
  * GET handler for R2 file retrieval
@@ -24,19 +24,16 @@ import { getCloudflareContext } from "@opennextjs/cloudflare";
  * @param params - The dynamic route parameters containing the file path segments
  * @returns Response with file data or appropriate error message (404, 503)
  */
-export async function GET(
-  _: Request,
-  { params }: { params: Promise<{ key: string[] }> }
-) {
-  if (process.env.NODE_ENV !== "development") {
-    return new Response("R2 emulation is only available in development mode.", {
+export async function GET(_: Request, { params }: { params: Promise<{ key: string[] }> }) {
+  if (process.env.NODE_ENV !== 'development') {
+    return new Response('R2 emulation is only available in development mode.', {
       status: 503, // Service Unavailable
     });
   }
 
   // Extract and join the path segments to form the complete file key path
   const { key } = await params;
-  const keyPath = key.join("/");
+  const keyPath = key.join('/');
 
   // Get Cloudflare environment bindings for accessing R2 storage
   const { env } = getCloudflareContext();
@@ -44,7 +41,7 @@ export async function GET(
   // Check if R2 bucket is available in the current environment
   // USER_UPLOADS is our R2 bucket binding defined in wrangler.toml
   if (!env.USER_UPLOADS) {
-    return new Response("R2 emulation is not available in this environment.", {
+    return new Response('R2 emulation is not available in this environment.', {
       status: 503, // Service Unavailable
     });
   }
@@ -54,16 +51,16 @@ export async function GET(
 
   // Return 404 if the requested file doesn't exist in the R2 bucket
   if (!file) {
-    return new Response("File not found", { status: 404 });
+    return new Response('File not found', { status: 404 });
   }
 
-  const extension = keyPath.split(".").pop()?.toLowerCase();
+  const extension = keyPath.split('.').pop()?.toLowerCase();
 
   // Return the file with appropriate headers for proper browser rendering
   return new Response(file.body, {
     headers: {
-      "Content-Type": getContentTypeFromExtension(extension ?? ""),
-      "Content-Length": file.size.toString(),
+      'Content-Type': getContentTypeFromExtension(extension ?? ''),
+      'Content-Length': file.size.toString(),
     },
   });
 }

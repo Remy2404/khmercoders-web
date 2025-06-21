@@ -1,20 +1,10 @@
-"use client";
-import {
-  getCurrentProfileInsightAction,
-  type ProfileInsight,
-} from "@/actions/insight";
-import { useSession } from "@/components/auth-provider";
-import { ChartContainer } from "@/components/generated/chart";
-import { useEffect, useMemo, useState } from "react";
-import { format, parseISO } from "date-fns";
-import {
-  Area,
-  AreaChart,
-  CartesianGrid,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-} from "recharts";
+'use client';
+import { getCurrentProfileInsightAction, type ProfileInsight } from '@/actions/insight';
+import { useSession } from '@/components/auth-provider';
+import { ChartContainer } from '@/components/generated/chart';
+import { useEffect, useMemo, useState } from 'react';
+import { format, parseISO } from 'date-fns';
+import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis } from 'recharts';
 
 export default function ProfileInsightPage() {
   const { session } = useSession();
@@ -32,8 +22,8 @@ export default function ProfileInsightPage() {
     <div className="container mx-auto">
       <h1 className="text-2xl font-semibold">Insight</h1>
       <p className="text-sm text-muted-foreground mb-4">
-        View metrics for your profile including page views and unique visitors
-        in the last 30 days. Track how users engage with your profile content.
+        View metrics for your profile including page views and unique visitors in the last 30 days.
+        Track how users engage with your profile content.
       </p>
       {insight ? <InsightSection insight={insight} /> : <Placeholder />}
     </div>
@@ -44,14 +34,14 @@ function InsightSection({ insight }: { insight: ProfileInsight }) {
   const chartConfig = useMemo(() => {
     return {
       page_view: {
-        label: "Page Views",
-        color: "#2563eb", // Default blue
+        label: 'Page Views',
+        color: '#2563eb', // Default blue
       },
     };
   }, []);
 
   const chartData = useMemo(() => {
-    return insight.dailyInsight.map((item) => ({
+    return insight.dailyInsight.map(item => ({
       date: item.date,
       page_view: item.count,
     }));
@@ -59,7 +49,7 @@ function InsightSection({ insight }: { insight: ProfileInsight }) {
 
   const formatDate = (dateStr: string) => {
     try {
-      return format(parseISO(dateStr), "MMM d");
+      return format(parseISO(dateStr), 'MMM d');
     } catch {
       return dateStr;
     }
@@ -81,7 +71,7 @@ function InsightSection({ insight }: { insight: ProfileInsight }) {
 
       {/* Chart Section */}
       <ChartContainer config={chartConfig} className="h-[300px] w-full">
-        <ResponsiveContainer height={"100%"} width={"100%"}>
+        <ResponsiveContainer height={'100%'} width={'100%'}>
           <AreaChart data={chartData}>
             <defs>
               <linearGradient id="page_view" x1="0" y1="0" x2="0" y2="1">
@@ -98,20 +88,20 @@ function InsightSection({ insight }: { insight: ProfileInsight }) {
             />
             <Area
               type="monotone"
-              dataKey={"page_view"}
-              name={"page_view"}
-              stroke={"#f97316"}
+              dataKey={'page_view'}
+              name={'page_view'}
+              stroke={'#f97316'}
               fill="url(#page_view)"
               fillOpacity={1}
             />
 
             <Tooltip
               wrapperClassName="bg-background"
-              contentStyle={{ backgroundColor: "#1e293b", border: "none" }}
+              contentStyle={{ backgroundColor: '#1e293b', border: 'none' }}
               formatter={(value: number) => {
                 return [`${value} pageview`];
               }}
-              labelFormatter={(label) => formatDate(label as string)}
+              labelFormatter={label => formatDate(label as string)}
             />
           </AreaChart>
         </ResponsiveContainer>

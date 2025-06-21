@@ -1,22 +1,22 @@
-import { eventsDatabase } from "@/data/events";
-import { notFound } from "next/navigation";
-import Image from "next/image";
-import { IPartner, IPartnerWithTags, partners } from "@/data/partners";
-import { PartnerCard } from "@/components/atoms/partner-card";
-import { Clock, Pin } from "lucide-react";
-import { Metadata } from "next";
+import { eventsDatabase } from '@/data/events';
+import { notFound } from 'next/navigation';
+import Image from 'next/image';
+import { IPartner, IPartnerWithTags, partners } from '@/data/partners';
+import { PartnerCard } from '@/components/atoms/partner-card';
+import { Clock, Pin } from 'lucide-react';
+import { Metadata } from 'next';
 
 export async function generateMetadata({
   params,
 }: {
   params: { alias: string };
 }): Promise<Metadata> {
-  const event = eventsDatabase.find((event) => event.id === params.alias);
+  const event = eventsDatabase.find(event => event.id === params.alias);
 
   if (!event) {
     return {
-      title: "Event Not Found | Khmer Coders",
-      description: "The requested event could not be found.",
+      title: 'Event Not Found | Khmer Coders',
+      description: 'The requested event could not be found.',
     };
   }
 
@@ -27,10 +27,10 @@ export async function generateMetadata({
       images: [event.image],
       title: event.title,
       description: event.description,
-      siteName: "Khmer Coders",
+      siteName: 'Khmer Coders',
     },
     twitter: {
-      card: "summary_large_image",
+      card: 'summary_large_image',
       title: event.title,
       description: event.description,
       images: [event.image],
@@ -38,20 +38,16 @@ export async function generateMetadata({
   };
 }
 
-export default function EventDetailPage({
-  params: { alias },
-}: {
-  params: { alias: string };
-}) {
-  const event = eventsDatabase.find((event) => event.id === alias);
+export default function EventDetailPage({ params: { alias } }: { params: { alias: string } }) {
+  const event = eventsDatabase.find(event => event.id === alias);
 
   if (!event) {
     notFound();
   }
 
   const sponsors = event.sponsors
-    .map((sponsor) => {
-      const partner = partners.find((p) => p.id === sponsor.id);
+    .map(sponsor => {
+      const partner = partners.find(p => p.id === sponsor.id);
       if (!partner) return null;
       return {
         ...partner,
@@ -86,7 +82,7 @@ export default function EventDetailPage({
       <h2 className="text-xl font-bold my-4">Sponsors</h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {sponsors.map((sponsor) => (
+        {sponsors.map(sponsor => (
           <PartnerCard key={sponsor.id} partner={sponsor} />
         ))}
       </div>

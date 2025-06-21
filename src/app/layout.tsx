@@ -1,22 +1,21 @@
-import type React from "react";
-import "@/app/globals.css";
-import { Inter } from "next/font/google";
-import { ThemeProvider } from "@/components/theme-provider";
-import Link from "next/link";
-import { Facebook, Github } from "lucide-react";
-import Navbar from "@/components/atoms/nav-bar";
-import Image from "next/image";
-import { KCLinks } from "@/data/link";
-import { DiscordIcon } from "@/components/atoms/icons";
-import { SessionProvider } from "./session";
-import { KhmerCoderDevtool } from "@/components/devtool";
+import type React from 'react';
+import '@/app/globals.css';
+import { Inter } from 'next/font/google';
+import { ThemeProvider } from '@/components/theme-provider';
+import Link from 'next/link';
+import { Facebook, Github } from 'lucide-react';
+import Navbar from '@/components/atoms/nav-bar';
+import Image from 'next/image';
+import { KCLinks } from '@/data/link';
+import { DiscordIcon } from '@/components/atoms/icons';
+import { SessionProvider } from './session';
+import { KhmerCoderDevtool } from '@/components/devtool';
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
   title: "Khmer Coders - Cambodia's Largest Coding Community",
-  description:
-    "Join Cambodia's largest community of developers, designers, and tech enthusiasts.",
+  description: "Join Cambodia's largest community of developers, designers, and tech enthusiasts.",
 };
 
 export default function RootLayout({
@@ -27,29 +26,11 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark" suppressHydrationWarning={true}>
       <head>
-        <link
-          rel="apple-touch-icon"
-          sizes="180x180"
-          href="/favicon/apple-touch-icon.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="32x32"
-          href="/favicon/favicon-32x32.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="16x16"
-          href="/favicon/favicon-16x16.png"
-        />
+        <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
           href="https://fonts.googleapis.com/css2?family=VT323&display=swap"
           rel="stylesheet"
@@ -103,8 +84,7 @@ export default function RootLayout({
                           </span>
                         </Link>
                         <p className="text-gray-400 mb-4">
-                          Cambodia&apos;s largest community of developers and
-                          tech enthusiasts.
+                          Cambodia&apos;s largest community of developers and tech enthusiasts.
                         </p>
                         <div className="flex gap-4">
                           <Link
@@ -138,26 +118,17 @@ export default function RootLayout({
                         <h3 className="font-bold mb-4">About Us</h3>
                         <ul className="space-y-2">
                           <li>
-                            <Link
-                              href="/events"
-                              className="text-gray-400 hover:text-white"
-                            >
+                            <Link href="/events" className="text-gray-400 hover:text-white">
                               Events
                             </Link>
                           </li>
                           <li>
-                            <Link
-                              href="/teams"
-                              className="text-gray-400 hover:text-white"
-                            >
+                            <Link href="/teams" className="text-gray-400 hover:text-white">
                               Our Teams
                             </Link>
                           </li>
                           <li>
-                            <Link
-                              href="/members"
-                              className="text-gray-400 hover:text-white"
-                            >
+                            <Link href="/members" className="text-gray-400 hover:text-white">
                               Our Members
                             </Link>
                           </li>
@@ -168,18 +139,12 @@ export default function RootLayout({
                         <h3 className="font-bold mb-4">Resources</h3>
                         <ul className="space-y-2">
                           <li>
-                            <Link
-                              href="/partners"
-                              className="text-gray-400 hover:text-white"
-                            >
+                            <Link href="/partners" className="text-gray-400 hover:text-white">
                               Our Partners
                             </Link>
                           </li>
                           <li>
-                            <Link
-                              href="/donate"
-                              className="text-gray-400 hover:text-white"
-                            >
+                            <Link href="/donate" className="text-gray-400 hover:text-white">
                               Support Us
                             </Link>
                           </li>
@@ -224,16 +189,13 @@ export default function RootLayout({
                     </div>
 
                     <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-500 text-sm">
-                      <p>
-                        &copy; {new Date().getFullYear()} Khmer Coders. All
-                        rights reserved.
-                      </p>
+                      <p>&copy; {new Date().getFullYear()} Khmer Coders. All rights reserved.</p>
                     </div>
                   </div>
                 </footer>
               </div>
             </div>
-            {process.env.NODE_ENV === "development" && <KhmerCoderDevtool />}
+            {process.env.NODE_ENV === 'development' && <KhmerCoderDevtool />}
           </SessionProvider>
         </ThemeProvider>
       </body>

@@ -12,7 +12,7 @@ export const auth = betterAuth({
     // Enable email/password authentication only in development mode
     // This allows for easier testing and debugging without requiring GitHub OAuth
     // In production, users will need to authenticate through GitHub
-    enabled: process.env.NODE_ENV === "development",
+    enabled: process.env.NODE_ENV === 'development',
   },
   user: {
     additionalFields: {

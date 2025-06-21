@@ -1,6 +1,6 @@
-"use client";
-import { createContext, PropsWithChildren, useContext } from "react";
-import * as schema from "../libs/db/schema";
+'use client';
+import { createContext, PropsWithChildren, useContext } from 'react';
+import * as schema from '../libs/db/schema';
 
 interface AuthContextProps {
   profile?: typeof schema.memberProfile.$inferSelect;
@@ -16,15 +16,12 @@ export function useSession() {
   const session = useContext(AuthContext);
 
   if (!session) {
-    throw new Error("useSession must be used within an AuthProvider");
+    throw new Error('useSession must be used within an AuthProvider');
   }
 
   return session;
 }
 
-export function AuthProvider({
-  children,
-  value,
-}: PropsWithChildren<{ value: AuthContextProps }>) {
+export function AuthProvider({ children, value }: PropsWithChildren<{ value: AuthContextProps }>) {
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

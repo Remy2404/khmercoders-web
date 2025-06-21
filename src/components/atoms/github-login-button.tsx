@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { signIn, signOut } from "@/utils/auth-client";
-import { Button } from "../generated/button";
-import { GithubIcon } from "./icons";
+import { signIn, signOut } from '@/utils/auth-client';
+import { Button } from '../generated/button';
+import { GithubIcon } from './icons';
 
 export function SignInButton() {
   return (

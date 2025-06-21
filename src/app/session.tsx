@@ -1,9 +1,9 @@
-import { AuthProvider } from "@/components/auth-provider";
-import { getDB } from "@/libs/db";
-import * as schema from "@/libs/db/schema";
-import { auth } from "@/utils/auth";
-import { eq } from "drizzle-orm";
-import { headers } from "next/headers";
+import { AuthProvider } from '@/components/auth-provider';
+import { getDB } from '@/libs/db';
+import * as schema from '@/libs/db/schema';
+import { auth } from '@/utils/auth';
+import { eq } from 'drizzle-orm';
+import { headers } from 'next/headers';
 
 async function getSession() {
   const session = await auth.api.getSession({
@@ -29,11 +29,7 @@ async function getSession() {
   };
 }
 
-export async function SessionProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export async function SessionProvider({ children }: { children: React.ReactNode }) {
   const session = await getSession();
 
   return <AuthProvider value={session}>{children}</AuthProvider>;

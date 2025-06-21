@@ -1,8 +1,8 @@
-import { DonorDatabase } from "@/data/donors";
-import { partners } from "@/data/partners";
-import { foundingMembers, moderators, volunteers } from "@/data/teams";
-import Image from "next/image";
-import Link from "next/link";
+import { DonorDatabase } from '@/data/donors';
+import { partners } from '@/data/partners';
+import { foundingMembers, moderators, volunteers } from '@/data/teams';
+import Image from 'next/image';
+import Link from 'next/link';
 
 export function HomeFoundingSection() {
   return (
@@ -22,10 +22,7 @@ function BackerSection() {
         <div className="my-4 border border-double border-gray-400 border-4 p-4 w-[150px] text-center">
           <div className="text-4xl font-bold">{partners.length}</div>
           <div className="text-lg">Companies</div>
-          <Link
-            href="/partners"
-            className="text-yellow-500 underline hover:text-yellow-300"
-          >
+          <Link href="/partners" className="text-yellow-500 underline hover:text-yellow-300">
             Explore
           </Link>
         </div>
@@ -33,19 +30,15 @@ function BackerSection() {
         <div className="my-4 border border-double border-gray-400 border-4 p-4 w-[150px] text-center">
           <div className="font-bold text-4xl">{DonorDatabase.length}</div>
           <div className="text-lg">Donors</div>
-          <Link
-            href="/donate"
-            className="text-yellow-500 underline hover:text-yellow-300"
-          >
+          <Link href="/donate" className="text-yellow-500 underline hover:text-yellow-300">
             Explore
           </Link>
         </div>
       </div>
 
       <p className="text-lg max-w-2xl mt-6">
-        Our community thrives with support from passionate individuals, local
-        businesses, and international organizations committed to supporting the
-        Cambodian developer community.
+        Our community thrives with support from passionate individuals, local businesses, and
+        international organizations committed to supporting the Cambodian developer community.
       </p>
     </div>
   );
@@ -56,12 +49,11 @@ function TeamSection() {
     <div>
       <h2 className="font-retro text-5xl my-4">Teams</h2>
       <p className="text-lg max-w-2xl mb-8">
-        This group represents the collaborative effort of our founding team and
-        dedicated volunteers, brought together by their passion and commitment
-        to the community.
+        This group represents the collaborative effort of our founding team and dedicated
+        volunteers, brought together by their passion and commitment to the community.
       </p>
       <div className="flex gap-8 my-4 flex-wrap">
-        {foundingMembers.map((member) => (
+        {foundingMembers.map(member => (
           <div key={member.name} className="flex gap-2">
             <Image
               src={member.image}
@@ -80,13 +72,13 @@ function TeamSection() {
         ))}
       </div>
       <div className="my-8">
-        And over{" "}
+        And over{' '}
         <Link
           href="/teams"
           className="font-semibold text-yellow-500 underline hover:text-yellow-300"
         >
-          {foundingMembers.length + volunteers.length + moderators.length} other
-          of our volunteers and community moderators.
+          {foundingMembers.length + volunteers.length + moderators.length} other of our volunteers
+          and community moderators.
         </Link>
       </div>
     </div>

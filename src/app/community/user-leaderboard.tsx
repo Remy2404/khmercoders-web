@@ -1,11 +1,11 @@
-import * as React from "react";
+import * as React from 'react';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/generated/card";
+} from '@/components/generated/card';
 import {
   Table,
   TableBody,
@@ -13,8 +13,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/generated/table";
-import { UserLeaderboard } from "@/libs/db/chatbot";
+} from '@/components/generated/table';
+import { UserLeaderboard } from '@/libs/db/chatbot';
 
 interface UserLeaderboardProps {
   data: UserLeaderboard[];
@@ -44,36 +44,21 @@ export function UserLeaderboardComponent({ data }: UserLeaderboardProps) {
               key={`${user.platform}-${user.display_name}-${index}`}
               className="border-gray-500"
             >
-              <TableCell className="font-medium border-gray-500">
-                {index + 1}
-              </TableCell>
+              <TableCell className="font-medium border-gray-500">{index + 1}</TableCell>
               <TableCell className="border-gray-400 font-bold">
-                {user.platform === "telegram" ? (
-                  <img
-                    src="/telegram.svg"
-                    alt="Telegram"
-                    className="inline-block w-6 h-6 mr-2"
-                  />
+                {user.platform === 'telegram' ? (
+                  <img src="/telegram.svg" alt="Telegram" className="inline-block w-6 h-6 mr-2" />
                 ) : (
-                  <img
-                    src="/discord.svg"
-                    alt="Discord"
-                    className="inline-block w-6 h-6 mr-2"
-                  />
+                  <img src="/discord.svg" alt="Discord" className="inline-block w-6 h-6 mr-2" />
                 )}
                 {user.display_name}
               </TableCell>
-              <TableCell className="text-right border-gray-400">
-                {user.message_count}
-              </TableCell>
+              <TableCell className="text-right border-gray-400">{user.message_count}</TableCell>
             </TableRow>
           ))}
           {sortedData.length === 0 && (
             <TableRow>
-              <TableCell
-                colSpan={4}
-                className="text-center py-6 text-muted-foreground"
-              >
+              <TableCell colSpan={4} className="text-center py-6 text-muted-foreground">
                 No data available
               </TableCell>
             </TableRow>

@@ -1,8 +1,8 @@
-"use server";
-import { withAuthAction } from "./middleware";
-import { isValidAlias } from "@/utils/validate";
-import * as schema from "@/libs/db/schema";
-import { eq } from "drizzle-orm";
+'use server';
+import { withAuthAction } from './middleware';
+import { isValidAlias } from '@/utils/validate';
+import * as schema from '@/libs/db/schema';
+import { eq } from 'drizzle-orm';
 
 export const updateUserAliasAction = withAuthAction(
   async ({ db, user, profile }, alias: string) => {
@@ -11,7 +11,7 @@ export const updateUserAliasAction = withAuthAction(
       return {
         success: false,
         message:
-          "Invalid alias format. Please use alphanumeric characters, underscores, or hyphens.",
+          'Invalid alias format. Please use alphanumeric characters, underscores, or hyphens.',
       };
     }
 
@@ -28,13 +28,11 @@ export const updateUserAliasAction = withAuthAction(
     if (
       profile &&
       profile.aliasUpdatedAt &&
-      new Date(profile.aliasUpdatedAt).getTime() >
-        now.getTime() - 7 * 24 * 60 * 60 * 1000
+      new Date(profile.aliasUpdatedAt).getTime() > now.getTime() - 7 * 24 * 60 * 60 * 1000
     ) {
       return {
         success: false,
-        message:
-          "You can only update your alias once every 7 days. Please try again later.",
+        message: 'You can only update your alias once every 7 days. Please try again later.',
       };
     }
 
@@ -58,25 +56,22 @@ export const updateUserAliasAction = withAuthAction(
         });
     } catch (error) {
       // Check if the error is due to a unique constraint violation (alias already taken)
-      if (
-        error instanceof Error &&
-        error.message.includes("unique constraint")
-      ) {
+      if (error instanceof Error && error.message.includes('unique constraint')) {
         return {
           success: false,
-          message: "This alias is already taken. Please choose another one.",
+          message: 'This alias is already taken. Please choose another one.',
         };
       }
 
       return {
         success: false,
-        message: "Failed to update alias. Please try again later.",
+        message: 'Failed to update alias. Please try again later.',
       };
     }
 
     return {
       success: true,
-      message: "Alias updated successfully.",
+      message: 'Alias updated successfully.',
       alias: normalizedAlias,
     };
   }
@@ -120,28 +115,28 @@ export const updateUserProfileAction = withAuthAction(
     if (!name || name.trim().length < 2) {
       return {
         success: false,
-        message: "Name must be at least 2 characters.",
+        message: 'Name must be at least 2 characters.',
       };
     }
 
     if (name.trim().length > 50) {
       return {
         success: false,
-        message: "Name must be less than 50 characters.",
+        message: 'Name must be less than 50 characters.',
       };
     }
 
     if (title && title.trim().length > 100) {
       return {
         success: false,
-        message: "Title must be less than 100 characters.",
+        message: 'Title must be less than 100 characters.',
       };
     }
 
     if (bio && bio.trim().length > 500) {
       return {
         success: false,
-        message: "Bio must be less than 500 characters.",
+        message: 'Bio must be less than 500 characters.',
       };
     }
 
@@ -158,8 +153,8 @@ export const updateUserProfileAction = withAuthAction(
           .update(schema.memberProfile)
           .set({
             updatedAt: now,
-            title: title?.trim() || "",
-            bio: bio?.trim() || "",
+            title: title?.trim() || '',
+            bio: bio?.trim() || '',
             websiteUrl: websiteUrl?.trim() || null,
             telegramUrl: telegramUrl?.trim() || null,
             githubUrl: githubUrl?.trim() || null,
@@ -175,13 +170,13 @@ export const updateUserProfileAction = withAuthAction(
 
       return {
         success: true,
-        message: "Profile updated successfully.",
+        message: 'Profile updated successfully.',
       };
     } catch (error) {
-      console.error("Failed to update profile:", error);
+      console.error('Failed to update profile:', error);
       return {
         success: false,
-        message: "Failed to update profile. Please try again later.",
+        message: 'Failed to update profile. Please try again later.',
       };
     }
   }

@@ -1,6 +1,6 @@
-"use server";
+'use server';
 
-import { getCloudflareContext } from "@opennextjs/cloudflare";
+import { getCloudflareContext } from '@opennextjs/cloudflare';
 
 export interface ChatMetric {
   chat_date: string;
@@ -23,7 +23,7 @@ export async function getChatMetrics(): Promise<ChatMetric[]> {
   const { env } = await getCloudflareContext({ async: true });
 
   if (!env.DB_CHATBOT) {
-    throw new Error("D1 database not found");
+    throw new Error('D1 database not found');
   }
 
   try {
@@ -47,7 +47,7 @@ export async function getChatMetrics(): Promise<ChatMetric[]> {
     const filledResults = fillDataGaps(results.results);
     return filledResults;
   } catch (error) {
-    console.error("Error fetching chat metrics:", error);
+    console.error('Error fetching chat metrics:', error);
     return [];
   }
 }
@@ -60,7 +60,7 @@ export async function getChatMetrics(): Promise<ChatMetric[]> {
 function fillDataGaps(data: ChatMetric[]): ChatMetric[] {
   // Get all unique platforms from the data
   const platforms = new Set<string>();
-  data.forEach((item) => platforms.add(item.platform));
+  data.forEach(item => platforms.add(item.platform));
 
   // Generate dates for the last 30 days
   const today = new Date();
@@ -73,7 +73,7 @@ function fillDataGaps(data: ChatMetric[]): ChatMetric[] {
 
   // Create a map of existing data
   const dataMap: Record<string, Record<string, ChatMetric>> = {};
-  data.forEach((item) => {
+  data.forEach(item => {
     if (!dataMap[item.chat_date]) {
       dataMap[item.chat_date] = {};
     }
@@ -82,8 +82,8 @@ function fillDataGaps(data: ChatMetric[]): ChatMetric[] {
 
   // Fill in missing data
   const result: ChatMetric[] = [];
-  dates.forEach((date) => {
-    platforms.forEach((platform) => {
+  dates.forEach(date => {
+    platforms.forEach(platform => {
       if (dataMap[date]?.[platform]) {
         result.push(dataMap[date][platform]);
       } else {
@@ -106,21 +106,19 @@ function fillDataGaps(data: ChatMetric[]): ChatMetric[] {
  */
 function formatDate(date: Date): string {
   const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
   return `${year}-${month}-${day}`;
 }
 
 /**
  * Fetches the top users by message count across all platforms for the last 30 days
  */
-export async function getUserLeaderboard(
-  limit: number = 10
-): Promise<UserLeaderboard[]> {
+export async function getUserLeaderboard(limit: number = 10): Promise<UserLeaderboard[]> {
   const { env } = await getCloudflareContext({ async: true });
 
   if (!env.DB_CHATBOT) {
-    throw new Error("D1 database not found");
+    throw new Error('D1 database not found');
   }
 
   try {
@@ -144,7 +142,7 @@ export async function getUserLeaderboard(
 
     return results.results;
   } catch (error) {
-    console.error("Failed to fetch user leaderboard:", error);
+    console.error('Failed to fetch user leaderboard:', error);
     return [];
   }
 }
@@ -156,7 +154,7 @@ export async function getTotalMetricsByPlatform() {
   const { env } = await getCloudflareContext({ async: true });
 
   if (!env.DB_CHATBOT) {
-    throw new Error("D1 database not found");
+    throw new Error('D1 database not found');
   }
 
   try {
@@ -180,7 +178,7 @@ export async function getTotalMetricsByPlatform() {
 
     return results.results;
   } catch (error) {
-    console.error("Error fetching platform metrics:", error);
+    console.error('Error fetching platform metrics:', error);
     return [];
   }
 }

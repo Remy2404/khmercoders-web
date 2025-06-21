@@ -1,6 +1,6 @@
-import Link from "next/link";
-import Image from "next/image";
-import { notFound } from "next/navigation";
+import Link from 'next/link';
+import Image from 'next/image';
+import { notFound } from 'next/navigation';
 import {
   ChevronLeft,
   Github,
@@ -12,16 +12,11 @@ import {
   Award,
   Calendar,
   GraduationCap,
-} from "lucide-react";
+} from 'lucide-react';
 
-import { Button } from "@/components/generated/button";
-import { Badge } from "@/components/generated/badge";
-import {
-  entrepreneurs,
-  memberProfiles,
-  risingStars,
-  techLeaders,
-} from "@/data/member-profiles";
+import { Button } from '@/components/generated/button';
+import { Badge } from '@/components/generated/badge';
+import { entrepreneurs, memberProfiles, risingStars, techLeaders } from '@/data/member-profiles';
 
 // This would typically come from a database
 const getMembers = () => {
@@ -34,12 +29,12 @@ interface Params {
 
 export async function generateMetadata({ params }: { params: Params }) {
   const members = getMembers();
-  const member = members.find((m) => m.id === params.id);
+  const member = members.find(m => m.id === params.id);
 
   if (!member) {
     return {
-      title: "Member Not Found | Khmer Coders",
-      description: "The requested member profile could not be found.",
+      title: 'Member Not Found | Khmer Coders',
+      description: 'The requested member profile could not be found.',
     };
   }
 
@@ -51,7 +46,7 @@ export async function generateMetadata({ params }: { params: Params }) {
 
 export default function MemberProfile({ params }: { params: Params }) {
   const members = getMembers();
-  const member = members.find((m) => m.id === params.id);
+  const member = members.find(m => m.id === params.id);
 
   if (!member) {
     notFound();
@@ -68,7 +63,7 @@ export default function MemberProfile({ params }: { params: Params }) {
       {/* Hero Section with Cover Image */}
       <div className="relative h-64 md:h-80 w-full">
         <Image
-          src={profile.coverImage || "/placeholder.svg?height=400&width=1200"}
+          src={profile.coverImage || '/placeholder.svg?height=400&width=1200'}
           alt={`${profile.name} cover`}
           fill
           className="object-cover"
@@ -95,9 +90,7 @@ export default function MemberProfile({ params }: { params: Params }) {
               <div className="md:w-1/3 flex flex-col items-center md:items-start">
                 <div className="h-32 w-32 rounded-full overflow-hidden border-4 border-gray-900 relative mb-4">
                   <Image
-                    src={
-                      profile.image || "/placeholder.svg?height=200&width=200"
-                    }
+                    src={profile.image || '/placeholder.svg?height=200&width=200'}
                     alt={profile.name}
                     fill
                     className="object-cover"
@@ -107,9 +100,7 @@ export default function MemberProfile({ params }: { params: Params }) {
                 <h1 className="text-2xl md:text-3xl font-bold mb-1 text-center md:text-left">
                   {profile.name}
                 </h1>
-                <p className="text-yellow-500 mb-4 text-center md:text-left">
-                  {profile.role}
-                </p>
+                <p className="text-yellow-500 mb-4 text-center md:text-left">{profile.role}</p>
 
                 {profile.location && (
                   <div className="flex items-center gap-2 text-gray-400 mb-3">
@@ -180,10 +171,7 @@ export default function MemberProfile({ params }: { params: Params }) {
                     <h3 className="font-bold mb-3">Skills</h3>
                     <div className="flex flex-wrap gap-2">
                       {profile.skills.map((skill, index) => (
-                        <Badge
-                          key={index}
-                          className="bg-gray-800 hover:bg-gray-700 text-white"
-                        >
+                        <Badge key={index} className="bg-gray-800 hover:bg-gray-700 text-white">
                           {skill}
                         </Badge>
                       ))}
@@ -211,15 +199,10 @@ export default function MemberProfile({ params }: { params: Params }) {
                     </h2>
                     <div className="space-y-6">
                       {profile.experience.map((exp, index) => (
-                        <div
-                          key={index}
-                          className="border-l-2 border-gray-800 pl-4 pb-2"
-                        >
+                        <div key={index} className="border-l-2 border-gray-800 pl-4 pb-2">
                           <h3 className="font-bold">{exp.role}</h3>
                           <p className="text-yellow-500">{exp.company}</p>
-                          <p className="text-sm text-gray-400 mb-2">
-                            {exp.period}
-                          </p>
+                          <p className="text-sm text-gray-400 mb-2">{exp.period}</p>
                           <p className="text-gray-300">{exp.description}</p>
                         </div>
                       ))}
@@ -237,12 +220,8 @@ export default function MemberProfile({ params }: { params: Params }) {
                       {profile.achievements.map((achievement, index) => (
                         <div key={index} className="bg-gray-800 p-4 rounded-lg">
                           <h3 className="font-bold">{achievement.title}</h3>
-                          <p className="text-sm text-gray-400 mb-1">
-                            {achievement.year}
-                          </p>
-                          <p className="text-gray-300">
-                            {achievement.description}
-                          </p>
+                          <p className="text-sm text-gray-400 mb-1">{achievement.year}</p>
+                          <p className="text-gray-300">{achievement.description}</p>
                         </div>
                       ))}
                     </div>
@@ -257,10 +236,7 @@ export default function MemberProfile({ params }: { params: Params }) {
                     </h2>
                     <div className="space-y-4">
                       {profile.education.map((edu, index) => (
-                        <div
-                          key={index}
-                          className="border-l-2 border-gray-800 pl-4 pb-2"
-                        >
+                        <div key={index} className="border-l-2 border-gray-800 pl-4 pb-2">
                           <h3 className="font-bold">{edu.degree}</h3>
                           <p className="text-yellow-500">{edu.institution}</p>
                           <p className="text-sm text-gray-400">{edu.period}</p>
@@ -286,9 +262,7 @@ export default function MemberProfile({ params }: { params: Params }) {
               {profile.contributions.map((contribution, index) => (
                 <div key={index} className="bg-gray-800 p-4 rounded-lg">
                   <h3 className="font-bold mb-2">{contribution.title}</h3>
-                  <p className="text-sm text-gray-400 mb-2">
-                    {contribution.date}
-                  </p>
+                  <p className="text-sm text-gray-400 mb-2">{contribution.date}</p>
                   <p className="text-gray-300">{contribution.description}</p>
                 </div>
               ))}
@@ -299,16 +273,14 @@ export default function MemberProfile({ params }: { params: Params }) {
         {/* Connect CTA */}
         <div className="mt-8 mb-20 text-center">
           <Button className="bg-yellow-500 hover:bg-yellow-600 text-black">
-            Connect with {profile.name.split(" ")[0]}
+            Connect with {profile.name.split(' ')[0]}
           </Button>
         </div>
       </div>
 
       <footer className="bg-black border-t border-gray-800 py-8">
         <div className="container mx-auto px-4 text-center text-gray-500 text-sm">
-          <p>
-            &copy; {new Date().getFullYear()} Khmer Coders. All rights reserved.
-          </p>
+          <p>&copy; {new Date().getFullYear()} Khmer Coders. All rights reserved.</p>
         </div>
       </footer>
     </div>

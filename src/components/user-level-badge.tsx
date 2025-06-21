@@ -1,5 +1,5 @@
-import { UserLevel } from "@/types";
-import { BadgeCheck, Crown, Shield } from "lucide-react";
+import { UserLevel } from '@/types';
+import { BadgeCheck, Crown, Shield } from 'lucide-react';
 
 export function UserLevelBadge({ level }: { level: UserLevel }) {
   if (level === UserLevel.SuperAdmin) {

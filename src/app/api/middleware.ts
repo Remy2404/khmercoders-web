@@ -1,11 +1,11 @@
-import { getDB } from "@/libs/db";
-import { auth } from "@/utils/auth";
-import { eq } from "drizzle-orm";
-import { headers } from "next/headers";
-import * as schema from "@/libs/db/schema";
-import { DrizzleD1Database } from "drizzle-orm/d1";
-import { getCloudflareContext } from "@opennextjs/cloudflare";
-import { NextRequest, NextResponse } from "next/server";
+import { getDB } from '@/libs/db';
+import { auth } from '@/utils/auth';
+import { eq } from 'drizzle-orm';
+import { headers } from 'next/headers';
+import * as schema from '@/libs/db/schema';
+import { DrizzleD1Database } from 'drizzle-orm/d1';
+import { getCloudflareContext } from '@opennextjs/cloudflare';
+import { NextRequest, NextResponse } from 'next/server';
 
 export type ApiAuthContext = {
   profile?: typeof schema.memberProfile.$inferSelect;
@@ -26,15 +26,13 @@ export function withApiAuth<ResponseType = any>(
     authContext: ApiAuthContext
   ) => Promise<NextResponse<ResponseType> | Response>
 ) {
-  return async function (
-    req: NextRequest
-  ): Promise<NextResponse<ResponseType> | Response> {
+  return async function (req: NextRequest): Promise<NextResponse<ResponseType> | Response> {
     const session = await auth.api.getSession({
       headers: await headers(),
     });
 
     if (!session) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const db = await getDB();
@@ -68,9 +66,7 @@ export function withOptionalApiAuth<ResponseType = any>(
     authContext: Partial<ApiAuthContext>
   ) => Promise<NextResponse<ResponseType> | Response>
 ) {
-  return async function (
-    req: NextRequest
-  ): Promise<NextResponse<ResponseType> | Response> {
+  return async function (req: NextRequest): Promise<NextResponse<ResponseType> | Response> {
     const session = await auth.api.getSession({
       headers: await headers(),
     });

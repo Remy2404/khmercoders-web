@@ -1,4 +1,3 @@
-
 interface StatItem {
   icon: React.ReactNode;
   value: string;
@@ -36,9 +35,7 @@ function StatCard({ icon, value, label }: StatItem) {
           <h3 className="text-3xl font-bold bg-gradient-to-b from-yellow-400 to-yellow-500 bg-clip-text text-transparent">
             {value}
           </h3>
-          <p className="text-lg text-gray-300 mt-3 font-medium tracking-tight">
-            {label}
-          </p>
+          <p className="text-lg text-gray-300 mt-3 font-medium tracking-tight">{label}</p>
         </div>
       </div>
       <div className="absolute inset-0 rounded-3xl border border-white/5 pointer-events-none" />

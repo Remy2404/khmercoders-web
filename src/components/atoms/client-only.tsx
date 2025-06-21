@@ -1,11 +1,11 @@
-"use client";
-import { PropsWithChildren, useEffect, useState } from "react";
+'use client';
+import { PropsWithChildren, useEffect, useState } from 'react';
 
 export function ClientOnly(props: PropsWithChildren) {
   const [clientLoaded, setClientLoaded] = useState(false);
 
   useEffect(() => {
-    setClientLoaded(typeof window !== "undefined");
+    setClientLoaded(typeof window !== 'undefined');
   }, []);
 
   if (clientLoaded) {

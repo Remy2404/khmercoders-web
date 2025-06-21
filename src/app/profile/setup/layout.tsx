@@ -1,5 +1,5 @@
-"use client";
-import { useSession } from "@/components/auth-provider";
+'use client';
+import { useSession } from '@/components/auth-provider';
 
 export default function ProfileLayout({
   children,
