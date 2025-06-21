@@ -12,9 +12,9 @@ import { ProfileTrackingComponent } from "./tracker";
 export async function generateMetadata({
   params,
 }: {
-  params: { username: string };
+  params: Promise<{ username: string }>;
 }): Promise<Metadata> {
-  const username = params.username;
+  const { username } = await params;
 
   if (username.substring(0, 3) !== "%40") {
     return {
@@ -68,9 +68,9 @@ export async function generateMetadata({
 export default async function UserProfilePage({
   params,
 }: {
-  params: { username: string };
+  params: Promise<{ username: string }>;
 }) {
-  const username = params.username;
+  const { username } = await params;
 
   if (username.substring(0, 3) !== "%40") {
     return notFound();
@@ -93,7 +93,10 @@ export default async function UserProfilePage({
     .select()
     .from(schema.workExperience)
     .where(eq(schema.workExperience.userId, profile.user.id))
-    .orderBy(desc(schema.workExperience.endYear), desc(schema.workExperience.startYear));
+    .orderBy(
+      desc(schema.workExperience.endYear),
+      desc(schema.workExperience.startYear)
+    );
 
   return (
     <>
