@@ -1,32 +1,32 @@
-import { KCLinks } from "@/data/link";
-import { getCloudflareContext } from "@opennextjs/cloudflare";
-import Link from "next/link";
+import { KCLinks } from '@/data/link';
+import { getCloudflareContext } from '@opennextjs/cloudflare';
+import Link from 'next/link';
 
 export async function HomeHeroBanner() {
   const { env } = getCloudflareContext();
 
   const counter = await env.KV.get([
-    "telegram_member_count",
-    "discord_member_count",
-    "facebook_member_count",
+    'telegram_member_count',
+    'discord_member_count',
+    'facebook_member_count',
   ]);
 
-  const telegramMemberCount = Number(counter.get("telegram_member_count") || 0);
-  const discordMemberCount = Number(counter.get("discord_member_count") || 0);
-  const facebookMemberCount = Number(counter.get("facebook_member_count") || 0);
+  const telegramMemberCount = Number(counter.get('telegram_member_count') || 0);
+  const discordMemberCount = Number(counter.get('discord_member_count') || 0);
+  const facebookMemberCount = Number(counter.get('facebook_member_count') || 0);
 
   return (
     <section className="container mx-auto my-12 text-lg tracking-tight">
       <h1 className="font-retro text-5xl md:text-6xl lg:text-7xl text-yellow-500 leading-[1.1]">
-        Cambodia's Largest
+        {"Cambodia's Largest"}
         <br />
         Coding Community
       </h1>
 
       <div className="font-mono my-6 max-w-2xl">
-        Founded in 2018, Khmer Coders has grown to become Cambodia's largest
-        coding community. We bring together developers, designers, and tech
-        enthusiasts to learn, share, and grow together.
+        {`Founded in 2018, Khmer Coders has grown to become Cambodia's largest coding community. We
+        bring together developers, designers, and tech enthusiasts to learn, share, and grow
+        together.`}
       </div>
 
       <div className="flex gap-4 flex-wrap">

@@ -1,7 +1,7 @@
-import { HomeHeroBanner } from "./hero";
-import { HomeEventSection } from "./events";
-import { HomeFoundingSection } from "./founding";
-import { Users, Eye, MessageCircle } from "lucide-react";
+import { HomeHeroBanner } from './hero';
+import { HomeEventSection } from './events';
+import { HomeFoundingSection } from './founding';
+import { Users, Eye, MessageCircle } from 'lucide-react';
 
 export const revalidate = 3600; // Cache the page for 3600 seconds (1 hour)
 
@@ -14,6 +14,7 @@ export default async function LandingPage() {
 
       <section className="container mx-auto font-retro grid grid-cols-1 lg:grid-cols-2 gap-8 py-20 px-4 justify-center items-center">
         <img
+          alt=""
           src="/assets/images/kol-program-md.png"
           className="border-gray-800 border-b-8 w-full"
         />
@@ -22,19 +23,16 @@ export default async function LandingPage() {
             <span className="font-medium">Creator Program</span>
           </div>
           <h2 className="font-retro text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
-            Empowering{" "}
-            <span className="text-yellow-500">Technical Creators</span>
+            Empowering <span className="text-yellow-500">Technical Creators</span>
           </h2>
           <p className="font-mono mb-6">
-            Our creator program supports technical content creators who share
-            knowledge, provide entertainment, and inspire the next generation to
-            pursue careers in STEM.
+            Our creator program supports technical content creators who share knowledge, provide
+            entertainment, and inspire the next generation to pursue careers in STEM.
           </p>
           <p className="font-mono mb-8">
-            We provide resources, mentorship, and a platform for creators to
-            reach wider audiences, while building a community of passionate
-            educators who make technical concepts accessible and engaging for
-            everyone.
+            We provide resources, mentorship, and a platform for creators to reach wider audiences,
+            while building a community of passionate educators who make technical concepts
+            accessible and engaging for everyone.
           </p>
 
           <div className="font-mono grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">

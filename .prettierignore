@@ -1,0 +1,20 @@
+# Ignore artifacts:
+.next
+build
+dist
+node_modules
+coverage
+public
+drizzle
+
+# Ignore all JSON files:
+*.json
+*.jsonc
+package-lock.json
+
+# Ignore all markdown files:
+*.md
+
+# Ignore specific config files:
+next.config.mjs
+tailwind.config.ts

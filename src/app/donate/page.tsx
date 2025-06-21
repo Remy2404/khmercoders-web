@@ -1,8 +1,7 @@
-import Image from "next/image";
-import Avatar from "boring-avatars";
-import { Progress } from "@/components/generated/progress";
-import { IDonor, DonorDatabase } from "@/data/donors";
-import { useMemo } from "react";
+import Avatar from 'boring-avatars';
+import { Progress } from '@/components/generated/progress';
+import { IDonor, DonorDatabase } from '@/data/donors';
+import { useMemo } from 'react';
 
 interface IDonorExtended extends IDonor {
   total: number;
@@ -10,15 +9,15 @@ interface IDonorExtended extends IDonor {
   previousTotal: number;
 }
 
-export default async function DonatePage() {
+export default function DonatePage() {
   const currentYear = 2025;
 
   const donors: IDonorExtended[] = useMemo(() => {
-    return DonorDatabase.map((donor) => {
+    return DonorDatabase.map(donor => {
       const total = donor.trx.reduce((acc, trx) => acc + trx.amount, 0);
 
       const currentTotal = donor.trx
-        .filter((trx) => trx.date >= `${currentYear}-01-01`)
+        .filter(trx => trx.date >= `${currentYear}-01-01`)
         .reduce((acc, trx) => acc + trx.amount, 0);
 
       const previousTotal = total - currentTotal;
@@ -42,10 +41,7 @@ export default async function DonatePage() {
   }, [donors]);
 
   const total = donors.reduce((acc, donor) => acc + donor.total, 0);
-  const currentTotal = donors.reduce(
-    (acc, donor) => acc + donor.currentTotal,
-    0
-  );
+  const currentTotal = donors.reduce((acc, donor) => acc + donor.currentTotal, 0);
 
   return (
     <main className="container mx-auto px-4 pb-20">
@@ -83,15 +79,15 @@ export default async function DonatePage() {
 
                     <td className="py-3 px-4 text-right">
                       $
-                      {donor.total.toLocaleString("en-US", {
+                      {donor.total.toLocaleString('en-US', {
                         maximumFractionDigits: 0,
                       })}
                     </td>
                     <td className="py-3 px-4 text-right">
                       {donor.currentTotal === 0
-                        ? "--"
-                        : "$" +
-                          donor.currentTotal.toLocaleString("en-US", {
+                        ? '--'
+                        : '$' +
+                          donor.currentTotal.toLocaleString('en-US', {
                             maximumFractionDigits: 0,
                           })}
                     </td>
@@ -103,13 +99,13 @@ export default async function DonatePage() {
                   <td className="py-3 px-4 font-bold text-right">Total</td>
                   <td className="py-3 px-4 text-right font-bold">
                     $
-                    {currentTotal.toLocaleString("en-US", {
+                    {currentTotal.toLocaleString('en-US', {
                       maximumFractionDigits: 0,
                     })}
                   </td>
                   <td className="py-3 px-4 text-right font-bold">
                     $
-                    {total.toLocaleString("en-US", {
+                    {total.toLocaleString('en-US', {
                       maximumFractionDigits: 0,
                     })}
                   </td>
@@ -130,14 +126,13 @@ function GoalSection({ currentTotal }: { currentTotal: number }) {
 
   return (
     <section className="mb-20 bg-gray-900 rounded-lg p-8 max-w-4xl mx-auto">
-      <h2 className="text-2xl font-bold mb-6">2025's Funding Goal</h2>
+      <h2 className="text-2xl font-bold mb-6">{"2025's Funding Goal"}</h2>
 
       <p className="mb-8">
-        While the majority of our team members generously volunteer their time,
-        we would like to launch several new initiatives that require financial
-        support. If you have found the Khmer Coders community valuable and would
-        be interested in contributing, please consider supporting our estimated
-        operational needs for this year.
+        While the majority of our team members generously volunteer their time, we would like to
+        launch several new initiatives that require financial support. If you have found the Khmer
+        Coders community valuable and would be interested in contributing, please consider
+        supporting our estimated operational needs for this year.
       </p>
 
       <div className="mb-8">
@@ -148,10 +143,7 @@ function GoalSection({ currentTotal }: { currentTotal: number }) {
           </span>
         </div>
         <Progress value={percentComplete} className="h-5 bg-gray-800">
-          <div
-            className="h-3 bg-yellow-500"
-            style={{ width: `${percentComplete}%` }}
-          />
+          <div className="h-3 bg-yellow-500" style={{ width: `${percentComplete}%` }} />
         </Progress>
 
         <div className="mt-8 flex flex-col md:flex-row gap-8">
@@ -164,9 +156,8 @@ function GoalSection({ currentTotal }: { currentTotal: number }) {
 
           <div className="flex-1 flex items-center">
             <p className="text-lg">
-              Please scan the QR code with your preferred Cambodian banking
-              application. Include your name in the transaction remarks to be
-              recognized on our supporters list.
+              Please scan the QR code with your preferred Cambodian banking application. Include
+              your name in the transaction remarks to be recognized on our supporters list.
             </p>
           </div>
         </div>

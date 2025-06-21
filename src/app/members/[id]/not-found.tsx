@@ -1,7 +1,7 @@
-import Link from "next/link"
-import { ChevronLeft } from "lucide-react"
+import Link from 'next/link';
+import { ChevronLeft } from 'lucide-react';
 
-import { Button } from "@/components/generated/button"
+import { Button } from '@/components/generated/button';
 
 export default function MemberNotFound() {
   return (
@@ -9,7 +9,9 @@ export default function MemberNotFound() {
       <div className="max-w-md text-center">
         <h1 className="text-4xl font-bold mb-4">Member Not Found</h1>
         <p className="text-gray-400 mb-8">
-          We couldn't find the member profile you're looking for. They may have moved or the profile doesn't exist.
+          {
+            "We couldn't find the member profile you're looking for. They may have moved or the profile doesn't exist."
+          }
         </p>
         <Link href="/members">
           <Button className="bg-yellow-500 hover:bg-yellow-600 text-black">
@@ -19,6 +21,5 @@ export default function MemberNotFound() {
         </Link>
       </div>
     </div>
-  )
+  );
 }
-

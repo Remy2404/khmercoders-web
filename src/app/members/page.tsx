@@ -1,18 +1,11 @@
-import Link from "next/link";
-import Image from "next/image";
-import {
-  ChevronLeft,
-  Github,
-  Twitter,
-  Linkedin,
-  Globe,
-  ArrowRight,
-} from "lucide-react";
+import Link from 'next/link';
+import Image from 'next/image';
+import { ChevronLeft, Github, Twitter, Linkedin, Globe, ArrowRight } from 'lucide-react';
 
-import { Button } from "@/components/generated/button";
-import { Badge } from "@/components/generated/badge";
-import { ICommunityMember } from "@/types";
-import { entrepreneurs, risingStars, techLeaders } from "@/data/members";
+import { Button } from '@/components/generated/button';
+import { Badge } from '@/components/generated/badge';
+import { ICommunityMember } from '@/types';
+import { entrepreneurs, risingStars, techLeaders } from '@/data/members';
 
 export default function MembersPage() {
   return (
@@ -26,7 +19,7 @@ export default function MembersPage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {techLeaders.map((member) => (
+          {techLeaders.map(member => (
             <MemberCard key={member.id} member={member} />
           ))}
         </div>
@@ -36,14 +29,12 @@ export default function MembersPage() {
       <section className="mb-20">
         <div className="flex items-center justify-center mb-12">
           <div className="h-px bg-gray-800 flex-grow"></div>
-          <h2 className="text-2xl md:text-3xl font-bold px-6">
-            Tech Entrepreneurs
-          </h2>
+          <h2 className="text-2xl md:text-3xl font-bold px-6">Tech Entrepreneurs</h2>
           <div className="h-px bg-gray-800 flex-grow"></div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {entrepreneurs.map((member) => (
+          {entrepreneurs.map(member => (
             <MemberCard key={member.id} member={member} />
           ))}
         </div>
@@ -58,7 +49,7 @@ export default function MembersPage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {risingStars.map((member) => (
+          {risingStars.map(member => (
             <MemberCard key={member.id} member={member} />
           ))}
         </div>
@@ -66,17 +57,13 @@ export default function MembersPage() {
 
       {/* Join the Community CTA */}
       <section className="mt-24 bg-gray-900 rounded-lg p-8 md:p-12 text-center">
-        <h2 className="text-2xl md:text-3xl font-bold mb-4">
-          Join Our Community
-        </h2>
+        <h2 className="text-2xl md:text-3xl font-bold mb-4">Join Our Community</h2>
         <p className="text-gray-400 mb-8 max-w-2xl mx-auto">
-          Connect with these influential members and become part of Cambodia's
-          largest tech community. Share knowledge, collaborate on projects, and
-          grow your career.
+          {
+            "Connect with these influential members and become part of Cambodia's largest tech community. Share knowledge, collaborate on projects, and grow your career."
+          }
         </p>
-        <Button className="bg-yellow-500 hover:bg-yellow-600 text-black">
-          Join Khmer Coders
-        </Button>
+        <Button className="bg-yellow-500 hover:bg-yellow-600 text-black">Join Khmer Coders</Button>
       </section>
     </main>
   );
@@ -88,7 +75,7 @@ function MemberCard({ member }: { member: ICommunityMember }) {
       <div className="relative">
         <div className="h-48 w-full relative">
           <Image
-            src={member.coverImage || "/placeholder.svg?height=400&width=600"}
+            src={member.coverImage || '/placeholder.svg?height=400&width=600'}
             alt={`${member.name} cover`}
             fill
             className="object-cover"
@@ -97,7 +84,7 @@ function MemberCard({ member }: { member: ICommunityMember }) {
         <div className="absolute -bottom-12 left-1/2 -translate-x-1/2">
           <div className="h-24 w-24 rounded-full overflow-hidden border-4 border-gray-900 relative">
             <Image
-              src={member.image || "/placeholder.svg?height=200&width=200"}
+              src={member.image || '/placeholder.svg?height=200&width=200'}
               alt={member.name}
               fill
               className="object-cover"
@@ -115,11 +102,7 @@ function MemberCard({ member }: { member: ICommunityMember }) {
         {member.badges && member.badges.length > 0 && (
           <div className="flex flex-wrap justify-center gap-2 mb-4">
             {member.badges.map((badge, index) => (
-              <Badge
-                key={index}
-                variant="outline"
-                className="border-yellow-500/30 text-yellow-500"
-              >
+              <Badge key={index} variant="outline" className="border-yellow-500/30 text-yellow-500">
                 {badge}
               </Badge>
             ))}
@@ -172,10 +155,7 @@ function MemberCard({ member }: { member: ICommunityMember }) {
         </div>
 
         <Link href={`/members/${member.id}`} className="mt-auto">
-          <Button
-            variant="outline"
-            className="w-full border-gray-700 hover:bg-gray-800"
-          >
+          <Button variant="outline" className="w-full border-gray-700 hover:bg-gray-800">
             View Profile <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
         </Link>

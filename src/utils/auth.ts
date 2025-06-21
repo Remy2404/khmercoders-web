@@ -1,23 +1,23 @@
-import { drizzleAdapter } from "better-auth/adapters/drizzle";
-import { betterAuth } from "better-auth";
-import { getDB } from "@/libs/db";
-import * as schema from "@/libs/db/schema";
+import { drizzleAdapter } from 'better-auth/adapters/drizzle';
+import { betterAuth } from 'better-auth';
+import { getDB } from '@/libs/db';
+import * as schema from '@/libs/db/schema';
 
 export const auth = betterAuth({
   database: drizzleAdapter(await getDB(), {
-    provider: "sqlite",
+    provider: 'sqlite',
     schema: schema,
   }),
   user: {
     additionalFields: {
       reputation: {
-        type: "number",
+        type: 'number',
       },
       level: {
-        type: "number",
+        type: 'number',
       },
       storageUsed: {
-        type: "number",
+        type: 'number',
       },
     },
   },
