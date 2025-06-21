@@ -1,7 +1,7 @@
 // Founder Card Component with detailed bio
 
-import { DrizzleD1Database } from "drizzle-orm/d1";
-import * as schema from "@/libs/db/schema";
+import { DrizzleD1Database } from 'drizzle-orm/d1';
+import * as schema from '@/libs/db/schema';
 
 // Define the type for the member object
 export interface ITeamMember {
@@ -66,3 +66,4 @@ export enum UserLevel {
 
 export type MainDatabase = DrizzleD1Database<typeof schema>;
 export type UserRecord = typeof schema.user.$inferSelect;
+export type ExperienceRecord = typeof schema.workExperience.$inferSelect;

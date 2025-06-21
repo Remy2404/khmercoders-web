@@ -8,6 +8,7 @@ import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { UserLevelBadge } from '@/components/user-level-badge';
 import { ProfileTrackingComponent } from './tracker';
+import { sortExperience } from '@/utils/experience';
 
 export async function generateMetadata({
   params,
@@ -89,11 +90,13 @@ export default async function UserProfilePage({
   if (!profile) {
     return notFound();
   } // Getting the experience
-  const experiences = await db
-    .select()
-    .from(schema.workExperience)
-    .where(eq(schema.workExperience.userId, profile.user.id))
-    .orderBy(desc(schema.workExperience.endYear), desc(schema.workExperience.startYear));
+
+  const experiences = sortExperience(
+    await db
+      .select()
+      .from(schema.workExperience)
+      .where(eq(schema.workExperience.userId, profile.user.id))
+  );
 
   return (
     <>

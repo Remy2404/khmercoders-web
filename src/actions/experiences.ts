@@ -1,8 +1,9 @@
-"use server";
-import { withAuthAction } from "./middleware";
-import { eq } from "drizzle-orm";
-import * as schema from "@/libs/db/schema";
-import { v4 as uuidv4 } from "uuid";
+'use server';
+import { withAuthAction } from './middleware';
+import { eq } from 'drizzle-orm';
+import * as schema from '@/libs/db/schema';
+import { v4 as uuidv4 } from 'uuid';
+import { sortExperience } from '@/utils/experience';
 
 /**
  * Interface for experience data used in create and update actions
@@ -19,49 +20,47 @@ interface ExperienceData {
 /**
  * Server action to create a new work experience for the authenticated user
  */
-export const createExperienceAction = withAuthAction(
-  async ({ db, user }, data: ExperienceData) => {
-    // Validate input data
-    if (!isValidExperienceData(data)) {
-      return {
-        success: false,
-        message: "Invalid experience data. Please check your inputs.",
-      };
-    }
-
-    const now = new Date();
-
-    try {
-      // Generate a new UUID for the experience
-      const id = uuidv4();
-
-      await db.insert(schema.workExperience).values({
-        id,
-        userId: user.id,
-        startYear: data.startYear,
-        endYear: data.endYear || null,
-        companyName: data.companyName.trim(),
-        companyLogo: data.companyLogo?.trim(),
-        role: data.role.trim(),
-        description: data.description?.trim(),
-        createdAt: now,
-        updatedAt: now,
-      });
-
-      return {
-        success: true,
-        message: "Experience added successfully.",
-        experienceId: id,
-      };
-    } catch (error) {
-      console.error("Failed to create experience:", error);
-      return {
-        success: false,
-        message: "Failed to add experience. Please try again later.",
-      };
-    }
+export const createExperienceAction = withAuthAction(async ({ db, user }, data: ExperienceData) => {
+  // Validate input data
+  if (!isValidExperienceData(data)) {
+    return {
+      success: false,
+      message: 'Invalid experience data. Please check your inputs.',
+    };
   }
-);
+
+  const now = new Date();
+
+  try {
+    // Generate a new UUID for the experience
+    const id = uuidv4();
+
+    await db.insert(schema.workExperience).values({
+      id,
+      userId: user.id,
+      startYear: data.startYear,
+      endYear: data.endYear || null,
+      companyName: data.companyName.trim(),
+      companyLogo: data.companyLogo?.trim(),
+      role: data.role.trim(),
+      description: data.description?.trim(),
+      createdAt: now,
+      updatedAt: now,
+    });
+
+    return {
+      success: true,
+      message: 'Experience added successfully.',
+      experienceId: id,
+    };
+  } catch (error) {
+    console.error('Failed to create experience:', error);
+    return {
+      success: false,
+      message: 'Failed to add experience. Please try again later.',
+    };
+  }
+});
 
 /**
  * Server action to update an existing work experience
@@ -72,21 +71,19 @@ export const updateExperienceAction = withAuthAction(
     if (!isValidExperienceData(data)) {
       return {
         success: false,
-        message: "Invalid experience data. Please check your inputs.",
+        message: 'Invalid experience data. Please check your inputs.',
       };
     }
 
     // Check if the experience exists and belongs to the user
     const experience = await db.query.workExperience.findFirst({
-      where: (workExp) =>
-        eq(workExp.id, experienceId) && eq(workExp.userId, user.id),
+      where: workExp => eq(workExp.id, experienceId) && eq(workExp.userId, user.id),
     });
 
     if (!experience) {
       return {
         success: false,
-        message:
-          "Experience not found or you don't have permission to edit it.",
+        message: "Experience not found or you don't have permission to edit it.",
       };
     }
 
@@ -108,13 +105,13 @@ export const updateExperienceAction = withAuthAction(
 
       return {
         success: true,
-        message: "Experience updated successfully.",
+        message: 'Experience updated successfully.',
       };
     } catch (error) {
-      console.error("Failed to update experience:", error);
+      console.error('Failed to update experience:', error);
       return {
         success: false,
-        message: "Failed to update experience. Please try again later.",
+        message: 'Failed to update experience. Please try again later.',
       };
     }
   }
@@ -123,63 +120,55 @@ export const updateExperienceAction = withAuthAction(
 /**
  * Server action to remove an existing work experience
  */
-export const removeExperienceAction = withAuthAction(
-  async ({ db, user }, experienceId: string) => {
-    // Check if the experience exists and belongs to the user
-    const experience = await db.query.workExperience.findFirst({
-      where: (workExp) =>
-        eq(workExp.id, experienceId) && eq(workExp.userId, user.id),
-    });
+export const removeExperienceAction = withAuthAction(async ({ db, user }, experienceId: string) => {
+  // Check if the experience exists and belongs to the user
+  const experience = await db.query.workExperience.findFirst({
+    where: workExp => eq(workExp.id, experienceId) && eq(workExp.userId, user.id),
+  });
 
-    if (!experience) {
-      return {
-        success: false,
-        message:
-          "Experience not found or you don't have permission to remove it.",
-      };
-    }
-
-    try {
-      await db
-        .delete(schema.workExperience)
-        .where(eq(schema.workExperience.id, experienceId));
-
-      return {
-        success: true,
-        message: "Experience removed successfully.",
-      };
-    } catch (error) {
-      console.error("Failed to remove experience:", error);
-      return {
-        success: false,
-        message: "Failed to remove experience. Please try again later.",
-      };
-    }
+  if (!experience) {
+    return {
+      success: false,
+      message: "Experience not found or you don't have permission to remove it.",
+    };
   }
-);
+
+  try {
+    await db.delete(schema.workExperience).where(eq(schema.workExperience.id, experienceId));
+
+    return {
+      success: true,
+      message: 'Experience removed successfully.',
+    };
+  } catch (error) {
+    console.error('Failed to remove experience:', error);
+    return {
+      success: false,
+      message: 'Failed to remove experience. Please try again later.',
+    };
+  }
+});
 
 /**
  * Server action to get all work experiences for the authenticated user
  */
 export const getUserExperiencesAction = withAuthAction(async ({ db, user }) => {
   try {
-    const experiences = await db.query.workExperience.findMany({
-      where: eq(schema.workExperience.userId, user.id),
-      orderBy: (workExp, { desc }) => [
-        desc(workExp.endYear),
-        desc(workExp.startYear),
-      ],
-    });
+    const experiences = sortExperience(
+      await db.query.workExperience.findMany({
+        where: eq(schema.workExperience.userId, user.id),
+      })
+    );
 
     return {
       success: true,
       experiences,
     };
   } catch (error) {
-    console.error("Failed to fetch experiences:", error);
+    console.error('Failed to fetch experiences:', error);
     return {
       success: false,
-      message: "Failed to fetch experiences. Please try again later.",
+      message: 'Failed to fetch experiences. Please try again later.',
       experiences: [],
     };
   }
@@ -200,11 +189,7 @@ function isValidExperienceData(data: ExperienceData): boolean {
 
   // Validate startYear
   const currentYear = new Date().getFullYear();
-  if (
-    !data.startYear ||
-    data.startYear < 1900 ||
-    data.startYear > currentYear
-  ) {
+  if (!data.startYear || data.startYear < 1900 || data.startYear > currentYear) {
     return false;
   }
 
