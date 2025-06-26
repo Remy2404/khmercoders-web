@@ -8,15 +8,15 @@ export const handleCloudflareScheduled: ExportedHandlerScheduledHandler<Cloudfla
 ) => {
   const { cron } = event;
 
-  if (cron === '0 * * * *') {
-    if (!process.env.TELEGRAM_BOT_TOKEN) {
+  if (cron === '*/5 * * * *') {
+    if (!env.TELEGRAM_BOT_TOKEN) {
       console.error('Bot token or chat ID is not set in environment variables.');
       return;
     }
 
     try {
       const response = await fetch(
-        `https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/getChatMembersCount?chat_id=${KHMERCODERS_TELEGRAM_GROUP_ID}`
+        `https://api.telegram.org/bot${env.TELEGRAM_BOT_TOKEN}/getChatMembersCount?chat_id=${KHMERCODERS_TELEGRAM_GROUP_ID}`
       );
 
       if (!response.ok) {
