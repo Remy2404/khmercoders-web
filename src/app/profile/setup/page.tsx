@@ -11,6 +11,7 @@ import {
 } from '@/components/generated/card';
 import { useSession } from '@/components/auth-provider';
 import { formatSize } from '@/utils/format';
+import { useUserUpload } from '@/components/user-upload/context';
 
 export default function ProfileSetupPage() {
   const { session } = useSession();
