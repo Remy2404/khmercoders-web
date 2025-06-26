@@ -1,6 +1,5 @@
-"use server";
-import { withAuthAction } from "./middleware";
-
+'use server';
+import { withAuthAction } from './middleware';
 
 export const getFileListAction = withAuthAction(async ({ db, user }) => {
   const files = await db.query.userUpload.findMany({
@@ -9,4 +8,4 @@ export const getFileListAction = withAuthAction(async ({ db, user }) => {
   });
 
   return files;
-})
+});
