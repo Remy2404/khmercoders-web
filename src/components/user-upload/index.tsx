@@ -6,15 +6,17 @@ import { useEffect, useState } from 'react';
 import { UserUploadRecord } from '@/types';
 import { getFileListAction } from '@/actions/file';
 import { formatAgo, formatSize } from '@/utils/format';
-import { File, Image } from 'lucide-react';
+import { File } from 'lucide-react';
+import { renderIconFromContentType } from '@/utils/icons';
 
 interface UserUploadProps {
   onSelect: (file: string) => void;
   onClose: () => void;
+  mode?: 'file' | 'upload';
 }
 
-export function UserUpload({ onSelect, onClose }: UserUploadProps) {
-  const [selectedTab, setSelectedTab] = useState<'file' | 'upload'>('file');
+export function UserUpload({ onSelect, onClose, mode }: UserUploadProps) {
+  const [selectedTab, setSelectedTab] = useState<'file' | 'upload'>(mode ?? 'file');
   const [files, setFiles] = useState<UserUploadRecord[]>([]);
 
   useEffect(() => {
@@ -224,15 +226,4 @@ function FileListTabContent({
       </TableBody>
     </Table>
   );
-}
-
-function renderIconFromContentType(contentType: string) {
-  switch (contentType) {
-    case 'image/png':
-    case 'image/jpeg':
-    case 'image/gif':
-      return <Image className="w-5 h-5 text-purple-500" />;
-    default:
-      return <File className="w-5 h-5" />;
-  }
 }
