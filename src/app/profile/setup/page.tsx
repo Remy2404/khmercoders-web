@@ -11,7 +11,6 @@ import {
 } from '@/components/generated/card';
 import { useSession } from '@/components/auth-provider';
 import { formatSize } from '@/utils/format';
-import { useUserUpload } from '@/components/user-upload/context';
 
 export default function ProfileSetupPage() {
   const { session } = useSession();
@@ -26,7 +25,13 @@ export default function ProfileSetupPage() {
             <CardHeader>
               <CardTitle>{formatSize(session?.user?.storageUsed ?? 0)} / 1GB</CardTitle>
               <CardDescription>Storage Usage</CardDescription>
+              <div>
+                <Link href="/profile/storage" className="text-primary hover:underline text-sm">
+                  Manage storage
+                </Link>
+              </div>
             </CardHeader>
+
             <CardFooter>
               <progress
                 className="w-full h-2 bg-gray-200 rounded"

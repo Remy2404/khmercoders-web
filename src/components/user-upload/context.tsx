@@ -54,7 +54,9 @@ export function UserUploadProvider({ children }: PropsWithChildren) {
   return (
     <UserUploadContext.Provider value={{ openUserUpload }}>
       {children}
-      {mode !== 'closed' && <UserUpload onClose={handleClose} onSelect={handleSelect} />}
+      {mode !== 'closed' && (
+        <UserUpload onClose={handleClose} onSelect={handleSelect} mode={mode} />
+      )}
     </UserUploadContext.Provider>
   );
 }
