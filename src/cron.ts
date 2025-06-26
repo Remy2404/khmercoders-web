@@ -27,7 +27,7 @@ export const handleCloudflareScheduled: ExportedHandlerScheduledHandler<Cloudfla
 
       console.log('Telegram group member count:', JSON.stringify(data, null, 2));
 
-      env.KV.put(KV_TELERAM_MEMBER_COUNT, data.result.toString());
+      await env.KV.put(KV_TELERAM_MEMBER_COUNT, data.result.toString());
     } catch (error) {
       console.error('Error fetching chat members count:', error);
     }
