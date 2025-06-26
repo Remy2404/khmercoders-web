@@ -51,5 +51,8 @@
       "binding": "PROFILE_ANALYTICS",
       "dataset": "profile_analytics"
     }
-  ]
+  ],
+  "vars": {
+    "TELEGRAM_BOT_TOKEN": "your-telegram-bot-token",
+  }
 }
