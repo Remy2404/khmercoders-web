@@ -8,7 +8,7 @@ export const handleCloudflareScheduled: ExportedHandlerScheduledHandler<Cloudfla
 ) => {
   const { cron } = event;
 
-  if (cron === '*/5 * * * *') {
+  if (cron === '0 */2 * * *') {
     if (!env.TELEGRAM_BOT_TOKEN) {
       console.error('Bot token or chat ID is not set in environment variables.');
       return;
