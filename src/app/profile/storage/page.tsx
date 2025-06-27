@@ -1,7 +1,7 @@
 'use client';
 
 import { getFileListAction } from '@/actions/file';
-import { UserUploadRecord } from '@/types';
+import { UserRecord, UserUploadRecordWithBinding } from '@/types';
 import { useState, useEffect, useCallback } from 'react';
 import {
   Table,
@@ -23,30 +23,59 @@ import {
   DropdownMenuTrigger,
 } from '@/components/generated/dropdown-menu';
 import { useToast } from '@/hooks/use-toast';
+import { Badge } from '@/components/generated/badge';
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardFooter,
+} from '@/components/generated/card';
+import { useSession } from '@/components/auth-provider';
+import { getUserAction } from '@/actions/users';
 
 export default function StorageDetailPage() {
-  const [files, setFiles] = useState<UserUploadRecord[]>([]);
+  const { session } = useSession();
+  const [user, setUser] = useState<UserRecord | undefined>(session?.user);
+  const [files, setFiles] = useState<UserUploadRecordWithBinding[]>([]);
   const { openUserUpload } = useUserUpload();
 
-  useEffect(() => {
+  const fetchData = useCallback(() => {
     getFileListAction()
       .then(setFiles)
       .catch(() => {});
+
+    getUserAction().then(setUser).catch(console.error);
   }, []);
 
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
   const handleUploadClick = useCallback(() => {
-    openUserUpload('upload')
-      .then(() => {
-        getFileListAction()
-          .then(setFiles)
-          .catch(() => {});
-      })
-      .catch(console.error);
-  }, []);
+    openUserUpload('upload').then(fetchData).catch(console.error);
+  }, [fetchData]);
 
   return (
     <div className="container mx-auto py-8">
-      <h1 className="text-3xl font-bold mb-6">File Manager</h1>
+      <h1 className="text-2xl font-bold mb-6">Personal Storage</h1>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-8">
+        <Card>
+          <CardHeader>
+            <CardTitle>{formatSize(user?.storageUsed ?? 0)} / 1 GB</CardTitle>
+            <CardDescription>Storage Usage</CardDescription>
+          </CardHeader>
+
+          <CardFooter>
+            <progress
+              className="w-full h-2 bg-gray-200 rounded"
+              value={(user?.storageUsed ?? 0) / 1073741824}
+              max={1}
+            ></progress>
+          </CardFooter>
+        </Card>
+      </div>
 
       <div className="my-4">
         <Button onClick={handleUploadClick}>Upload</Button>
@@ -59,7 +88,7 @@ export default function StorageDetailPage() {
   );
 }
 
-function FileTable({ files }: { files: UserUploadRecord[] }) {
+function FileTable({ files }: { files: UserUploadRecordWithBinding[] }) {
   const { toast } = useToast();
 
   if (files.length === 0) {
@@ -69,13 +98,14 @@ function FileTable({ files }: { files: UserUploadRecord[] }) {
           <TableRow>
             <TableHead>File Description</TableHead>
             <TableHead className="text-right">Size</TableHead>
+            <TableHead style={{ width: 50 }}>Binding</TableHead>
             <TableHead style={{ width: 150 }}>Created at</TableHead>
             <TableHead style={{ width: 50 }}></TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           <TableRow>
-            <TableCell colSpan={4} className="text-center text-muted-foreground">
+            <TableCell colSpan={5} className="text-center text-muted-foreground">
               No files found
             </TableCell>
           </TableRow>
@@ -90,6 +120,7 @@ function FileTable({ files }: { files: UserUploadRecord[] }) {
         <TableRow>
           <TableHead>File Description</TableHead>
           <TableHead className="text-right">Size</TableHead>
+          <TableHead style={{ width: 50 }}>Binding</TableHead>
           <TableHead style={{ width: 150 }}>Created at</TableHead>
           <TableHead style={{ width: 50 }}></TableHead>
         </TableRow>
@@ -105,6 +136,14 @@ function FileTable({ files }: { files: UserUploadRecord[] }) {
                 </div>
               </TableCell>
               <TableCell className="text-right">{formatSize(file.fileSize)}</TableCell>
+              <TableCell>
+                {(file.bindings ?? []).some(b => b.resourceType === 'profile') && (
+                  <Badge>Profile</Badge>
+                )}
+                {(file.bindings ?? []).some(b => b.resourceType === 'blog') && (
+                  <Badge>Profile</Badge>
+                )}
+              </TableCell>
               <TableCell>{formatAgo(file.createdAt)}</TableCell>
               <TableCell>
                 <DropdownMenu modal={false}>
