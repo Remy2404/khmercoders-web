@@ -59,7 +59,7 @@ export function UserAvatar() {
         <DropdownMenuItem asChild>
           <Link href={'/profile/storage'} className="cursor-pointer">
             <Files className="mr-2 h-4 w-4" />
-            Personal Storage
+            Your Storage
             <div className="grow flex justify-end">
               <Badge>Beta</Badge>
             </div>

@@ -58,7 +58,12 @@ export default function StorageDetailPage() {
 
   return (
     <div className="container mx-auto py-8">
-      <h1 className="text-2xl font-bold mb-6">Personal Storage</h1>
+      <h1 className="text-2xl font-bold mb-2">Your Storage</h1>
+
+      <p className="text-sm mb-4 text-gray-400" style={{ maxWidth: '600px' }}>
+        This is your storage that you want to share file publicly. Please noted everything here is
+        public accessible, so do not upload any sensitive or private files here.
+      </p>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-8">
         <Card>
