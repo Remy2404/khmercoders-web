@@ -8,6 +8,7 @@ import { getFileListAction } from '@/actions/file';
 import { formatAgo, formatSize } from '@/utils/format';
 import { File } from 'lucide-react';
 import { renderIconFromContentType } from '@/utils/icons';
+import { cn } from '@/utils';
 
 interface UserUploadProps {
   onSelect: (file: string) => void;
@@ -74,10 +75,39 @@ function FileUploadTabContent({ onSelect }: { onSelect: (file: string) => void }
   const [file, setFile] = useState<File | null>(null);
   const [uploadProgress, setUploadProgress] = useState<number | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [isDragOver, setIsDragOver] = useState(false);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0];
     if (selectedFile) {
+      setFile(selectedFile);
+
+      if (selectedFile.type.startsWith('image/')) {
+        const url = URL.createObjectURL(selectedFile);
+        setPreviewUrl(url);
+      } else {
+        setPreviewUrl(null);
+      }
+    }
+  };
+
+  const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    setIsDragOver(true);
+  };
+
+  const handleDragLeave = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    setIsDragOver(false);
+  };
+
+  const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    setIsDragOver(false);
+
+    const droppedFiles = event.dataTransfer.files;
+    if (droppedFiles.length > 0) {
+      const selectedFile = droppedFiles[0];
       setFile(selectedFile);
 
       if (selectedFile.type.startsWith('image/')) {
@@ -140,17 +170,37 @@ function FileUploadTabContent({ onSelect }: { onSelect: (file: string) => void }
 
   return (
     <div className="flex flex-col items-center justify-center w-full h-full">
-      <label
-        htmlFor="file-upload"
-        className="flex flex-col items-center justify-center w-64 h-32 border-2 border-dashed rounded-lg cursor-pointer hover:border-yellow-500"
+      <div
+        className={cn(
+          'flex flex-col items-center justify-center w-64 h-32 border-2 border-dashed rounded-lg cursor-pointer transition-colors',
+          isDragOver
+            ? 'border-yellow-500 bg-yellow-50 dark:bg-yellow-950/20'
+            : 'border-gray-300 hover:border-yellow-500'
+        )}
+        onDragOver={handleDragOver}
+        onDragLeave={handleDragLeave}
+        onDrop={handleDrop}
+        onClick={() => document.getElementById('file-upload')?.click()}
       >
         <div className="flex flex-col items-center justify-center">
-          <File className="w-10 h-10 text-muted-foreground" />
-          <p className="mt-2 text-sm text-muted-foreground">Click to upload or drag and drop</p>
+          <File
+            className={cn(
+              `size-10 ${isDragOver ? 'text-yellow-500' : 'text-muted-foreground'}`,
+              isDragOver && 'animate-pulse'
+            )}
+          />
+          <p
+            className={cn(
+              'mt-2 text-sm',
+              isDragOver ? 'text-yellow-600 dark:text-yellow-400' : 'text-muted-foreground'
+            )}
+          >
+            {isDragOver ? 'Drop your file here' : 'Click to upload or drag and drop'}
+          </p>
           <p className="text-xs text-muted-foreground">PNG, JPG, GIF up to 10MB</p>
         </div>
         <input id="file-upload" type="file" className="hidden" onChange={handleFileChange} />
-      </label>
+      </div>
 
       {file && (
         <div className="mt-4 flex flex-col items-center">
