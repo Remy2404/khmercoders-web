@@ -1,8 +1,36 @@
+'use client';
 import { ArticlePreviewRecord } from '@/types';
 import { Avatar, AvatarFallback, AvatarImage } from './generated/avatar';
 import Link from 'next/link';
+import { Badge } from './generated/badge';
+import { Button } from './generated/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+  DropdownMenuItem,
+} from './generated/dropdown-menu';
+import { useState } from 'react';
+import { useMutation } from '@tanstack/react-query';
+import { updateArticlePublishAction } from '@/actions/article';
 
-export function ArticlePreviewItem({ data }: { data: ArticlePreviewRecord }) {
+interface ArticlePreviewItemProps {
+  data: ArticlePreviewRecord;
+  showControlPanel?: boolean;
+}
+
+export function ArticlePreviewItem({ data, showControlPanel }: ArticlePreviewItemProps) {
+  const [published, setPublished] = useState(data.published);
+
+  const { mutate: togglePublished, isPending } = useMutation({
+    mutationFn: async (data: { articleId: string; status: boolean }) => {
+      return await updateArticlePublishAction(data.articleId, data.status);
+    },
+    onSuccess: () => {
+      setPublished(!published);
+    },
+  });
+
   return (
     <article className="p-4 border rounded-lg shadow-md mb-4 flex gap-2">
       <div className="grow">
@@ -28,6 +56,12 @@ export function ArticlePreviewItem({ data }: { data: ArticlePreviewRecord }) {
               })}
             </time>
           )}
+
+          {showControlPanel && (
+            <Badge variant={published ? 'default' : 'secondary'} className="ml-2">
+              {published ? 'Published' : 'Draft'}
+            </Badge>
+          )}
         </div>
         {data.summary && <p className="text-sm text-muted-foreground my-2">{data.summary}</p>}
         <div className="flex gap-2 items-center mt-2">
@@ -36,6 +70,31 @@ export function ArticlePreviewItem({ data }: { data: ArticlePreviewRecord }) {
           </Avatar>
           <span className="text-sm">Visal .In</span>
         </div>
+
+        {showControlPanel && (
+          <div className="mt-4">
+            <DropdownMenu modal={false}>
+              <DropdownMenuTrigger asChild disabled={isPending}>
+                <Button variant="outline" size="sm" disabled={isPending}>
+                  More Actions
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem asChild>
+                  <Link href={`/profile/articles/${data.id}`} className="cursor-pointer">
+                    Edit Article
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => togglePublished({ articleId: data.id, status: !published })}
+                >
+                  {published ? 'Unpublished' : 'Published'}
+                </DropdownMenuItem>
+                <DropdownMenuItem disabled>Insight (coming soon)</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        )}
       </div>
       {data.image ? (
         <div className="article-image">

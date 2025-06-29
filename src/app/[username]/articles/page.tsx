@@ -49,7 +49,7 @@ export default async function UserArticleListPage({
 
       <div className="max-w-4xl mx-auto my-8 mb-12 px-4">
         {articles.map(article => (
-          <ArticlePreviewItem key={article.id} data={article} />
+          <ArticlePreviewItem key={article.id} data={article} showControlPanel />
         ))}
       </div>
     </>
