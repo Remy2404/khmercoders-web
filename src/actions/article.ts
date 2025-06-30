@@ -1,5 +1,5 @@
 'use server';
-import { ArticleEditorValue } from '@/components/article-editor';
+import { ArticleEditorValue } from '@/app/profile/article/components/ArticleEditor';
 import { withAuthAction } from './middleware';
 import * as schema from '@/libs/db/schema';
 import { eq } from 'drizzle-orm';

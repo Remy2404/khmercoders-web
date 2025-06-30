@@ -13,6 +13,7 @@ import {
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { updateArticlePublishAction } from '@/actions/article';
+import Image from 'next/image';
 
 interface ArticlePreviewItemProps {
   data: ArticlePreviewRecord;
@@ -81,7 +82,7 @@ export function ArticlePreviewItem({ data, showControlPanel }: ArticlePreviewIte
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 <DropdownMenuItem asChild>
-                  <Link href={`/profile/articles/${data.id}`} className="cursor-pointer">
+                  <Link href={`/profile/article/${data.id}`} className="cursor-pointer">
                     Edit Article
                   </Link>
                 </DropdownMenuItem>
@@ -98,7 +99,7 @@ export function ArticlePreviewItem({ data, showControlPanel }: ArticlePreviewIte
       </div>
       {data.image ? (
         <div className="article-image">
-          <img src={data.image} alt={data.title} />
+          <Image width={128} height={96} src={data.image} alt={data.title} className="w-32 h-24" />
         </div>
       ) : (
         <div className="w-32 h-24 bg-secondary rounded"></div>
