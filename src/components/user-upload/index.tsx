@@ -190,33 +190,37 @@ function FileUploadTabContent({ onSelect }: { onSelect: (file: string) => void }
       </div>
 
       {files.length > 0 && (
-        <div className="mt-4 flex flex-wrap gap-4 justify-center">
-          {files.map((file, index) => {
-            const previewUrl = file.type.startsWith('image/') ? URL.createObjectURL(file) : null;
+        <div>
+          <div className="mt-4 flex flex-wrap gap-4 justify-center">
+            {files.map((file, index) => {
+              const previewUrl = file.type.startsWith('image/') ? URL.createObjectURL(file) : null;
 
-            return (
-              <div key={index} className="flex flex-col items-center">
-                {previewUrl ? (
-                  <img
-                    src={previewUrl}
-                    alt={`Preview ${index}`}
-                    className="w-32 h-32 object-cover rounded-lg"
-                  />
-                ) : (
-                  <div className="flex items-center gap-2">
-                    <File className="w-5 h-5" />
-                    <span>{file.name}</span>
-                  </div>
-                )}
-              </div>
-            );
-          })}
-          <button
-            onClick={handleUpload}
-            className="mt-4 px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600"
-          >
-            Upload
-          </button>
+              return (
+                <div key={index} className="flex flex-col items-center">
+                  {previewUrl ? (
+                    <img
+                      src={previewUrl}
+                      alt={`Preview ${index}`}
+                      className="w-32 h-32 object-cover rounded-lg"
+                    />
+                  ) : (
+                    <div className="flex items-center gap-2">
+                      <File className="w-5 h-5" />
+                      <span>{file.name}</span>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+          <div className="mx-auto flex justify-center">
+            <button
+              onClick={handleUpload}
+              className="mt-4 px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600"
+            >
+              Upload
+            </button>
+          </div>
         </div>
       )}
 

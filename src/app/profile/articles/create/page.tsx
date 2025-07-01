@@ -1,22 +1,19 @@
 'use client';
-import { ArticleRecord } from '@/types';
 import { useCallback, useState } from 'react';
-import { ArticleEditor, ArticleEditorValue } from '@/app/profile/article/components/ArticleEditor';
-import { updateArticleAction, updateArticlePublishAction } from '@/actions/article';
+import { ArticleEditor, ArticleEditorValue } from '@/app/profile/articles/components/ArticleEditor';
+import { createArticleAction, updateArticlePublishAction } from '@/actions/article';
 import { useMutation } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 import { ArticleEditorHeader } from '../components/ArticleEditorHeader';
 
-interface ArticleEditClientPageProps {
-  data: ArticleRecord;
-}
-
-export function ArticleEditClientPage({ data }: ArticleEditClientPageProps) {
+export default function BlogPage() {
+  const router = useRouter();
   const [value, setValue] = useState<ArticleEditorValue>({
-    title: data.title,
-    slug: data.slug,
-    image: data.image ?? '',
-    summary: data.summary ?? '',
-    content: data.content ?? '',
+    title: '',
+    slug: '',
+    image: '',
+    summary: '',
+    content: '',
   });
 
   const {
@@ -27,26 +24,28 @@ export function ArticleEditClientPage({ data }: ArticleEditClientPageProps) {
     mutationFn: async ({
       published = false,
       data,
-      id,
     }: {
-      id: string;
       data: ArticleEditorValue;
       published?: boolean;
     }) => {
-      const result = await updateArticleAction(id, data);
+      const result = await createArticleAction(data);
       if (published) {
         await updateArticlePublishAction(result.id, true);
       }
       return result;
     },
+    onSuccess: data => {
+      console.log('Article created successfully:', data);
+      router.push(`/profile/articles/${data.id}`); // Redirect to the article edit page
+    },
   });
 
   const handleSaveDraft = useCallback(() => {
-    saveArticle({ id: data.id, data: value, published: false });
+    saveArticle({ data: value, published: false });
   }, [value, saveArticle]);
 
   const handlePublish = useCallback(() => {
-    saveArticle({ id: data.id, data: value, published: true });
+    saveArticle({ data: value, published: true });
   }, [value, saveArticle]);
 
   return (
@@ -56,7 +55,6 @@ export function ArticleEditClientPage({ data }: ArticleEditClientPageProps) {
         onPublish={handlePublish}
         loading={isPending}
         errorMessage={error?.message}
-        isUpdate
       />
       <ArticleEditor onChange={setValue} value={value} />
     </>

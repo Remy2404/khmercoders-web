@@ -82,7 +82,7 @@ export function ArticlePreviewItem({ data, showControlPanel }: ArticlePreviewIte
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 <DropdownMenuItem asChild>
-                  <Link href={`/profile/article/${data.id}`} className="cursor-pointer">
+                  <Link href={`/profile/articles/${data.id}`} className="cursor-pointer">
                     Edit Article
                   </Link>
                 </DropdownMenuItem>

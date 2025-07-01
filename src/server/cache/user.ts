@@ -26,3 +26,24 @@ export const getProfileFromUsernameCache = cache(async (username: string) => {
 
   return profile;
 });
+
+export const getArtcleFromIdCache = cache(async (articleId: string) => {
+  const db = await getDB();
+
+  const article = await db.query.article.findFirst({
+    where: (article, { eq }) => eq(article.id, articleId),
+    with: {
+      user: {
+        with: {
+          profile: true,
+        },
+      },
+    },
+  });
+
+  if (!article) {
+    return notFound();
+  }
+
+  return article;
+});
