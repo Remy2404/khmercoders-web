@@ -1,0 +1,44 @@
+# Written by @manethpak
+
+name: 🙇 Feature Request
+description: Submit a proposal for a new feature
+title: 'Feature Request: '
+labels: ['type: feature request']
+body:
+  - type: markdown
+    attributes:
+      value: 'Please provide a summary of the issue in the title above ⬆️.'
+
+  - type: textarea
+    attributes:
+      label: Summary 📝
+      description: Describe your feature proposal. What would it do? How would it work?
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Example Use Cases 🥸
+      description: Describe the detail of the use cases of this proposal. What would it be used for?
+
+  - type: textarea
+    attributes:
+      label: Motivation 🔦
+      description: Describe the motivation of this proposal, Why it is needed? How will it affect the user or the project?
+
+  - type: dropdown
+    attributes:
+      label: Are you willing to implement the feature? 🥺
+      description: Select the option that best describes your willingness to implement the feature.
+      multiple: false
+      options:
+        - "Yes, I'm willing to implement the feature"
+        - "No, I'm just making a suggestion"
+
+  - type: markdown
+    attributes:
+      value: <br>
+
+  - type: markdown
+    attributes:
+      value: By submitting this issue I agree to follow this project`s [Code of Conduct]()

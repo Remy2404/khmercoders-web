@@ -1,0 +1,24 @@
+# Written by @manethpak
+
+name: 📚 Documentation Report
+description: Submit a problem or an enhancement for the documentation.
+title: 'Docs Report: '
+labels: ['type: documentation']
+body:
+  - type: markdown
+    attributes:
+      value: 'Please provide a summary of the issue in the title above ⬆️.'
+
+  - type: textarea
+    attributes:
+      label: Problem with the current documentation
+      description: Describe the issue you're having with the documentation.
+      placeholder: >
+        If you're having trouble with a specific part of the documentation, please provide a link to the specific section. Explain why is it an issue.
+
+  - type: textarea
+    attributes:
+      label: Suggested improvement
+      description: Describe the improvement you'd like to see.
+      placeholder: >
+        How can we improve the documentation? What should we add? What should we remove? What should we change? If you have a specific solution or suggestion in mind, feel free to include it.
