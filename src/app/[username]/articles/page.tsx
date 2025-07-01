@@ -17,9 +17,11 @@ export default async function UserArticleListPage({
   // Getting all the article
   const db = await getDB();
 
+  const isOwner = profile.user.id === session?.user.id;
+
   const articles = await db.query.article.findMany({
     where: (article, { eq, and }) =>
-      profile.user.id === session?.user.id
+      isOwner
         ? and(eq(article.userId, profile.user.id))
         : and(eq(article.userId, profile.user.id), eq(article.published, true)),
     columns: {
@@ -52,7 +54,7 @@ export default async function UserArticleListPage({
       {articles.length > 0 && (
         <div className="max-w-4xl mx-auto my-8 mb-12 px-4">
           {articles.map(article => (
-            <ArticlePreviewItem key={article.id} data={article} showControlPanel />
+            <ArticlePreviewItem key={article.id} data={article} showControlPanel={isOwner} />
           ))}
         </div>
       )}
