@@ -150,6 +150,7 @@ export const eventsDatabase: EventData[] = [
       { type: 'Co-organizer', id: 'mylekha' },
       { type: 'Co-organizer', id: 'datau' },
       { type: 'Co-organizer', id: 'jobify' },
+      { type: 'Silver Sponsor', id: 'skai-tech' },
     ],
   },
 ];

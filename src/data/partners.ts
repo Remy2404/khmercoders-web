@@ -40,7 +40,8 @@ export type PartnerIds =
   | 'cadt'
   | 'techo-startup'
   | 'federation-of-cambodia-startup'
-  | 'nicc';
+  | 'nicc'
+  | 'skai-tech';
 
 export const partners: IPartner[] = [
   {
@@ -217,5 +218,13 @@ export const partners: IPartner[] = [
       'The National Incubation Center of Cambodia (NICC) at RUPP supports startups through training, mentorship, and innovation-driven programs.',
     logo: '/assets/images/partners/nicc.png?height=200&width=400',
     website: 'https://nicc.rupp.edu.kh',
+  },
+  {
+    id: 'skai-tech',
+    name: 'Skai Tech',
+    description:
+      'SKAI Technology offers software development, outsourcing, AI solutions, and training in Cambodia, led by experienced local and international experts.',
+    logo: '/assets/images/partners/skai_tech_white_tr.png?height=200&width=400',
+    website: 'https://www.skaitechnology.com',
   },
 ];
