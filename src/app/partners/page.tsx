@@ -53,7 +53,7 @@ export default function PartnersPage() {
         }
         return bScore - aScore;
       }),
-    [PartnerDatabase, eventsDatabase]
+    []
   );
 
   const filteredPartners = useMemo(() => {
