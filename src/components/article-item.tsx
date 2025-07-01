@@ -69,7 +69,7 @@ export function ArticlePreviewItem({ data, showControlPanel }: ArticlePreviewIte
           <Avatar className="w-6 h-6">
             {data.user.image ? <AvatarImage src={data.user.image} /> : <AvatarFallback />}
           </Avatar>
-          <span className="text-sm">Visal .In</span>
+          <span className="text-sm">{data.user.name}</span>
         </div>
 
         {showControlPanel && (
