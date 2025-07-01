@@ -15,7 +15,7 @@ import { formatAgo, formatSize } from '@/utils/format';
 import { renderIconFromContentType } from '@/utils/icons';
 import { Button } from '@/components/generated/button';
 import { useUserUpload } from '@/components/user-upload/context';
-import { Copy, Ellipsis, Trash } from 'lucide-react';
+import { Copy, Ellipsis, Trash, Eye } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -156,6 +156,14 @@ function FileTable({ files }: { files: UserUploadRecordWithBinding[] }) {
                     <Ellipsis className="w-4 h-4" />
                   </DropdownMenuTrigger>
                   <DropdownMenuContent side="bottom" align="start">
+                    <DropdownMenuItem
+                      onSelect={() => {
+                        window.open(file.fileUrl, '_blank');
+                      }}
+                    >
+                      <Eye />
+                      View file
+                    </DropdownMenuItem>
                     <DropdownMenuItem
                       onSelect={() => {
                         navigator.clipboard.writeText(file.fileUrl);
