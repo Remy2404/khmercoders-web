@@ -54,7 +54,7 @@ export default function StorageDetailPage() {
 
   const handleUploadClick = useCallback(() => {
     openUserUpload('upload').then(fetchData).catch(console.error);
-  }, [fetchData]);
+  }, [fetchData, openUserUpload]);
 
   return (
     <div className="container mx-auto py-8">
@@ -145,8 +145,8 @@ function FileTable({ files }: { files: UserUploadRecordWithBinding[] }) {
                 {(file.bindings ?? []).some(b => b.resourceType === 'profile') && (
                   <Badge>Profile</Badge>
                 )}
-                {(file.bindings ?? []).some(b => b.resourceType === 'blog') && (
-                  <Badge>Profile</Badge>
+                {(file.bindings ?? []).some(b => b.resourceType === 'article') && (
+                  <Badge>Article</Badge>
                 )}
               </TableCell>
               <TableCell>{formatAgo(file.createdAt)}</TableCell>

@@ -52,7 +52,7 @@ export function PartnerCard({ partner }: { partner: IPartnerWithTags }) {
         })}
       </div>
     ),
-    [partner.tags, TAG_STYLES]
+    [partner.tags]
   );
 
   return (

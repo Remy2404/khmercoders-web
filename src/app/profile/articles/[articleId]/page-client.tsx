@@ -43,11 +43,11 @@ export function ArticleEditClientPage({ data }: ArticleEditClientPageProps) {
 
   const handleSaveDraft = useCallback(() => {
     saveArticle({ id: data.id, data: value, published: false });
-  }, [value, saveArticle]);
+  }, [value, saveArticle, data.id]);
 
   const handlePublish = useCallback(() => {
     saveArticle({ id: data.id, data: value, published: true });
-  }, [value, saveArticle]);
+  }, [value, saveArticle, data.id]);
 
   return (
     <>

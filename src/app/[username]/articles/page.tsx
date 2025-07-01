@@ -80,7 +80,7 @@ function EmptyArticleState() {
       </svg>
       <h2 className="text-xl font-semibold mb-2">No Articles Found</h2>
       <p className="text-gray-500 max-w-md mx-auto mb-6">
-        This user hasn't published any articles yet. Check back later for new content.
+        This user hasn&apos;t published any articles yet. Check back later for new content.
       </p>
     </div>
   );
