@@ -6,6 +6,8 @@ import { eq } from 'drizzle-orm';
 import { getMarkdownImageUrls } from '@/utils/markdown';
 import { syncUploadsToResource } from '@/server/services/upload';
 import { DrizzleD1Database } from 'drizzle-orm/d1';
+import { getCloudflareContext } from '@opennextjs/cloudflare';
+import { getDB } from '@/libs/db';
 
 export const createArticleAction = withAuthAction(
   async ({ db, user }, data: ArticleEditorValue) => {
@@ -117,8 +119,85 @@ export const updateArticlePublishAction = withAuthAction(
         updatedAt: new Date(),
       })
       .where(eq(schema.article.id, id));
+
+    // Using AI to check if article meet standard before showing in public
+    const { ctx } = getCloudflareContext();
+    ctx.waitUntil(reviewArticle(article.id, article.title, article.content));
   }
 );
+
+async function reviewArticle(articleId: string, title: string, content: string) {
+  const { env } = getCloudflareContext();
+
+  if (!env.AI) {
+    console.error('AI environment is not available');
+    return false;
+  }
+
+  const response = await env.AI.run(
+    '@cf/meta/llama-3.3-70b-instruct-fp8-fast',
+    {
+      messages: [
+        {
+          role: 'system',
+          content:
+            'You are a content moderation assistant. Your goal is to help decide whether an article is appropriate for general public publication. The article does not need to be formal or polished. However, it must meet basic publication standards: it must not contain adult/sexual content, hate speech, graphic violence, illegal activity, or harmful misinformation. You should also reject articles that promote negativity, harassment, or discrimination. If the article meets these standards, return `true`. Otherwise, return `false`.',
+        },
+        {
+          role: 'user',
+          content: `Please review the following article and decide if it is appropriate for public publication.
+
+The article does not have to be formal or professional. It simply must not contain:
+- Adult or sexual content
+- Hate speech
+- Graphic violence
+- Illegal activity
+- Harassment or discrimination
+- Misinformation or harmful content
+
+Return \`true\` if the article meets this standard. Otherwise, return \`false\`.
+
+Title: ${title}
+Content: ${content}`,
+        },
+      ],
+    },
+    {
+      gateway: {
+        id: 'khmercoders-bot-summary-gw',
+      },
+    }
+  );
+  // Check if the response is a ReadableStream (which we can't directly use)
+  if (response instanceof ReadableStream) {
+    console.warn('Received ReadableStream response which cannot be processed');
+    return;
+  }
+
+  const responseText = response?.response;
+  if (!responseText || typeof responseText !== 'string') {
+    console.error('Invalid response from AI service');
+    return false;
+  }
+
+  const db = await getDB();
+  if (responseText.toLowerCase() === 'true') {
+    // Update the article to mark it as approved by AI
+    await db
+      .update(schema.article)
+      .set({ approvedByAI: true })
+      .where(eq(schema.article.id, articleId));
+    return true;
+  } else if (responseText.toLowerCase() === 'false') {
+    // Update the article to mark it as not approved by AI
+    await db
+      .update(schema.article)
+      .set({ approvedByAI: false })
+      .where(eq(schema.article.id, articleId));
+
+    return false;
+  }
+}
 
 /**
  * Generates a unique random article identifier.

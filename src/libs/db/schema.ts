@@ -151,6 +151,7 @@ export const article = sqliteTable(
     summary: text('summary'),
     content: text('content').notNull(),
     published: integer('published', { mode: 'boolean' }).notNull().default(false),
+    approvedByAI: integer('approved_by_ai', { mode: 'boolean' }).notNull().default(false),
     createdAt: integer('created_at', { mode: 'timestamp' }).notNull(),
     updatedAt: integer('updated_at', { mode: 'timestamp' }).notNull(),
   },
