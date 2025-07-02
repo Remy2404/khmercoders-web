@@ -1,5 +1,5 @@
 'use client';
-import { getCurrentProfileInsightAction, type ProfileInsight } from '@/actions/insight';
+import { getCurrentProfileInsightAction, type ProfileInsight } from '@/server/actions/insight';
 import { useSession } from '@/components/auth-provider';
 import { ChartContainer } from '@/components/generated/chart';
 import { useEffect, useMemo, useState } from 'react';

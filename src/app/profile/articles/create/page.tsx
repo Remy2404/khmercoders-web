@@ -1,7 +1,7 @@
 'use client';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { ArticleEditor, ArticleEditorValue } from '@/app/profile/articles/components/ArticleEditor';
-import { createArticleAction, updateArticlePublishAction } from '@/actions/article';
+import { createArticleAction, updateArticlePublishAction } from '@/server/actions/article';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { ArticleEditorHeader } from '../components/ArticleEditorHeader';

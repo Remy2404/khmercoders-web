@@ -4,7 +4,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader } from '../gener
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../generated/table';
 import { useEffect, useState } from 'react';
 import { UserUploadRecord } from '@/types';
-import { getFileListAction } from '@/actions/file';
+import { getFileListAction } from '@/server/actions/file';
 import { formatAgo, formatSize } from '@/utils/format';
 import { File } from 'lucide-react';
 import { renderIconFromContentType } from '@/utils/icons';

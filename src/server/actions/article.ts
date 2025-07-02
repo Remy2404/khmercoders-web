@@ -4,7 +4,7 @@ import { withAuthAction } from './middleware';
 import * as schema from '@/libs/db/schema';
 import { eq } from 'drizzle-orm';
 import { getMarkdownImageUrls } from '@/utils/markdown';
-import { syncUploadsToResource } from '@/services/upload';
+import { syncUploadsToResource } from '@/server/services/upload';
 import { DrizzleD1Database } from 'drizzle-orm/d1';
 
 export const createArticleAction = withAuthAction(

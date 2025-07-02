@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { withApiAuth, ApiAuthContext } from '../middleware';
-import { uploadFile } from '@/services/upload';
+import { uploadFile } from '@/server/services/upload';
 
 export const POST = withApiAuth(async (req: NextRequest, { env, user, db }: ApiAuthContext) => {
   try {

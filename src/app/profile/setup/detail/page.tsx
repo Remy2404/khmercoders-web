@@ -15,7 +15,7 @@ import { useSession } from '@/components/auth-provider';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 import { useState, useCallback } from 'react';
-import { updateUserProfileAction } from '@/actions/users';
+import { updateUserProfileAction } from '@/server/actions/users';
 
 export default function ProfileSetupDetailPage() {
   const { session, profile } = useSession();

@@ -12,7 +12,7 @@ import {
 } from './generated/dropdown-menu';
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import { updateArticlePublishAction } from '@/actions/article';
+import { updateArticlePublishAction } from '@/server/actions/article';
 import Image from 'next/image';
 
 interface ArticlePreviewItemProps {

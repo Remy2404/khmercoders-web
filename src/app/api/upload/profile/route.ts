@@ -3,7 +3,7 @@ import { withApiAuth, ApiAuthContext } from '../../middleware';
 import * as schema from '@/libs/db/schema';
 import { z } from 'zod';
 import { eq } from 'drizzle-orm';
-import { syncUploadsToResource, uploadFile } from '@/services/upload';
+import { syncUploadsToResource, uploadFile } from '@/server/services/upload';
 
 // Schema for file validation
 const fileSchema = z.object({

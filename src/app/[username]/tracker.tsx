@@ -1,5 +1,5 @@
 'use client';
-import { trackProfileVisitAction } from '@/actions/track';
+import { trackProfileVisitAction } from '@/server/actions/track';
 import { useEffect } from 'react';
 
 export function ProfileTrackingComponent({

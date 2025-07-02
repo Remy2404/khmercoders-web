@@ -1,6 +1,6 @@
 'use client';
 
-import { getFileListAction } from '@/actions/file';
+import { getFileListAction } from '@/server/actions/file';
 import { UserRecord, UserUploadRecordWithBinding } from '@/types';
 import { useState, useEffect, useCallback } from 'react';
 import {
@@ -32,7 +32,7 @@ import {
   CardFooter,
 } from '@/components/generated/card';
 import { useSession } from '@/components/auth-provider';
-import { getUserAction } from '@/actions/users';
+import { getUserAction } from '@/server/actions/users';
 
 export default function StorageDetailPage() {
   const { session } = useSession();

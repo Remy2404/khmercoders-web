@@ -2,7 +2,7 @@
 import { ArticleRecord } from '@/types';
 import { useCallback, useState } from 'react';
 import { ArticleEditor, ArticleEditorValue } from '@/app/profile/articles/components/ArticleEditor';
-import { updateArticleAction, updateArticlePublishAction } from '@/actions/article';
+import { updateArticleAction, updateArticlePublishAction } from '@/server/actions/article';
 import { useMutation } from '@tanstack/react-query';
 import { ArticleEditorHeader } from '../components/ArticleEditorHeader';
 

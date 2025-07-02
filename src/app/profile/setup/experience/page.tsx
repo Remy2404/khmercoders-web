@@ -28,7 +28,7 @@ import {
   getUserExperiencesAction,
   removeExperienceAction,
   updateExperienceAction,
-} from '@/actions/experiences';
+} from '@/server/actions/experiences';
 import * as schema from '@/libs/db/schema';
 import { MoreHorizontal, Pencil, Trash2 } from 'lucide-react';
 import {

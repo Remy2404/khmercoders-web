@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useSession } from '@/components/auth-provider';
 import { Button } from '@/components/generated/button';
 import { Input } from '@/components/generated/input';
-import { updateUserAliasAction } from '@/actions/users';
+import { updateUserAliasAction } from '@/server/actions/users';
 
 export default function ProfileSetupPage() {
   const { profile } = useSession();
