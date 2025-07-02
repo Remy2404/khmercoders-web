@@ -1,3 +1,4 @@
+import { ProfileTrackingComponent } from '@/app/[username]/tracker';
 import { UserSmallCard } from '@/components/user-card';
 import { getArtcleFromIdCache } from '@/server/cache/user';
 import { formatDate } from '@/utils/format';
@@ -45,6 +46,12 @@ export default async function EditArticlePage({ params }: EditArticlePageProps) 
           <UserSmallCard user={article.user} profile={article.user.profile} />
         </div>
       </header>
+
+      <ProfileTrackingComponent
+        userId={article.user.id}
+        eventType="article"
+        articleId={article.id}
+      />
 
       <main className="markdown p-4 max-w-4xl mx-auto">
         <Markdown>{article.content}</Markdown>
