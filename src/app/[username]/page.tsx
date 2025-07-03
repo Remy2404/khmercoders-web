@@ -1,15 +1,14 @@
 // For App Router
 import { GithubIcon } from '@/components/atoms/icons';
+import { ProfileHeader } from '@/components/profile-header';
 import { getDB } from '@/libs/db';
 import * as schema from '@/libs/db/schema';
-import { eq } from 'drizzle-orm';
-import Link from 'next/link';
-import { Metadata } from 'next';
-import { UserLevelBadge } from '@/components/user-level-badge';
-import { ProfileTrackingComponent } from './tracker';
-import { sortExperience } from '@/utils/experience';
 import { getProfileFromUsernameCache } from '@/server/cache/user';
-import { ProfileHeader } from '@/components/profile-header';
+import { sortExperience } from '@/utils/experience';
+import { eq } from 'drizzle-orm';
+import { Metadata } from 'next';
+import Link from 'next/link';
+import { ProfileTrackingComponent } from './tracker';
 
 export async function generateMetadata({
   params,
@@ -109,7 +108,7 @@ export default async function UserProfilePage({
           <div className="mt-6 flex flex-col gap-4">
             {experiences.map((exp, index) => (
               <div key={index} className="flex gap-2">
-                <div className="border border-gray-500 bg-gray-800 h-12 w-12 rounded shrink-0 flex items-center justify-center text-orange-400 font-bold">
+                <div className="border bg-secondary h-12 w-12 rounded shrink-0 flex items-center justify-center text-orange-400 font-bold">
                   {exp.companyName
                     .split(' ')
                     .slice(0, 2)
@@ -118,18 +117,20 @@ export default async function UserProfilePage({
                 </div>
                 <div>
                   <h3 className="text-sm font-semibold">{exp.role}</h3>{' '}
-                  <p className="text-sm text-gray-400">
-                    <span className="text-yellow-400">{exp.companyName}</span> ({exp.startYear} -{' '}
+                  <p className="text-sm text-muted-foreground">
+                    <span className="text-orange-400">{exp.companyName}</span> ({exp.startYear} -{' '}
                     {exp.endYear ? exp.endYear : 'Present'})
                   </p>
-                  <p className="text-sm text-gray-400 whitespace-pre-line">{exp.description}</p>
+                  <p className="text-sm text-muted-foreground whitespace-pre-line">
+                    {exp.description}
+                  </p>
                 </div>
               </div>
             ))}
           </div>
         </div>
         <div className="w-[400px] shrink-0 text-sm hidden lg:block">
-          <div className="border-4 border-gray-500 p-2 rounded-lg text-gray-400">
+          <div className="border-4 border-muted-foreground p-2 rounded-lg text-muted-foreground">
             <div className="relative h-32 mb-2 overflow-hidden rounded">
               <img
                 src="/kc-banner.png"
@@ -268,12 +269,10 @@ function SocialLink({ type, link }: { type: string; link: string }) {
     <Link
       target="_blank"
       href={link}
-      className="items-center gap-2 font-mono border backdrop-blur-sm bg-orange-800/30 border-orange-500 p-2 inline-flex rounded text-sm shadow-lg relative overflow-hidden transition-all duration-200 hover:bg-orange-800/60 hover:shadow-orange-500/30 hover:shadow-xl hover:border-orange-400"
+      className="items-center gap-2 font-mono border bg-white border-orange-500 text-orange-800 p-2 inline-flex rounded text-sm shadow-lg relative overflow-hidden transition-all duration-200 hover:bg-orange-100 hover:shadow-orange-500/30 hover:shadow-xl hover:border-orange-400 dark:bg-orange-800/30 dark:text-white dark:hover:bg-orange-800/60"
     >
       {getIcon()}
-      <span className="relative z-10 text-orange-100 hover:text-white transition-colors duration-200">
-        {type}
-      </span>
+      <span className="relative z-10 transition-colors duration-200">{type}</span>
     </Link>
   );
 }
