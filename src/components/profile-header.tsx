@@ -1,7 +1,7 @@
 import type { ProfileRecord, UserRecord } from '@/types';
-import { UserLevelBadge } from './user-level-badge';
 import { cn } from '@/utils';
 import Link from 'next/link';
+import { UserLevelBadge } from './user-level-badge';
 
 interface ProfileHeaderProps {
   profile: ProfileRecord;
@@ -11,7 +11,7 @@ interface ProfileHeaderProps {
 
 export function ProfileHeader({ selectedTab = 'profile', profile, user }: ProfileHeaderProps) {
   return (
-    <div className="relative border-b border-gray-600">
+    <div className="relative border-b">
       <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,#f59e0b1a_1px,transparent_1px),linear-gradient(to_bottom,#f59e0b1a_1px,transparent_1px)] bg-[size:35px_34px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
       <div className="container relative z-10 mx-auto py-4 px-4 flex gap-3">
         <div
@@ -31,8 +31,8 @@ export function ProfileHeader({ selectedTab = 'profile', profile, user }: Profil
             <h1 className="font-semibold text-lg">{user.name}</h1>
             <UserLevelBadge level={user.level} />
           </div>
-          <p className="text-gray-400 text-sm">{profile.title}</p>
-          <p className="text-gray-400 text-sm font-mono">@{profile.alias}</p>
+          <p className="text-muted-foreground text-sm">{profile.title}</p>
+          <p className="text-muted-foreground text-sm font-mono">@{profile.alias}</p>
         </div>
       </div>
 

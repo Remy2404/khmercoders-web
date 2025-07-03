@@ -1,9 +1,9 @@
 'use client';
 
+import { PartnerCard } from '@/components/atoms/partner-card';
+import { eventsDatabase } from '@/data/events';
 import { IPartnerWithTags, partners as PartnerDatabase, SponsorType } from '@/data/partners';
 import { useMemo, useState } from 'react';
-import { eventsDatabase } from '@/data/events';
-import { PartnerCard } from '@/components/atoms/partner-card';
 
 function calculateScore(partner: IPartnerWithTags) {
   return (
@@ -65,11 +65,11 @@ export default function PartnersPage() {
     <main className="container mx-auto px-4 pb-20">
       <section className="mb-20" aria-labelledby="partners-heading">
         <div className="flex items-center justify-center mb-12">
-          <div className="h-px bg-gray-800 flex-grow" />
+          <div className="h-px bg-border flex-grow" />
           <h2 id="partners-heading" className="text-2xl md:text-3xl font-bold px-6">
             Partners
           </h2>
-          <div className="h-px bg-gray-800 flex-grow" />
+          <div className="h-px bg-border flex-grow" />
         </div>
 
         {/* Filter Chips */}
@@ -81,7 +81,7 @@ export default function PartnersPage() {
                 ${
                   selectedType === type
                     ? 'bg-yellow-500 text-black border-yellow-500'
-                    : 'bg-gray-800 text-gray-200 border-gray-700 hover:bg-yellow-700 hover:text-black hover:border-yellow-700'
+                    : 'bg-secondary text-secondary-foreground border-border hover:bg-yellow-700 hover:text-black hover:border-yellow-700'
                 }
               `}
               onClick={() => setSelectedType(type)}

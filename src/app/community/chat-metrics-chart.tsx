@@ -1,18 +1,18 @@
 'use client';
 
+import { ChartContainer } from '@/components/generated/chart';
+import { ChatMetric } from '@/libs/db/chatbot';
+import { format, parseISO } from 'date-fns';
 import * as React from 'react';
 import {
   Area,
   AreaChart,
   CartesianGrid,
   Legend,
+  ResponsiveContainer,
   Tooltip,
   XAxis,
-  ResponsiveContainer,
 } from 'recharts';
-import { format, parseISO } from 'date-fns';
-import { ChartContainer } from '@/components/generated/chart';
-import { ChatMetric } from '@/libs/db/chatbot';
 
 interface ChatMetricsProps {
   data: ChatMetric[];
@@ -87,7 +87,7 @@ export function ChatMetricsChart({ data }: ChatMetricsProps) {
   };
 
   return (
-    <div className="border border-double border-4 border-gray-500 rounded-lg bg-surface p-2">
+    <div className="border-double border-4 border-foreground my-4 p-2">
       <ChartContainer config={chartConfig} className="h-[250px] w-full">
         <ResponsiveContainer width="100%">
           <AreaChart data={chartData}>

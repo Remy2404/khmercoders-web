@@ -1,8 +1,8 @@
 'use client';
 
-import Link from 'next/link';
+import { Calendar, Clock, MapPin } from 'lucide-react';
 import Image from 'next/image';
-import { Calendar, MapPin, Clock, Users } from 'lucide-react';
+import Link from 'next/link';
 import { useMemo, useState } from 'react';
 
 import { Badge } from '@/components/generated/badge';
@@ -31,9 +31,9 @@ export default function EventsPage() {
     <main className="container mx-auto px-4 pb-20">
       <section className="mb-20">
         <div className="flex items-center justify-center mb-12">
-          <div className="h-px bg-gray-800 flex-grow"></div>
+          <div className="h-px bg-border flex-grow"></div>
           <h2 className="text-2xl md:text-3xl font-bold px-6">Events</h2>
-          <div className="h-px bg-gray-800 flex-grow"></div>
+          <div className="h-px bg-border flex-grow"></div>
         </div>
 
         {/* Location Filter Chips */}
@@ -45,7 +45,7 @@ export default function EventsPage() {
                 ${
                   selectedLocation === loc
                     ? 'bg-yellow-500 text-black border-yellow-500'
-                    : 'bg-gray-800 text-gray-200 border-gray-700 hover:bg-yellow-700 hover:text-black hover:border-yellow-700'
+                    : 'bg-secondary text-secondary-foreground border-border hover:bg-yellow-700 hover:text-black hover:border-yellow-700'
                 }
               `}
               onClick={() => setSelectedLocation(loc)}
@@ -69,7 +69,7 @@ export default function EventsPage() {
 function EventCard({ event }: { event: EventData }) {
   return (
     <Link
-      className="bg-gray-900 rounded-lg overflow-hidden border border-gray-800 flex flex-col h-full"
+      className="bg-secondary text-secondary-foreground rounded-lg overflow-hidden border border-border flex flex-col h-full"
       href={`/events/${event.id}`}
     >
       <div className="relative h-48 w-full">
@@ -91,17 +91,17 @@ function EventCard({ event }: { event: EventData }) {
           <span className="text-sm">{event.date}</span>
         </div>
         <h3 className="text-xl font-bold mb-2">{event.title}</h3>
-        <p className="text-gray-400 mb-4">{event.description}</p>
+        <p className="text-muted-foreground mb-4">{event.description}</p>
 
         <div className="space-y-2 mb-4">
           {event.location && (
-            <div className="flex items-start gap-2 text-sm text-gray-400">
+            <div className="flex items-start gap-2 text-sm text-muted-foreground">
               <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0" />
               <span>{event.location}</span>
             </div>
           )}
           {event.time && (
-            <div className="flex items-start gap-2 text-sm text-gray-400">
+            <div className="flex items-start gap-2 text-sm text-muted-foreground">
               <Clock className="h-4 w-4 mt-0.5 flex-shrink-0" />
               <span>{event.time}</span>
             </div>

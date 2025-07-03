@@ -1,10 +1,10 @@
 'use client';
 
-import { useState } from 'react';
 import { useSession } from '@/components/auth-provider';
 import { Button } from '@/components/generated/button';
 import { Input } from '@/components/generated/input';
 import { updateUserAliasAction } from '@/server/actions/users';
+import { useState } from 'react';
 
 export default function ProfileSetupPage() {
   const { profile } = useSession();
@@ -58,14 +58,14 @@ export default function ProfileSetupPage() {
   return (
     <div className="flex flex-col items-center justify-center h-screen max-w-md mx-auto px-4">
       <h1 className="text-2xl font-bold mb-4">Profile Setup</h1>
-      <p className="text-gray-600 mb-6">Please complete your profile setup to continue.</p>
+      <p className="text-muted-foreground mb-6">Please complete your profile setup to continue.</p>
 
       <div className="w-full space-y-4">
         <div>
           <label htmlFor="alias" className="block text-sm font-medium mb-1">
             Username / Alias{' '}
             {profile?.alias && (
-              <span className="text-gray-500 text-xs">(Current: {profile.alias})</span>
+              <span className="text-muted-foreground text-xs">(Current: {profile.alias})</span>
             )}
           </label>
           <Input
@@ -79,7 +79,7 @@ export default function ProfileSetupPage() {
           />
           {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
           {message && <p className="text-green-500 text-sm mt-1">{message}</p>}
-          <p className="text-xs text-gray-500 mt-2">
+          <p className="text-xs text-muted-foreground mt-2">
             Your alias must be at least 5 characters, start with a letter, and contain only letters,
             numbers, underscores, or hyphens. This will be your unique identifier on the platform.
             {profile?.aliasUpdatedAt && (
@@ -101,7 +101,7 @@ export default function ProfileSetupPage() {
         </Button>
 
         {profile?.alias && message && (
-          <p className="text-center text-sm text-gray-600 mt-4">
+          <p className="text-center text-sm text-muted-foreground mt-4">
             Your profile has been updated successfully! Continue exploring the platform with your
             new alias.
           </p>

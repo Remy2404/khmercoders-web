@@ -1,18 +1,20 @@
 'use client';
 
-import { cn } from '@/utils';
-import type { ComponentProps } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Button } from '@/components/generated/button';
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetTitle,
   SheetTrigger,
-  SheetClose,
 } from '@/components/generated/sheet';
+import { cn } from '@/utils';
+import { Menu, X } from 'lucide-react';
 import Image from 'next/image';
-import { UserAvatar } from './user-avatar';
 import Link from 'next/link';
+import type { ComponentProps } from 'react';
+import { ModeToggle } from '../mode-toggle';
+import { UserAvatar } from './user-avatar';
 
 export const Navbar = () => {
   return (
@@ -28,17 +30,22 @@ export const Navbar = () => {
             </SheetTrigger>
             <SheetContent
               side="right"
-              className="w-[280px] border-0 border-amber-500/30 bg-black/95 backdrop-blur-md [&>button]:hidden"
+              className="w-[280px] border-0  backdrop-blur-md [&>button]:hidden"
             >
               <div className="flex flex-col h-full">
                 <div className="flex items-center justify-between mb-6 pt-4">
                   <Image src="/khmer-coder.svg" alt="Khmer Coders" width={100} height={100} />
                   <SheetTitle className="sr-only">Khmer Coders</SheetTitle>
 
-                  <SheetClose className="rounded-full h-8 w-8 p-0 flex items-center justify-center hover:bg-amber-500/10 transition-colors">
-                    <X className="size-6 text-amber-500" />
-                    <span className="sr-only">Close</span>
-                  </SheetClose>
+                  <div className="flex items-center gap-0.5">
+                    <ModeToggle variant="ghost" />
+                    <SheetClose asChild>
+                      <Button variant="ghost" size="icon">
+                        <X className="size-6 text-amber-500" />
+                        <span className="sr-only">Close</span>
+                      </Button>
+                    </SheetClose>
+                  </div>
                 </div>
 
                 <div className="flex flex-col gap-2 px-2">
@@ -86,6 +93,7 @@ export const Navbar = () => {
           <NavbarLink href="/community">Community</NavbarLink>
           <NavbarLink href="/donate">Donate</NavbarLink>
         </NavbarContainer>
+        <ModeToggle />
         <UserAvatar />
       </div>
     </div>

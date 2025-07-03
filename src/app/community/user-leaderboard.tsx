@@ -1,11 +1,3 @@
-import * as React from 'react';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/generated/card';
 import {
   Table,
   TableBody,
@@ -15,6 +7,7 @@ import {
   TableRow,
 } from '@/components/generated/table';
 import { UserLeaderboard } from '@/libs/db/chatbot';
+import * as React from 'react';
 
 interface UserLeaderboardProps {
   data: UserLeaderboard[];
@@ -30,9 +23,9 @@ export function UserLeaderboardComponent({ data }: UserLeaderboardProps) {
       <h2 className="text-2xl font-bold">Top Contributors</h2>
       <p>Most active members in our community chats over the last 30 days</p>
 
-      <Table className="border border-8 border-double border-gray-500 my-4 rounded-lg">
+      <Table className="border-double border-4 border-foreground my-4 rounded-lg">
         <TableHeader>
-          <TableRow className="border-gray-500">
+          <TableRow className="border-foreground">
             <TableHead className="w-12">#</TableHead>
             <TableHead>Name</TableHead>
             <TableHead className="text-right">Messages</TableHead>
@@ -42,10 +35,10 @@ export function UserLeaderboardComponent({ data }: UserLeaderboardProps) {
           {sortedData.map((user, index) => (
             <TableRow
               key={`${user.platform}-${user.display_name}-${index}`}
-              className="border-gray-500"
+              className="border-foreground"
             >
-              <TableCell className="font-medium border-gray-500">{index + 1}</TableCell>
-              <TableCell className="border-gray-400 font-bold">
+              <TableCell className="font-medium border-foreground">{index + 1}</TableCell>
+              <TableCell className="border-foreground font-bold">
                 {user.platform === 'telegram' ? (
                   <img src="/telegram.svg" alt="Telegram" className="inline-block w-6 h-6 mr-2" />
                 ) : (

@@ -1,17 +1,17 @@
-import type React from 'react';
 import '@/app/globals.css';
-import { Inter } from 'next/font/google';
-import { ThemeProvider } from '@/components/theme-provider';
-import Link from 'next/link';
-import { Facebook, Github } from 'lucide-react';
-import Navbar from '@/components/atoms/nav-bar';
-import Image from 'next/image';
-import { KCLinks } from '@/data/link';
 import { DiscordIcon } from '@/components/atoms/icons';
-import { SessionProvider } from './session';
+import Navbar from '@/components/atoms/nav-bar';
 import { KhmerCoderDevtool } from '@/components/devtool';
-import { UserUploadProvider } from '@/components/user-upload/context';
 import { ReactQueryProvider } from '@/components/react-query-prodiver';
+import { ThemeProvider } from '@/components/theme-provider';
+import { UserUploadProvider } from '@/components/user-upload/context';
+import { KCLinks } from '@/data/link';
+import { Facebook, Github } from 'lucide-react';
+import { Inter } from 'next/font/google';
+import Image from 'next/image';
+import Link from 'next/link';
+import type React from 'react';
+import { SessionProvider } from './session';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -41,17 +41,17 @@ export default function RootLayout({
       <body className={inter.className}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="dark"
-          enableSystem={false}
+          defaultTheme="system"
+          enableSystem
           disableTransitionOnChange
         >
           <ReactQueryProvider>
             <SessionProvider>
               <UserUploadProvider>
-                <div className="min-h-screen bg-black text-white relative">
+                <div className="min-h-screen relative">
                   {/* Content container */}
                   <div className="relative">
-                    <header className="py-1 px-4 xl:px-16 flex items-center gap-12 mb-8 justify-between border-b border-yellow-600 shadow-[0_8px_16px_-1px_rgba(251,146,60,0.4)]">
+                    <header className="py-1 px-4 xl:px-16 flex items-center gap-12 mb-8 justify-between bg-background border-b border-yellow-600 shadow-[0_8px_16px_-1px_rgba(251,146,60,0.4)]">
                       <Link href="/" className="flex items-center z-9999">
                         <Image
                           src="/khmer-coder.svg"
@@ -68,7 +68,7 @@ export default function RootLayout({
                       <Navbar />
                     </header>
                     {children}
-                    <footer className="bg-black border-t border-gray-800 py-12">
+                    <footer className="border-t py-12 mt-8">
                       <div className="container mx-auto px-4">
                         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
                           <div>
@@ -87,13 +87,13 @@ export default function RootLayout({
                                 KhmerCoders
                               </span>
                             </Link>
-                            <p className="text-gray-400 mb-4">
+                            <p className="text-muted-foreground mb-4">
                               Cambodia&apos;s largest community of developers and tech enthusiasts.
                             </p>
                             <div className="flex gap-4">
                               <Link
                                 href={KCLinks.facebookGroupLink}
-                                className="text-gray-400 hover:text-white"
+                                className="text-muted-foreground hover:text-foreground"
                                 target="_blank"
                                 rel="noopener noreferrer"
                               >
@@ -101,7 +101,7 @@ export default function RootLayout({
                               </Link>
                               <Link
                                 href={KCLinks.discordLink}
-                                className="text-gray-400 hover:text-white"
+                                className="text-muted-foreground hover:text-foreground"
                                 target="_blank"
                                 rel="noopener noreferrer"
                               >
@@ -109,7 +109,7 @@ export default function RootLayout({
                               </Link>
                               <Link
                                 href={KCLinks.githubLink}
-                                className="text-gray-400 hover:text-white"
+                                className="text-muted-foreground hover:text-foreground"
                                 target="_blank"
                                 rel="noopener noreferrer"
                               >
@@ -122,17 +122,26 @@ export default function RootLayout({
                             <h3 className="font-bold mb-4">About Us</h3>
                             <ul className="space-y-2">
                               <li>
-                                <Link href="/events" className="text-gray-400 hover:text-white">
+                                <Link
+                                  href="/events"
+                                  className="text-muted-foreground hover:text-foreground"
+                                >
                                   Events
                                 </Link>
                               </li>
                               <li>
-                                <Link href="/teams" className="text-gray-400 hover:text-white">
+                                <Link
+                                  href="/teams"
+                                  className="text-muted-foreground hover:text-foreground"
+                                >
                                   Our Teams
                                 </Link>
                               </li>
                               <li>
-                                <Link href="/members" className="text-gray-400 hover:text-white">
+                                <Link
+                                  href="/members"
+                                  className="text-muted-foreground hover:text-foreground"
+                                >
                                   Our Members
                                 </Link>
                               </li>
@@ -143,12 +152,18 @@ export default function RootLayout({
                             <h3 className="font-bold mb-4">Resources</h3>
                             <ul className="space-y-2">
                               <li>
-                                <Link href="/partners" className="text-gray-400 hover:text-white">
+                                <Link
+                                  href="/partners"
+                                  className="text-muted-foreground hover:text-foreground"
+                                >
                                   Our Partners
                                 </Link>
                               </li>
                               <li>
-                                <Link href="/donate" className="text-gray-400 hover:text-white">
+                                <Link
+                                  href="/donate"
+                                  className="text-muted-foreground hover:text-foreground"
+                                >
                                   Support Us
                                 </Link>
                               </li>
@@ -161,7 +176,7 @@ export default function RootLayout({
                               <li>
                                 <Link
                                   href={KCLinks.facebookGroupLink}
-                                  className="text-gray-400 hover:text-white"
+                                  className="text-muted-foreground hover:text-foreground"
                                   target="_blank"
                                   rel="noopener noreferrer"
                                 >
@@ -171,7 +186,7 @@ export default function RootLayout({
                               <li>
                                 <Link
                                   href={KCLinks.discordLink}
-                                  className="text-gray-400 hover:text-white"
+                                  className="text-muted-foreground hover:text-foreground"
                                   target="_blank"
                                   rel="noopener noreferrer"
                                 >
@@ -181,7 +196,7 @@ export default function RootLayout({
                               <li>
                                 <Link
                                   href={KCLinks.githubLink}
-                                  className="text-gray-400 hover:text-white"
+                                  className="text-muted-foreground hover:text-foreground"
                                   target="_blank"
                                   rel="noopener noreferrer"
                                 >
@@ -192,7 +207,7 @@ export default function RootLayout({
                           </div>
                         </div>
 
-                        <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-500 text-sm">
+                        <div className="border-t mt-12 pt-8 text-center text-muted-foreground text-sm">
                           <p>
                             &copy; {new Date().getFullYear()} Khmer Coders. All rights reserved.
                           </p>
