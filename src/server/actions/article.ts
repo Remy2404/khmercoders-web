@@ -81,8 +81,8 @@ export const updateArticleAction = withAuthAction(
         image: data.image,
         summary: data.summary,
         content: data.content,
-        published: false,
         updatedAt: new Date(),
+        approvedByAI: false, // Reset AI approval status on update
       })
       .where(eq(schema.article.id, id));
 
@@ -92,6 +92,12 @@ export const updateArticleAction = withAuthAction(
 
     if (!updatedArticle) {
       throw new Error('Failed to update article after multiple attempts');
+    }
+
+    if (updatedArticle.published) {
+      // If the article was published, we need to re-review it
+      const { ctx } = getCloudflareContext();
+      ctx.waitUntil(reviewArticle(updatedArticle.id, updatedArticle.title, updatedArticle.content));
     }
 
     return updatedArticle;
@@ -122,7 +128,9 @@ export const updateArticlePublishAction = withAuthAction(
 
     // Using AI to check if article meet standard before showing in public
     const { ctx } = getCloudflareContext();
-    ctx.waitUntil(reviewArticle(article.id, article.title, article.content));
+    if (publish && article.published === false) {
+      ctx.waitUntil(reviewArticle(article.id, article.title, article.content));
+    }
   }
 );
 
@@ -140,31 +148,35 @@ async function reviewArticle(articleId: string, title: string, content: string) 
       messages: [
         {
           role: 'system',
-          content:
-            'You are a content moderation assistant. Your goal is to help decide whether an article is appropriate for general public publication. The article does not need to be formal or polished. However, it must meet basic publication standards: it must not contain adult/sexual content, hate speech, graphic violence, illegal activity, or harmful misinformation. You should also reject articles that promote negativity, harassment, or discrimination. If the article meets these standards, return `true`. Otherwise, return `false`.',
+          content: `You are a content moderation AI assistant. Your job is to decide if a given article is suitable for public display on the front page of a developer-focused website. You must return only a single Boolean value: \`true\` if the article meets all criteria, or \`false\` if it fails any.
+
+The article must meet these standards:
+
+- No adult or sexual content
+- No hate speech, harassment, or discrimination
+- No graphic violence or promotion of illegal activity
+- No misinformation or harmful technical/health claims
+- No toxic, hostile, or excessively negative tone
+- It must also meet basic front-page expectations:
+- Must not be a placeholder like “test” or “testing article”
+- Must have at least minimal effort or relevance to a developer or general audience
+- Informal tone is fine, but spammy, incoherent, or meaningless articles are not allowed
+
+Do not explain your answer. Return only \`true\` or \`false\`.`,
         },
         {
           role: 'user',
-          content: `Please review the following article and decide if it is appropriate for public publication.
-
-The article does not have to be formal or professional. It simply must not contain:
-- Adult or sexual content
-- Hate speech
-- Graphic violence
-- Illegal activity
-- Harassment or discrimination
-- Misinformation or harmful content
-
-Return \`true\` if the article meets this standard. Otherwise, return \`false\`.
+          content: `Evaluate the following Markdown article for public front-page publication. Return \`true\` if it meets the quality and content standards, otherwise return \`false\`.
 
 Title: ${title}
-Content: ${content}`,
+Content:
+${content}`,
         },
       ],
     },
     {
       gateway: {
-        id: 'khmercoders-bot-summary-gw',
+        id: 'khmercoders-article-moderator-gw',
       },
     }
   );
@@ -175,20 +187,21 @@ Content: ${content}`,
   }
 
   const responseText = response?.response;
-  if (!responseText || typeof responseText !== 'string') {
+  console.log(responseText, typeof responseText);
+  if (typeof responseText !== 'boolean') {
     console.error('Invalid response from AI service');
     return false;
   }
 
   const db = await getDB();
-  if (responseText.toLowerCase() === 'true') {
+  if (responseText) {
     // Update the article to mark it as approved by AI
     await db
       .update(schema.article)
       .set({ approvedByAI: true })
       .where(eq(schema.article.id, articleId));
     return true;
-  } else if (responseText.toLowerCase() === 'false') {
+  } else {
     // Update the article to mark it as not approved by AI
     await db
       .update(schema.article)
