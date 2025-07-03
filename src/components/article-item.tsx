@@ -33,8 +33,8 @@ export function ArticlePreviewItem({ data, showControlPanel }: ArticlePreviewIte
   });
 
   return (
-    <article className="p-4 border rounded-lg shadow-md mb-4 flex gap-2">
-      <div className="grow">
+    <article className="flex-col lg:flex-row p-4 border rounded-lg shadow-md mb-4 flex gap-2 items-center">
+      <div className="grow order-2 lg:order-1">
         <Link
           href={`/@${data.user.profile.alias}/articles/${data.id}${data.slug ? `/${data.slug}` : ''}`}
           className="block"
@@ -98,11 +98,24 @@ export function ArticlePreviewItem({ data, showControlPanel }: ArticlePreviewIte
         )}
       </div>
       {data.image ? (
-        <div className="flex shrink-0">
-          <Image width={128} height={96} src={data.image} alt={data.title} className="w-32 h-24" />
+        <div className="flex shrink-0 order-1 lg:order-2">
+          <Link
+            href={`/@${data.user.profile.alias}/articles/${data.id}${data.slug ? `/${data.slug}` : ''}`}
+          >
+            <Image
+              width={128}
+              height={64}
+              src={data.image}
+              alt={data.title}
+              className="w-full lg:w-[128px] lg:h-[64px] h-auto aspect-[128/64]"
+            />
+          </Link>
         </div>
       ) : (
-        <div className="w-32 h-24 bg-secondary rounded shrink-0"></div>
+        <Link
+          className="w-full lg:w-[128px] lg:h-[64px] h-auto aspect-[128/64] bg-secondary rounded shrink-0 order-1 lg:order-2"
+          href={`/@${data.user.profile.alias}/articles/${data.id}${data.slug ? `/${data.slug}` : ''}`}
+        ></Link>
       )}
     </article>
   );

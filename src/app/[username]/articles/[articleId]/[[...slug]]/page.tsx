@@ -3,6 +3,7 @@ import { UserSmallCard } from '@/components/user-card';
 import { getArtcleFromIdCache } from '@/server/cache/user';
 import { formatDate } from '@/utils/format';
 import Markdown from 'react-markdown';
+import Image from 'next/image';
 
 interface EditArticlePageProps {
   params: Promise<{ articleId: string; username: string }>;
@@ -54,6 +55,16 @@ export default async function EditArticlePage({ params }: EditArticlePageProps) 
       />
 
       <main className="markdown p-4 max-w-4xl mx-auto">
+        {article.image && (
+          <Image
+            width={128}
+            height={64}
+            src={article.image}
+            alt={article.title}
+            className="w-full h-auto aspect-[128/64] rounded mb-8"
+          />
+        )}
+
         <Markdown>{article.content}</Markdown>
       </main>
     </article>
