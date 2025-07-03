@@ -16,9 +16,9 @@ export default async function TeamsPage() {
       {/* Founding Members Section */}
       <section className="mb-20">
         <div className="flex items-center justify-center mb-12">
-          <div className="h-px bg-secondary flex-grow"></div>
+          <div className="h-px bg-border flex-grow"></div>
           <h2 className="text-2xl md:text-3xl font-bold px-6">Founding Members</h2>
-          <div className="h-px bg-secondary flex-grow"></div>
+          <div className="h-px bg-border flex-grow"></div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -31,9 +31,9 @@ export default async function TeamsPage() {
       {/* Community Moderators Section */}
       <section>
         <div className="flex items-center justify-center mb-12">
-          <div className="h-px bg-secondary flex-grow"></div>
+          <div className="h-px bg-border flex-grow"></div>
           <h2 className="text-2xl md:text-3xl font-bold px-6">Moderators</h2>
-          <div className="h-px bg-secondary flex-grow"></div>
+          <div className="h-px bg-border flex-grow"></div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
