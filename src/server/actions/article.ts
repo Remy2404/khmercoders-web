@@ -6,6 +6,8 @@ import { eq } from 'drizzle-orm';
 import { getMarkdownImageUrls } from '@/utils/markdown';
 import { syncUploadsToResource } from '@/server/services/upload';
 import { DrizzleD1Database } from 'drizzle-orm/d1';
+import { getCloudflareContext } from '@opennextjs/cloudflare';
+import { getDB } from '@/libs/db';
 
 export const createArticleAction = withAuthAction(
   async ({ db, user }, data: ArticleEditorValue) => {
@@ -79,8 +81,8 @@ export const updateArticleAction = withAuthAction(
         image: data.image,
         summary: data.summary,
         content: data.content,
-        published: false,
         updatedAt: new Date(),
+        approvedByAI: false, // Reset AI approval status on update
       })
       .where(eq(schema.article.id, id));
 
@@ -90,6 +92,12 @@ export const updateArticleAction = withAuthAction(
 
     if (!updatedArticle) {
       throw new Error('Failed to update article after multiple attempts');
+    }
+
+    if (updatedArticle.published) {
+      // If the article was published, we need to re-review it
+      const { ctx } = getCloudflareContext();
+      ctx.waitUntil(reviewArticle(updatedArticle.id, updatedArticle.title, updatedArticle.content));
     }
 
     return updatedArticle;
@@ -117,8 +125,92 @@ export const updateArticlePublishAction = withAuthAction(
         updatedAt: new Date(),
       })
       .where(eq(schema.article.id, id));
+
+    // Using AI to check if article meet standard before showing in public
+    const { ctx } = getCloudflareContext();
+    if (publish && article.published === false) {
+      ctx.waitUntil(reviewArticle(article.id, article.title, article.content));
+    }
   }
 );
+
+async function reviewArticle(articleId: string, title: string, content: string) {
+  const { env } = getCloudflareContext();
+
+  if (!env.AI) {
+    console.error('AI environment is not available');
+    return false;
+  }
+
+  const response = await env.AI.run(
+    '@cf/meta/llama-3.3-70b-instruct-fp8-fast',
+    {
+      messages: [
+        {
+          role: 'system',
+          content: `You are a content moderation AI assistant. Your job is to decide if a given article is suitable for public display on the front page of a developer-focused website. You must return only a single Boolean value: \`true\` if the article meets all criteria, or \`false\` if it fails any.
+
+The article must meet these standards:
+
+- No adult or sexual content
+- No hate speech, harassment, or discrimination
+- No graphic violence or promotion of illegal activity
+- No misinformation or harmful technical/health claims
+- No toxic, hostile, or excessively negative tone
+- It must also meet basic front-page expectations:
+- Must not be a placeholder like “test” or “testing article”
+- Must have at least minimal effort or relevance to a developer or general audience
+- Informal tone is fine, but spammy, incoherent, or meaningless articles are not allowed
+
+Do not explain your answer. Return only \`true\` or \`false\`.`,
+        },
+        {
+          role: 'user',
+          content: `Evaluate the following Markdown article for public front-page publication. Return \`true\` if it meets the quality and content standards, otherwise return \`false\`.
+
+Title: ${title}
+Content:
+${content}`,
+        },
+      ],
+    },
+    {
+      gateway: {
+        id: 'khmercoders-article-moderator-gw',
+      },
+    }
+  );
+  // Check if the response is a ReadableStream (which we can't directly use)
+  if (response instanceof ReadableStream) {
+    console.warn('Received ReadableStream response which cannot be processed');
+    return;
+  }
+
+  const responseText = response?.response;
+  console.log(responseText, typeof responseText);
+  if (typeof responseText !== 'boolean') {
+    console.error('Invalid response from AI service');
+    return false;
+  }
+
+  const db = await getDB();
+  if (responseText) {
+    // Update the article to mark it as approved by AI
+    await db
+      .update(schema.article)
+      .set({ approvedByAI: true })
+      .where(eq(schema.article.id, articleId));
+    return true;
+  } else {
+    // Update the article to mark it as not approved by AI
+    await db
+      .update(schema.article)
+      .set({ approvedByAI: false })
+      .where(eq(schema.article.id, articleId));
+
+    return false;
+  }
+}
 
 /**
  * Generates a unique random article identifier.

@@ -1,0 +1,1 @@
+ALTER TABLE `article` ADD `approved_by_ai` integer DEFAULT false NOT NULL;

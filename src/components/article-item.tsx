@@ -98,11 +98,11 @@ export function ArticlePreviewItem({ data, showControlPanel }: ArticlePreviewIte
         )}
       </div>
       {data.image ? (
-        <div className="article-image">
+        <div className="flex shrink-0">
           <Image width={128} height={96} src={data.image} alt={data.title} className="w-32 h-24" />
         </div>
       ) : (
-        <div className="w-32 h-24 bg-secondary rounded"></div>
+        <div className="w-32 h-24 bg-secondary rounded shrink-0"></div>
       )}
     </article>
   );
