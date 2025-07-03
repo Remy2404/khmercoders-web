@@ -33,7 +33,7 @@ export function ArticlePreviewItem({ data, showControlPanel }: ArticlePreviewIte
   });
 
   return (
-    <article className="flex-col lg:flex-row p-4 border rounded-lg shadow-md mb-4 flex gap-2 items-center">
+    <article className="flex-col lg:flex-row p-4 border rounded-lg shadow-md mb-4 flex gap-2 lg:items-center items-start">
       <div className="grow order-2 lg:order-1">
         <Link
           href={`/@${data.user.profile.alias}/articles/${data.id}${data.slug ? `/${data.slug}` : ''}`}
