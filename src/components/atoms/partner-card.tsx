@@ -1,9 +1,9 @@
 import { IPartnerWithTags, SponsorType } from '@/data/partners';
 import { cn } from '@/utils';
 import { ExternalLink } from 'lucide-react';
-import { useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useMemo } from 'react';
 
 const TagOrder: SponsorType[] = [
   'Gold Sponsor',
@@ -25,7 +25,7 @@ const TAG_STYLES = {
 // Partner Card Component
 export function PartnerCard({ partner }: { partner: IPartnerWithTags }) {
   const cardClasses =
-    'bg-gray-900 rounded-lg overflow-hidden border border-gray-800 flex flex-col h-full';
+    'bg-secondary rounded-lg overflow-hidden border border-border flex flex-col h-full';
 
   const tagElements = useMemo(
     () => (
@@ -37,7 +37,7 @@ export function PartnerCard({ partner }: { partner: IPartnerWithTags }) {
               <div
                 className={cn(
                   TAG_STYLES[tagType as keyof typeof TAG_STYLES] || TAG_STYLES.default,
-                  'px-2 py-1 rounded flex gap-2'
+                  'px-2 py-1 rounded flex gap-2 text-white'
                 )}
                 key={tagType}
               >
@@ -57,7 +57,7 @@ export function PartnerCard({ partner }: { partner: IPartnerWithTags }) {
 
   return (
     <article className={cardClasses}>
-      <div className="relative aspect-[2/1] w-full bg-gray-800 flex items-center justify-center p-6">
+      <div className="relative aspect-[2/1] w-full bg-gray-500 dark:bg-gray-800 flex items-center justify-center p-6">
         <figure className="relative w-full h-full max-w-[240px] max-h-[120px]">
           <Image
             src={partner.logo || '/placeholder.svg'}
@@ -73,7 +73,7 @@ export function PartnerCard({ partner }: { partner: IPartnerWithTags }) {
         <h3 id="partner-name" className="text-xl font-bold mb-2">
           {partner.name}
         </h3>
-        <p className="text-gray-400 mb-4">{partner.description}</p>
+        <p className="text-muted-foreground mb-4">{partner.description}</p>
         <Link
           href={partner.website}
           className="inline-flex items-center text-yellow-500 hover:text-yellow-400"
