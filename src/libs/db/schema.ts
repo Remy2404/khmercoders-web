@@ -146,7 +146,7 @@ export const article = sqliteTable(
       .notNull()
       .references(() => user.id, { onDelete: 'cascade' }),
     title: text('title').notNull(),
-    slug: text('slug').notNull().unique(),
+    slug: text('slug').notNull().default(''),
     image: text('image'),
     summary: text('summary'),
     content: text('content').notNull(),
