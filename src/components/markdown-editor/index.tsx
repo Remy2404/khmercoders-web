@@ -1,14 +1,15 @@
 'use client';
-import CodeMirror, { EditorView, ReactCodeMirrorRef } from '@uiw/react-codemirror';
-import { markdown } from '@codemirror/lang-markdown';
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { Button } from '../generated/button';
-import { Fullscreen, Image } from 'lucide-react';
-import Markdown from 'react-markdown';
-import { cn } from '@/utils';
 import useDebounce from '@/hooks/use-debounce';
-import { useUserUpload } from '../user-upload/context';
+import { cn } from '@/utils';
 import { getMarkdownImageUrls } from '@/utils/markdown';
+import { markdown } from '@codemirror/lang-markdown';
+import CodeMirror, { EditorView, ReactCodeMirrorRef } from '@uiw/react-codemirror';
+import { Fullscreen, Image } from 'lucide-react';
+import { useTheme } from 'next-themes';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import Markdown from 'react-markdown';
+import { Button } from '../generated/button';
+import { useUserUpload } from '../user-upload/context';
 
 interface MarkdownEditorProps {
   value: string;
@@ -19,12 +20,11 @@ export function MarkdownEditor({ value, onChange }: MarkdownEditorProps) {
   const { openUserUpload } = useUserUpload();
   const [fullscreen, setFullscreen] = useState(false);
   const editorRef = useRef<ReactCodeMirrorRef>(null);
-
   const debounceValue = useDebounce(value, 100);
-
   const extensions = useMemo(() => {
     return [markdown(), EditorView.lineWrapping];
   }, []);
+  const { theme } = useTheme();
 
   useEffect(() => {
     getMarkdownImageUrls(debounceValue).then(console.log);
@@ -97,7 +97,7 @@ export function MarkdownEditor({ value, onChange }: MarkdownEditorProps) {
             lineNumbers: false,
             foldGutter: false,
           }}
-          theme={'dark'}
+          theme={theme === 'dark' ? 'dark' : 'light'}
           extensions={extensions}
           value={value}
           onChange={onChange}
