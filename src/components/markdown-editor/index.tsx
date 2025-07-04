@@ -24,7 +24,7 @@ export function MarkdownEditor({ value, onChange }: MarkdownEditorProps) {
   const extensions = useMemo(() => {
     return [markdown(), EditorView.lineWrapping];
   }, []);
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
 
   useEffect(() => {
     getMarkdownImageUrls(debounceValue).then(console.log);
@@ -97,7 +97,7 @@ export function MarkdownEditor({ value, onChange }: MarkdownEditorProps) {
             lineNumbers: false,
             foldGutter: false,
           }}
-          theme={theme === 'dark' ? 'dark' : 'light'}
+          theme={resolvedTheme === 'dark' ? 'dark' : 'light'}
           extensions={extensions}
           value={value}
           onChange={onChange}
