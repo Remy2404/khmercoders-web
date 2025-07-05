@@ -14,6 +14,7 @@ import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { updateArticlePublishAction } from '@/server/actions/article';
 import Image from 'next/image';
+import { CommentButton, LikeButton } from './interaction-button';
 
 interface ArticlePreviewItemProps {
   data: ArticlePreviewRecord;
@@ -39,37 +40,55 @@ export function ArticlePreviewItem({ data, showControlPanel }: ArticlePreviewIte
           href={`/@${data.user.profile.alias}/articles/${data.id}${data.slug ? `/${data.slug}` : ''}`}
           className="block"
         >
-          <h2 className="text-lg font-semibold hover:text-primary hover:underline">{data.title}</h2>
+          <>
+            <h2 className="text-lg font-semibold hover:text-primary hover:underline">
+              {data.title}
+            </h2>
+
+            <div className="text-xs text-muted-foreground">
+              {data.createdAt && (
+                <time>
+                  {new Date(data.createdAt).toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: 'numeric',
+                    year: 'numeric',
+                  })}{' '}
+                  at{' '}
+                  {new Date(data.createdAt).toLocaleTimeString('en-US', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                  })}
+                </time>
+              )}
+
+              {showControlPanel && (
+                <Badge variant={published ? 'default' : 'secondary'} className="ml-2">
+                  {published ? 'Published' : 'Draft'}
+                </Badge>
+              )}
+            </div>
+
+            {data.summary && (
+              <p className="text-sm text-muted-foreground my-2 line-clamp-2">{data.summary}</p>
+            )}
+          </>
         </Link>
 
-        <div className="text-xs text-muted-foreground">
-          {data.createdAt && (
-            <time>
-              {new Date(data.createdAt).toLocaleDateString('en-US', {
-                month: 'short',
-                day: 'numeric',
-                year: 'numeric',
-              })}{' '}
-              at{' '}
-              {new Date(data.createdAt).toLocaleTimeString('en-US', {
-                hour: '2-digit',
-                minute: '2-digit',
-              })}
-            </time>
-          )}
-
-          {showControlPanel && (
-            <Badge variant={published ? 'default' : 'secondary'} className="ml-2">
-              {published ? 'Published' : 'Draft'}
-            </Badge>
-          )}
-        </div>
-        {data.summary && <p className="text-sm text-muted-foreground my-2">{data.summary}</p>}
         <div className="flex gap-2 items-center mt-2">
           <Avatar className="w-6 h-6">
             {data.user.image ? <AvatarImage src={data.user.image} /> : <AvatarFallback />}
           </Avatar>
           <span className="text-sm">{data.user.name}</span>
+        </div>
+
+        <div className="flex gap-2 mt-4">
+          <LikeButton
+            defaultLiked={data.hasCurrentUserLiked}
+            defaultCount={data.likeCount}
+            resourceId={data.id}
+            resourceType="article"
+          />
+          <CommentButton />
         </div>
 
         {showControlPanel && (

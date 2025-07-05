@@ -4,6 +4,7 @@ import { ProfileTrackingComponent } from '../tracker';
 import { ProfileHeader } from '@/components/profile-header';
 import { getDB } from '@/libs/db';
 import { ArticlePreviewItem } from '@/components/article-item';
+import { bindingArticleListLikeStatus } from '@/server/services/article';
 
 export default async function UserArticleListPage({
   params,
@@ -19,30 +20,40 @@ export default async function UserArticleListPage({
 
   const isOwner = profile.user.id === session?.user.id;
 
-  const articles = await db.query.article.findMany({
-    where: (article, { eq, and }) =>
-      isOwner
-        ? and(eq(article.userId, profile.user.id))
-        : and(eq(article.userId, profile.user.id), eq(article.published, true)),
-    columns: {
-      id: true,
-      title: true,
-      summary: true,
-      image: true,
-      slug: true,
-      createdAt: true,
-      updatedAt: true,
-      published: true,
-      userId: true,
-    },
-    with: {
-      user: {
-        with: {
-          profile: {},
+  const articles = await bindingArticleListLikeStatus(
+    await db.query.article.findMany({
+      where: (article, { eq, and }) =>
+        isOwner
+          ? and(eq(article.userId, profile.user.id))
+          : and(eq(article.userId, profile.user.id), eq(article.published, true)),
+      columns: {
+        id: true,
+        title: true,
+        summary: true,
+        image: true,
+        slug: true,
+        createdAt: true,
+        updatedAt: true,
+        published: true,
+        userId: true,
+        likeCount: true,
+        banByUserId: true,
+        banReason: true,
+        approvedByAI: true,
+        commentCount: true,
+        isBanned: true,
+        viewCount: true,
+      },
+      with: {
+        user: {
+          with: {
+            profile: {},
+          },
         },
       },
-    },
-  });
+    }),
+    session?.user?.id
+  );
 
   return (
     <>

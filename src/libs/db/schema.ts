@@ -1,4 +1,4 @@
-import { UserLevel, BindingResourceType } from '@/types';
+import { UserLevel, BindingResourceType, LikableResourceType } from '@/types';
 import { relations } from 'drizzle-orm';
 import { sqliteTable, text, integer, index, primaryKey } from 'drizzle-orm/sqlite-core';
 
@@ -19,6 +19,11 @@ export const user = sqliteTable('user', {
 
   // Storage usages
   storageUsed: integer('storage_used').notNull().default(0),
+
+  // Moderation
+  isBanned: integer('is_banned', { mode: 'boolean' }).notNull().default(false),
+  banReason: text('ban_reason'),
+  banByUserId: text('ban_by_user_id'),
 });
 
 export const session = sqliteTable('session', {
@@ -154,8 +159,27 @@ export const article = sqliteTable(
     approvedByAI: integer('approved_by_ai', { mode: 'boolean' }).notNull().default(false),
     createdAt: integer('created_at', { mode: 'timestamp' }).notNull(),
     updatedAt: integer('updated_at', { mode: 'timestamp' }).notNull(),
+    likeCount: integer('like_count').notNull().default(0),
+    commentCount: integer('comment_count').notNull().default(0),
+    viewCount: integer('view_count').notNull().default(0),
+
+    // For moderation
+    isBanned: integer('is_banned', { mode: 'boolean' }).notNull().default(false),
+    banReason: text('ban_reason'),
+    banByUserId: text('ban_by_user_id'),
   },
   table => [index('article_user_id_idx').on(table.userId)]
+);
+
+export const likes = sqliteTable(
+  'likes',
+  {
+    type: text('type').notNull().$type<LikableResourceType>(), // 'article' or 'comment'
+    resourceId: text('resource_id').notNull(), // ID of the article or comment
+    userId: text('user_id').notNull(),
+    createdAt: integer('created_at', { mode: 'timestamp' }).notNull(),
+  },
+  table => [primaryKey({ columns: [table.type, table.resourceId, table.userId] })]
 );
 
 // Relations
