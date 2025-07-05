@@ -47,7 +47,7 @@ export function ArticlePreviewItem({ data, showControlPanel }: ArticlePreviewIte
 
             <div className="text-xs text-muted-foreground">
               {data.createdAt && (
-                <time>
+                <time suppressHydrationWarning>
                   {new Date(data.createdAt).toLocaleDateString('en-US', {
                     month: 'short',
                     day: 'numeric',
