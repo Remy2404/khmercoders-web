@@ -43,7 +43,8 @@ export function LikeButton({
           });
         })
         .finally(() => {
-          setLoading(false), setLiked(!liked);
+          setLoading(false);
+          setLiked(!liked);
         });
     }
   }, [liked]);
