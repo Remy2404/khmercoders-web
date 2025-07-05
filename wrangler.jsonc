@@ -55,5 +55,6 @@
   "ai": {
     "binding": "AI"
   },
-  "keep_vars": true
+  "keep_vars": true,
+  "keep_names": false
 }
