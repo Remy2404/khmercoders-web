@@ -4,6 +4,9 @@ import { getArtcleFromIdCache } from '@/server/cache/user';
 import { formatDate } from '@/utils/format';
 import Markdown from 'react-markdown';
 import Image from 'next/image';
+import { bindingArticleLikeStatus } from '@/server/services/article';
+import { CommentButton, LikeButton } from '@/components/interaction-button';
+import { getSession } from '@/app/session';
 
 interface EditArticlePageProps {
   params: Promise<{ articleId: string; username: string }>;
@@ -32,9 +35,13 @@ export async function generateMetadata({ params }: EditArticlePageProps) {
 }
 
 export default async function EditArticlePage({ params }: EditArticlePageProps) {
+  const { session } = await getSession();
   const { articleId } = await params;
 
-  const article = await getArtcleFromIdCache(articleId);
+  const article = await bindingArticleLikeStatus(
+    await getArtcleFromIdCache(articleId),
+    session?.user?.id
+  );
 
   return (
     <article>
@@ -44,7 +51,18 @@ export default async function EditArticlePage({ params }: EditArticlePageProps) 
           <time className="text-sm text-muted-foreground mb-4">
             {formatDate(article.updatedAt)}
           </time>
+
           <UserSmallCard user={article.user} profile={article.user.profile} />
+
+          <div className="flex gap-2 mt-4">
+            <LikeButton
+              defaultLiked={article.hasCurrentUserLiked}
+              defaultCount={article.likeCount}
+              resourceId={article.id}
+              resourceType="article"
+            />
+            <CommentButton />
+          </div>
         </div>
       </header>
 

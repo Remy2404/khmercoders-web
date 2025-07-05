@@ -65,6 +65,7 @@ export enum UserLevel {
 }
 
 export type BindingResourceType = 'profile' | 'article';
+export type LikableResourceType = 'article' | 'comment';
 
 export type MainDatabase = DrizzleD1Database<typeof schema>;
 
@@ -80,5 +81,7 @@ export type ArticleRecord = typeof schema.article.$inferSelect & {
   user: UserRecord & {
     profile: ProfileRecord;
   };
+  hasCurrentUserLiked?: boolean;
 };
+
 export type ArticlePreviewRecord = Omit<ArticleRecord, 'content'>;

@@ -2,11 +2,18 @@ import { HomeHeroBanner } from './hero';
 import { HomeEventSection } from './events';
 import { getFeaturedArticlesCache } from '@/server/cache/articles';
 import { ArticlePreviewItem } from '@/components/article-item';
+import { getSession } from '../session';
+import { bindingArticleListLikeStatus } from '@/server/services/article';
 
 export const revalidate = 3600; // Cache the page for 3600 seconds (1 hour)
 
 export default async function LandingPage() {
-  const articles = await getFeaturedArticlesCache();
+  const { session } = await getSession();
+
+  const articles = await bindingArticleListLikeStatus(
+    await getFeaturedArticlesCache(),
+    session?.user?.id
+  );
 
   return (
     <main className="relative">
