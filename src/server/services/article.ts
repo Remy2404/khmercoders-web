@@ -53,8 +53,8 @@ export async function bindingArticleLikeStatus(
   const db = await getDB();
 
   const likedArticle = await db.query.likes.findFirst({
-    where: (likes, { eq }) =>
-      eq(likes.userId, userId) && eq(likes.type, 'article') && eq(likes.resourceId, article.id),
+    where: (likes, { and, eq }) =>
+      and(eq(likes.userId, userId), eq(likes.type, 'article'), eq(likes.resourceId, article.id)),
     columns: {
       resourceId: true,
     },
