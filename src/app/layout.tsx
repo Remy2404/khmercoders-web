@@ -3,7 +3,6 @@ import { DiscordIcon } from '@/components/atoms/icons';
 import Navbar from '@/components/atoms/nav-bar';
 import { KhmerCoderDevtool } from '@/components/devtool';
 import { ReactQueryProvider } from '@/components/react-query-prodiver';
-import { ThemeProvider } from '@/components/theme-provider';
 import { UserUploadProvider } from '@/components/user-upload/context';
 import { KCLinks } from '@/data/link';
 import { Facebook, Github } from 'lucide-react';
@@ -12,6 +11,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import type React from 'react';
 import { SessionProvider } from './session';
+import { ThemeProvider } from 'next-themes';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -26,7 +26,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning={true}>
+    <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png" />
