@@ -15,6 +15,6 @@ export const getFeaturedArticlesCache = cache(async () => {
         },
       },
     },
-    limit: 5,
+    limit: 20,
   });
 });

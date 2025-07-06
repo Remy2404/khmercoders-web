@@ -35,6 +35,7 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=VT323&display=swap"
           rel="stylesheet"
         ></link>
+        <title>{metadata.title}</title>
       </head>
       <body className={inter.className}>
         <ThemeProvider
@@ -49,7 +50,7 @@ export default function RootLayout({
                 <div className="min-h-screen relative">
                   {/* Content container */}
                   <div className="relative">
-                    <header className="py-1 px-4 xl:px-16 flex items-center gap-12 mb-8 justify-between bg-background border-b border-yellow-600 shadow-[0_8px_16px_-1px_rgba(251,146,60,0.4)]">
+                    <header className="bg-white dark:bg-black py-1 px-4 xl:px-16 flex items-center gap-12 mb-8 justify-between bg-background border-b shadow-[0_2px_8px_-1px_rgba(251,146,60,0.4)]">
                       <Link href="/" className="flex items-center z-9999">
                         <Image
                           src="/khmer-coder.svg"

@@ -1,87 +1,62 @@
-import { KV_TELERAM_MEMBER_COUNT } from '@/constants';
+import { DiscordIcon } from '@/components/atoms/icons';
+import { buttonVariants } from '@/components/generated/button';
 import { KCLinks } from '@/data/link';
-import { getCloudflareContext } from '@opennextjs/cloudflare';
+import { cn } from '@/utils';
+import { SendIcon, FacebookIcon } from 'lucide-react';
 import Link from 'next/link';
 
 export async function HomeHeroBanner() {
-  const { env } = getCloudflareContext();
-
-  const counter = await env.KV.get([
-    'telegram_member_count',
-    'discord_member_count',
-    'facebook_member_count',
-  ]);
-
-  const telegramMemberCount = Number(counter.get(KV_TELERAM_MEMBER_COUNT) || 0);
-  const discordMemberCount = Number(counter.get('discord_member_count') || 0);
-  const facebookMemberCount = Number(counter.get('facebook_member_count') || 0);
+  const bannerClassName = cn(
+    'bg-card border-b p-4',
+    'lg:border lg:rounded lg:sticky lg:top-4' // Desktop layout
+  );
 
   return (
-    <section className="container mx-auto my-12 text-lg tracking-tight">
-      <h1 className="font-retro text-5xl md:text-6xl lg:text-7xl text-yellow-500 leading-[1.1]">
-        {"Cambodia's Largest"}
-        <br />
-        Coding Community
-      </h1>
-
-      <div className="font-mono my-6 max-w-2xl">
-        {`Founded in 2018, Khmer Coders has grown to become Cambodia's largest coding community. We
+    <div className="-mt-8 lg:mt-0 lg:w-[350px] shrink-0">
+      <div className={bannerClassName}>
+        <h1 className="font-bold">Largest Cambodian Developer Community</h1>
+        <p className="my-2">
+          <span className="font-mono text-3xl font-bold">12,000+</span>
+          <span className="font-regular text-muted-foreground text-base ml-2">members</span>
+        </p>
+        <p className="text-sm text-muted-foreground mb-4">{`Founded in 2018, Khmer Coders has grown to become Cambodia's largest coding community. We
         bring together developers, designers, and tech enthusiasts to learn, share, and grow
-        together.`}
-      </div>
+        together.`}</p>
 
-      <div className="flex gap-4 flex-wrap">
-        <div className="border border-4 border-gray-400 border-double p-4 font-mono w-full md:w-auto">
-          <div className="font-bold">Facebook Group</div>
-          <div>
-            {facebookMemberCount.toLocaleString(undefined, {
-              minimumFractionDigits: 0,
-              maximumFractionDigits: 0,
-            })}
-          </div>
+        <div className="flex lg:flex-col flex-row flex-wrap">
           <Link
-            target="_blank"
-            href={KCLinks.facebookGroupLink}
-            className="text-yellow-500 hover:underline hover:decoration-double"
-          >
-            Join here
-          </Link>
-        </div>
-
-        <div className="border border-4 border-gray-400 border-double p-4 font-mono w-full md:w-auto">
-          <div className="font-bold">Telegram Group</div>
-          <div>
-            {telegramMemberCount.toLocaleString(undefined, {
-              minimumFractionDigits: 0,
-              maximumFractionDigits: 0,
-            })}
-          </div>
-          <Link
-            target="_blank"
             href={KCLinks.telegramLink}
-            className="text-yellow-500 hover:underline hover:decoration-double"
-          >
-            Join here
-          </Link>
-        </div>
-
-        <div className="border border-4 border-gray-400 border-double p-4 font-mono w-full md:w-auto">
-          <div className="font-bold">Discord Group</div>
-          <div>
-            {discordMemberCount.toLocaleString(undefined, {
-              minimumFractionDigits: 0,
-              maximumFractionDigits: 0,
-            })}
-          </div>
-          <Link
             target="_blank"
-            href={KCLinks.discordLink}
-            className="text-yellow-500 hover:underline hover:decoration-double"
+            className={cn(
+              buttonVariants({ variant: 'ghost' }),
+              'text-left justify-start flex gap-2'
+            )}
           >
-            Join here
+            <SendIcon className="w-4 h-4" />
+            Join Telegram
+          </Link>
+          <Link
+            href={KCLinks.discordLink}
+            className={cn(
+              buttonVariants({ variant: 'ghost' }),
+              'text-left justify-start flex gap-2'
+            )}
+          >
+            <DiscordIcon className="w-4 h-4" />
+            Join Discord
+          </Link>
+          <Link
+            href={KCLinks.facebookGroupLink}
+            className={cn(
+              buttonVariants({ variant: 'ghost' }),
+              'text-left justify-start flex gap-2'
+            )}
+          >
+            <FacebookIcon className="w-4 h-4" />
+            Join Facebook
           </Link>
         </div>
       </div>
-    </section>
+    </div>
   );
 }

@@ -34,11 +34,11 @@ export function ArticlePreviewItem({ data, showControlPanel }: ArticlePreviewIte
   });
 
   return (
-    <article className="flex-col lg:flex-row p-4 border rounded-lg shadow-md mb-4 flex gap-2 lg:items-center items-start">
+    <article className="bg-card border rounded flex-col lg:flex-row p-4 flex gap-2 lg:items-center items-start">
       <div className="grow order-2 lg:order-1">
         <Link
           href={`/@${data.user.profile.alias}/articles/${data.id}${data.slug ? `/${data.slug}` : ''}`}
-          className="block"
+          className="block px-2 lg:px-0"
         >
           <>
             <h2 className="text-lg font-semibold hover:text-primary hover:underline">
@@ -74,14 +74,14 @@ export function ArticlePreviewItem({ data, showControlPanel }: ArticlePreviewIte
           </>
         </Link>
 
-        <div className="flex gap-2 items-center mt-2">
+        <div className="flex gap-2 items-center mt-2 px-2 lg:px-0">
           <Avatar className="w-6 h-6">
             {data.user.image ? <AvatarImage src={data.user.image} /> : <AvatarFallback />}
           </Avatar>
           <span className="text-sm">{data.user.name}</span>
         </div>
 
-        <div className="flex gap-2 mt-4">
+        <div className="flex gap-2 mt-4 px-2 lg:px-0">
           <LikeButton
             defaultLiked={data.hasCurrentUserLiked}
             defaultCount={data.likeCount}
