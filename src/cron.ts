@@ -40,7 +40,7 @@ export const handleCloudflareScheduled: ExportedHandlerScheduledHandler<Cloudfla
   } else if (cron === EVERYONE_FIVE_MINUTES_CRON) {
     // Updating the analytics view_count
     // Getting the last cron execution time
-    const db = await getDB();
+    const db = await getDB(env);
     const lastExecution = await db.query.systemSetting.findFirst({
       where: (systemSetting, { eq }) => eq(systemSetting.key, 'last_cron_execution'),
       columns: {
@@ -72,9 +72,20 @@ export const handleCloudflareScheduled: ExportedHandlerScheduledHandler<Cloudfla
 
       await db.batch([
         db
-          .update(schema.systemSetting)
-          .set({ value: fiveMinutesAgoTimestamp.toString() })
-          .where(eq(schema.systemSetting.key, 'last_cron_execution')),
+          .insert(schema.systemSetting)
+          .values({
+            value: fiveMinutesAgoTimestamp.toString(),
+            key: 'last_cron_execution',
+            updatedAt: new Date(),
+            description: '',
+          })
+          .onConflictDoUpdate({
+            target: schema.systemSetting.key,
+            set: {
+              value: fiveMinutesAgoTimestamp.toString(),
+              updatedAt: new Date(),
+            },
+          }),
         ...batchUpdates,
       ]);
     }
