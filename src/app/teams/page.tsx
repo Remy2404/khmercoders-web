@@ -46,7 +46,7 @@ export default async function TeamsPage() {
       </div>
 
       {userPerGroup.map(group => (
-        <section>
+        <section key={group.level}>
           <div className="my-4">
             <h2 className="text-lg font-bold">{group.info.name}</h2>
             <p className="text-muted-foreground text-sm">{group.info.description}</p>
