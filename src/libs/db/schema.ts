@@ -182,6 +182,13 @@ export const likes = sqliteTable(
   table => [primaryKey({ columns: [table.type, table.resourceId, table.userId] })]
 );
 
+export const systemSetting = sqliteTable('system_setting', {
+  key: text('key').primaryKey().notNull(),
+  value: text('value').notNull(),
+  description: text('description'),
+  updatedAt: integer('updated_at', { mode: 'timestamp' }).notNull(),
+});
+
 // Relations
 export const userUploadRelationship = relations(userUpload, ({ one, many }) => ({
   bindings: many(userUploadBinding),
