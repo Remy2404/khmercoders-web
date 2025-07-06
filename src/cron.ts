@@ -1,5 +1,5 @@
 import { KV_TELERAM_MEMBER_COUNT } from './constants';
-import { getDB } from './libs/db';
+import { getDB, getDBFromEnvironment } from './libs/db';
 import { requestWorkerAnalytic } from './libs/wae';
 import * as schema from './libs/db/schema';
 import { eq, sql } from 'drizzle-orm';
@@ -40,7 +40,7 @@ export const handleCloudflareScheduled: ExportedHandlerScheduledHandler<Cloudfla
   } else if (cron === EVERYONE_FIVE_MINUTES_CRON) {
     // Updating the analytics view_count
     // Getting the last cron execution time
-    const db = await getDB(env);
+    const db = getDBFromEnvironment(env);
     const lastExecution = await db.query.systemSetting.findFirst({
       where: (systemSetting, { eq }) => eq(systemSetting.key, 'last_cron_execution'),
       columns: {
@@ -50,7 +50,7 @@ export const handleCloudflareScheduled: ExportedHandlerScheduledHandler<Cloudfla
 
     // Get 5 mintues ago because the analytics has data might be delay. So we have it 5 minutes to be safe
     const fiveMinutesAgoTimestamp = new Date(Date.now() - 5 * 60 * 1000).getTime();
-    const lastExecutionTimestamp = Number(lastExecution ?? 0);
+    const lastExecutionTimestamp = Number(lastExecution?.value ?? 0);
 
     if (lastExecutionTimestamp < fiveMinutesAgoTimestamp) {
       const result = await requestWorkerAnalytic<{ articleId: string; totalView: number }>(
