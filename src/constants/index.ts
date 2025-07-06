@@ -18,35 +18,36 @@ export const USER_LEVEL_DESCRIPTION: Record<
   }
 > = {
   [UserLevel.Basic]: {
-    description: 'Basic user with limited access',
+    description: 'Community member who is starting their journey with us',
     name: 'Basic',
   },
   [UserLevel.Regular]: {
-    description: 'Regular user with standard access',
+    description: 'Active participant in our community discussions and events',
     name: 'Regular',
   },
   [UserLevel.Premium]: {
-    description: 'Premium user with enhanced features',
+    description: 'Financial supporter whose contributions help sustain our community growth',
     name: 'Premium',
   },
   [UserLevel.Volunteer]: {
-    description: 'Volunteer with special permissions',
+    description: 'Dedicated member who assists with community initiatives and events',
     name: 'Volunteer',
   },
   [UserLevel.Contributor]: {
-    description: 'Contributor with additional privileges',
+    description:
+      'Content creator who shares knowledge through articles, code examples, or educational resources',
     name: 'Contributor',
   },
   [UserLevel.Moderator]: {
-    description: 'Moderator with management capabilities',
+    description: 'Community guardian who ensures discussions remain constructive and supportive',
     name: 'Moderator',
   },
   [UserLevel.Director]: {
-    description: 'Director with high-level access and control',
+    description: 'Strategic leader who guides community direction and major initiatives',
     name: 'Director',
   },
   [UserLevel.SuperAdmin]: {
-    description: 'Founding member with full administrative rights',
+    description: 'Founding member who established the community and oversees its long-term vision',
     name: 'Founder',
   },
 };

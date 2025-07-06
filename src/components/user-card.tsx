@@ -7,7 +7,7 @@ export function UserCard({ user, profile }: UserCardProps) {
   return (
     <Link
       href={`/@${profile.alias}`}
-      className="flex gap-3 bg-secondary p-3 rounded hover:ring-2 cursor-pointer transition-colors"
+      className="bg-card border flex gap-3 p-3 rounded hover:ring-2 cursor-pointer transition-colors"
     >
       {user.image && <img src={user.image} className="rounded-full w-16 h-16 shrink-0" alt="" />}
       <div className="flex flex-col justify-center leading-tight">
