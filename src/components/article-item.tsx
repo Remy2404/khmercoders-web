@@ -1,5 +1,5 @@
 'use client';
-import { ArticlePreviewRecord } from '@/types';
+import { ArticlePreviewRecord, UserLevel } from '@/types';
 import { Avatar, AvatarFallback, AvatarImage } from './generated/avatar';
 import Link from 'next/link';
 import { Badge } from './generated/badge';
@@ -15,6 +15,8 @@ import { useMutation } from '@tanstack/react-query';
 import { updateArticlePublishAction } from '@/server/actions/article';
 import Image from 'next/image';
 import { CommentButton, LikeButton } from './interaction-button';
+import { useSession } from './auth-provider';
+import { MODERATOR_ACCESS } from '@/constants';
 
 interface ArticlePreviewItemProps {
   data: ArticlePreviewRecord;
@@ -23,6 +25,7 @@ interface ArticlePreviewItemProps {
 
 export function ArticlePreviewItem({ data, showControlPanel }: ArticlePreviewItemProps) {
   const [published, setPublished] = useState(data.published);
+  const { session } = useSession();
 
   const { mutate: togglePublished, isPending } = useMutation({
     mutationFn: async (data: { articleId: string; status: boolean }) => {
@@ -89,6 +92,11 @@ export function ArticlePreviewItem({ data, showControlPanel }: ArticlePreviewIte
             resourceType="article"
           />
           <CommentButton />
+          {MODERATOR_ACCESS.includes(session?.user?.level ?? UserLevel.Basic) && (
+            <div className="text-muted-foreground text-sm flex items-center">
+              | {data.viewCount} views
+            </div>
+          )}
         </div>
 
         {showControlPanel && (

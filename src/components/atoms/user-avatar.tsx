@@ -56,28 +56,26 @@ export function UserAvatar() {
           </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        {profile && user.level > 0 && (
-          <>
-            <DropdownMenuItem asChild>
-              <Link href={`/profile/articles/create`} className="cursor-pointer">
-                <Newspaper className="mr-2 h-4 w-4" />
-                Create Article
-                <div className="grow flex justify-end">
-                  <Badge>Beta</Badge>
-                </div>
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem asChild>
-              <Link href={`/@${profile?.alias}/articles`} className="cursor-pointer">
-                <Newspaper className="mr-2 h-4 w-4" />
-                Articles
-                <div className="grow flex justify-end">
-                  <Badge>Beta</Badge>
-                </div>
-              </Link>
-            </DropdownMenuItem>
-          </>
-        )}
+
+        <DropdownMenuItem asChild>
+          <Link href={`/profile/articles/create`} className="cursor-pointer">
+            <Newspaper className="mr-2 h-4 w-4" />
+            Create Article
+            <div className="grow flex justify-end">
+              <Badge>Beta</Badge>
+            </div>
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link href={`/@${profile?.alias}/articles`} className="cursor-pointer">
+            <Newspaper className="mr-2 h-4 w-4" />
+            Articles
+            <div className="grow flex justify-end">
+              <Badge>Beta</Badge>
+            </div>
+          </Link>
+        </DropdownMenuItem>
+
         <DropdownMenuItem asChild>
           <Link href={'/profile/storage'} className="cursor-pointer">
             <Files className="mr-2 h-4 w-4" />
