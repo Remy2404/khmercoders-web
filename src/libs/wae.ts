@@ -12,6 +12,11 @@ export async function requestWorkerAnalytic<T>(query: string): Promise<T[]> {
     }
   );
 
+  if (!response.ok) {
+    console.error('Error fetching data from WAE:', response.statusText);
+  }
+
   const result = (await response.json()) as { data: T[] };
+
   return result.data;
 }
