@@ -58,7 +58,11 @@ export const handleCloudflareScheduled: ExportedHandlerScheduledHandler<Cloudfla
           SELECT blob7 AS articleId, COUNT() AS totalView
           FROM profile_analytics 
           WHERE blob1 = 'article' AND toUnixTimestamp(timestamp) BETWEEN ${lastExecutionTimestamp} AND ${fiveMinutesAgoTimestamp} 
-          GROUP BY blob7`
+          GROUP BY blob7`,
+        {
+          accountId: env.ACCOUNT_ID,
+          token: env.WAE_TOKEN,
+        }
       );
 
       const batchUpdates = result.map(articleStat =>

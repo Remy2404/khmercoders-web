@@ -1,16 +1,25 @@
-export async function requestWorkerAnalytic<T>(query: string): Promise<T[]> {
+export async function requestWorkerAnalytic<T>(
+  query: string,
+  secret?: {
+    accountId?: string;
+    token?: string;
+  }
+): Promise<T[]> {
   console.log('Requesting WAE with query:', query);
 
-  if (!process.env.WAE_TOKEN || !process.env.ACCOUNT_ID) {
+  const accountId = secret?.accountId || process.env.ACCOUNT_ID;
+  const token = secret?.token || process.env.WAE_TOKEN;
+
+  if (!token || !accountId) {
     throw new Error('WAE_TOKEN or ACCOUNT_ID is not set in environment variables.');
   }
 
   const response = await fetch(
-    `https://api.cloudflare.com/client/v4/accounts/${process.env.ACCOUNT_ID}/analytics_engine/sql`,
+    `https://api.cloudflare.com/client/v4/accounts/${accountId}/analytics_engine/sql`,
     {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${process.env.WAE_TOKEN}`,
+        Authorization: `Bearer ${token}`,
       },
       body: query,
     }
