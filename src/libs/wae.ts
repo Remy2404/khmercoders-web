@@ -1,4 +1,6 @@
 export async function requestWorkerAnalytic<T>(query: string): Promise<T[]> {
+  console.log('Requesting WAE with query:', query);
+
   const response = await fetch(
     `https://api.cloudflare.com/client/v4/accounts/${process.env.ACCOUNT_ID}/analytics_engine/sql`,
     {

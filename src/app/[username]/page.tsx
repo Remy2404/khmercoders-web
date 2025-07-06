@@ -9,6 +9,9 @@ import { eq } from 'drizzle-orm';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { ProfileTrackingComponent } from './tracker';
+import { UserModeratorTool } from './moderator-tool';
+import { MODERATOR_ACCESS } from '@/constants';
+import { getSession } from '../session';
 
 export async function generateMetadata({
   params,
@@ -62,6 +65,8 @@ export default async function UserProfilePage({
   return (
     <>
       <ProfileTrackingComponent userId={profile.user.id} />
+
+      <UserModeratorTool user={profile.user} />
 
       <ProfileHeader user={profile.user} profile={profile.member_profile} />
 

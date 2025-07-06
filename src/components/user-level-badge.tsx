@@ -11,6 +11,24 @@ export function UserLevelBadge({ level }: { level: UserLevel }) {
     );
   }
 
+  if (level === UserLevel.Director) {
+    return (
+      <span className="inline-flex font-mono py-0.5 px-2 rounded text-xs bg-red-500 items-center gap-1 text-white">
+        <Crown className="w-3 h-3" />
+        <span>Director</span>
+      </span>
+    );
+  }
+
+  if (level === UserLevel.Contributor) {
+    return (
+      <span className="inline-flex font-mono py-0.5 px-2 rounded text-xs bg-green-500 items-center gap-1 text-white">
+        <BadgeCheck className="w-3 h-3" />
+        <span>Contributor</span>
+      </span>
+    );
+  }
+
   if (level === UserLevel.Moderator) {
     return (
       <span className="inline-flex font-mono py-0.5 px-2 rounded text-xs bg-blue-500 items-center gap-1 text-white">

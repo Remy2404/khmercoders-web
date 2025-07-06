@@ -1,5 +1,5 @@
 import { KV_TELERAM_MEMBER_COUNT } from './constants';
-import { getDB, getDBFromEnvironment } from './libs/db';
+import { getDBFromEnvironment } from './libs/db';
 import { requestWorkerAnalytic } from './libs/wae';
 import * as schema from './libs/db/schema';
 import { eq, sql } from 'drizzle-orm';

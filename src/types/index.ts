@@ -60,7 +60,9 @@ export enum UserLevel {
   Regular = 1,
   Premium = 5,
   Volunteer = 8,
+  Contributor = 9,
   Moderator = 10,
+  Director = 15,
   SuperAdmin = 20,
 }
 
