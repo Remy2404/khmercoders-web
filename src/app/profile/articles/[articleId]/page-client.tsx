@@ -1,11 +1,21 @@
 'use client';
 import { ArticleRecord } from '@/types';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { ArticleEditor, ArticleEditorValue } from '@/app/profile/articles/components/ArticleEditor';
 import { updateArticleAction, updateArticlePublishAction } from '@/server/actions/article';
 import { useMutation } from '@tanstack/react-query';
 import { ArticleEditorHeader } from '../components/ArticleEditorHeader';
-
+import { useNavigationGuard } from 'next-navigation-guard';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/generated/alert-dialog';
 interface ArticleEditClientPageProps {
   data: ArticleRecord;
 }
@@ -17,6 +27,22 @@ export function ArticleEditClientPage({ data }: ArticleEditClientPageProps) {
     image: data.image ?? '',
     summary: data.summary ?? '',
     content: data.content ?? '',
+  });
+  const hasUnsavedChangesRef = useRef(false);
+  const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    const hasChanges =
+      data.title !== value.title ||
+      data.slug !== value.slug ||
+      data.image !== value.image ||
+      data.summary !== value.summary ||
+      data.content !== value.content;
+    hasUnsavedChangesRef.current = hasChanges;
+  }, [value]);
+
+  const navGuard = useNavigationGuard({
+    enabled: hasUnsavedChangesRef.current && !submitting,
   });
 
   const {
@@ -33,10 +59,12 @@ export function ArticleEditClientPage({ data }: ArticleEditClientPageProps) {
       data: ArticleEditorValue;
       published?: boolean;
     }) => {
+      setSubmitting(true);
       const result = await updateArticleAction(id, data);
       if (published) {
         await updateArticlePublishAction(result.id, true);
       }
+      setSubmitting(false);
       return result;
     },
   });
@@ -59,6 +87,26 @@ export function ArticleEditClientPage({ data }: ArticleEditClientPageProps) {
         isUpdate
       />
       <ArticleEditor onChange={setValue} value={value} />
+      <AlertDialog open={navGuard.active}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Unsaved Changes</AlertDialogTitle>
+            <AlertDialogDescription>
+              You have unsaved changes to your article. Are you sure you want to leave? All unsaved
+              changes will be lost.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={navGuard.reject}>Stay on Page</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={navGuard.accept}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              Leave
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </>
   );
 }
