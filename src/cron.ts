@@ -49,7 +49,7 @@ export const handleCloudflareScheduled: ExportedHandlerScheduledHandler<Cloudfla
     });
 
     // Get 5 mintues ago because the analytics has data might be delay. So we have it 5 minutes to be safe
-    const fiveMinutesAgoTimestamp = new Date(Date.now() - 5 * 60 * 1000).getTime();
+    const fiveMinutesAgoTimestamp = (new Date(Date.now() - 5 * 60 * 1000).getTime() / 1000) | 0;
     const lastExecutionTimestamp = Number(lastExecution?.value ?? 0);
 
     if (lastExecutionTimestamp < fiveMinutesAgoTimestamp) {
