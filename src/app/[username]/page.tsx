@@ -10,8 +10,9 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { ProfileTrackingComponent } from './tracker';
 import { UserModeratorTool } from './moderator-tool';
-import { MODERATOR_ACCESS } from '@/constants';
-import { getSession } from '../session';
+import { ProfileSidebar } from './profile-sidebar';
+import { ProfileAiReviewProvider } from './profile-review-provider';
+import { ProfileExperienceListWithReview } from './profile-experience';
 
 export async function generateMetadata({
   params,
@@ -65,93 +66,56 @@ export default async function UserProfilePage({
   return (
     <>
       <ProfileTrackingComponent userId={profile.user.id} />
-
+      <ProfileHeader user={profile.user} profile={profile.member_profile} />
       <UserModeratorTool user={profile.user} />
 
-      <ProfileHeader user={profile.user} profile={profile.member_profile} />
-
-      <div className="container mx-auto flex gap-4 my-4 mb-12">
-        <div className="grow">
-          <div className="my-4 flex gap-2 flex-wrap">
-            {profile.member_profile.telegramUrl && (
-              <SocialLink type="Telegram" link={profile.member_profile.telegramUrl} />
-            )}
-            {profile.member_profile.linkedinUrl && (
-              <SocialLink type="LinkedIn" link={profile.member_profile.linkedinUrl} />
-            )}
-            {profile.member_profile.githubUrl && (
-              <SocialLink type="GitHub" link={profile.member_profile.githubUrl} />
-            )}
-            {profile.member_profile.websiteUrl && (
-              <SocialLink type="Website" link={profile.member_profile.websiteUrl} />
-            )}
-            {profile.member_profile.youtubeUrl && (
-              <SocialLink type="YouTube" link={profile.member_profile.youtubeUrl} />
-            )}
-            {profile.member_profile.tiktokUrl && (
-              <SocialLink type="TikTok" link={profile.member_profile.tiktokUrl} />
-            )}
-            {profile.member_profile.facebookUrl && (
-              <SocialLink type="Facebook" link={profile.member_profile.facebookUrl} />
-            )}
-            {profile.member_profile.xUrl && (
-              <SocialLink type="X" link={profile.member_profile.xUrl} />
-            )}
-            {profile.member_profile.instagramUrl && (
-              <SocialLink type="Instagram" link={profile.member_profile.instagramUrl} />
-            )}
-          </div>
-
-          <div className="text-sm whitespace-pre-wrap">
-            {profile.member_profile.bio?.split('\n').map((line, index) => (
-              <p key={index} className={index > 0 ? 'mt-2' : ''}>
-                {line}
-              </p>
-            ))}
-          </div>
-
-          <div className="mt-6 flex flex-col gap-4">
-            {experiences.map((exp, index) => (
-              <div key={index} className="flex gap-2">
-                <div className="border bg-secondary h-12 w-12 rounded shrink-0 flex items-center justify-center text-orange-400 font-bold">
-                  {exp.companyName
-                    .split(' ')
-                    .slice(0, 2)
-                    .map(word => word.charAt(0).toUpperCase())
-                    .join('')}
-                </div>
-                <div>
-                  <h3 className="text-sm font-semibold">{exp.role}</h3>{' '}
-                  <p className="text-sm text-muted-foreground">
-                    <span className="text-orange-400">{exp.companyName}</span> ({exp.startYear} -{' '}
-                    {exp.endYear ? exp.endYear : 'Present'})
-                  </p>
-                  <p className="text-sm text-muted-foreground whitespace-pre-line">
-                    {exp.description}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className="w-[400px] shrink-0 text-sm hidden lg:block">
-          <div className="border-4 border-muted-foreground p-2 rounded-lg text-muted-foreground">
-            <div className="relative h-32 mb-2 overflow-hidden rounded">
-              <img
-                src="/kc-banner.png"
-                alt="Khmer Coders Community Banner"
-                className="object-cover w-full h-full"
-              />
+      <ProfileAiReviewProvider>
+        <div className="container mx-auto flex gap-4 my-4 mb-12">
+          <div className="grow">
+            <div className="my-4 flex gap-2 flex-wrap">
+              {profile.member_profile.telegramUrl && (
+                <SocialLink type="Telegram" link={profile.member_profile.telegramUrl} />
+              )}
+              {profile.member_profile.linkedinUrl && (
+                <SocialLink type="LinkedIn" link={profile.member_profile.linkedinUrl} />
+              )}
+              {profile.member_profile.githubUrl && (
+                <SocialLink type="GitHub" link={profile.member_profile.githubUrl} />
+              )}
+              {profile.member_profile.websiteUrl && (
+                <SocialLink type="Website" link={profile.member_profile.websiteUrl} />
+              )}
+              {profile.member_profile.youtubeUrl && (
+                <SocialLink type="YouTube" link={profile.member_profile.youtubeUrl} />
+              )}
+              {profile.member_profile.tiktokUrl && (
+                <SocialLink type="TikTok" link={profile.member_profile.tiktokUrl} />
+              )}
+              {profile.member_profile.facebookUrl && (
+                <SocialLink type="Facebook" link={profile.member_profile.facebookUrl} />
+              )}
+              {profile.member_profile.xUrl && (
+                <SocialLink type="X" link={profile.member_profile.xUrl} />
+              )}
+              {profile.member_profile.instagramUrl && (
+                <SocialLink type="Instagram" link={profile.member_profile.instagramUrl} />
+              )}
             </div>
 
-            <p className="p-2">
-              Founded in 2018, Khmer Coders has grown to become Cambodia&apos;s largest coding
-              community. We bring together developers, designers, and tech enthusiasts to learn,
-              share, and grow together.
-            </p>
+            <div className="text-sm whitespace-pre-wrap">
+              {profile.member_profile.bio?.split('\n').map((line, index) => (
+                <p key={index} className={index > 0 ? 'mt-2' : ''}>
+                  {line}
+                </p>
+              ))}
+            </div>
+
+            <ProfileExperienceListWithReview experiences={experiences} />
           </div>
+
+          <ProfileSidebar profile={profile.member_profile} />
         </div>
-      </div>
+      </ProfileAiReviewProvider>
     </>
   );
 }
