@@ -73,6 +73,16 @@ export type MainDatabase = DrizzleD1Database<typeof schema>;
 
 export type UserRecord = typeof schema.user.$inferSelect;
 export type ProfileRecord = typeof schema.memberProfile.$inferSelect;
+export type ProfileAiReviewFeedback = {
+  rating: number;
+  feedback: string;
+  experiences: {
+    id: string;
+    suggestion: string | null;
+    feedback: string | null;
+  }[];
+};
+
 export type ExperienceRecord = typeof schema.workExperience.$inferSelect;
 export type UserUploadRecord = typeof schema.userUpload.$inferSelect;
 export type UserUploadRecordWithBinding = UserUploadRecord & {

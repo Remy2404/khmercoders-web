@@ -186,8 +186,8 @@ ${content}`,
     return;
   }
 
-  const responseText = response?.response;
-  console.log(responseText, typeof responseText);
+  const responseText = response;
+
   if (typeof responseText !== 'boolean') {
     console.error('Invalid response from AI service');
     return false;

@@ -3,8 +3,12 @@ import { withAuthAction } from './middleware';
 import { isValidAlias } from '@/utils/validate';
 import * as schema from '@/libs/db/schema';
 import { eq } from 'drizzle-orm';
+import { getCloudflareContext } from '@opennextjs/cloudflare';
+import { sortExperience } from '@/utils/experience';
+import z from 'zod';
+import { ProfileAiReviewFeedback } from '@/types';
 
-export const getUserAction = withAuthAction(async ({ db, user }) => {
+export const getUserAction = withAuthAction(async ({ user }) => {
   return user;
 });
 
@@ -185,3 +189,109 @@ export const updateUserProfileAction = withAuthAction(
     }
   }
 );
+
+export const reviewProfileByAiAction = withAuthAction(async ({ db, user, profile }) => {
+  const { env } = getCloudflareContext();
+
+  // Getting working experience
+  const workHistory = sortExperience(
+    await db.query.workExperience.findMany({
+      where: (workExperience, { eq }) => eq(workExperience.userId, user.id),
+    })
+  );
+
+  const formatForAiReview = workHistory.map(exp => ({
+    id: exp.id,
+    title: exp.role,
+    company: exp.companyName,
+    startDate: exp.startYear,
+    endDate: exp.endYear,
+    description: exp.description,
+  }));
+
+  const response = await env.AI.run(
+    '@cf/meta/llama-3.1-8b-instruct',
+    {
+      stream: false,
+      max_tokens: 2000,
+      response_format: {
+        json_schema: {
+          type: 'object',
+          properties: {
+            rating: { type: 'number', minimum: 0, maximum: 10 },
+            feedback: { type: 'string' },
+            experiences: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  id: { type: 'string' },
+                  suggestion: { type: ['string', 'null'] },
+                  feedback: { type: ['string', 'null'] },
+                },
+                required: ['id', 'suggestion', 'feedback'],
+              },
+            },
+          },
+          required: ['rating', 'feedback', 'experiences'],
+        },
+        type: 'json_schema',
+      },
+      messages: [
+        {
+          role: 'system',
+          content: `You are a resume reviewer. Rate experience from 0–10, give short overall feedback, and review each experience individually.
+
+\`\`\`json
+{
+  "rating": [0–10],
+  "feedback": "Short overall feedback",
+  "experiences": [
+    {
+      "id": [same as input],
+      "suggestion": "Rewrite only if needed, otherwise null",
+      "feedback": "One-line feedback. Feedback only if needed, otherwise null"
+    }
+  ]
+}
+\`\`\`
+
+Do not include markdown formatting (e.g. \`\`\`json), comments, or explanations. Only return valid JSON
+`,
+        },
+        {
+          role: 'user',
+          content: JSON.stringify(
+            {
+              bio: profile?.bio || '',
+              experiences: formatForAiReview,
+            },
+            null,
+            2
+          ),
+        },
+      ],
+    },
+    {
+      gateway: { id: 'khmercoders-article-moderator-gw' },
+    }
+  );
+
+  const responseText = (response as any).response as string | ProfileAiReviewFeedback;
+
+  try {
+    // If the response is valid, return it
+    return {
+      success: true,
+      message: 'Profile review completed successfully.',
+      data: responseText as ProfileAiReviewFeedback,
+    };
+  } catch (error) {
+    console.error('Failed to parse AI response:', error);
+    return {
+      success: false,
+      message: 'Failed to parse AI response. Please try again later.',
+      data: responseText,
+    };
+  }
+});

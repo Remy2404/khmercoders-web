@@ -34,8 +34,12 @@ export function UserModeratorTool({ user }: { user: UserRecord }) {
     return null;
   }
 
+  if (user.id === session.user.id) {
+    return null;
+  }
+
   return (
-    <div className="mx-auto container p-2 px-4 flex items-center my-2 border border-2 border-orange-500 bg-orange-200/20 rounded-md gap-2">
+    <div className="mx-auto container p-2 px-4 flex items-center my-4 border border-2 border-orange-500 bg-orange-200/20 rounded-md gap-2">
       <div className="text-sm grow">Moderation Tools</div>
 
       {session.user.level === UserLevel.SuperAdmin && (
