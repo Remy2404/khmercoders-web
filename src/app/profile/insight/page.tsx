@@ -10,8 +10,15 @@ export default function ProfileInsightPage() {
   const { session } = useSession();
   const [insight, setInsight] = useState<ProfileInsight>();
 
+  const [error, setError] = useState<string | null>(null);
+
   useEffect(() => {
-    getCurrentProfileInsightAction().then(setInsight).catch();
+    getCurrentProfileInsightAction()
+      .then(setInsight)
+      .catch(err => {
+        console.error('Error fetching profile insight:', err);
+        setError('Failed to load insights. Please try again later.');
+      });
   }, []);
 
   if (!session) {
@@ -25,7 +32,15 @@ export default function ProfileInsightPage() {
         View metrics for your profile including page views and unique visitors in the last 30 days.
         Track how users engage with your profile content.
       </p>
-      {insight ? <InsightSection insight={insight} /> : <Placeholder />}
+      {error ? (
+        <div className="p-4 border border-red-200 bg-red-50 text-red-700 rounded-md">
+          {error}
+        </div>
+      ) : insight ? (
+        <InsightSection insight={insight} />
+      ) : (
+        <Placeholder />
+      )}
     </div>
   );
 }
@@ -57,7 +72,7 @@ function InsightSection({ insight }: { insight: ProfileInsight }) {
 
   return (
     <div className="flex flex-col gap-4 border rounded-lg my-4 overflow-hidden">
-      <div className="bg-zinc-900 border-b flex">
+      <div className="bg-muted border-b flex">
         <div className="bg-background p-4 border-r" style={{ width: 150 }}>
           <h2 className="text-sm font-semibold">Page Views</h2>
           <p className="text-3xl">{insight.totalInsight.count}</p>
@@ -71,7 +86,7 @@ function InsightSection({ insight }: { insight: ProfileInsight }) {
 
       {/* Chart Section */}
       <ChartContainer config={chartConfig} className="h-[300px] w-full">
-        <ResponsiveContainer height={'100%'} width={'100%'}>
+        <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={chartData}>
             <defs>
               <linearGradient id="page_view" x1="0" y1="0" x2="0" y2="1">
@@ -79,25 +94,30 @@ function InsightSection({ insight }: { insight: ProfileInsight }) {
                 <stop offset="95%" stopColor="#f97316" stopOpacity={0} />
               </linearGradient>
             </defs>
-            <CartesianGrid strokeDasharray="3 3" vertical={false} />
+            <CartesianGrid strokeDasharray="3 3" vertical={false} {...({ stroke: 'hsl(var(--muted))' } as any)} />
             <XAxis
               dataKey="date"
               tickFormatter={formatDate}
-              tick={{ fontSize: 12 }}
+              tick={{ fontSize: 12, fill: 'hsl(var(--muted-foreground))' } as any}
               tickMargin={10}
+              axisLine={{ stroke: 'hsl(var(--border))' } as any}
             />
             <Area
               type="monotone"
-              dataKey={'page_view'}
-              name={'page_view'}
-              stroke={'#f97316'}
+              dataKey="page_view"
+              name="page_view"
+              stroke="#f97316"
               fill="url(#page_view)"
               fillOpacity={1}
             />
 
             <Tooltip
-              wrapperClassName="bg-background"
-              contentStyle={{ backgroundColor: '#1e293b', border: 'none' }}
+              contentStyle={{ 
+                backgroundColor: 'hsl(var(--background))', 
+                border: '1px solid hsl(var(--border))',
+                borderRadius: '6px',
+                color: 'hsl(var(--foreground))'
+              }}
               formatter={(value: number) => {
                 return [`${value} pageview`];
               }}
@@ -113,7 +133,8 @@ function InsightSection({ insight }: { insight: ProfileInsight }) {
 function Placeholder() {
   return (
     <div className="container mx-auto">
-      <div className="text-center text-gray-500">Loading...</div>
+      <div className="text-center text-muted-foreground">Loading...</div>
     </div>
   );
 }
+

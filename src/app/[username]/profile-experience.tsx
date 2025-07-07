@@ -54,7 +54,7 @@ export function ProfileExperienceListWithReview({
                   {exp.description}
                 </p>
                 {aiFeedback && (
-                  <div className="bg-card border p-2 text-sm my-2 rounded rounded flex flex-col gap-1">
+                  <div className="bg-card border p-2 text-sm my-2 rounded flex flex-col gap-1">
                     <h2 className="font-semibold text-blue-800 dark:text-blue-400 flex items-center gap-2">
                       <Bot />
                       AI Feedback
