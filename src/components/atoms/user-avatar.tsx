@@ -8,7 +8,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '../generated/dropdown-menu';
-import { User, Settings, ChartArea, Files, Newspaper } from 'lucide-react';
+import { User, Settings, ChartArea, Files, Newspaper, Link2 } from 'lucide-react';
 import Link from 'next/link';
 import { useSession } from '../auth-provider';
 import { Badge } from '../generated/badge';
@@ -55,6 +55,17 @@ export function UserAvatar() {
             Profile Insight
           </Link>
         </DropdownMenuItem>
+        {profile && user.level > 0 && (
+          <DropdownMenuItem asChild>
+            <Link href={'/profile/link-account'} className="cursor-pointer">
+              <Link2 className="mr-2 h-4 w-4" />
+              Link Account
+              <div className="grow flex justify-end">
+                <Badge>Beta</Badge>
+              </div>
+            </Link>
+          </DropdownMenuItem>
+        )}
         <DropdownMenuSeparator />
 
         <DropdownMenuItem asChild>
