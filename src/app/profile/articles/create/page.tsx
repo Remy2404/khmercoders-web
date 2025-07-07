@@ -81,7 +81,6 @@ export default function BlogPage() {
     saveArticle({ data: value, published: true });
   }, [value, saveArticle]);
 
-  console.log(navGuard.active)
   return (
     <>
       <ArticleEditorHeader
