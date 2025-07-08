@@ -189,6 +189,17 @@ export const systemSetting = sqliteTable('system_setting', {
   updatedAt: integer('updated_at', { mode: 'timestamp' }).notNull(),
 });
 
+export const userLinkCode = sqliteTable('user_link_code', {
+  userId: text('user_id')
+    .primaryKey()
+    .notNull()
+    .references(() => user.id, { onDelete: 'cascade' }),
+  code: text('code').notNull().unique(),
+  expiresAt: integer('expires_at', { mode: 'timestamp' }).notNull(),
+  createdAt: integer('created_at', { mode: 'timestamp' }).notNull(),
+  updatedAt: integer('updated_at', { mode: 'timestamp' }).notNull(),
+});
+
 // Relations
 export const userUploadRelationship = relations(userUpload, ({ one, many }) => ({
   bindings: many(userUploadBinding),
