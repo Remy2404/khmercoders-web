@@ -15,6 +15,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/generated/alert-dialog';
+import { useNavigationGuard } from 'next-navigation-guard';
 
 export default function BlogPage() {
   const router = useRouter();
@@ -26,9 +27,8 @@ export default function BlogPage() {
     content: '',
   });
 
-  const [showNavigationDialog, setShowNavigationDialog] = useState(false);
-  const [pendingNavigation, setPendingNavigation] = useState<string | null>(null);
   const hasUnsavedChangesRef = useRef(false);
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     const hasContent = !!(
@@ -41,75 +41,9 @@ export default function BlogPage() {
     hasUnsavedChangesRef.current = hasContent;
   }, [value]);
 
-  // Handle browser tab close or refresh
-  useEffect(() => {
-    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
-      if (hasUnsavedChangesRef.current) {
-        e.preventDefault();
-        e.returnValue = 'You have unsaved changes. Are you sure you want to leave?';
-        return 'You have unsaved changes. Are you sure you want to leave?';
-      }
-    };
-
-    window.addEventListener('beforeunload', handleBeforeUnload);
-    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
-  }, [hasUnsavedChangesRef]);
-
-  useEffect(() => {
-    const originalPush = router.push;
-    const originalBack = router.back;
-    const originalReplace = router.replace;
-
-    router.push = (href: string, options?: any) => {
-      if (hasUnsavedChangesRef.current) {
-        setPendingNavigation(href);
-        setShowNavigationDialog(true);
-        return;
-      }
-      return originalPush.call(router, href, options);
-    };
-
-    router.back = () => {
-      if (hasUnsavedChangesRef.current) {
-        setPendingNavigation('back');
-        setShowNavigationDialog(true);
-        return;
-      }
-      return originalBack.call(router);
-    };
-
-    router.replace = (href: string, options?: any) => {
-      if (hasUnsavedChangesRef.current) {
-        setPendingNavigation(href);
-        setShowNavigationDialog(true);
-        return;
-      }
-      return originalReplace.call(router, href, options);
-    };
-
-    return () => {
-      router.push = originalPush;
-      router.back = originalBack;
-      router.replace = originalReplace;
-    };
-  }, [router]);
-
-  const handleConfirmNavigation = () => {
-    hasUnsavedChangesRef.current = false;
-    setShowNavigationDialog(false);
-
-    if (pendingNavigation === 'back') {
-      router.back();
-    } else if (pendingNavigation) {
-      router.push(pendingNavigation);
-    }
-    setPendingNavigation(null);
-  };
-
-  const handleCancelNavigation = () => {
-    setShowNavigationDialog(false);
-    setPendingNavigation(null);
-  };
+  const navGuard = useNavigationGuard({
+    enabled: hasUnsavedChangesRef.current && !submitting,
+  });
 
   const {
     mutate: saveArticle,
@@ -123,12 +57,14 @@ export default function BlogPage() {
       data: ArticleEditorValue;
       published?: boolean;
     }) => {
+      setSubmitting(true);
       const result = await createArticleAction(data);
       if (published) {
         await updateArticlePublishAction(result.id, true);
       }
       // Clear unsaved changes flag after successful save
       hasUnsavedChangesRef.current = false;
+      setSubmitting(false);
       return result;
     },
     onSuccess: data => {
@@ -155,7 +91,7 @@ export default function BlogPage() {
       />
       <ArticleEditor onChange={setValue} value={value} />
 
-      <AlertDialog open={showNavigationDialog} onOpenChange={setShowNavigationDialog}>
+      <AlertDialog open={navGuard.active}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Unsaved Changes</AlertDialogTitle>
@@ -165,9 +101,9 @@ export default function BlogPage() {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel onClick={handleCancelNavigation}>Stay on Page</AlertDialogCancel>
+            <AlertDialogCancel onClick={navGuard.reject}>Stay on Page</AlertDialogCancel>
             <AlertDialogAction
-              onClick={handleConfirmNavigation}
+              onClick={navGuard.accept}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
               Leave
