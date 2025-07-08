@@ -2,11 +2,8 @@
 import { generateId } from 'better-auth';
 import { withAuthAction } from './middleware';
 import * as schema from '@/libs/db/schema';
-import { eq } from 'drizzle-orm';
-import { v4 as uuidv4 } from 'uuid';
 
 export interface UserLinkCode {
-  id: string;
   userId: string;
   code: string;
   expiresAt: Date;
@@ -15,19 +12,14 @@ export interface UserLinkCode {
 }
 
 export const getUserLinkCode = withAuthAction(async ({ db, user }) => {
-  try {
-    const userLinkCode = await db.query.userLinkCode.findFirst({
-      where: (each, { eq }) => eq(each.userId, user.id),
-    });
+  const userLinkCode = await db.query.userLinkCode.findFirst({
+    where: (each, { eq }) => eq(each.userId, user.id),
+  });
 
-    if (!userLinkCode) {
-      return await generateUserLinkCode();
-    }
-    return userLinkCode;
-  } catch (error) {
-    console.error('Error fetching user link code:', error);
-    throw new Error('Failed to fetch user link code');
+  if (!userLinkCode) {
+    return await generateUserLinkCode();
   }
+  return userLinkCode;
 });
 
 export const generateUserLinkCode = withAuthAction(async ({ db, user }) => {
@@ -35,38 +27,32 @@ export const generateUserLinkCode = withAuthAction(async ({ db, user }) => {
   const expiresAt = new Date();
   expiresAt.setHours(expiresAt.getHours() + 24);
 
-  const existingUserLinkCode = await db.query.userLinkCode.findFirst({
-    where: (each, { eq }) => eq(each.userId, user.id),
-  });
-
   const now = new Date();
-  if (existingUserLinkCode) {
-    await db
-      .update(schema.userLinkCode)
-      .set({
-        code: newCode,
-        expiresAt,
-        updatedAt: now,
-      })
-      .where(eq(schema.userLinkCode.id, existingUserLinkCode.id));
-  } else {
-    const id = uuidv4();
-    await db.insert(schema.userLinkCode).values({
-      id,
+
+  const [result] = await db
+    .insert(schema.userLinkCode)
+    .values({
       userId: user.id,
       code: newCode,
       expiresAt,
       createdAt: now,
       updatedAt: now,
-    });
-  }
+    })
+    .onConflictDoUpdate({
+      target: schema.userLinkCode.userId,
+      set: {
+        code: newCode,
+        expiresAt,
+        updatedAt: now,
+      },
+    })
+    .returning();
 
   return {
-    id: existingUserLinkCode?.id || uuidv4(),
-    userId: user.id,
-    code: newCode,
-    expiresAt,
-    createdAt: now,
-    updatedAt: now,
+    userId: result.userId,
+    code: result.code,
+    expiresAt: result.expiresAt,
+    createdAt: result.createdAt,
+    updatedAt: result.updatedAt,
   } satisfies UserLinkCode;
 });

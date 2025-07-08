@@ -171,7 +171,7 @@ export default function LinkAccountPage() {
           </Button>
         </div>
 
-        <Card className="bg-blue-50 border-blue-200">
+        <Card>
           <CardContent className="pt-4">
             <h3 className="font-semibold mb-2">How to link your account:</h3>
             <ol className="text-sm text-muted-foreground space-y-1 list-decimal list-inside">

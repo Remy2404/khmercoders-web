@@ -190,8 +190,8 @@ export const systemSetting = sqliteTable('system_setting', {
 });
 
 export const userLinkCode = sqliteTable('user_link_code', {
-  id: text('id').primaryKey(),
   userId: text('user_id')
+    .primaryKey()
     .notNull()
     .references(() => user.id, { onDelete: 'cascade' }),
   code: text('code').notNull().unique(),

@@ -1,6 +1,5 @@
 CREATE TABLE `user_link_code` (
-	`id` text PRIMARY KEY NOT NULL,
-	`user_id` text NOT NULL,
+	`user_id` text PRIMARY KEY NOT NULL,
 	`code` text NOT NULL,
 	`expires_at` integer NOT NULL,
 	`created_at` integer NOT NULL,

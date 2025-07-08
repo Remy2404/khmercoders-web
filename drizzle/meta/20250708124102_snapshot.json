@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "b99b48a6-a5ec-47ef-aaba-f6fcb3ee40f4",
+  "id": "7fe2730e-6977-4c70-bd3a-3b3b27df67b1",
   "prevId": "b007ae79-ed22-4ed3-897a-235bb44d8cfa",
   "tables": {
     "account": {
@@ -717,17 +717,10 @@
     "user_link_code": {
       "name": "user_link_code",
       "columns": {
-        "id": {
-          "name": "id",
-          "type": "text",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
-        },
         "user_id": {
           "name": "user_id",
           "type": "text",
-          "primaryKey": false,
+          "primaryKey": true,
           "notNull": true,
           "autoincrement": false
         },
