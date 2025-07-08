@@ -33,9 +33,7 @@ export default function ProfileInsightPage() {
         Track how users engage with your profile content.
       </p>
       {error ? (
-        <div className="p-4 border border-red-200 bg-red-50 text-red-700 rounded-md">
-          {error}
-        </div>
+        <div className="p-4 border border-red-200 bg-red-50 text-red-700 rounded-md">{error}</div>
       ) : insight ? (
         <InsightSection insight={insight} />
       ) : (
@@ -94,7 +92,11 @@ function InsightSection({ insight }: { insight: ProfileInsight }) {
                 <stop offset="95%" stopColor="#f97316" stopOpacity={0} />
               </linearGradient>
             </defs>
-            <CartesianGrid strokeDasharray="3 3" vertical={false} {...({ stroke: 'hsl(var(--muted))' } as any)} />
+            <CartesianGrid
+              strokeDasharray="3 3"
+              vertical={false}
+              {...({ stroke: 'hsl(var(--muted))' } as any)}
+            />
             <XAxis
               dataKey="date"
               tickFormatter={formatDate}
@@ -112,11 +114,11 @@ function InsightSection({ insight }: { insight: ProfileInsight }) {
             />
 
             <Tooltip
-              contentStyle={{ 
-                backgroundColor: 'hsl(var(--background))', 
+              contentStyle={{
+                backgroundColor: 'hsl(var(--background))',
                 border: '1px solid hsl(var(--border))',
                 borderRadius: '6px',
-                color: 'hsl(var(--foreground))'
+                color: 'hsl(var(--foreground))',
               }}
               formatter={(value: number) => {
                 return [`${value} pageview`];
@@ -137,4 +139,3 @@ function Placeholder() {
     </div>
   );
 }
-
