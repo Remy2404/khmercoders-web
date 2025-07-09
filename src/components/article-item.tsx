@@ -17,6 +17,8 @@ import Image from 'next/image';
 import { CommentButton, LikeButton } from './interaction-button';
 import { useSession } from './auth-provider';
 import { MODERATOR_ACCESS } from '@/constants';
+import { format } from 'date-fns';
+import { formatInTimeZone } from 'date-fns-tz';
 
 interface ArticlePreviewItemProps {
   data: ArticlePreviewRecord;
@@ -51,16 +53,17 @@ export function ArticlePreviewItem({ data, showControlPanel }: ArticlePreviewIte
             <div className="text-xs text-muted-foreground">
               {data.createdAt && (
                 <time suppressHydrationWarning>
-                  {new Date(data.createdAt).toLocaleDateString('en-US', {
-                    month: 'short',
-                    day: 'numeric',
-                    year: 'numeric',
-                  })}{' '}
+                  {formatInTimeZone(
+                    new Date(data.createdAt),
+                    Intl.DateTimeFormat().resolvedOptions().timeZone,
+                    'MMM d, yyyy'
+                  )}{' '}
                   at{' '}
-                  {new Date(data.createdAt).toLocaleTimeString('en-US', {
-                    hour: '2-digit',
-                    minute: '2-digit',
-                  })}
+                  {formatInTimeZone(
+                    new Date(data.createdAt),
+                    Intl.DateTimeFormat().resolvedOptions().timeZone,
+                    'h:mm a'
+                  )}
                 </time>
               )}
 
