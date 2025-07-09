@@ -159,3 +159,20 @@
 .markdown img {
   @apply max-w-full h-auto;
 }
+
+.markdown table {
+  @apply w-full border-collapse mb-4;
+}
+
+.markdown th,
+.markdown td {
+  @apply border px-4 py-2;
+}
+
+.markdown th {
+  @apply font-bold;
+}
+
+.markdown hr {
+  @apply border-t border-gray-300 dark:border-gray-600 my-4;
+}

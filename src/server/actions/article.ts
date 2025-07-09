@@ -95,9 +95,10 @@ export const updateArticleAction = withAuthAction(
     }
 
     if (updatedArticle.published) {
+      // Temporary commented out the AI review for now
       // If the article was published, we need to re-review it
-      const { ctx } = getCloudflareContext();
-      ctx.waitUntil(reviewArticle(updatedArticle.id, updatedArticle.title, updatedArticle.content));
+      // const { ctx } = getCloudflareContext();
+      // ctx.waitUntil(reviewArticle(updatedArticle.id, updatedArticle.title, updatedArticle.content));
     }
 
     return updatedArticle;
@@ -127,10 +128,10 @@ export const updateArticlePublishAction = withAuthAction(
       .where(eq(schema.article.id, id));
 
     // Using AI to check if article meet standard before showing in public
-    const { ctx } = getCloudflareContext();
-    if (publish && article.published === false) {
-      ctx.waitUntil(reviewArticle(article.id, article.title, article.content));
-    }
+    // const { ctx } = getCloudflareContext();
+    // if (publish && article.published === false) {
+    //   ctx.waitUntil(reviewArticle(article.id, article.title, article.content));
+    // }
   }
 );
 
