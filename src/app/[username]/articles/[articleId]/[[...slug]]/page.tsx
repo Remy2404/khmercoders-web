@@ -79,7 +79,7 @@ export default async function EditArticlePage({ params }: EditArticlePageProps) 
             height={64}
             src={article.image}
             alt={article.title}
-            className="w-full h-auto rounded mb-8"
+            className="w-full h-auto object-cover rounded mb-8"
           />
         )}
 
