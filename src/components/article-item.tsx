@@ -18,6 +18,7 @@ import { CommentButton, LikeButton } from './interaction-button';
 import { useSession } from './auth-provider';
 import { MODERATOR_ACCESS } from '@/constants';
 import { format } from 'date-fns';
+import { formatInTimeZone } from 'date-fns-tz';
 
 interface ArticlePreviewItemProps {
   data: ArticlePreviewRecord;
@@ -52,8 +53,17 @@ export function ArticlePreviewItem({ data, showControlPanel }: ArticlePreviewIte
             <div className="text-xs text-muted-foreground">
               {data.createdAt && (
                 <time suppressHydrationWarning>
-                  {format(new Date(data.createdAt), 'MMM d, yyyy')} at{' '}
-                  {format(new Date(data.createdAt), 'h:mm a')}
+                  {formatInTimeZone(
+                    new Date(data.createdAt),
+                    Intl.DateTimeFormat().resolvedOptions().timeZone,
+                    'MMM d, yyyy'
+                  )}{' '}
+                  at{' '}
+                  {formatInTimeZone(
+                    new Date(data.createdAt),
+                    Intl.DateTimeFormat().resolvedOptions().timeZone,
+                    'h:mm a'
+                  )}
                 </time>
               )}
 
