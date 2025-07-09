@@ -7,9 +7,9 @@ import CodeMirror, { EditorView, ReactCodeMirrorRef } from '@uiw/react-codemirro
 import { Fullscreen, Image } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import Markdown from 'react-markdown';
 import { Button } from '../generated/button';
 import { useUserUpload } from '../user-upload/context';
+import { MarkdownContent } from '../MarkdownContent';
 
 interface MarkdownEditorProps {
   value: string;
@@ -88,7 +88,7 @@ export function MarkdownEditor({ value, onChange }: MarkdownEditorProps) {
           Preview
         </Button>
       </div>
-      <div className="flex grow overflow-hidden">
+      <div className="flex grow overflow-hidden bg-card">
         <CodeMirror
           ref={editorRef}
           className="text-base grow p-2 bg-inherit w-1/2"
@@ -105,7 +105,7 @@ export function MarkdownEditor({ value, onChange }: MarkdownEditorProps) {
         {fullscreen && (
           <div className="h-full p-2 overflow-x-hidden overflow-y-auto w-1/2 border-l markdown">
             <div className="max-w-4xl mx-auto">
-              <Markdown>{debounceValue}</Markdown>
+              <MarkdownContent>{debounceValue}</MarkdownContent>
             </div>
           </div>
         )}

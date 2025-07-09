@@ -2,11 +2,11 @@ import { ProfileTrackingComponent } from '@/app/[username]/tracker';
 import { UserSmallCard } from '@/components/user-card';
 import { getArtcleFromIdCache } from '@/server/cache/user';
 import { formatDate } from '@/utils/format';
-import Markdown from 'react-markdown';
 import Image from 'next/image';
 import { bindingArticleLikeStatus } from '@/server/services/article';
 import { CommentButton, LikeButton } from '@/components/interaction-button';
 import { getSession } from '@/app/session';
+import { MarkdownContent } from '@/components/MarkdownContent';
 
 interface EditArticlePageProps {
   params: Promise<{ articleId: string; username: string }>;
@@ -44,9 +44,9 @@ export default async function EditArticlePage({ params }: EditArticlePageProps) 
   );
 
   return (
-    <article>
-      <header className="border-b border-gray-500">
-        <div className="max-w-4xl mx-auto flex flex-col p-4">
+    <article className="max-w-5xl mx-auto bg-card dark:bg-inherit lg:rounded lg:border dark:border-none">
+      <header className="border-b dark:border-none">
+        <div className=" flex flex-col p-4">
           <h1 className="text-2xl font-bold">{article.title}</h1>
           <time className="text-sm text-muted-foreground mb-4">
             {formatDate(article.updatedAt)}
@@ -72,7 +72,7 @@ export default async function EditArticlePage({ params }: EditArticlePageProps) 
         articleId={article.id}
       />
 
-      <main className="markdown p-4 max-w-4xl mx-auto">
+      <main className="markdown p-4">
         {article.image && (
           <Image
             width={128}
@@ -83,7 +83,7 @@ export default async function EditArticlePage({ params }: EditArticlePageProps) 
           />
         )}
 
-        <Markdown>{article.content}</Markdown>
+        <MarkdownContent>{article.content}</MarkdownContent>
       </main>
     </article>
   );
