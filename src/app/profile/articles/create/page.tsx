@@ -59,13 +59,22 @@ export default function BlogPage() {
     }) => {
       setSubmitting(true);
       const result = await createArticleAction(data);
+
+      if (!result.success) {
+        throw new Error(result.error);
+      }
+
+      if (!result.article) {
+        throw new Error('Failed to create article');
+      }
+
       if (published) {
-        await updateArticlePublishAction(result.id, true);
+        await updateArticlePublishAction(result.article.id, true);
       }
       // Clear unsaved changes flag after successful save
       hasUnsavedChangesRef.current = false;
       setSubmitting(false);
-      return result;
+      return result.article;
     },
     onSuccess: data => {
       console.log('Article created successfully:', data);
@@ -89,7 +98,10 @@ export default function BlogPage() {
         loading={isPending}
         errorMessage={error?.message}
       />
-      <ArticleEditor onChange={setValue} value={value} />
+
+      <div className="bg-card max-w-5xl p-4 container mx-auto border rounded">
+        <ArticleEditor onChange={setValue} value={value} />
+      </div>
 
       <AlertDialog open={navGuard.active}>
         <AlertDialogContent>

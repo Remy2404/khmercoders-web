@@ -61,8 +61,13 @@ export function ArticleEditClientPage({ data }: ArticleEditClientPageProps) {
     }) => {
       setSubmitting(true);
       const result = await updateArticleAction(id, data);
-      if (published) {
-        await updateArticlePublishAction(result.id, true);
+
+      if (!result.success) {
+        throw new Error(result.error);
+      }
+
+      if (published && result.updatedArticle) {
+        await updateArticlePublishAction(result.updatedArticle.id, true);
       }
       setSubmitting(false);
       return result;
@@ -86,7 +91,11 @@ export function ArticleEditClientPage({ data }: ArticleEditClientPageProps) {
         errorMessage={error?.message}
         isUpdate
       />
-      <ArticleEditor onChange={setValue} value={value} />
+
+      <div className="bg-card max-w-5xl p-4 container mx-auto border rounded">
+        <ArticleEditor onChange={setValue} value={value} />
+      </div>
+
       <AlertDialog open={navGuard.active}>
         <AlertDialogContent>
           <AlertDialogHeader>

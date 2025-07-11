@@ -11,97 +11,111 @@ import { getDB } from '@/libs/db';
 
 export const createArticleAction = withAuthAction(
   async ({ db, user }, data: ArticleEditorValue) => {
-    let generateIdAllowance = 5;
-    let id: string;
-    let article = null;
+    try {
+      let generateIdAllowance = 5;
+      let id: string;
+      let article = null;
 
-    do {
-      id = generateArticleId();
+      do {
+        id = generateArticleId();
 
-      // Check if ID already exists
-      const existingArticle = await db.query.article.findFirst({
-        where: (article, { eq }) => eq(article.id, id),
-      });
+        // Check if ID already exists
+        const existingArticle = await db.query.article.findFirst({
+          where: (article, { eq }) => eq(article.id, id),
+        });
 
-      if (!existingArticle) break;
-    } while (--generateIdAllowance > 0);
+        if (!existingArticle) break;
+      } while (--generateIdAllowance > 0);
 
-    if (generateIdAllowance <= 0) {
-      throw new Error('Failed to generate a unique article ID after multiple attempts');
-    }
+      if (generateIdAllowance <= 0) {
+        throw new Error('Failed to generate a unique article ID after multiple attempts');
+      }
 
-    await syncResource(db, user.id, data, id);
+      await syncResource(db, user.id, data, id);
 
-    await db.insert(schema.article).values({
-      id,
-      userId: user.id,
-      title: data.title,
-      slug: data.slug,
-      image: data.image,
-      summary: data.summary,
-      content: data.content,
-      published: false,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    });
-
-    article = await db.query.article.findFirst({
-      where: (article, { eq }) => eq(article.id, id),
-    });
-
-    if (!article) {
-      throw new Error('Failed to create article after multiple attempts');
-    }
-
-    return article;
-  }
-);
-
-export const updateArticleAction = withAuthAction(
-  async ({ db, user }, id: string, data: ArticleEditorValue) => {
-    const article = await db.query.article.findFirst({
-      where: (article, { eq }) => eq(article.id, id),
-    });
-
-    if (!article) {
-      throw new Error('Article not found');
-    }
-
-    if (article.userId !== user.id) {
-      throw new Error('You do not have permission to update this article');
-    }
-
-    await syncResource(db, user.id, data, id);
-
-    await db
-      .update(schema.article)
-      .set({
+      await db.insert(schema.article).values({
+        id,
+        userId: user.id,
         title: data.title,
         slug: data.slug,
         image: data.image,
         summary: data.summary,
         content: data.content,
+        published: false,
+        createdAt: new Date(),
         updatedAt: new Date(),
-        approvedByAI: false, // Reset AI approval status on update
-      })
-      .where(eq(schema.article.id, id));
+      });
 
-    const updatedArticle = await db.query.article.findFirst({
-      where: (article, { eq }) => eq(article.id, id),
-    });
+      article = await db.query.article.findFirst({
+        where: (article, { eq }) => eq(article.id, id),
+      });
 
-    if (!updatedArticle) {
-      throw new Error('Failed to update article after multiple attempts');
+      if (!article) {
+        throw new Error('Failed to create article after multiple attempts');
+      }
+
+      return { success: true, article };
+    } catch (e) {
+      if (e instanceof Error) {
+        return { success: false, error: e.message };
+      }
+      return { success: false, error: 'Failed to create article' };
     }
+  }
+);
 
-    if (updatedArticle.published) {
-      // Temporary commented out the AI review for now
-      // If the article was published, we need to re-review it
-      // const { ctx } = getCloudflareContext();
-      // ctx.waitUntil(reviewArticle(updatedArticle.id, updatedArticle.title, updatedArticle.content));
+export const updateArticleAction = withAuthAction(
+  async ({ db, user }, id: string, data: ArticleEditorValue) => {
+    try {
+      const article = await db.query.article.findFirst({
+        where: (article, { eq }) => eq(article.id, id),
+      });
+
+      if (!article) {
+        throw new Error('Article not found');
+      }
+
+      if (article.userId !== user.id) {
+        throw new Error('You do not have permission to update this article');
+      }
+
+      await syncResource(db, user.id, data, id);
+
+      await db
+        .update(schema.article)
+        .set({
+          title: data.title,
+          slug: data.slug,
+          image: data.image,
+          summary: data.summary,
+          content: data.content,
+          updatedAt: new Date(),
+          approvedByAI: false, // Reset AI approval status on update
+        })
+        .where(eq(schema.article.id, id));
+
+      const updatedArticle = await db.query.article.findFirst({
+        where: (article, { eq }) => eq(article.id, id),
+      });
+
+      if (!updatedArticle) {
+        throw new Error('Failed to update article after multiple attempts');
+      }
+
+      if (updatedArticle.published) {
+        // Temporary commented out the AI review for now
+        // If the article was published, we need to re-review it
+        // const { ctx } = getCloudflareContext();
+        // ctx.waitUntil(reviewArticle(updatedArticle.id, updatedArticle.title, updatedArticle.content));
+      }
+
+      return { success: true, updatedArticle };
+    } catch (e) {
+      if (e instanceof Error) {
+        return { success: false, error: e.message };
+      }
+      return { success: false, error: 'Failed to update article' };
     }
-
-    return updatedArticle;
   }
 );
 
@@ -256,11 +270,13 @@ async function syncResource(
       and(inArray(upload.fileUrl, imageURLs), eq(upload.userId, userId)),
   });
 
+  const uploadRecordTable = new Set(uploadRecords.map(upload => upload.fileUrl));
+
   // Find which image URLs don't have corresponding upload records
   if (uploadRecords.length !== imageURLs.length) {
-    const missingImages = imageURLs.filter(url => !imageURLTable.has(url));
+    const missingImages = imageURLs.filter(url => !uploadRecordTable.has(url));
     throw new Error(
-      `The following images are not found in your uploads: ${missingImages.join(', ')}`
+      `The following images are not found in your uploads:\n${missingImages.map(m => `- ${m}`).join('\n')}`
     );
   }
 

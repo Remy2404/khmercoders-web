@@ -21,10 +21,35 @@ export function MarkdownEditor({ value, onChange }: MarkdownEditorProps) {
   const [fullscreen, setFullscreen] = useState(false);
   const editorRef = useRef<ReactCodeMirrorRef>(null);
   const debounceValue = useDebounce(value, 100);
-  const extensions = useMemo(() => {
-    return [markdown(), EditorView.lineWrapping];
-  }, []);
   const { resolvedTheme } = useTheme();
+
+  const extensions = useMemo(() => {
+    const baseExtensions = [markdown(), EditorView.lineWrapping];
+
+    if (resolvedTheme === 'dark') {
+      // Custom theme for black background in dark mode
+      const darkTheme = EditorView.theme(
+        {
+          '&': {
+            backgroundColor: '#000000',
+            color: '#ffffff',
+          },
+          '.cm-content': {
+            backgroundColor: '#000000',
+            color: '#ffffff',
+          },
+          '.cm-selectionBackground': {
+            backgroundColor: '#00bfa640',
+          },
+        },
+        { dark: true }
+      );
+
+      baseExtensions.push(darkTheme);
+    }
+
+    return baseExtensions;
+  }, [resolvedTheme]);
 
   useEffect(() => {
     getMarkdownImageUrls(debounceValue).then(console.log);
@@ -85,7 +110,7 @@ export function MarkdownEditor({ value, onChange }: MarkdownEditorProps) {
           }}
         >
           <Fullscreen className="w-4 h-4" />
-          Preview
+          {fullscreen ? 'Exit Preview' : 'Preview'}
         </Button>
       </div>
       <div className="flex grow overflow-hidden bg-card">
@@ -96,8 +121,9 @@ export function MarkdownEditor({ value, onChange }: MarkdownEditorProps) {
           basicSetup={{
             lineNumbers: false,
             foldGutter: false,
+            drawSelection: false,
           }}
-          theme={resolvedTheme === 'dark' ? 'dark' : 'light'}
+          theme={resolvedTheme === 'dark' ? undefined : 'light'}
           extensions={extensions}
           value={value}
           onChange={onChange}
