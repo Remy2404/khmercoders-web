@@ -19,7 +19,7 @@ export function ArticleEditorHeader({
   return (
     <>
       <div className="border-b p-4 mb-8 -mt-4">
-        <div className="max-w-4xl mx-auto flex items-center">
+        <div className="max-w-5xl mx-auto flex items-center">
           <h1 className="font-bold grow">{isUpdate ? 'Update Article' : 'Create Article'}</h1>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -36,7 +36,7 @@ export function ArticleEditorHeader({
       {errorMessage && (
         <div className="max-w-4xl mx-auto mb-4">
           <div className="bg-red-100 text-red-800 p-4 rounded">
-            <p className="text-sm">{errorMessage}</p>
+            <pre className="text-sm">{errorMessage}</pre>
           </div>
         </div>
       )}

@@ -77,7 +77,7 @@ export function ArticleEditor({ value, onChange }: ArticleEditorProps) {
   );
 
   return (
-    <div className="max-w-4xl mx-auto my-4 mb-12">
+    <div>
       <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-2">
           <Label>Title</Label>
