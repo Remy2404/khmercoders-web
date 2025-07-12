@@ -4,7 +4,7 @@
 
 html,
 body {
-  font-family: 'Noto Sans', 'Kantumruy Pro', sans-serif;
+  font-family: 'Kantumruy Pro', 'Noto Sans', sans-serif;
 }
 
 @layer base {
