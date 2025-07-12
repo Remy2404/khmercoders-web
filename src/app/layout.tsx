@@ -4,15 +4,12 @@ import { KhmerCoderDevtool } from '@/components/devtool';
 import { ReactQueryProvider } from '@/components/react-query-prodiver';
 import { UserUploadProvider } from '@/components/user-upload/context';
 import { NavigationGuardProvider } from 'next-navigation-guard';
-import { Inter } from 'next/font/google';
 import Image from 'next/image';
 import Link from 'next/link';
 import type React from 'react';
 import { SessionProvider } from './session';
 import { ThemeProvider } from 'next-themes';
 import { Footer } from '@/components/footer';
-
-const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
   title: "Khmer Coders - Cambodia's Largest Coding Community",
@@ -33,12 +30,12 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:ital,wght@0,100..700;1,100..700&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=VT323&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Kantumruy+Pro:ital,wght@0,100..700;1,100..700&family=VT323&display=swap"
           rel="stylesheet"
         />
         <title>{metadata.title}</title>
       </head>
-      <body className={inter.className}>
+      <body>
         <NavigationGuardProvider>
           <ThemeProvider
             attribute="class"
