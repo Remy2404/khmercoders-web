@@ -145,11 +145,11 @@
 }
 
 .markdown pre {
-  @apply bg-gray-100 dark:bg-gray-800 p-4 rounded mb-4 overflow-x-auto;
+  @apply bg-gray-100 dark:bg-gray-800 rounded;
 }
 
 .markdown code {
-  @apply bg-gray-100 dark:bg-gray-800 p-1 rounded;
+  @apply bg-gray-100 dark:bg-gray-800 rounded p-1 text-base;
 }
 
 .markdown a {
