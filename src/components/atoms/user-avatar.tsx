@@ -55,17 +55,14 @@ export function UserAvatar() {
             Profile Insight
           </Link>
         </DropdownMenuItem>
-        {profile && user.level > 0 && (
-          <DropdownMenuItem asChild>
-            <Link href={'/profile/link-account'} className="cursor-pointer">
-              <Link2 className="mr-2 h-4 w-4" />
-              Link Account
-              <div className="grow flex justify-end">
-                <Badge>Beta</Badge>
-              </div>
-            </Link>
-          </DropdownMenuItem>
-        )}
+
+        <DropdownMenuItem asChild>
+          <Link href={'/profile/link-account'} className="cursor-pointer">
+            <Link2 className="mr-2 h-4 w-4" />
+            Link Account
+          </Link>
+        </DropdownMenuItem>
+
         <DropdownMenuSeparator />
 
         <DropdownMenuItem asChild>
