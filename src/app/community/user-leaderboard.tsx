@@ -54,7 +54,7 @@ export function UserLeaderboardComponent({ data }: UserLeaderboardProps) {
               <TableCell>
                 {user.user ? (
                   user.user.profile ? (
-                    <Link href={`/community/${user.user.id}`} className="flex gap-2 items-center">
+                    <Link href={`/@${user.user.id}`} className="flex gap-2 items-center">
                       <Avatar className="h-6 w-6">
                         {user.user.image ? (
                           <AvatarImage src={user.user.image} />
