@@ -21,7 +21,7 @@ export function MarkdownContent({ children }: MarkdownContentProps) {
           const { children, className, ...rest } = props;
           const match = /language-(\w+)/.exec(className || '');
           return match ? (
-            <div className="border rounded overflow-hidden">
+            <div className="border rounded overflow-hidden my-4">
               <SyntaxHighlighter
                 PreTag="div"
                 language={match[1]}

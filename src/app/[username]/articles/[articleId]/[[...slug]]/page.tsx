@@ -44,7 +44,7 @@ export default async function EditArticlePage({ params }: EditArticlePageProps) 
   );
 
   return (
-    <article className="max-w-5xl mx-auto bg-card dark:bg-inherit lg:rounded lg:border dark:border-none">
+    <article className="max-w-4xl mx-auto bg-card dark:bg-inherit lg:rounded lg:border dark:border-none">
       <header className="border-b dark:border-none">
         <div className=" flex flex-col p-4">
           <h1 className="text-2xl font-bold">{article.title}</h1>
