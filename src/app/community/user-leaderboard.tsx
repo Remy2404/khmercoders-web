@@ -53,8 +53,8 @@ export function UserLeaderboardComponent({ data }: UserLeaderboardProps) {
               </TableCell>
               <TableCell>
                 {user.user ? (
-                  user.user.profile ? (
-                    <Link href={`/@${user.user.id}`} className="flex gap-2 items-center">
+                  user.user.profile?.alias ? (
+                    <Link href={`/@${user.user.profile.alias}`} className="flex gap-2 items-center">
                       <Avatar className="h-6 w-6">
                         {user.user.image ? (
                           <AvatarImage src={user.user.image} />
