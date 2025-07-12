@@ -72,6 +72,10 @@ export type LikableResourceType = 'article' | 'comment';
 export type MainDatabase = DrizzleD1Database<typeof schema>;
 
 export type UserRecord = typeof schema.user.$inferSelect;
+export type UserRecordWithProfile = UserRecord & {
+  profile?: ProfileRecord;
+};
+
 export type ProfileRecord = typeof schema.memberProfile.$inferSelect;
 export type ProfileAiReviewFeedback = {
   rating: number;

@@ -1,6 +1,8 @@
 'use server';
 
+import { UserRecord, UserRecordWithProfile } from '@/types';
 import { getCloudflareContext } from '@opennextjs/cloudflare';
+import { getDB } from '.';
 
 export interface ChatMetric {
   chat_date: string;
@@ -13,6 +15,8 @@ export interface UserLeaderboard {
   platform: string;
   display_name: string;
   message_count: number;
+  linked_user_id: string;
+  user?: UserRecordWithProfile;
 }
 
 /**
@@ -128,6 +132,7 @@ export async function getUserLeaderboard(limit: number = 10): Promise<UserLeader
       SELECT 
         u.platform,
         u.display_name,
+        u.linked_user_id,
         SUM(c.message_count) as message_count
       FROM chat_counter c
       JOIN users u ON c.platform = u.platform AND c.user_id = u.user_id
@@ -139,6 +144,32 @@ export async function getUserLeaderboard(limit: number = 10): Promise<UserLeader
     )
       .bind(limit)
       .all<UserLeaderboard>();
+
+    // Attaching it with the user
+    const userIds = Array.from(new Set(results.results.map(r => r.linked_user_id).filter(Boolean)));
+    if (userIds.length > 0) {
+      const users = await (
+        await getDB()
+      ).query.user.findMany({
+        where: (user, { inArray }) => inArray(user.id, userIds),
+        with: {
+          profile: true,
+        },
+      });
+
+      // Map users to a lookup by ID
+      const userLookup: Record<string, UserRecord> = {};
+      users.forEach(user => {
+        userLookup[user.id] = user;
+      });
+
+      // Attach user data to the leaderboard results
+      results.results.forEach(item => {
+        if (item.linked_user_id && userLookup[item.linked_user_id]) {
+          item.user = userLookup[item.linked_user_id];
+        }
+      });
+    }
 
     return results.results;
   } catch (error) {
