@@ -1,11 +1,9 @@
 import '@/app/globals.css';
-import Navbar from '@/components/atoms/nav-bar';
+import { Header } from '@/components/atoms/header';
 import { KhmerCoderDevtool } from '@/components/devtool';
 import { ReactQueryProvider } from '@/components/react-query-prodiver';
 import { UserUploadProvider } from '@/components/user-upload/context';
 import { NavigationGuardProvider } from 'next-navigation-guard';
-import Image from 'next/image';
-import Link from 'next/link';
 import type React from 'react';
 import { SessionProvider } from './session';
 import { ThemeProvider } from 'next-themes';
@@ -49,22 +47,7 @@ export default function RootLayout({
                   <div className="min-h-screen relative">
                     {/* Content container */}
                     <div className="relative">
-                      <header className="bg-white dark:bg-black py-1 px-4 xl:px-16 flex items-center gap-12 mb-8 justify-between bg-background border-b shadow-[0_2px_8px_-1px_rgba(251,146,60,0.4)]">
-                        <Link href="/" className="flex items-center z-9999">
-                          <Image
-                            src="/khmer-coder.svg"
-                            alt="Khmer Coders"
-                            width={48}
-                            height={48}
-                            className="object-contain"
-                          />
-                          <span className="text-orange-400 font-mono tracking-tight font-semibold">
-                            KhmerCoders
-                          </span>
-                        </Link>
-                        <div className="flex-1 lg:hidden" />
-                        <Navbar />
-                      </header>
+                      <Header />
                       {children}
                       <Footer />
                     </div>
