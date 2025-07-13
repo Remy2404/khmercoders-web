@@ -91,6 +91,10 @@ export default function LinkAccountPage() {
     );
   }
 
+  const hoursRemaining = getTimeRemaining();
+  const isExpired = hoursRemaining <= 0;
+  const isExpiringSoon = !isExpired && hoursRemaining <= 2;
+
   return (
     <div className="container mx-auto py-8 max-w-2xl">
       <div className="mb-8">
@@ -135,12 +139,12 @@ export default function LinkAccountPage() {
 
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <Clock className="w-4 h-4" />
-              {getTimeRemaining() > 0 ? (
+              {!isExpired ? (
                 <>
                   <span>
-                    Expires in {getTimeRemaining()} hour{getTimeRemaining() !== 1 ? 's' : ''}
+                    Expires in {hoursRemaining} hour{hoursRemaining !== 1 ? 's' : ''}
                   </span>
-                  {getTimeRemaining() <= 2 && (
+                  {isExpiringSoon && (
                     <Badge variant="destructive" className="ml-2">
                       Expires Soon
                     </Badge>
