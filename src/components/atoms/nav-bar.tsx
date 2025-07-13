@@ -113,11 +113,21 @@ export const Navbar = () => {
       </div>
       <div className="hidden sm:flex gap-4 items-center">
         <NavbarContainer aria-label="Main Navigation">
-          <NavbarLink href="/events" isHighlighted={isActiveLink('/events')}>Events</NavbarLink>
-          <NavbarLink href="/teams" isHighlighted={isActiveLink('/teams')}>Teams</NavbarLink>
-          <NavbarLink href="/partners" isHighlighted={isActiveLink('/partners')}>Partners</NavbarLink>
-          <NavbarLink href="/community" isHighlighted={isActiveLink('/community')}>Community</NavbarLink>
-          <NavbarLink href="/donate" isHighlighted={isActiveLink('/donate')}>Donate</NavbarLink>
+          <NavbarLink href="/events" isHighlighted={isActiveLink('/events')}>
+            Events
+          </NavbarLink>
+          <NavbarLink href="/teams" isHighlighted={isActiveLink('/teams')}>
+            Teams
+          </NavbarLink>
+          <NavbarLink href="/partners" isHighlighted={isActiveLink('/partners')}>
+            Partners
+          </NavbarLink>
+          <NavbarLink href="/community" isHighlighted={isActiveLink('/community')}>
+            Community
+          </NavbarLink>
+          <NavbarLink href="/donate" isHighlighted={isActiveLink('/donate')}>
+            Donate
+          </NavbarLink>
         </NavbarContainer>
         <ModeToggle />
         <UserAvatar />

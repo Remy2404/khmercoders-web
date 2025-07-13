@@ -21,12 +21,10 @@ export function Header() {
             className="object-contain transition-all duration-300 hover:scale-110"
           />
         </div>
-        <span className="text-orange-400 font-mono tracking-tight font-semibold">
-          KhmerCoders
-        </span>
+        <span className="text-orange-400 font-mono tracking-tight font-semibold">KhmerCoders</span>
       </Link>
       <div className="flex-1 lg:hidden" />
       <Navbar />
     </header>
   );
-} 
+}
