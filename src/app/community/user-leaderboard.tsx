@@ -60,7 +60,7 @@ export function UserLeaderboardComponent({ data }: UserLeaderboardProps) {
                       </div>
                     </div>
                     <div>
-                      <p className={user.user ? 'flex gap-2 mb-1' : 'flex gap-2'}>
+                      <p>
                         {user.user?.profile ? (
                           <Link className="hover:underline" href={`/@${user.user.profile.alias}`}>
                             {user.display_name}
@@ -68,13 +68,13 @@ export function UserLeaderboardComponent({ data }: UserLeaderboardProps) {
                         ) : (
                           <span>{user.display_name}</span>
                         )}
-                        {user.user && <UserLevelBadge level={user.user.level} />}
                       </p>
                       {user.user && (
-                        <p className="text-gray-600 dark:text-gray-400 font-medium text-xs">
+                        <p className="text-gray-600 dark:text-gray-400 font-medium text-xs mb-1">
                           Linking to {user.user.name}
                         </p>
                       )}
+                      {user.user && <UserLevelBadge level={user.user.level} />}
                     </div>
                   </div>
                 </TableCell>
