@@ -1,5 +1,5 @@
-import { UserLevel, BindingResourceType, LikableResourceType } from '@/types';
-import { relations } from 'drizzle-orm';
+import { UserLevel, BindingResourceType, LikableResourceType, PostableResourceType } from '@/types';
+import { like, relations } from 'drizzle-orm';
 import { sqliteTable, text, integer, index, primaryKey } from 'drizzle-orm/sqlite-core';
 
 export const user = sqliteTable('user', {
@@ -180,6 +180,26 @@ export const likes = sqliteTable(
     createdAt: integer('created_at', { mode: 'timestamp' }).notNull(),
   },
   table => [primaryKey({ columns: [table.type, table.resourceId, table.userId] })]
+);
+
+export const posts = sqliteTable(
+  'posts',
+  {
+    id: text('id').primaryKey().notNull(),
+    userId: text('user_id').notNull(),
+    content: text('content').notNull(),
+    likeCount: integer('like_count').notNull().default(0),
+    commentCount: integer('comment_count').notNull().default(0),
+    resourceType: text('resource_type').notNull().$type<PostableResourceType>(),
+    resourceId: text('resource_id'),
+    createdAt: integer('created_at', { mode: 'timestamp' }).notNull(),
+    updatedAt: integer('updated_at', { mode: 'timestamp' }).notNull(),
+  },
+  table => [
+    // Indexing for faster lookups + sorting by createdAt
+    index('posts_user_id_idx').on(table.userId, table.createdAt),
+    index('posts_resource_type_idx').on(table.resourceType, table.resourceId),
+  ]
 );
 
 export const systemSetting = sqliteTable('system_setting', {

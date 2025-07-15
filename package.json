@@ -16,6 +16,7 @@
     "db:generate": "drizzle-kit generate",
     "db:clean": "node ./scripts/clean-database.js",
     "db:seed": "wrangler d1 execute khmercoders --local --file=./db/main/seed.sql",
+    "db:seed:article": "wrangler d1 execute khmercoders --local --file=./db/main/seed-article.sql",
     "db:migrate": "wrangler d1 migrations apply khmercoders --local",
     "db:migrate:prod": "wrangler d1 migrations apply khmercoders --remote",
     "db:chatbot:schema": "wrangler d1 execute kcc-chatbot --local --file=./db/chatbot/schema.sql",
