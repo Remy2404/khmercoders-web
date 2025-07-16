@@ -90,7 +90,7 @@ export default async function EditArticlePage({ params }: EditArticlePageProps) 
         </main>
       </article>
       <div className="mx-auto max-w-4xl my-4">
-        <CommentWidget />
+        <CommentWidget resourceId={articleId} resourceType="article" />
       </div>
     </>
   );

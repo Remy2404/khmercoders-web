@@ -77,6 +77,11 @@ export type UserRecordWithProfile = UserRecord & {
   profile?: ProfileRecord;
 };
 
+export type PostRecord = typeof schema.posts.$inferSelect;
+export type PostRecordWithProfile = PostRecord & {
+  user: UserRecordWithProfile;
+};
+
 export type ProfileRecord = typeof schema.memberProfile.$inferSelect;
 export type ProfileAiReviewFeedback = {
   rating: number;
