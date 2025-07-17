@@ -7,6 +7,7 @@ import { bindingArticleLikeStatus } from '@/server/services/article';
 import { CommentButton, LikeButton } from '@/components/interaction-button';
 import { getSession } from '@/app/session';
 import { MarkdownContent } from '@/components/MarkdownContent';
+import { CommentWidget } from '@/components/blocks/post/CommentWidget';
 
 interface EditArticlePageProps {
   params: Promise<{ articleId: string; username: string }>;
@@ -44,47 +45,52 @@ export default async function EditArticlePage({ params }: EditArticlePageProps) 
   );
 
   return (
-    <article className="max-w-4xl mx-auto bg-card dark:bg-inherit lg:rounded lg:border dark:border-none">
-      <header className="border-b dark:border-none">
-        <div className=" flex flex-col p-4">
-          <h1 className="text-2xl font-bold">{article.title}</h1>
-          <time className="text-sm text-muted-foreground mb-4">
-            {formatDate(article.updatedAt)}
-          </time>
+    <>
+      <article className="max-w-4xl mx-auto bg-card lg:rounded lg:border">
+        <header className="border-b">
+          <div className=" flex flex-col p-4">
+            <h1 className="text-2xl font-bold">{article.title}</h1>
+            <time className="text-sm text-muted-foreground mb-4">
+              {formatDate(article.updatedAt)}
+            </time>
 
-          <UserSmallCard user={article.user} profile={article.user.profile} />
+            <UserSmallCard user={article.user} />
 
-          <div className="flex gap-2 mt-4">
-            <LikeButton
-              defaultLiked={article.hasCurrentUserLiked}
-              defaultCount={article.likeCount}
-              resourceId={article.id}
-              resourceType="article"
-            />
-            <CommentButton />
+            <div className="flex gap-2 mt-4">
+              <LikeButton
+                defaultLiked={article.hasCurrentUserLiked}
+                defaultCount={article.likeCount}
+                resourceId={article.id}
+                resourceType="article"
+              />
+              <CommentButton count={article.commentCount} />
+            </div>
           </div>
-        </div>
-      </header>
+        </header>
 
-      <ProfileTrackingComponent
-        userId={article.user.id}
-        eventType="article"
-        articleId={article.id}
-      />
+        <ProfileTrackingComponent
+          userId={article.user.id}
+          eventType="article"
+          articleId={article.id}
+        />
 
-      <main className="markdown p-4">
-        {article.image && (
-          <Image
-            width={128}
-            height={64}
-            src={article.image}
-            alt={article.title}
-            className="w-full h-auto object-cover rounded mb-8"
-          />
-        )}
+        <main className="markdown p-4">
+          {article.image && (
+            <Image
+              width={128}
+              height={64}
+              src={article.image}
+              alt={article.title}
+              className="w-full h-auto object-cover rounded mb-8"
+            />
+          )}
 
-        <MarkdownContent>{article.content}</MarkdownContent>
-      </main>
-    </article>
+          <MarkdownContent>{article.content}</MarkdownContent>
+        </main>
+      </article>
+      <div className="mx-auto max-w-4xl my-4">
+        <CommentWidget resourceId={articleId} resourceType="article" />
+      </div>
+    </>
   );
 }

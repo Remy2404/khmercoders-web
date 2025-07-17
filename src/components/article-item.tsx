@@ -17,7 +17,6 @@ import Image from 'next/image';
 import { CommentButton, LikeButton } from './interaction-button';
 import { useSession } from './auth-provider';
 import { MODERATOR_ACCESS } from '@/constants';
-import { format } from 'date-fns';
 import { formatInTimeZone } from 'date-fns-tz';
 
 interface ArticlePreviewItemProps {
@@ -37,6 +36,11 @@ export function ArticlePreviewItem({ data, showControlPanel }: ArticlePreviewIte
       setPublished(!published);
     },
   });
+
+  // Only moderators or the article owner can see view count
+  const canSeeViewCount =
+    MODERATOR_ACCESS.includes(session?.user?.level ?? UserLevel.Basic) ||
+    session?.user.id === data.userId;
 
   return (
     <article className="bg-card border rounded flex-col lg:flex-row p-4 flex gap-2 lg:items-center items-start">
@@ -94,8 +98,8 @@ export function ArticlePreviewItem({ data, showControlPanel }: ArticlePreviewIte
             resourceId={data.id}
             resourceType="article"
           />
-          <CommentButton />
-          {MODERATOR_ACCESS.includes(session?.user?.level ?? UserLevel.Basic) && (
+          <CommentButton count={data.commentCount} />
+          {canSeeViewCount && (
             <div className="text-muted-foreground text-sm flex items-center">
               | {data.viewCount} views
             </div>

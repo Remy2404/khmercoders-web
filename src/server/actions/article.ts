@@ -8,6 +8,7 @@ import { syncUploadsToResource } from '@/server/services/upload';
 import { DrizzleD1Database } from 'drizzle-orm/d1';
 import { getCloudflareContext } from '@opennextjs/cloudflare';
 import { getDB } from '@/libs/db';
+import { generateArticleId } from '../generate-id';
 
 export const createArticleAction = withAuthAction(
   async ({ db, user }, data: ArticleEditorValue) => {
@@ -225,23 +226,6 @@ ${content}`,
 
     return false;
   }
-}
-
-/**
- * Generates a unique random article identifier.
- * The ID is random of number between 10,000,000 and 99,999,999.
- */
-function generateArticleId() {
-  // Using crypto for cryptographically strong random numbers
-  const array = new Uint32Array(1);
-  crypto.getRandomValues(array);
-
-  // Scale to our range (10,000,000 to 99,999,999)
-  const min = 10000000;
-  const max = 99999999;
-  const scaled = min + (array[0] % (max - min + 1));
-
-  return scaled.toString();
 }
 
 async function syncResource(
