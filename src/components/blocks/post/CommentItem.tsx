@@ -19,12 +19,13 @@ export function CommentItem({ comment }: { comment: PostRecordWithProfile }) {
         </Avatar>
       </div>
 
-      <div>
+      <div className="grow">
         <div className="flex gap-2 mb-1">
           <span className="font-bold">{comment.user.name}</span>
           <LucideDot className="-mx-2 text-muted-foreground" />
           <span className="text-muted-foreground">{formatAgo(comment.createdAt)}</span>
         </div>
+
         <MarkdownContent withoutMedia>{comment.content}</MarkdownContent>
       </div>
     </div>
