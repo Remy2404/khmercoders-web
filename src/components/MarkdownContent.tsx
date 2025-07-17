@@ -9,9 +9,10 @@ import { useState, useEffect } from 'react';
 
 interface MarkdownContentProps {
   children: string;
+  withoutMedia?: boolean;
 }
 
-export function MarkdownContent({ children }: MarkdownContentProps) {
+export function MarkdownContent({ children, withoutMedia = false }: MarkdownContentProps) {
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
@@ -44,6 +45,13 @@ export function MarkdownContent({ children }: MarkdownContentProps) {
           ) : (
             <code className={className}>{children}</code>
           );
+        },
+        img(props) {
+          // If withoutMedia is true, don't render images
+          if (withoutMedia) {
+            return null;
+          }
+          return <img {...props} />;
         },
       }}
     >

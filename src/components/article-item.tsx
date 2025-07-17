@@ -98,7 +98,7 @@ export function ArticlePreviewItem({ data, showControlPanel }: ArticlePreviewIte
             resourceId={data.id}
             resourceType="article"
           />
-          <CommentButton />
+          <CommentButton count={data.commentCount} />
           {canSeeViewCount && (
             <div className="text-muted-foreground text-sm flex items-center">
               | {data.viewCount} views

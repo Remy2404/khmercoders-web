@@ -1,6 +1,6 @@
 'use server';
 import { PostableResourceType } from '@/types';
-import { PostList } from './PostList';
+import { CommentList } from './CommentList';
 import { getDB } from '@/libs/db';
 
 interface CommentWidgetProps {
@@ -27,7 +27,7 @@ export async function CommentWidget({ resourceId, resourceType }: CommentWidgetP
 
   return (
     <div>
-      <PostList posts={posts} resourceId={resourceId} resourceType={resourceType} />
+      <CommentList posts={posts} resourceId={resourceId} resourceType={resourceType} />
     </div>
   );
 }

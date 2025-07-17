@@ -3,10 +3,11 @@ import { Button } from '@/components/generated/button';
 import { SimpleMarkdownEditor } from '@/components/markdown-editor/simple-markdown';
 import { createPostAction } from '@/server/actions/post';
 import { PostableResourceType, PostRecordWithProfile } from '@/types';
+import { cn } from '@/utils';
 import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
 
-export function PostEditor({
+export function CommentEditor({
   resourceId,
   resourceType,
   onSuccess,
@@ -34,11 +35,22 @@ export function PostEditor({
   });
 
   return (
-    <div>
-      <SimpleMarkdownEditor value={content} onChange={setContent} />
-      <div className="my-2">
+    <div className="bg-card border rounded flex flex-col gap-4">
+      <textarea
+        className={cn(
+          'w-full h-full p-4 resize-none outline-none border-none',
+          'bg-transparent text-foreground',
+          'placeholder:text-muted-foreground'
+        )}
+        value={content}
+        onChange={e => setContent(e.target.value)}
+        placeholder={'Please write your comment here...'}
+      />
+
+      <div className="px-4 pb-2 flex justify-end gap-2">
         <Button
           disabled={isPending}
+          size="sm"
           onClick={() => {
             mutate({ content, resourceId, resourceType });
           }}

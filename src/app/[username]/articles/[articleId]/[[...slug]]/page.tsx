@@ -46,8 +46,7 @@ export default async function EditArticlePage({ params }: EditArticlePageProps) 
 
   return (
     <>
-      {' '}
-      <article className="max-w-4xl mx-auto bg-card dark:bg-inherit lg:rounded lg:border">
+      <article className="max-w-4xl mx-auto bg-card lg:rounded lg:border">
         <header className="border-b">
           <div className=" flex flex-col p-4">
             <h1 className="text-2xl font-bold">{article.title}</h1>
@@ -55,7 +54,7 @@ export default async function EditArticlePage({ params }: EditArticlePageProps) 
               {formatDate(article.updatedAt)}
             </time>
 
-            <UserSmallCard user={article.user} profile={article.user.profile} />
+            <UserSmallCard user={article.user} />
 
             <div className="flex gap-2 mt-4">
               <LikeButton
@@ -64,7 +63,7 @@ export default async function EditArticlePage({ params }: EditArticlePageProps) 
                 resourceId={article.id}
                 resourceType="article"
               />
-              <CommentButton />
+              <CommentButton count={article.commentCount} />
             </div>
           </div>
         </header>

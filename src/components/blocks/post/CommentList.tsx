@@ -3,7 +3,8 @@
 import { useSession } from '@/components/auth-provider';
 import { PostableResourceType, PostRecordWithProfile } from '@/types';
 import { useState } from 'react';
-import { PostEditor } from './PostEditor';
+import { CommentEditor } from './CommentEditor';
+import { CommentItem } from './CommentItem';
 
 interface PostListProps {
   posts: PostRecordWithProfile[];
@@ -11,14 +12,14 @@ interface PostListProps {
   resourceId: string | null;
 }
 
-export function PostList({ posts: defaultPostList, resourceId, resourceType }: PostListProps) {
+export function CommentList({ posts: defaultPostList, resourceId, resourceType }: PostListProps) {
   const { session } = useSession();
   const [posts, setPosts] = useState<PostRecordWithProfile[]>(defaultPostList);
 
   return (
     <div>
       {session?.user && (
-        <PostEditor
+        <CommentEditor
           resourceId={resourceId}
           resourceType={resourceType}
           onSuccess={newPost => {
@@ -28,10 +29,7 @@ export function PostList({ posts: defaultPostList, resourceId, resourceType }: P
         />
       )}
       {posts.map(post => (
-        <div key={post.id} className="post-item">
-          <p>{post.content}</p>
-          <p>Author: {post.user.name}</p>
-        </div>
+        <CommentItem key={post.id} comment={post} />
       ))}
     </div>
   );
