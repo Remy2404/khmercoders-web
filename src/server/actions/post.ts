@@ -6,6 +6,8 @@ import * as schema from './../../libs/db/schema';
 import { generatePostId } from '../generate-id';
 import { eq, sql } from 'drizzle-orm';
 
+const POST_CHARACTER_LIMIT = 300; // Define a character limit for posts
+
 export const createPostAction = withAuthAction(
   async (
     { db, user },
@@ -17,6 +19,13 @@ export const createPostAction = withAuthAction(
       return {
         success: false,
         error: 'Content cannot be empty',
+      };
+    }
+
+    if (content.length > POST_CHARACTER_LIMIT) {
+      return {
+        success: false,
+        error: `Content exceeds the limit of ${POST_CHARACTER_LIMIT} characters`,
       };
     }
 
