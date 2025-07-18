@@ -280,7 +280,7 @@ export function SimpleEditor(props: SimpleEditorProps) {
         accept: 'image/*',
         maxSize: MAX_FILE_SIZE,
         limit: 3,
-        // Remove upload and onError to prevent duplicate modal
+        upload: uploadWithUserUpload,
       }),
     ],
     content: content,

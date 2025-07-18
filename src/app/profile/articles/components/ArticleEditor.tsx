@@ -17,10 +17,10 @@ import { Input } from '@/components/generated/input';
 import { Label } from '@/components/generated/label';
 import { Textarea } from '@/components/generated/textarea';
 import { SimpleEditor } from '@/components/tiptap-templates/simple/simple-editor';
-import { handleImageUpload } from '@/libs/tiptap-utils';
+import { useUserUpload } from '@/components/user-upload/context';
 
 import { produce } from 'immer';
-import { Dispatch, SetStateAction, useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 export function ArticleEditor({ value, onChange }: ArticleEditorProps) {
   const [showPreview, setShowPreview] = useState(false);
@@ -85,12 +85,13 @@ export function ArticleEditor({ value, onChange }: ArticleEditorProps) {
       <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-2">
           <Label>Title</Label>
-          <Input placeholder="Title" value={value.title} onChange={handleTitleChange} />
+          <Input type="text" placeholder="Title" value={value.title} onChange={handleTitleChange} />
         </div>
 
         <div className="flex flex-col gap-2">
           <Label>Slug (Optional)</Label>
           <Input
+            type="text"
             placeholder="eg: hello-world-article"
             value={value.slug}
             onChange={handleSlugChange}
@@ -144,20 +145,20 @@ function ArticleEditorImageInput({
   value?: string;
   onChange: (value: string) => void;
 }) {
-  // Use handleImageUpload directly for image selection
-  const handleFileChange = useCallback(
-    async (e: React.ChangeEvent<HTMLInputElement>) => {
-      const file = e.target.files?.[0];
-      if (file) {
-        try {
-          const url = await handleImageUpload(file);
+  const { openUserUpload } = useUserUpload();
+
+  const handleUpload = useCallback(
+    async () => {
+      try {
+        const url = await openUserUpload('upload');
+        if (url) {
           onChange(url);
-        } catch (err) {
-          alert('Image upload failed: ' + (err as Error).message);
         }
+      } catch (err) {
+        alert('Image upload failed: ' + (err as Error).message);
       }
     },
-    [onChange]
+    [onChange, openUserUpload]
   );
 
   if (value) {
@@ -171,17 +172,13 @@ function ArticleEditorImageInput({
         >
           Remove
         </Button>
-        <label className="absolute bottom-2 right-2 shadow-md">
-          <Button asChild variant={'default'}>
-            <span>Change Image</span>
-          </Button>
-          <input
-            type="file"
-            accept="image/*"
-            className="hidden"
-            onChange={handleFileChange}
-          />
-        </label>
+        <Button
+          className="absolute bottom-2 right-2 shadow-md"
+          variant={'default'}
+          onClick={handleUpload}
+        >
+          Change Image
+        </Button>
       </div>
     );
   }
@@ -191,17 +188,9 @@ function ArticleEditorImageInput({
       <div className="text-gray-500 text-sm">
         Upload your image
       </div>
-      <label className="flex gap-2">
-        <Button asChild variant={'secondary'}>
-          <span>Upload</span>
-        </Button>
-        <input
-          type="file"
-          accept="image/*"
-          className="hidden"
-          onChange={handleFileChange}
-        />
-      </label>
+      <Button variant={'secondary'} onClick={handleUpload}>
+        Upload
+      </Button>
     </div>
   );
 }
