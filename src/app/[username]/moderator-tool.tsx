@@ -39,9 +39,7 @@ export function UserModeratorTool({ user }: { user: UserRecord }) {
   }
 
   return (
-    <div className="mx-auto container p-2 px-4 flex items-center my-4 border border-2 border-orange-500 bg-orange-200/20 rounded-md gap-2">
-      <div className="text-sm grow">Moderation Tools</div>
-
+    <div className="grow flex justify-end items-center gap-2">
       {session.user.level === UserLevel.SuperAdmin && (
         <DropdownMenu modal={false}>
           <DropdownMenuTrigger asChild>

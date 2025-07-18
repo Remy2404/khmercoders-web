@@ -72,7 +72,10 @@ export type PostableResourceType = 'article' | 'post';
 
 export type MainDatabase = DrizzleD1Database<typeof schema>;
 
-export type UserRecord = typeof schema.user.$inferSelect;
+export type UserRecord = typeof schema.user.$inferSelect & {
+  hasCurrentUserFollowed?: boolean;
+};
+
 export type UserRecordWithProfile = UserRecord & {
   profile?: ProfileRecord;
 };
