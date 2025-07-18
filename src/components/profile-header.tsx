@@ -5,8 +5,6 @@ import Link from 'next/link';
 import { UserLevelBadge } from './user-level-badge';
 import { FollowButton } from './ui/FollowerButton';
 import { UserModeratorTool } from '@/app/[username]/moderator-tool';
-import { useSession } from './auth-provider';
-
 interface ProfileHeaderProps {
   profile: ProfileRecord;
   user: UserRecord;
@@ -14,8 +12,6 @@ interface ProfileHeaderProps {
 }
 
 export function ProfileHeader({ selectedTab = 'profile', profile, user }: ProfileHeaderProps) {
-  const { session } = useSession();
-
   return (
     <div className="relative border-b">
       <div className="container relative z-10 mx-auto py-4 flex gap-3">
@@ -42,12 +38,7 @@ export function ProfileHeader({ selectedTab = 'profile', profile, user }: Profil
       </div>
 
       <div className="flex gap-4 container mx-auto text-sm mb-2 items-center">
-        {session?.user && session.user.id !== user.id && (
-          <FollowButton
-            defaultFollowed={user.hasCurrentUserFollowed}
-            targetUserId={profile.userId}
-          />
-        )}
+        <FollowButton defaultFollowed={user.hasCurrentUserFollowed} targetUserId={profile.userId} />
 
         <div>
           <strong>{user.followersCount}</strong>{' '}

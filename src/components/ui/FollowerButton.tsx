@@ -3,6 +3,7 @@ import { followUserAction, unfollowUserAction } from '@/server/actions/follower'
 import { Loader, UserPlus } from 'lucide-react';
 import { useCallback, useState } from 'react';
 import { Button } from '../generated/button';
+import { useSession } from '../auth-provider';
 
 interface FollowButtonProps {
   defaultFollowed?: boolean;
@@ -10,6 +11,7 @@ interface FollowButtonProps {
 }
 
 export function FollowButton({ defaultFollowed, targetUserId }: FollowButtonProps) {
+  const { session } = useSession();
   const [followed, setFollowed] = useState(defaultFollowed || false);
   const [loading, setLoading] = useState(false);
 
@@ -26,6 +28,10 @@ export function FollowButton({ defaultFollowed, targetUserId }: FollowButtonProp
         setLoading(false);
       });
   }, [followed, loading, targetUserId]);
+
+  if (!session || session.user.id === targetUserId) {
+    return null; // or render a login prompt
+  }
 
   return (
     <Button

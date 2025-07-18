@@ -8,6 +8,8 @@ import { CommentButton, LikeButton } from '@/components/interaction-button';
 import { getSession } from '@/app/session';
 import { MarkdownContent } from '@/components/MarkdownContent';
 import { CommentWidget } from '@/components/blocks/post/CommentWidget';
+import { FollowButton } from '@/components/ui/FollowerButton';
+import { bindingFollowerStatusFromUser } from '@/server/services/followers';
 
 interface EditArticlePageProps {
   params: Promise<{ articleId: string; username: string }>;
@@ -44,6 +46,8 @@ export default async function EditArticlePage({ params }: EditArticlePageProps) 
     session?.user?.id
   );
 
+  article.user = await bindingFollowerStatusFromUser(article.user, session?.user?.id);
+
   return (
     <>
       <article className="max-w-4xl mx-auto bg-card lg:rounded lg:border">
@@ -54,7 +58,15 @@ export default async function EditArticlePage({ params }: EditArticlePageProps) 
               {formatDate(article.updatedAt)}
             </time>
 
-            <UserSmallCard user={article.user} />
+            <div className="flex gap-2">
+              <UserSmallCard user={article.user} />
+              <div className="grow flex justify-end items-center gap-2">
+                <FollowButton
+                  defaultFollowed={article.user.hasCurrentUserFollowed}
+                  targetUserId={article.user.id}
+                />
+              </div>
+            </div>
 
             <div className="flex gap-2 mt-4">
               <LikeButton
