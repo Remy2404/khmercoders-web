@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import { Button } from '@/components/generated/button';
 
 export interface ArticleEditorValue {
@@ -16,7 +16,9 @@ interface ArticleEditorProps {
 import { Input } from '@/components/generated/input';
 import { Label } from '@/components/generated/label';
 import { Textarea } from '@/components/generated/textarea';
-import { SimpleEditor } from '@/components/tiptap-templates/simple/simple-editor';
+import dynamic from 'next/dynamic';
+
+const SimpleEditor = dynamic(() => import('@/components/tiptap-templates/simple/simple-editor').then(mod => mod.SimpleEditor), { ssr: false });
 import { useUserUpload } from '@/components/user-upload/context';
 
 import { produce } from 'immer';
@@ -147,19 +149,16 @@ function ArticleEditorImageInput({
 }) {
   const { openUserUpload } = useUserUpload();
 
-  const handleUpload = useCallback(
-    async () => {
-      try {
-        const url = await openUserUpload('upload');
-        if (url) {
-          onChange(url);
-        }
-      } catch (err) {
-        alert('Image upload failed: ' + (err as Error).message);
+  const handleUpload = useCallback(async () => {
+    try {
+      const url = await openUserUpload('upload');
+      if (url) {
+        onChange(url);
       }
-    },
-    [onChange, openUserUpload]
-  );
+    } catch (err) {
+      alert('Image upload failed: ' + (err as Error).message);
+    }
+  }, [onChange, openUserUpload]);
 
   if (value) {
     return (
@@ -185,9 +184,7 @@ function ArticleEditorImageInput({
 
   return (
     <div className="border h-64 rounded items-center justify-center flex flex-col gap-2">
-      <div className="text-gray-500 text-sm">
-        Upload your image
-      </div>
+      <div className="text-gray-500 text-sm">Upload your image</div>
       <Button variant={'secondary'} onClick={handleUpload}>
         Upload
       </Button>
