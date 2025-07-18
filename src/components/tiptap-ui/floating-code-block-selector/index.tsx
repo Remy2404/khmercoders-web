@@ -30,7 +30,10 @@ export function FloatingCodeBlockSelector({ editor }: FloatingCodeBlockSelectorP
   React.useEffect(() => {
     if (!editor) return
 
+    let animationFrame: number | null = null
+
     const updateSelector = () => {
+      if (!editor) return
       const isCodeBlockActive = editor.isActive('codeBlock')
       
       if (isCodeBlockActive) {
@@ -38,15 +41,33 @@ export function FloatingCodeBlockSelector({ editor }: FloatingCodeBlockSelectorP
         const attrs = editor.getAttributes('codeBlock')
         setCurrentLanguage(attrs.language || 'javascript')
 
-        // Get the selection position
+        // Find the code block node in the document
         const { view } = editor
         const { from } = view.state.selection
-        const start = view.coordsAtPos(from)
-        
-        setPosition({
-          top: start.top - 40,
-          left: start.left
-        })
+        let domNode: Node | null = view.domAtPos(from).node
+        // Traverse up to the PRE node (code block container)
+        while (domNode && (domNode as HTMLElement).nodeName !== 'PRE') {
+          domNode = domNode.parentNode
+        }
+        if (domNode && domNode instanceof Element && typeof domNode.getBoundingClientRect === 'function') {
+          const rect = domNode.getBoundingClientRect()
+          // Use requestAnimationFrame for smoother UI
+          animationFrame = window.requestAnimationFrame(() => {
+            setPosition({
+              top: rect.top + window.scrollY - 40,
+              left: rect.left + window.scrollX
+            })
+          })
+        } else {
+          // fallback: use selection position if code block node not found
+          const start = view.coordsAtPos(from)
+          animationFrame = window.requestAnimationFrame(() => {
+            setPosition({
+              top: start.top - 40,
+              left: start.left
+            })
+          })
+        }
         setIsVisible(true)
       } else {
         setIsVisible(false)
@@ -58,9 +79,17 @@ export function FloatingCodeBlockSelector({ editor }: FloatingCodeBlockSelectorP
     editor.on('selectionUpdate', updateSelector)
     editor.on('transaction', updateSelector)
 
+    // Reposition on window resize/scroll
+    const handleWindow = () => updateSelector()
+    window.addEventListener('resize', handleWindow)
+    window.addEventListener('scroll', handleWindow, true)
+
     return () => {
       editor.off('selectionUpdate', updateSelector)
       editor.off('transaction', updateSelector)
+      window.removeEventListener('resize', handleWindow)
+      window.removeEventListener('scroll', handleWindow, true)
+      if (animationFrame) window.cancelAnimationFrame(animationFrame)
     }
   }, [editor])
 

@@ -2,9 +2,9 @@
 
 import * as React from 'react';
 import { EditorContent, EditorContext, useEditor } from '@tiptap/react';
-
 // --- Tiptap Core Extensions ---
 import { StarterKit } from '@tiptap/starter-kit';
+import { Extension } from '@tiptap/core';
 import { Image } from '@tiptap/extension-image';
 import { TaskItem, TaskList } from '@tiptap/extension-list';
 import { TextAlign } from '@tiptap/extension-text-align';
@@ -14,6 +14,7 @@ import { Subscript } from '@tiptap/extension-subscript';
 import { Superscript } from '@tiptap/extension-superscript';
 import { Selection } from '@tiptap/extensions';
 import { CodeBlockLowlight } from '@tiptap/extension-code-block-lowlight';
+import { Plugin, PluginKey } from 'prosemirror-state';
 
 // --- Lowlight ---
 import { lowlight } from 'lowlight/lib/core';
@@ -45,13 +46,40 @@ import '@/components/tiptap-node/image-node/image-node.scss';
 import '@/components/tiptap-node/heading-node/heading-node.scss';
 import '@/components/tiptap-node/paragraph-node/paragraph-node.scss';
 
+// Custom plugin to handle code block paste events
+const codeBlockPastePlugin = new Plugin({
+  key: new PluginKey('codeBlockPaste'),
+  props: {
+    handlePaste(view, event, slice) {
+      const { state } = view;
+      const { selection } = state;
+      
+      // Check if we're in a code block
+      const isInCodeBlock = state.schema.nodes.codeBlock && 
+        selection.$from.parent.type === state.schema.nodes.codeBlock;
+      
+      if (isInCodeBlock) {
+        // Get the pasted text
+        const text = event.clipboardData?.getData('text/plain');
+        if (text) {
+          // Insert the text directly without processing
+          const tr = state.tr.insertText(text, selection.from, selection.to);
+          view.dispatch(tr);
+          return true; // Prevent default paste behavior
+        }
+      }
+      
+      return false; // Allow default paste behavior for other content
+    }
+  }
+});
+
 // --- Tiptap UI ---
 import { HeadingDropdownMenu } from '@/components/tiptap-ui/heading-dropdown-menu';
 import { ImageUploadButton } from '@/components/tiptap-ui/image-upload-button';
 import { ListDropdownMenu } from '@/components/tiptap-ui/list-dropdown-menu';
 import { BlockquoteButton } from '@/components/tiptap-ui/blockquote-button';
 import { CodeBlockButton } from '@/components/tiptap-ui/code-block-button';
-import { CodeBlockNodeView } from '@/components/tiptap-ui/code-block-node-view';
 import { FloatingCodeBlockSelector } from '@/components/tiptap-ui/floating-code-block-selector';
 import {
   ColorHighlightPopover,
@@ -85,7 +113,6 @@ import '@/components/tiptap-templates/simple/simple-editor.scss';
 import '@/components/tiptap-templates/simple/code-block-highlight.scss';
 
 import content from '@/components/tiptap-templates/simple/data/content.json';
-
 // Register languages for syntax highlighting
 lowlight.registerLanguage('javascript', javascript);
 lowlight.registerLanguage('typescript', typescript);
@@ -226,7 +253,7 @@ export function SimpleEditor(props: SimpleEditorProps) {
   const { openUserUpload } = useUserUpload();
 
   // Custom upload function using openUserUpload
-  const uploadWithUserUpload = React.useCallback(async (file: File) => {
+  const uploadWithUserUpload = React.useCallback(async (_file: File) => {
     // Optionally, you can add file size validation here if needed
     const url = await openUserUpload('upload');
     if (!url) throw new Error('No image selected');
@@ -262,9 +289,21 @@ export function SimpleEditor(props: SimpleEditorProps) {
       CodeBlockLowlight.configure({
         lowlight,
         defaultLanguage: 'javascript',
+        exitOnTripleEnter: false,
+        exitOnArrowDown: false,
+        HTMLAttributes: {
+          spellcheck: 'false',
+        },
       }),
       MarkdownPaste.configure({
         enabled: true,
+      }),
+      // Add custom paste plugin
+      Extension.create({
+        name: 'codeBlockPaste',
+        addProseMirrorPlugins() {
+          return [codeBlockPastePlugin];
+        },
       }),
       HorizontalRule,
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
