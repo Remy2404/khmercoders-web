@@ -69,7 +69,7 @@ function InsightSection({ insight }: { insight: ProfileInsight }) {
   };
 
   return (
-    <div className="flex flex-col gap-4 border rounded-lg my-4 overflow-hidden bg-card">
+    <div className="flex flex-col gap-4 border rounded-lg my-4 bg-card">
       <div className="border-b flex">
         <div className="p-4 border-r" style={{ width: 150 }}>
           <h2 className="text-sm font-semibold">Page Views</h2>
@@ -83,10 +83,10 @@ function InsightSection({ insight }: { insight: ProfileInsight }) {
       </div>
 
       {/* Chart Section */}
-      <div className="h-[300px] w-full">
+      <div className="h-[300px] w-full p-4">
         <ChartContainer config={chartConfig} className="h-full w-full">
           <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={chartData}>
+            <AreaChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
               <defs>
                 <linearGradient id="page_view" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor="#f97316" stopOpacity={0.8} />
@@ -125,6 +125,7 @@ function InsightSection({ insight }: { insight: ProfileInsight }) {
                   return [`${value} pageview`];
                 }}
                 labelFormatter={label => formatDate(label as string)}
+                allowEscapeViewBox={{ x: false, y: false }}
               />
             </AreaChart>
           </ResponsiveContainer>
@@ -136,7 +137,7 @@ function InsightSection({ insight }: { insight: ProfileInsight }) {
 
 function Placeholder() {
   return (
-    <div className="flex flex-col gap-4 border rounded-lg my-4 overflow-hidden bg-card">
+    <div className="flex flex-col gap-4 border rounded-lg my-4 bg-card">
       <div className="border-b flex">
         <div className="p-4 border-r" style={{ width: 150 }}>
           <h2 className="text-sm font-semibold">Page Views</h2>
