@@ -88,56 +88,58 @@ export function ChatMetricsChart({ data }: ChatMetricsProps) {
 
   return (
     <div className="border-double border-4 border-foreground my-4 p-2">
-      <ChartContainer config={chartConfig} className="h-[250px] w-full">
-        <ResponsiveContainer width="100%">
-          <AreaChart data={chartData}>
-            <defs>
-              {platforms.map(platform => (
-                <linearGradient
-                  key={`gradient-${platform}`}
-                  id={`gradient-${platform}`}
-                  x1="0"
-                  y1="0"
-                  x2="0"
-                  y2="1"
-                >
-                  <stop offset="5%" stopColor={chartConfig[platform].color} stopOpacity={0.8} />
-                  <stop offset="95%" stopColor={chartConfig[platform].color} stopOpacity={0.2} />
-                </linearGradient>
-              ))}
-            </defs>
-            <CartesianGrid strokeDasharray="3 3" vertical={false} />
-            <XAxis
-              dataKey="date"
-              tickFormatter={formatDate}
-              tick={{ fontSize: 12 }}
-              tickMargin={10}
-            />
-
-            <Tooltip
-              formatter={(value: number, name: string, props: any) => {
-                // Extract platform name from the dataKey (e.g., "telegram_count" -> "Telegram")
-                const platform = name.split('_')[0];
-                const platformLabel = platform.charAt(0).toUpperCase() + platform.slice(1);
-                return [`${value} messages`, platformLabel];
-              }}
-              labelFormatter={label => formatDate(label as string)}
-            />
-            <Legend />
-            {platforms.map(platform => (
-              <Area
-                key={platform}
-                type="monotone"
-                dataKey={`${platform}_count`}
-                name={chartConfig[platform].label}
-                stroke={chartConfig[platform].color}
-                fill={`url(#gradient-${platform})`}
-                fillOpacity={1}
+      <div className="h-[250px] w-full">
+        <ChartContainer config={chartConfig} className="h-full w-full">
+          <ResponsiveContainer width="100%" height="100%">
+            <AreaChart data={chartData}>
+              <defs>
+                {platforms.map(platform => (
+                  <linearGradient
+                    key={`gradient-${platform}`}
+                    id={`gradient-${platform}`}
+                    x1="0"
+                    y1="0"
+                    x2="0"
+                    y2="1"
+                  >
+                    <stop offset="5%" stopColor={chartConfig[platform].color} stopOpacity={0.8} />
+                    <stop offset="95%" stopColor={chartConfig[platform].color} stopOpacity={0.2} />
+                  </linearGradient>
+                ))}
+              </defs>
+              <CartesianGrid strokeDasharray="3 3" vertical={false} />
+              <XAxis
+                dataKey="date"
+                tickFormatter={formatDate}
+                tick={{ fontSize: 12 }}
+                tickMargin={10}
               />
-            ))}
-          </AreaChart>
-        </ResponsiveContainer>
-      </ChartContainer>
+
+              <Tooltip
+                formatter={(value: number, name: string, props: any) => {
+                  // Extract platform name from the dataKey (e.g., "telegram_count" -> "Telegram")
+                  const platform = name.split('_')[0];
+                  const platformLabel = platform.charAt(0).toUpperCase() + platform.slice(1);
+                  return [`${value} messages`, platformLabel];
+                }}
+                labelFormatter={label => formatDate(label as string)}
+              />
+              <Legend />
+              {platforms.map(platform => (
+                <Area
+                  key={platform}
+                  type="monotone"
+                  dataKey={`${platform}_count`}
+                  name={chartConfig[platform].label}
+                  stroke={chartConfig[platform].color}
+                  fill={`url(#gradient-${platform})`}
+                  fillOpacity={1}
+                />
+              ))}
+            </AreaChart>
+          </ResponsiveContainer>
+        </ChartContainer>
+      </div>
     </div>
   );
 }

@@ -83,51 +83,53 @@ function InsightSection({ insight }: { insight: ProfileInsight }) {
       </div>
 
       {/* Chart Section */}
-      <ChartContainer config={chartConfig} className="h-[300px] w-full">
-        <ResponsiveContainer width="100%" height="100%">
-          <AreaChart data={chartData}>
-            <defs>
-              <linearGradient id="page_view" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#f97316" stopOpacity={0.8} />
-                <stop offset="95%" stopColor="#f97316" stopOpacity={0} />
-              </linearGradient>
-            </defs>
-            <CartesianGrid
-              strokeDasharray="3 3"
-              vertical={false}
-              {...({ stroke: 'hsl(var(--muted))' } as any)}
-            />
-            <XAxis
-              dataKey="date"
-              tickFormatter={formatDate}
-              tick={{ fontSize: 12, fill: 'hsl(var(--muted-foreground))' } as any}
-              tickMargin={10}
-              axisLine={{ stroke: 'hsl(var(--border))' } as any}
-            />
-            <Area
-              type="monotone"
-              dataKey="page_view"
-              name="page_view"
-              stroke="#f97316"
-              fill="url(#page_view)"
-              fillOpacity={1}
-            />
+      <div className="h-[300px] w-full">
+        <ChartContainer config={chartConfig} className="h-full w-full">
+          <ResponsiveContainer width="100%" height="100%">
+            <AreaChart data={chartData}>
+              <defs>
+                <linearGradient id="page_view" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#f97316" stopOpacity={0.8} />
+                  <stop offset="95%" stopColor="#f97316" stopOpacity={0} />
+                </linearGradient>
+              </defs>
+              <CartesianGrid
+                strokeDasharray="3 3"
+                vertical={false}
+                {...({ stroke: 'hsl(var(--muted))' } as any)}
+              />
+              <XAxis
+                dataKey="date"
+                tickFormatter={formatDate}
+                tick={{ fontSize: 12, fill: 'hsl(var(--muted-foreground))' } as any}
+                tickMargin={10}
+                axisLine={{ stroke: 'hsl(var(--border))' } as any}
+              />
+              <Area
+                type="monotone"
+                dataKey="page_view"
+                name="page_view"
+                stroke="#f97316"
+                fill="url(#page_view)"
+                fillOpacity={1}
+              />
 
-            <Tooltip
-              contentStyle={{
-                backgroundColor: 'hsl(var(--background))',
-                border: '1px solid hsl(var(--border))',
-                borderRadius: '6px',
-                color: 'hsl(var(--foreground))',
-              }}
-              formatter={(value: number) => {
-                return [`${value} pageview`];
-              }}
-              labelFormatter={label => formatDate(label as string)}
-            />
-          </AreaChart>
-        </ResponsiveContainer>
-      </ChartContainer>
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: 'hsl(var(--background))',
+                  border: '1px solid hsl(var(--border))',
+                  borderRadius: '6px',
+                  color: 'hsl(var(--foreground))',
+                }}
+                formatter={(value: number) => {
+                  return [`${value} pageview`];
+                }}
+                labelFormatter={label => formatDate(label as string)}
+              />
+            </AreaChart>
+          </ResponsiveContainer>
+        </ChartContainer>
+      </div>
     </div>
   );
 }
