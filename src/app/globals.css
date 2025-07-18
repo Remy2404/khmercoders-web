@@ -7,6 +7,24 @@ body {
   font-family: Inter, 'Kantumruy Pro', sans-serif;
 }
 
+/* make scrollbar width smaller 
+and preserve space to avoid layout shift with less content */
+:root {
+  scrollbar-width: thin;
+  scrollbar-gutter: stable;
+}
+
+/* change scrollbar based on primary color
+based on light & dark themes */
+:root:is(.dark) {
+  --_local: oklch(from hsl(var(--primary)) calc(l - 0.2) c h);
+  scrollbar-color: var(--_local) hsl(var(--background));
+}
+:root:is(.light) {
+  --_local: oklch(from hsl(var(--primary)) calc(l - 0.1) c h);
+  scrollbar-color: var(--_local) hsl(var(--background));
+}
+
 @layer base {
   :root {
     --background: 0 0% 95%;
