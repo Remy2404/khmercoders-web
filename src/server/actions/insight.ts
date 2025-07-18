@@ -17,6 +17,30 @@ export interface ProfileInsight {
 export const getCurrentProfileInsightAction = withAuthAction(async ({ user }) => {
   const userId = user.id; // ?? session.user.id;
 
+  if (!process.env.WAE_TOKEN) {
+    // Delay
+    await new Promise(resolve => setTimeout(resolve, 2000));
+
+    // Provide fake data for local development
+    const dailyInsights = Array.from({ length: 30 }, (_, i) => {
+      // Create a spike on day 15 to simulate overflow
+      const isSpike = i > 18;
+      return {
+        date: new Date(Date.now() - (29 - i) * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+        count: (isSpike ? 800 : 0) + Math.floor(Math.random() * 300),
+        unique_visitor: isSpike ? 500 : Math.floor(Math.random() * 50),
+      };
+    });
+
+    return {
+      dailyInsight: dailyInsights,
+      totalInsight: {
+        count: Math.floor(Math.random() * 3000) + 1000,
+        unique_visitor: Math.floor(Math.random() * 1500) + 500,
+      },
+    };
+  }
+
   // Getting the last 30 days of insights
   const currentTimestamp = Math.floor(Date.now() / 1000);
   const last30DaysTimestamp = currentTimestamp - 29 * 24 * 60 * 60;

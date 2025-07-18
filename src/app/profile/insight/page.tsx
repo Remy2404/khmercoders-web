@@ -69,14 +69,14 @@ function InsightSection({ insight }: { insight: ProfileInsight }) {
   };
 
   return (
-    <div className="flex flex-col gap-4 border rounded-lg my-4 overflow-hidden">
-      <div className="bg-muted border-b flex">
-        <div className="bg-background p-4 border-r" style={{ width: 150 }}>
+    <div className="flex flex-col gap-4 border rounded-lg my-4 overflow-hidden bg-card">
+      <div className="border-b flex">
+        <div className="p-4 border-r" style={{ width: 150 }}>
           <h2 className="text-sm font-semibold">Page Views</h2>
           <p className="text-3xl">{insight.totalInsight.count}</p>
         </div>
 
-        <div className="bg-background p-4 border-r w-md" style={{ width: 150 }}>
+        <div className="p-4 border-r w-md" style={{ width: 150 }}>
           <h2 className="text-sm font-semibold">Visitors</h2>
           <p className="text-3xl">{insight.totalInsight.unique_visitor}</p>
         </div>
@@ -134,8 +134,23 @@ function InsightSection({ insight }: { insight: ProfileInsight }) {
 
 function Placeholder() {
   return (
-    <div className="container mx-auto">
-      <div className="text-center text-muted-foreground">Loading...</div>
+    <div className="flex flex-col gap-4 border rounded-lg my-4 overflow-hidden bg-card">
+      <div className="border-b flex">
+        <div className="p-4 border-r" style={{ width: 150 }}>
+          <h2 className="text-sm font-semibold">Page Views</h2>
+          <p className="text-3xl text-muted-foreground">--</p>
+        </div>
+
+        <div className="p-4 border-r w-md" style={{ width: 150 }}>
+          <h2 className="text-sm font-semibold">Visitors</h2>
+          <p className="text-3xl text-muted-foreground">--</p>
+        </div>
+      </div>
+
+      {/* Chart Section Placeholder */}
+      <div className="h-[300px] w-full flex items-center justify-center">
+        <div className="text-center text-muted-foreground">Loading...</div>
+      </div>
     </div>
   );
 }
