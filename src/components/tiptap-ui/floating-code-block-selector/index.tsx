@@ -1,9 +1,9 @@
-"use client"
+'use client';
 
-import * as React from "react"
-import { type Editor } from "@tiptap/react"
-import { createPortal } from "react-dom"
-import { cn } from "@/utils"
+import * as React from 'react';
+import { type Editor } from '@tiptap/react';
+import { createPortal } from 'react-dom';
+import { cn } from '@/utils';
 
 const SUPPORTED_LANGUAGES = [
   { value: 'javascript', label: 'JavaScript' },
@@ -15,97 +15,69 @@ const SUPPORTED_LANGUAGES = [
   { value: 'bash', label: 'Bash' },
   { value: 'markdown', label: 'Markdown' },
   { value: 'text', label: 'Plain Text' },
-]
+];
 
 interface FloatingCodeBlockSelectorProps {
-  editor: Editor | null
+  editor: Editor | null;
 }
 
 export function FloatingCodeBlockSelector({ editor }: FloatingCodeBlockSelectorProps) {
-  const [isVisible, setIsVisible] = React.useState(false)
-  const [position, setPosition] = React.useState({ top: 0, left: 0 })
-  const [currentLanguage, setCurrentLanguage] = React.useState('javascript')
-  const [isOpen, setIsOpen] = React.useState(false)
+  const [isVisible, setIsVisible] = React.useState(false);
+  const [position, setPosition] = React.useState({ top: 0, left: 0 });
+  const [currentLanguage, setCurrentLanguage] = React.useState('javascript');
+  const [isOpen, setIsOpen] = React.useState(false);
 
   React.useEffect(() => {
-    if (!editor) return
-
-    let animationFrame: number | null = null
+    if (!editor) return;
 
     const updateSelector = () => {
-      if (!editor) return
-      const isCodeBlockActive = editor.isActive('codeBlock')
-      
+      const isCodeBlockActive = editor.isActive('codeBlock');
+
       if (isCodeBlockActive) {
         // Get the current language
-        const attrs = editor.getAttributes('codeBlock')
-        setCurrentLanguage(attrs.language || 'javascript')
+        const attrs = editor.getAttributes('codeBlock');
+        setCurrentLanguage(attrs.language || 'javascript');
 
-        // Find the code block node in the document
-        const { view } = editor
-        const { from } = view.state.selection
-        let domNode: Node | null = view.domAtPos(from).node
-        // Traverse up to the PRE node (code block container)
-        while (domNode && (domNode as HTMLElement).nodeName !== 'PRE') {
-          domNode = domNode.parentNode
-        }
-        if (domNode && domNode instanceof Element && typeof domNode.getBoundingClientRect === 'function') {
-          const rect = domNode.getBoundingClientRect()
-          // Use requestAnimationFrame for smoother UI
-          animationFrame = window.requestAnimationFrame(() => {
-            setPosition({
-              top: rect.top + window.scrollY - 40,
-              left: rect.left + window.scrollX
-            })
-          })
-        } else {
-          // fallback: use selection position if code block node not found
-          const start = view.coordsAtPos(from)
-          animationFrame = window.requestAnimationFrame(() => {
-            setPosition({
-              top: start.top - 40,
-              left: start.left
-            })
-          })
-        }
-        setIsVisible(true)
+        // Get the selection position
+        const { view } = editor;
+        const { from } = view.state.selection;
+        const start = view.coordsAtPos(from);
+
+        setPosition({
+          top: start.top - 40,
+          left: start.left,
+        });
+        setIsVisible(true);
       } else {
-        setIsVisible(false)
-        setIsOpen(false)
+        setIsVisible(false);
+        setIsOpen(false);
       }
-    }
+    };
 
-    updateSelector()
-    editor.on('selectionUpdate', updateSelector)
-    editor.on('transaction', updateSelector)
-
-    // Reposition on window resize/scroll
-    const handleWindow = () => updateSelector()
-    window.addEventListener('resize', handleWindow)
-    window.addEventListener('scroll', handleWindow, true)
+    updateSelector();
+    editor.on('selectionUpdate', updateSelector);
+    editor.on('transaction', updateSelector);
 
     return () => {
-      editor.off('selectionUpdate', updateSelector)
-      editor.off('transaction', updateSelector)
-      window.removeEventListener('resize', handleWindow)
-      window.removeEventListener('scroll', handleWindow, true)
-      if (animationFrame) window.cancelAnimationFrame(animationFrame)
-    }
-  }, [editor])
+      editor.off('selectionUpdate', updateSelector);
+      editor.off('transaction', updateSelector);
+    };
+  }, [editor]);
 
   const handleLanguageChange = (language: string) => {
     if (editor && editor.isActive('codeBlock')) {
-      editor.chain().focus().updateAttributes('codeBlock', { language }).run()
-      setCurrentLanguage(language)
+      editor.chain().focus().updateAttributes('codeBlock', { language }).run();
+      setCurrentLanguage(language);
     }
-    setIsOpen(false)
-  }
+    setIsOpen(false);
+  };
 
   if (!isVisible || !editor) {
-    return null
+    return null;
   }
 
-  const currentLang = SUPPORTED_LANGUAGES.find(lang => lang.value === currentLanguage) || SUPPORTED_LANGUAGES[0]
+  const currentLang =
+    SUPPORTED_LANGUAGES.find(lang => lang.value === currentLanguage) || SUPPORTED_LANGUAGES[0];
 
   return createPortal(
     <div
@@ -128,19 +100,17 @@ export function FloatingCodeBlockSelector({ editor }: FloatingCodeBlockSelectorP
 
         {isOpen && (
           <>
-            <div
-              className="fixed inset-0 z-40"
-              onClick={() => setIsOpen(false)}
-            />
+            <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} />
             <div className="absolute z-50 w-32 mt-1 bg-white border border-gray-200 rounded-md shadow-lg dark:bg-gray-800 dark:border-gray-600">
               <div className="py-1 max-h-48 overflow-y-auto">
-                {SUPPORTED_LANGUAGES.map((language) => (
+                {SUPPORTED_LANGUAGES.map(language => (
                   <button
                     key={language.value}
                     onClick={() => handleLanguageChange(language.value)}
                     className={cn(
-                      "block w-full px-3 py-1 text-xs text-left hover:bg-gray-100 dark:hover:bg-gray-700",
-                      currentLanguage === language.value && "bg-blue-50 text-blue-600 dark:bg-blue-900 dark:text-blue-300"
+                      'block w-full px-3 py-1 text-xs text-left hover:bg-gray-100 dark:hover:bg-gray-700',
+                      currentLanguage === language.value &&
+                        'bg-blue-50 text-blue-600 dark:bg-blue-900 dark:text-blue-300'
                     )}
                   >
                     {language.label}
@@ -153,5 +123,5 @@ export function FloatingCodeBlockSelector({ editor }: FloatingCodeBlockSelectorP
       </div>
     </div>,
     document.body
-  )
+  );
 }
