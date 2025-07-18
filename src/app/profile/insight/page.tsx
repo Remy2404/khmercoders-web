@@ -54,10 +54,18 @@ function InsightSection({ insight }: { insight: ProfileInsight }) {
   }, []);
 
   const chartData = useMemo(() => {
-    return insight.dailyInsight.map(item => ({
+    const data = insight.dailyInsight.map(item => ({
       date: item.date,
       page_view: item.count,
     }));
+
+    // Calculate max value for proper scaling
+    const maxValue = Math.max(...data.map(d => d.page_view));
+
+    return {
+      data,
+      maxValue,
+    };
   }, [insight]);
 
   const formatDate = (dateStr: string) => {
@@ -86,7 +94,7 @@ function InsightSection({ insight }: { insight: ProfileInsight }) {
       <div className="h-[300px] w-full p-4">
         <ChartContainer config={chartConfig} className="h-full w-full">
           <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
+            <AreaChart data={chartData.data} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
               <defs>
                 <linearGradient id="page_view" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor="#f97316" stopOpacity={0.8} />
