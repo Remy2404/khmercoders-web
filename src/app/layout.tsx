@@ -1,4 +1,6 @@
 import '@/app/globals.css';
+import '../styles/_variables.scss';
+import '../styles/_keyframe-animations.scss';
 import { Header } from '@/components/atoms/header';
 import { KhmerCoderDevtool } from '@/components/devtool';
 import { ReactQueryProvider } from '@/components/react-query-prodiver';
