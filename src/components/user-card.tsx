@@ -24,16 +24,18 @@ export function UserCard({ user, profile }: UserCardProps) {
 
 export function UserSmallCard({ user }: { user: UserRecordWithProfile }) {
   if (user.profile) {
-    <Link href={`/@${user.profile.alias}`} className="inline-flex gap-3">
-      <Avatar>
-        {user.image ? <AvatarImage src={user.image} alt={user.name} /> : <AvatarFallback />}
-      </Avatar>
+    return (
+      <Link href={`/@${user.profile.alias}`} className="inline-flex gap-3">
+        <Avatar>
+          {user.image ? <AvatarImage src={user.image} alt={user.name} /> : <AvatarFallback />}
+        </Avatar>
 
-      <div className="flex flex-col justify-center leading">
-        <div className="font-semibold text-sm">{user.name}</div>
-        <div className="text-xs text-zinc-400 line-clamp-2">{user.profile.title}</div>
-      </div>
-    </Link>;
+        <div className="flex flex-col justify-center leading">
+          <div className="font-semibold text-sm">{user.name}</div>
+          <div className="text-xs text-zinc-400 line-clamp-2">{user.profile.title}</div>
+        </div>
+      </Link>
+    );
   }
 
   return (

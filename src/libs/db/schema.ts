@@ -13,6 +13,8 @@ export const user = sqliteTable('user', {
 
   // Additional fields for user profile
   reputation: integer('reputation').notNull().default(0),
+  followersCount: integer('followers_count').notNull().default(0),
+  followingCount: integer('following_count').notNull().default(0),
 
   // User level represented as integer but mapped to enum
   level: integer('level').notNull().default(UserLevel.Regular).$type<UserLevel>(),
@@ -180,6 +182,25 @@ export const likes = sqliteTable(
     createdAt: integer('created_at', { mode: 'timestamp' }).notNull(),
   },
   table => [primaryKey({ columns: [table.type, table.resourceId, table.userId] })]
+);
+
+export const followers = sqliteTable(
+  'followers',
+  {
+    userId: text('user_id'), // User being followed
+    followerId: text('follower_id'), // User who follows
+    createdAt: integer('created_at', { mode: 'timestamp' }).notNull(),
+  },
+  table => [
+    // This covers fast lookup for
+    // SELECT * FROM followers WHERE userId = ? AND followerId = ?
+    // SELECT * FROM followers WHERE userId = ?
+    primaryKey({ columns: [table.userId, table.followerId] }),
+
+    // This cover fast lookup for
+    // SELECT * FROM followers WHERE followerId = ?
+    index('followers_follower_id_idx').on(table.followerId),
+  ]
 );
 
 export const posts = sqliteTable(
