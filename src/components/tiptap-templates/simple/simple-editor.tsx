@@ -13,6 +13,18 @@ import { Highlight } from '@tiptap/extension-highlight';
 import { Subscript } from '@tiptap/extension-subscript';
 import { Superscript } from '@tiptap/extension-superscript';
 import { Selection } from '@tiptap/extensions';
+import { CodeBlockLowlight } from '@tiptap/extension-code-block-lowlight';
+
+// --- Lowlight ---
+import { lowlight } from 'lowlight/lib/core';
+import javascript from 'highlight.js/lib/languages/javascript';
+import typescript from 'highlight.js/lib/languages/typescript';
+import python from 'highlight.js/lib/languages/python';
+import json from 'highlight.js/lib/languages/json';
+import xml from 'highlight.js/lib/languages/xml';
+import css from 'highlight.js/lib/languages/css';
+import bash from 'highlight.js/lib/languages/bash';
+import markdown from 'highlight.js/lib/languages/markdown';
 
 // --- UI Primitives ---
 import { Button } from '@/components/tiptap-ui-primitive/button';
@@ -36,6 +48,8 @@ import { ImageUploadButton } from '@/components/tiptap-ui/image-upload-button';
 import { ListDropdownMenu } from '@/components/tiptap-ui/list-dropdown-menu';
 import { BlockquoteButton } from '@/components/tiptap-ui/blockquote-button';
 import { CodeBlockButton } from '@/components/tiptap-ui/code-block-button';
+import { CodeBlockNodeView } from '@/components/tiptap-ui/code-block-node-view';
+import { FloatingCodeBlockSelector } from '@/components/tiptap-ui/floating-code-block-selector';
 import {
   ColorHighlightPopover,
   ColorHighlightPopoverContent,
@@ -65,8 +79,19 @@ import { useUserUpload } from '@/components/user-upload/context';
 
 // --- Styles ---
 import '@/components/tiptap-templates/simple/simple-editor.scss';
+import '@/components/tiptap-templates/simple/code-block-highlight.scss';
 
 import content from '@/components/tiptap-templates/simple/data/content.json';
+
+// Register languages for syntax highlighting
+lowlight.registerLanguage('javascript', javascript);
+lowlight.registerLanguage('typescript', typescript);
+lowlight.registerLanguage('python', python);
+lowlight.registerLanguage('json', json);
+lowlight.registerLanguage('xml', xml);
+lowlight.registerLanguage('css', css);
+lowlight.registerLanguage('bash', bash);
+lowlight.registerLanguage('markdown', markdown);
 
 const MainToolbarContent = ({
   onHighlighterClick,
@@ -225,10 +250,15 @@ export function SimpleEditor(props: SimpleEditorProps) {
     extensions: [
       StarterKit.configure({
         horizontalRule: false,
+        codeBlock: false, // Disable default code block to use CodeBlockLowlight
         link: {
           openOnClick: false,
           enableClickSelection: true,
         },
+      }),
+      CodeBlockLowlight.configure({
+        lowlight,
+        defaultLanguage: 'javascript',
       }),
       HorizontalRule,
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
@@ -305,6 +335,9 @@ export function SimpleEditor(props: SimpleEditorProps) {
       <div className="content-wrapper">
         <EditorContent editor={editor} role="presentation" className="simple-editor-content" />
       </div>
+
+      {/* Floating language selector for code blocks */}
+      <FloatingCodeBlockSelector editor={editor} />
     </EditorContext.Provider>
   );
 }
