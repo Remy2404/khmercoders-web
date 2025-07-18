@@ -35,6 +35,8 @@ export function InsightChart({ insight }: InsightChartProps) {
     }
   };
 
+  console.log('Chart Data:', chartData);
+
   return (
     <div className="flex flex-col gap-4 border rounded-lg my-4 bg-card">
       <div className="border-b flex">
