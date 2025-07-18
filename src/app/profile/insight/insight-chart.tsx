@@ -23,7 +23,7 @@ export function InsightChart({ insight }: InsightChartProps) {
   const chartData = useMemo(() => {
     return insight.dailyInsight.map(item => ({
       date: item.date,
-      page_view: item.count,
+      page_view: Number(item.count),
     }));
   }, [insight]);
 
