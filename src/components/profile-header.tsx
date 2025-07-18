@@ -1,8 +1,10 @@
+'use client';
 import type { ProfileRecord, UserRecord } from '@/types';
 import { cn } from '@/utils';
 import Link from 'next/link';
 import { UserLevelBadge } from './user-level-badge';
-
+import { FollowButton } from './ui/FollowerButton';
+import { UserModeratorTool } from '@/app/[username]/moderator-tool';
 interface ProfileHeaderProps {
   profile: ProfileRecord;
   user: UserRecord;
@@ -12,10 +14,9 @@ interface ProfileHeaderProps {
 export function ProfileHeader({ selectedTab = 'profile', profile, user }: ProfileHeaderProps) {
   return (
     <div className="relative border-b">
-      <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,#f59e0b1a_1px,transparent_1px),linear-gradient(to_bottom,#f59e0b1a_1px,transparent_1px)] bg-[size:35px_34px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
-      <div className="container relative z-10 mx-auto py-4 px-4 flex gap-3">
+      <div className="container relative z-10 mx-auto py-4 flex gap-3">
         <div
-          className="w-20 h-20 rounded-full border-2 border-orange-400 bg-orange-100 overflow-hidden"
+          className="w-20 h-20 rounded-xl border-2 border-orange-400 bg-orange-100 overflow-hidden"
           style={
             user.image
               ? {
@@ -34,6 +35,21 @@ export function ProfileHeader({ selectedTab = 'profile', profile, user }: Profil
           <p className="text-muted-foreground text-sm">{profile.title}</p>
           <p className="text-muted-foreground text-sm font-mono">@{profile.alias}</p>
         </div>
+      </div>
+
+      <div className="flex gap-4 container mx-auto text-sm mb-2 items-center">
+        <FollowButton defaultFollowed={user.hasCurrentUserFollowed} targetUserId={profile.userId} />
+
+        <div>
+          <strong>{user.followersCount}</strong>{' '}
+          <span className="text-gray-400 dark:text-gray-500">Following</span>
+        </div>
+        <div>
+          <strong>{user.followingCount}</strong>{' '}
+          <span className="text-gray-400 dark:text-gray-500">Followers</span>
+        </div>
+
+        <UserModeratorTool user={user} />
       </div>
 
       <nav className="container relative z-10 mx-auto text-sm flex">

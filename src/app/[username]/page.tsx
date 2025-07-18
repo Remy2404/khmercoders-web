@@ -13,6 +13,8 @@ import { UserModeratorTool } from './moderator-tool';
 import { ProfileSidebar } from './profile-sidebar';
 import { ProfileAiReviewProvider } from './profile-review-provider';
 import { ProfileExperienceListWithReview } from './profile-experience';
+import { bindingFollowerStatusFromUser } from '@/server/services/followers';
+import { getSession } from '../session';
 
 export async function generateMetadata({
   params,
@@ -53,7 +55,12 @@ export default async function UserProfilePage({
   params: Promise<{ username: string }>;
 }) {
   const { username } = await params;
+  const { session } = await getSession();
   const profile = await getProfileFromUsernameCache(username);
+
+  profile.user = session?.user?.id
+    ? await bindingFollowerStatusFromUser(profile.user, session.user.id)
+    : profile.user;
 
   const db = await getDB();
   const experiences = sortExperience(
@@ -67,7 +74,6 @@ export default async function UserProfilePage({
     <>
       <ProfileTrackingComponent userId={profile.user.id} />
       <ProfileHeader user={profile.user} profile={profile.member_profile} />
-      <UserModeratorTool user={profile.user} />
 
       <ProfileAiReviewProvider>
         <div className="container mx-auto flex gap-4 my-4 mb-12">

@@ -25,6 +25,12 @@ export const auth = betterAuth({
       storageUsed: {
         type: 'number',
       },
+      followersCount: {
+        type: 'number',
+      },
+      followingCount: {
+        type: 'number',
+      },
     },
   },
   socialProviders: {

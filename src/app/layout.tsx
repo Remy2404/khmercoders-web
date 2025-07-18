@@ -1,18 +1,13 @@
 import '@/app/globals.css';
-import Navbar from '@/components/atoms/nav-bar';
+import { Header } from '@/components/atoms/header';
 import { KhmerCoderDevtool } from '@/components/devtool';
 import { ReactQueryProvider } from '@/components/react-query-prodiver';
 import { UserUploadProvider } from '@/components/user-upload/context';
 import { NavigationGuardProvider } from 'next-navigation-guard';
-import { Inter } from 'next/font/google';
-import Image from 'next/image';
-import Link from 'next/link';
 import type React from 'react';
 import { SessionProvider } from './session';
 import { ThemeProvider } from 'next-themes';
 import { Footer } from '@/components/footer';
-
-const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
   title: "Khmer Coders - Cambodia's Largest Coding Community",
@@ -33,12 +28,12 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
-          href="https://fonts.googleapis.com/css2?family=VT323&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Kantumruy+Pro:ital,wght@0,100..700;1,100..700&family=VT323&display=swap"
           rel="stylesheet"
-        ></link>
+        />
         <title>{metadata.title}</title>
       </head>
-      <body className={inter.className}>
+      <body>
         <NavigationGuardProvider>
           <ThemeProvider
             attribute="class"
@@ -52,6 +47,7 @@ export default function RootLayout({
                   <div className="min-h-screen relative">
                     {/* Content container */}
                     <div className="relative">
+<<<<<<< HEAD
                       <header className="sticky top-0 z-50 bg-white dark:bg-black py-1 px-4 xl:px-16 flex items-center gap-12 mb-8 justify-between bg-background border-b shadow-[0_2px_8px_-1px_rgba(251,146,60,0.4)]">
                         <Link href="/" className="flex items-center z-9999">
                           <Image
@@ -68,6 +64,9 @@ export default function RootLayout({
                         <div className="flex-1 lg:hidden" />
                         <Navbar />
                       </header>
+=======
+                      <Header />
+>>>>>>> fc9daec38b503afa9bba10d8fd56410563bb6bb8
                       {children}
                       <Footer />
                     </div>

@@ -57,7 +57,7 @@ export function LikeButton({
   );
 }
 
-export function CommentButton() {
+export function CommentButton({ count }: { count: number }) {
   const className = cn(
     'flex items-center p-1 rounded gap-2', // Base styles
     'text-sm text-muted-foreground', // Base text styles
@@ -66,7 +66,8 @@ export function CommentButton() {
 
   return (
     <div className={className}>
-      <MessageSquare className="w-4 h-4" />0 Comments
+      <MessageSquare className="w-4 h-4" />
+      {count} Comments
     </div>
   );
 }

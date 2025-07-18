@@ -1,5 +1,5 @@
 'use client';
-import { Settings } from 'lucide-react';
+import { LucideDatabase, Settings } from 'lucide-react';
 import { Button } from './generated/button';
 import {
   DropdownMenu,
@@ -11,6 +11,7 @@ import {
 } from './generated/dropdown-menu';
 import { UserLevelBadge } from './user-level-badge';
 import { UserLevel } from '@/types';
+import Link from 'next/link';
 
 export function KhmerCoderDevtool() {
   return (
@@ -38,6 +39,21 @@ export function KhmerCoderDevtool() {
         >
           <span className="w-6 h-6 bg-yellow-500 rounded-full"></span>
           Login as <strong>Srey Pich</strong> <UserLevelBadge level={UserLevel.Premium} />
+        </DropdownMenuItem>
+
+        <DropdownMenuSeparator />
+        <DropdownMenuLabel>Browsing D1 Databases</DropdownMenuLabel>
+        <DropdownMenuItem asChild>
+          <Link href="/dev_only/d1?db=main">
+            <LucideDatabase className="mr-2" />
+            Main Database
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link href="/dev_only/d1?db=chat">
+            <LucideDatabase className="mr-2" />
+            Chatbot Database
+          </Link>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

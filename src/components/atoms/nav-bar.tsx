@@ -12,11 +12,22 @@ import { cn } from '@/utils';
 import { Menu, X } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import type { ComponentProps } from 'react';
 import { ModeToggle } from '../mode-toggle';
 import { UserAvatar } from './user-avatar';
 
 export const Navbar = () => {
+  const pathname = usePathname();
+
+  // Helper function to check if a link should be highlighted
+  const isActiveLink = (href: string) => {
+    if (href === '/') {
+      return pathname === '/';
+    }
+    return pathname.startsWith(href);
+  };
+
   return (
     <div className="flex items-center flex-row">
       <div className="flex gap-4 items-center sm:hidden">
@@ -49,36 +60,51 @@ export const Navbar = () => {
                 </div>
 
                 <div className="flex flex-col gap-2 px-2">
-                  <NavbarLink
-                    href="/events"
-                    className="w-full justify-start px-4 rounded-xl hover:bg-amber-500/10"
-                  >
-                    Events
-                  </NavbarLink>
-                  <NavbarLink
-                    href="/teams"
-                    className="w-full justify-start px-4 rounded-xl hover:bg-amber-500/10"
-                  >
-                    Teams
-                  </NavbarLink>
-                  <NavbarLink
-                    href="/partners"
-                    className="w-full justify-start px-4 rounded-xl hover:bg-amber-500/10"
-                  >
-                    Partners
-                  </NavbarLink>
-                  <NavbarLink
-                    href="/community"
-                    className="w-full justify-start px-4 rounded-xl hover:bg-amber-500/10"
-                  >
-                    Community
-                  </NavbarLink>
-                  <NavbarLink
-                    href="/donate"
-                    className="w-full justify-start px-4 rounded-xl hover:bg-amber-500/10"
-                  >
-                    Donate
-                  </NavbarLink>
+                  <SheetClose asChild>
+                    <NavbarLink
+                      href="/events"
+                      isHighlighted={isActiveLink('/events')}
+                      className="w-full justify-start px-4 rounded-xl hover:bg-amber-500/10"
+                    >
+                      Events
+                    </NavbarLink>
+                  </SheetClose>
+                  <SheetClose asChild>
+                    <NavbarLink
+                      href="/teams"
+                      isHighlighted={isActiveLink('/teams')}
+                      className="w-full justify-start px-4 rounded-xl hover:bg-amber-500/10"
+                    >
+                      Teams
+                    </NavbarLink>
+                  </SheetClose>
+                  <SheetClose asChild>
+                    <NavbarLink
+                      href="/partners"
+                      isHighlighted={isActiveLink('/partners')}
+                      className="w-full justify-start px-4 rounded-xl hover:bg-amber-500/10"
+                    >
+                      Partners
+                    </NavbarLink>
+                  </SheetClose>
+                  <SheetClose asChild>
+                    <NavbarLink
+                      href="/community"
+                      isHighlighted={isActiveLink('/community')}
+                      className="w-full justify-start px-4 rounded-xl hover:bg-amber-500/10"
+                    >
+                      Community
+                    </NavbarLink>
+                  </SheetClose>
+                  <SheetClose asChild>
+                    <NavbarLink
+                      href="/donate"
+                      isHighlighted={isActiveLink('/donate')}
+                      className="w-full justify-start px-4 rounded-xl hover:bg-amber-500/10"
+                    >
+                      Donate
+                    </NavbarLink>
+                  </SheetClose>
                 </div>
               </div>
             </SheetContent>
@@ -87,11 +113,21 @@ export const Navbar = () => {
       </div>
       <div className="hidden sm:flex gap-4 items-center">
         <NavbarContainer aria-label="Main Navigation">
-          <NavbarLink href="/events">Events</NavbarLink>
-          <NavbarLink href="/teams">Teams</NavbarLink>
-          <NavbarLink href="/partners">Partners</NavbarLink>
-          <NavbarLink href="/community">Community</NavbarLink>
-          <NavbarLink href="/donate">Donate</NavbarLink>
+          <NavbarLink href="/events" isHighlighted={isActiveLink('/events')}>
+            Events
+          </NavbarLink>
+          <NavbarLink href="/teams" isHighlighted={isActiveLink('/teams')}>
+            Teams
+          </NavbarLink>
+          <NavbarLink href="/partners" isHighlighted={isActiveLink('/partners')}>
+            Partners
+          </NavbarLink>
+          <NavbarLink href="/community" isHighlighted={isActiveLink('/community')}>
+            Community
+          </NavbarLink>
+          <NavbarLink href="/donate" isHighlighted={isActiveLink('/donate')}>
+            Donate
+          </NavbarLink>
         </NavbarContainer>
         <ModeToggle />
         <UserAvatar />
@@ -126,8 +162,8 @@ export const NavbarLink = ({
       className={cn(
         'relative inline-flex text-sm h-11 tracking-tight items-center',
         isHighlighted
-          ? 'text-white bg-linear-to-b from-violet-500 to-violet-600 rounded-[14px] hover:from-violet-500/80 hover:to-violet-600/80 shadow-md transition-all hover:scale-105'
-          : 'text-amber-500 hover:text-amber-400 before:absolute before:inset-0 before:bg-neutral-500/20 hover:before:scale-100 before:scale-50 before:opacity-0 hover:before:opacity-100 before:transition before:rounded-[14px]',
+          ? 'text-amber-400 bg-amber-500/10 rounded-[14px] hover:bg-amber-500/20 transition-all hover:scale-105 dark:text-amber-400 dark:bg-amber-500/10 dark:hover:bg-amber-500/20'
+          : 'text-amber-500 hover:text-amber-500 before:absolute before:inset-0 before:bg-neutral-500/20 hover:before:scale-100 before:scale-50 before:opacity-0 hover:before:opacity-100 before:transition before:rounded-[14px]',
         'sm:w-28 sm:justify-center',
         className
       )}
