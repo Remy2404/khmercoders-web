@@ -47,26 +47,7 @@ export default function RootLayout({
                   <div className="min-h-screen relative">
                     {/* Content container */}
                     <div className="relative">
-<<<<<<< HEAD
-                      <header className="sticky top-0 z-50 bg-white dark:bg-black py-1 px-4 xl:px-16 flex items-center gap-12 mb-8 justify-between bg-background border-b shadow-[0_2px_8px_-1px_rgba(251,146,60,0.4)]">
-                        <Link href="/" className="flex items-center z-9999">
-                          <Image
-                            src="/khmer-coder.svg"
-                            alt="Khmer Coders"
-                            width={48}
-                            height={48}
-                            className="object-contain"
-                          />
-                          <span className="text-orange-400 font-mono tracking-tight font-semibold">
-                            KhmerCoders
-                          </span>
-                        </Link>
-                        <div className="flex-1 lg:hidden" />
-                        <Navbar />
-                      </header>
-=======
                       <Header />
->>>>>>> fc9daec38b503afa9bba10d8fd56410563bb6bb8
                       {children}
                       <Footer />
                     </div>
