@@ -1,6 +1,4 @@
-'use server';
 import { requestWorkerAnalytic } from '@/libs/wae';
-import { withAuthAction } from './middleware';
 
 export interface ProfileInsight {
   dailyInsight: {
@@ -14,9 +12,7 @@ export interface ProfileInsight {
   };
 }
 
-export const getCurrentProfileInsightAction = withAuthAction(async ({ user }) => {
-  const userId = user.id; // ?? session.user.id;
-
+export async function getCurrentProfileInsight(userId: string): Promise<ProfileInsight> {
   if (!process.env.WAE_TOKEN) {
     // Delay
     await new Promise(resolve => setTimeout(resolve, 2000));
@@ -114,4 +110,4 @@ export const getCurrentProfileInsightAction = withAuthAction(async ({ user }) =>
     dailyInsight: dailyInsightFilled,
     totalInsight: totalInsight[0] || { count: 0, unique_visitor: 0 },
   };
-});
+}

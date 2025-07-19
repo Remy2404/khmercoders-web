@@ -42,11 +42,11 @@ export function ProfileHeader({ selectedTab = 'profile', profile, user }: Profil
 
         <div>
           <strong>{user.followersCount}</strong>{' '}
-          <span className="text-gray-400 dark:text-gray-500">Following</span>
+          <span className="text-gray-400 dark:text-gray-500">Followers</span>
         </div>
         <div>
           <strong>{user.followingCount}</strong>{' '}
-          <span className="text-gray-400 dark:text-gray-500">Followers</span>
+          <span className="text-gray-400 dark:text-gray-500">Following</span>
         </div>
 
         <UserModeratorTool user={user} />
