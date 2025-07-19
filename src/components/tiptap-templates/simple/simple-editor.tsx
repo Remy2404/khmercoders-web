@@ -53,11 +53,12 @@ const codeBlockPastePlugin = new Plugin({
     handlePaste(view, event, slice) {
       const { state } = view;
       const { selection } = state;
-      
+
       // Check if we're in a code block
-      const isInCodeBlock = state.schema.nodes.codeBlock && 
+      const isInCodeBlock =
+        state.schema.nodes.codeBlock &&
         selection.$from.parent.type === state.schema.nodes.codeBlock;
-      
+
       if (isInCodeBlock) {
         // Get the pasted text
         const text = event.clipboardData?.getData('text/plain');
@@ -68,10 +69,10 @@ const codeBlockPastePlugin = new Plugin({
           return true; // Prevent default paste behavior
         }
       }
-      
+
       return false; // Allow default paste behavior for other content
-    }
-  }
+    },
+  },
 });
 
 // --- Tiptap UI ---
@@ -243,7 +244,6 @@ export interface SimpleEditorProps {
   readOnly?: boolean;
 }
 
-
 export function SimpleEditor(props: SimpleEditorProps) {
   const { content, onChange, readOnly = false } = props;
   const isMobile = useIsMobile();
@@ -253,12 +253,15 @@ export function SimpleEditor(props: SimpleEditorProps) {
   const { openUserUpload } = useUserUpload();
 
   // Custom upload function using openUserUpload
-  const uploadWithUserUpload = React.useCallback(async (_file: File) => {
-    // Optionally, you can add file size validation here if needed
-    const url = await openUserUpload('upload');
-    if (!url) throw new Error('No image selected');
-    return url;
-  }, [openUserUpload]);
+  const uploadWithUserUpload = React.useCallback(
+    async (_file: File) => {
+      // Optionally, you can add file size validation here if needed
+      const url = await openUserUpload('upload');
+      if (!url) throw new Error('No image selected');
+      return url;
+    },
+    [openUserUpload]
+  );
   // Ref to always have the latest onChange
   const onChangeRef = React.useRef<((content: string) => void) | undefined>(onChange);
   React.useEffect(() => {

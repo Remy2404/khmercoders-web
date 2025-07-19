@@ -18,7 +18,10 @@ import { Label } from '@/components/generated/label';
 import { Textarea } from '@/components/generated/textarea';
 import dynamic from 'next/dynamic';
 
-const SimpleEditor = dynamic(() => import('@/components/tiptap-templates/simple/simple-editor').then(mod => mod.SimpleEditor), { ssr: false });
+const SimpleEditor = dynamic(
+  () => import('@/components/tiptap-templates/simple/simple-editor').then(mod => mod.SimpleEditor),
+  { ssr: false }
+);
 import { useUserUpload } from '@/components/user-upload/context';
 
 import { produce } from 'immer';

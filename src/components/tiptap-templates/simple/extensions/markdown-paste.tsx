@@ -122,7 +122,7 @@ export const MarkdownPaste = Extension.create<MarkdownPasteOptions>({
 
   addProseMirrorPlugins() {
     const extension = this;
-    
+
     return [
       new Plugin({
         key: new PluginKey('markdownPaste'),
