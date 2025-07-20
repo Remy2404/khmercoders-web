@@ -8,6 +8,14 @@ export const auth = betterAuth({
     provider: 'sqlite',
     schema: schema,
   }),
+  session: {
+    expiresIn: 60 * 60 * 24 * 60, // 60 days (Facebook-like)
+    updateAge: 60 * 60 * 24 * 7, // Refresh every 7 days if user is active
+    cookieCache: {
+      enabled: true,
+      maxAge: 60 * 60 * 24 * 60, // 60 days
+    },
+  },
   emailAndPassword: {
     // Enable email/password authentication only in development mode
     // This allows for easier testing and debugging without requiring GitHub OAuth
