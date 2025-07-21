@@ -10,6 +10,7 @@ import { MarkdownContent } from '@/components/MarkdownContent';
 import { CommentWidget } from '@/components/blocks/post/CommentWidget';
 import { FollowButton } from '@/components/ui/FollowerButton';
 import { bindingFollowerStatusFromUser } from '@/server/services/followers';
+import { MainLayout } from '@/components/blocks/layout/MainLayout';
 
 interface EditArticlePageProps {
   params: Promise<{ articleId: string; username: string }>;
@@ -49,8 +50,8 @@ export default async function EditArticlePage({ params }: EditArticlePageProps) 
   article.user = await bindingFollowerStatusFromUser(article.user, session?.user?.id);
 
   return (
-    <>
-      <article className="max-w-4xl mx-auto bg-card lg:rounded lg:border">
+    <MainLayout>
+      <article>
         <header className="border-b">
           <div className=" flex flex-col p-4">
             <h1 className="text-2xl font-bold">{article.title}</h1>
@@ -87,22 +88,12 @@ export default async function EditArticlePage({ params }: EditArticlePageProps) 
         />
 
         <main className="markdown p-4">
-          {article.image && (
-            <Image
-              width={128}
-              height={64}
-              src={article.image}
-              alt={article.title}
-              className="w-full h-auto object-cover rounded mb-8"
-            />
-          )}
-
           <MarkdownContent>{article.content}</MarkdownContent>
         </main>
       </article>
       <div className="mx-auto max-w-4xl my-4">
         <CommentWidget resourceId={articleId} resourceType="article" />
       </div>
-    </>
+    </MainLayout>
   );
 }

@@ -7,6 +7,10 @@ body {
   font-family: Inter, 'Kantumruy Pro', sans-serif;
 }
 
+body {
+  overflow-x: hidden;
+}
+
 /* make scrollbar width smaller 
 and preserve space to avoid layout shift with less content */
 :root {
@@ -25,9 +29,16 @@ based on light & dark themes */
   scrollbar-color: var(--_local) hsl(var(--background));
 }
 
+@theme {
+  --breakpoint-xs: 30rem;
+  --breakpoint-sm: 48rem;
+  --breakpoint-md: 64rem;
+  --breakpoint-lg: 80rem;
+}
+
 @layer base {
   :root {
-    --background: 0 0% 95%;
+    --background: 0 0% 100%;
     --foreground: 0 0% 3.9%;
 
     --card: 0 0% 100%;
@@ -59,7 +70,7 @@ based on light & dark themes */
   }
 
   .dark {
-    --background: 0 0% 7%;
+    --background: 0 0% 0%;
     --foreground: 0 0% 98%;
 
     --card: 0 0% 0%;
@@ -123,7 +134,7 @@ based on light & dark themes */
 }
 
 .markdown {
-  @apply text-gray-800 dark:text-gray-300 leading-7;
+  @apply text-gray-800 dark:text-gray-300 leading-6 text-[15px];
 }
 
 .markdown h1,
@@ -136,15 +147,15 @@ based on light & dark themes */
 }
 
 .markdown h1 {
-  @apply text-3xl;
-}
-
-.markdown h2 {
   @apply text-2xl;
 }
 
-.markdown h3 {
+.markdown h2 {
   @apply text-xl;
+}
+
+.markdown h3 {
+  @apply text-lg;
 }
 
 .markdown h4 {

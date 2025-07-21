@@ -46,11 +46,7 @@ export default function RootLayout({
                 <UserUploadProvider>
                   <div className="min-h-screen relative">
                     {/* Content container */}
-                    <div className="relative">
-                      <Header />
-                      {children}
-                      <Footer />
-                    </div>
+                    <div className="relative">{children}</div>
                   </div>
                   {process.env.NODE_ENV === 'development' && <KhmerCoderDevtool />}
                 </UserUploadProvider>

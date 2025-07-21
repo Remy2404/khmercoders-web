@@ -53,7 +53,7 @@ export function CommentEditor({
   });
 
   return (
-    <div className="bg-card border rounded flex flex-col gap-4">
+    <div className="flex flex-col gap-4">
       {/* Hidden textarea for measuring height */}
       <textarea
         ref={hiddenTextareaRef}

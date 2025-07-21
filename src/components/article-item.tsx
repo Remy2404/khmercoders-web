@@ -43,7 +43,7 @@ export function ArticlePreviewItem({ data, showControlPanel }: ArticlePreviewIte
     session?.user.id === data.userId;
 
   return (
-    <article className="bg-card border rounded flex-col lg:flex-row p-4 flex gap-2 lg:items-center items-start">
+    <article className="border-b flex-col lg:flex-row p-4 flex gap-2 lg:items-center items-start">
       <div className="grow order-2 lg:order-1">
         <Link
           href={`/@${data.user.profile.alias}/articles/${data.id}${data.slug ? `/${data.slug}` : ''}`}

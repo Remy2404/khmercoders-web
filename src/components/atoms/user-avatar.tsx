@@ -25,12 +25,18 @@ export function UserAvatar() {
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
-        <Avatar className="cursor-pointer">
-          <AvatarImage src={user.image || undefined} alt={user.name || 'User avatar'} />
-          <AvatarFallback>{user.name?.[0] || 'U'}</AvatarFallback>
-        </Avatar>
+        <button className="flex gap-2 items-center w-full">
+          <Avatar className="cursor-pointer">
+            <AvatarImage src={user.image || undefined} alt={user.name || 'User avatar'} />
+            <AvatarFallback>{user.name?.[0] || 'U'}</AvatarFallback>
+          </Avatar>
+          <div className="text-sm">
+            <p>Visal In</p>
+            <p className="text-muted-foreground">@invisal</p>
+          </div>
+        </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" style={{ width: '300px' }}>
+      <DropdownMenuContent align="start" style={{ width: '300px' }}>
         <div className="flex items-center justify-start gap-2 p-2">
           <div className="flex flex-col space-y-1 leading-none">
             {user.name && <p className="font-medium">{user.name}</p>}
