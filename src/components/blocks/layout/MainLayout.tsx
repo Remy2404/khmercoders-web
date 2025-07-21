@@ -2,6 +2,7 @@
 import { DesktopLeftNavigation } from '@/components/blocks/layout/DesktopLeftNav';
 import { PropsWithChildren } from 'react';
 import { DesktopRightNavigation } from './DesktopRightNav';
+import { MobileTabNavigation } from './MobileTabNav';
 
 export function MainLayout({ children }: PropsWithChildren) {
   return (
@@ -9,6 +10,7 @@ export function MainLayout({ children }: PropsWithChildren) {
       <DesktopLeftNavigation />
       <div className="border-x grow">{children}</div>
       <DesktopRightNavigation />
+      <MobileTabNavigation />
     </div>
   );
 }

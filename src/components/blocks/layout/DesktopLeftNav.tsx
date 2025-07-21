@@ -27,8 +27,7 @@ export function DesktopLeftNavigation() {
 
         <div className="flex lg:flex-col flex-row flex-wrap grow">
           <Link
-            href={KCLinks.telegramLink}
-            target="_blank"
+            href={'/'}
             className={cn(
               buttonVariants({ variant: 'ghost' }),
               'text-left justify-start flex gap-2 px-2'
@@ -62,8 +61,7 @@ export function DesktopLeftNavigation() {
           </Link>
 
           <Link
-            href={'#'}
-            target="_blank"
+            href={'/sponsors'}
             className={cn(
               buttonVariants({ variant: 'ghost' }),
               'text-left justify-start flex gap-2 px-2'
