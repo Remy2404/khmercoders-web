@@ -14,6 +14,7 @@ import {
 import { Badge } from '@/components/generated/badge';
 import { Copy, RefreshCw, Clock, MessageSquare } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import Link from 'next/link';
 
 export default function LinkAccountPage() {
   const { session } = useSession();
@@ -185,12 +186,26 @@ export default function LinkAccountPage() {
           <CardContent className="pt-4">
             <h3 className="font-semibold mb-2">How to link your account:</h3>
             <ol className="text-sm text-muted-foreground space-y-1 list-decimal list-inside">
-              <li>Open Telegram and find our bot</li>
               <li>
-                Send the command <code className="bg-muted px-1 rounded">/link</code>
+                Open Telegram and find our bot here{' '}
+                <Link
+                  href={'https://t.me/khmercodersbot'}
+                  target="_blank"
+                  className="hover:text-primary hover:underline"
+                >
+                  <code className="bg-muted px-1 rounded">https://t.me/khmercodersbot</code>
+                </Link>{' '}
+                (or search <code className="bg-muted px-1 rounded">@khmercodersbot</code>) and tap{' '}
+                <code className="bg-muted px-1 rounded">Start</code>.
               </li>
-              <li>Enter your link code when prompted</li>
-              <li>Your account will be linked automatically</li>
+              <li>
+                Send the command{' '}
+                <code className="bg-muted px-1 rounded">/link {userLinkCode?.code ?? ''}</code>.
+              </li>
+              <li>Your account will be linked automatically.</li>
+              <li>
+                If your code is expired, click Regenerate Code on the website and repeat step 2.
+              </li>
             </ol>
           </CardContent>
         </Card>
