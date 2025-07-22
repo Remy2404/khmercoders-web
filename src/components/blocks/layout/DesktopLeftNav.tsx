@@ -4,15 +4,7 @@ import { UserAvatar } from '@/components/atoms/user-avatar';
 import { buttonVariants } from '@/components/generated/button';
 import { KCLinks } from '@/data/link';
 import { cn } from '@/utils';
-import {
-  Home,
-  Star,
-  Package,
-  MessageSquareShare,
-  BookAIcon,
-  ProjectorIcon,
-  Settings,
-} from 'lucide-react';
+import { NavigationRoutes } from './NavigationRoute';
 import Link from 'next/link';
 
 export function DesktopLeftNavigation() {
@@ -26,98 +18,28 @@ export function DesktopLeftNavigation() {
         />
 
         <div className="flex lg:flex-col flex-row flex-wrap grow">
-          <Link
-            href={'/'}
-            className={cn(
-              buttonVariants({ variant: 'ghost' }),
-              'text-left justify-start flex gap-2 px-2'
-            )}
-          >
-            <Home className="w-4 h-4" />
-            Home
-          </Link>
+          {NavigationRoutes.map((item, index) => {
+            if (item === '---') {
+              return <hr key={index} className="my-2" />;
+            }
 
-          <Link
-            href={'#'}
-            target="_blank"
-            className={cn(
-              buttonVariants({ variant: 'ghost' }),
-              'text-left justify-start flex gap-2 px-2'
-            )}
-          >
-            <ProjectorIcon className="w-4 h-4" />
-            Showcase
-          </Link>
+            const IconComponent = item.icon;
 
-          <Link
-            href={'#'}
-            className={cn(
-              buttonVariants({ variant: 'ghost' }),
-              'text-left justify-start flex gap-2 px-2'
-            )}
-          >
-            <Home className="w-4 h-4" />
-            Events
-          </Link>
-
-          <Link
-            href={'/sponsors'}
-            className={cn(
-              buttonVariants({ variant: 'ghost' }),
-              'text-left justify-start flex gap-2 px-2'
-            )}
-          >
-            <Package className="w-4 h-4" />
-            Sponsors
-          </Link>
-
-          <Link
-            href={'/community'}
-            className={cn(
-              buttonVariants({ variant: 'ghost' }),
-              'text-left justify-start flex gap-2 px-2'
-            )}
-          >
-            <MessageSquareShare className="w-4 h-4" />
-            Chatroom
-          </Link>
-
-          <Link
-            href={'#'}
-            target="_blank"
-            className={cn(
-              buttonVariants({ variant: 'ghost' }),
-              'text-left justify-start flex gap-2 px-2'
-            )}
-          >
-            <BookAIcon className="w-4 h-4" />
-            About us
-          </Link>
-
-          <hr className="my-2" />
-
-          <Link
-            href={'#'}
-            target="_blank"
-            className={cn(
-              buttonVariants({ variant: 'ghost' }),
-              'text-left justify-start flex gap-2 px-2'
-            )}
-          >
-            <BookAIcon className="w-4 h-4" />
-            Profile
-          </Link>
-
-          <Link
-            href={'/profile/setup'}
-            className={cn(
-              buttonVariants({ variant: 'ghost' }),
-              'text-left justify-start flex gap-2 px-2'
-            )}
-          >
-            <Settings className="w-4 h-4" />
-            Setting
-          </Link>
+            return (
+              <Link
+                key={index}
+                href={item.path}
+                target={item.target}
+                className={cn(
+                  buttonVariants({ variant: 'ghost' }),
+                  'text-left justify-start flex gap-2 px-2'
+                )}
+              >
+                <IconComponent className="w-4 h-4" />
+                {item.title}
+              </Link>
+            );
+          })}
         </div>
 
         <div>
