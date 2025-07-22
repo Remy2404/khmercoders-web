@@ -11,10 +11,13 @@ import { DonorDatabase, IDonor } from '@/data/donors';
 import { partners, IPartnerWithTags, SponsorType } from '@/data/partners';
 import { eventsDatabase } from '@/data/events';
 import Link from 'next/link';
+import { StackNavigation } from '@/components/blocks/layout/StackNavigation';
+import { Package } from 'lucide-react';
 
 export default function SponsorPage() {
   return (
     <MainLayout>
+      <StackNavigation title="Sponsor" icon={Package} />
       <div className="flex flex-col text-sm">
         <div className="p-4 flex flex-col gap-4 border-b">
           <h2 className="text-lg font-bold">Group Sponsors</h2>
