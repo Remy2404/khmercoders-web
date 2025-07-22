@@ -3,6 +3,9 @@ import { Metadata } from 'next';
 import { ChatMetricsChart } from '@/app/community/chat-metrics-chart';
 import { UserLeaderboardComponent } from '@/app/community/user-leaderboard';
 import { ClientOnly } from '@/components/atoms/client-only';
+import { MainLayout } from '@/components/blocks/layout/MainLayout';
+import { StackNavigation } from '@/components/blocks/layout/StackNavigation';
+import { MessageSquareShare } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Community Metrics | Khmer Coders',
@@ -16,19 +19,17 @@ export default async function CommunityPage() {
   ]);
 
   return (
-    <div className="container py-12 px-2">
-      <div className="mx-auto max-w-5xl space-y-8 font-mono">
-        <div className="space-y-2 text-lg">
-          <h1 className="text-3xl font-bold tracking-tight">Community Engagement</h1>
-          <p>
-            Metrics showing activity in our Telegram and Discord communities over the last 30 days.
-          </p>
-        </div>
+    <MainLayout>
+      <StackNavigation title="Chatroom" icon={MessageSquareShare} />
+      <div>
+        <p className="p-4 text-sm">
+          Metrics showing activity in our Telegram and Discord communities over the last 30 days.
+        </p>
         <ClientOnly>
           <ChatMetricsChart data={chatMetrics} />
         </ClientOnly>
         <UserLeaderboardComponent data={userLeaderboard} />
       </div>
-    </div>
+    </MainLayout>
   );
 }

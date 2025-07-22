@@ -72,8 +72,7 @@ export function DesktopLeftNavigation() {
           </Link>
 
           <Link
-            href={'#'}
-            target="_blank"
+            href={'/community'}
             className={cn(
               buttonVariants({ variant: 'ghost' }),
               'text-left justify-start flex gap-2 px-2'
