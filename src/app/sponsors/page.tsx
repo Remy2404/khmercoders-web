@@ -22,7 +22,7 @@ export default function SponsorPage() {
             Group sponsors provide monthly contributions that support our community's growth. Funds
             help maintain platform moderation, infrastructure, and development. We're grateful for
             their commitment to the Khmer coding community.{' '}
-            <Link href="#" className="text-blue-600 hover:underline">
+            <Link href="/sponsors/howto" className="text-blue-600 hover:underline">
               Learn how to sponsor us
             </Link>
           </p>
