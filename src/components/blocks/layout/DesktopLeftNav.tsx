@@ -1,13 +1,14 @@
 'use client';
-import UserProfilePage from '@/app/[username]/page';
 import { UserAvatar } from '@/components/atoms/user-avatar';
 import { buttonVariants } from '@/components/generated/button';
-import { KCLinks } from '@/data/link';
 import { cn } from '@/utils';
 import { NavigationRoutes } from './NavigationRoute';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 export function DesktopLeftNavigation() {
+  const path = usePathname();
+
   return (
     <div className="hidden lg:block lg:w-[280px] shrink-0">
       <div className="sticky top-0 z-10 flex flex-col gap-4 p-4 h-screen">
@@ -23,6 +24,9 @@ export function DesktopLeftNavigation() {
               return <hr key={index} className="my-2" />;
             }
 
+            console.log('xxx', item.path, path);
+
+            const isMatched = path === item.path;
             const IconComponent = item.icon;
 
             return (
@@ -31,7 +35,7 @@ export function DesktopLeftNavigation() {
                 href={item.path}
                 target={item.target}
                 className={cn(
-                  buttonVariants({ variant: 'ghost' }),
+                  buttonVariants({ variant: isMatched ? 'default' : 'ghost' }),
                   'text-left justify-start flex gap-2 px-2'
                 )}
               >
