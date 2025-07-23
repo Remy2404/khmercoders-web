@@ -4,12 +4,15 @@ import { PropsWithChildren } from 'react';
 import { DesktopRightNavigation } from './DesktopRightNav';
 import { MobileTabNavigation } from './MobileTabNav';
 
-export function MainLayout({ children }: PropsWithChildren) {
+export function MainLayout({
+  children,
+  hideRightNav,
+}: PropsWithChildren<{ hideRightNav?: boolean }>) {
   return (
     <div className="mx-auto max-w-[1200px] flex min-h-screen">
       <DesktopLeftNavigation />
       <div className="border-x grow">{children}</div>
-      <DesktopRightNavigation />
+      {!hideRightNav && <DesktopRightNavigation />}
       <MobileTabNavigation />
     </div>
   );
