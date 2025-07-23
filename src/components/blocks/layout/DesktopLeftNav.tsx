@@ -1,8 +1,9 @@
 'use client';
-import { UserAvatar } from '@/components/atoms/user-avatar';
+import { UserProfileMenu } from '@/components/blocks/layout/UserProfileMenu';
 import { buttonVariants } from '@/components/generated/button';
 import { cn } from '@/utils';
 import { NavigationRoutes } from './NavigationRoute';
+import { ModeToggle } from '@/components/mode-toggle';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -24,8 +25,6 @@ export function DesktopLeftNavigation() {
               return <hr key={index} className="my-2" />;
             }
 
-            console.log('xxx', item.path, path);
-
             const isMatched = path === item.path;
             const IconComponent = item.icon;
 
@@ -46,8 +45,9 @@ export function DesktopLeftNavigation() {
           })}
         </div>
 
-        <div>
-          <UserAvatar />
+        <div className="flex flex-col gap-2">
+          <ModeToggle variant="ghost" />
+          <UserProfileMenu />
         </div>
 
         {/* <Link

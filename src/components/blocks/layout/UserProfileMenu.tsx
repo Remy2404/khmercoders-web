@@ -1,19 +1,19 @@
 'use client';
-import { Avatar, AvatarFallback, AvatarImage } from '../generated/avatar';
-import SignInButton, { SignOutButton } from './github-login-button';
+import { Avatar, AvatarFallback, AvatarImage } from '../../generated/avatar';
+import SignInButton, { SignOutButton } from '../../atoms/github-login-button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '../generated/dropdown-menu';
+} from '../../generated/dropdown-menu';
 import { User, Settings, ChartArea, Files, Newspaper, Link2 } from 'lucide-react';
 import Link from 'next/link';
-import { useSession } from '../auth-provider';
-import { Badge } from '../generated/badge';
+import { useSession } from '../../auth-provider';
+import { Badge } from '../../generated/badge';
 
-export function UserAvatar() {
+export function UserProfileMenu() {
   const { profile, session } = useSession();
 
   const user = session?.user;
