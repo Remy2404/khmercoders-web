@@ -51,7 +51,7 @@ export default async function EditArticlePage({ params }: EditArticlePageProps) 
 
   return (
     <MainLayout>
-      <article>
+      <article className="w-full overflow-hidden">
         <header className="border-b">
           <div className=" flex flex-col p-4">
             <h1 className="text-2xl font-bold">{article.title}</h1>

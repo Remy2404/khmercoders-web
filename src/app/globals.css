@@ -5,7 +5,6 @@
 html,
 body {
   font-family: Inter, 'Kantumruy Pro', sans-serif;
-  overflow-x: hidden;
 }
 
 /* make scrollbar width smaller 
