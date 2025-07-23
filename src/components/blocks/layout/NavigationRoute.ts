@@ -1,3 +1,4 @@
+import { useSession } from '@/components/auth-provider';
 import {
   LucideIcon,
   Home,
@@ -15,49 +16,52 @@ interface NavigationRouteItem {
   target?: string;
 }
 
-export const NavigationRoutes: (NavigationRouteItem | '---')[] = [
-  {
-    title: 'Home',
-    path: '/',
-    icon: Home,
-  },
-  {
-    title: 'Showcase',
-    path: '#',
-    icon: ProjectorIcon,
-    target: '_blank',
-  },
-  {
-    title: 'Events',
-    path: '#',
-    icon: Home,
-  },
-  {
-    title: 'Sponsors',
-    path: '/sponsors',
-    icon: Package,
-  },
-  {
-    title: 'Chatroom',
-    path: '/community',
-    icon: MessageSquareShare,
-  },
-  {
-    title: 'About us',
-    path: '#',
-    icon: BookAIcon,
-    target: '_blank',
-  },
-  '---', // Separator
-  {
-    title: 'Profile',
-    path: '#',
-    icon: BookAIcon,
-    target: '_blank',
-  },
-  {
-    title: 'Setting',
-    path: '/profile/setup',
-    icon: Settings,
-  },
-];
+export function useNavigationRoutes(): (NavigationRouteItem | '---')[] {
+  const { profile } = useSession();
+
+  return [
+    {
+      title: 'Home',
+      path: '/',
+      icon: Home,
+    },
+    {
+      title: 'Showcase',
+      path: '#',
+      icon: ProjectorIcon,
+      target: '_blank',
+    },
+    {
+      title: 'Events',
+      path: '#',
+      icon: Home,
+    },
+    {
+      title: 'Sponsors',
+      path: '/sponsors',
+      icon: Package,
+    },
+    {
+      title: 'Chatroom',
+      path: '/community',
+      icon: MessageSquareShare,
+    },
+    {
+      title: 'About us',
+      path: '#',
+      icon: BookAIcon,
+      target: '_blank',
+    },
+    '---', // Separator
+    {
+      title: 'Profile',
+      path: `/@${profile?.alias}`,
+      icon: BookAIcon,
+    },
+    {
+      title: 'Setting',
+      path: '/profile/setup',
+      icon: Settings,
+    },
+  ];
+}

@@ -5,12 +5,13 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/generated/sheet';
-import { AlignJustify, HomeIcon, PlusIcon, SearchIcon, SettingsIcon } from 'lucide-react';
-import { NavigationRoutes } from './NavigationRoute';
+import { AlignJustify, HomeIcon, PlusIcon, SearchIcon } from 'lucide-react';
 import Link from 'next/link';
+import { useNavigationRoutes } from './NavigationRoute';
 
 export function MobileTabNavigation() {
   const tabButtonClass = 'flex text-center p-3 items-center justify-center focus:outline-none';
+  const routes = useNavigationRoutes();
 
   return (
     <div className="md:hidden fixed bottom-0 left-0 w-screen bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 z-50">
@@ -34,7 +35,7 @@ export function MobileTabNavigation() {
             <SheetTitle>Hello</SheetTitle>
             <SheetDescription>Hello World</SheetDescription>
             <div className="flex flex-col -m-2 my-4">
-              {NavigationRoutes.map((route, routeIdx) => {
+              {routes.map((route, routeIdx) => {
                 if (route === '---') {
                   return <hr key={routeIdx} className="my-2" />;
                 }

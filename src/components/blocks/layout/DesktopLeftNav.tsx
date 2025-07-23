@@ -2,13 +2,14 @@
 import { UserProfileMenu } from '@/components/blocks/layout/UserProfileMenu';
 import { buttonVariants } from '@/components/generated/button';
 import { cn } from '@/utils';
-import { NavigationRoutes } from './NavigationRoute';
+import { useNavigationRoutes } from './NavigationRoute';
 import { ModeToggle } from '@/components/mode-toggle';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 export function DesktopLeftNavigation() {
   const path = usePathname();
+  const routes = useNavigationRoutes();
 
   return (
     <div className="hidden lg:block lg:w-[280px] shrink-0">
@@ -20,7 +21,7 @@ export function DesktopLeftNavigation() {
         />
 
         <div className="flex lg:flex-col flex-row flex-wrap grow">
-          {NavigationRoutes.map((item, index) => {
+          {routes.map((item, index) => {
             if (item === '---') {
               return <hr key={index} className="my-2" />;
             }
