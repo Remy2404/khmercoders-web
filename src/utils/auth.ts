@@ -52,6 +52,8 @@ export const auth = betterAuth({
       create: {
         // Automatically create a member profile when a new user is created
         after: async user => {
+          console.log('Creating member profile for new user:', user.id);
+
           const db = await getDB();
 
           // Generate random alias for new user "user{randomNumber}" where random number is 7 digits
