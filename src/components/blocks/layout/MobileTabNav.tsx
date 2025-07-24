@@ -16,15 +16,15 @@ export function MobileTabNavigation() {
   return (
     <div className="md:hidden fixed bottom-0 left-0 w-screen bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 z-50">
       <nav className="grid grid-cols-4">
-        <button className={tabButtonClass}>
+        <Link className={tabButtonClass} href="/">
           <HomeIcon />
-        </button>
-        <button className={tabButtonClass}>
+        </Link>
+        <Link className={tabButtonClass} href="/mobile-search">
           <SearchIcon />
-        </button>
-        <button className={tabButtonClass}>
+        </Link>
+        <Link className={tabButtonClass} href="/mobile-post">
           <PlusIcon />
-        </button>
+        </Link>
         <Sheet>
           <SheetTrigger asChild>
             <button className={tabButtonClass}>
@@ -32,8 +32,8 @@ export function MobileTabNavigation() {
             </button>
           </SheetTrigger>
           <SheetContent>
-            <SheetTitle>Hello</SheetTitle>
-            <SheetDescription>Hello World</SheetDescription>
+            <SheetTitle>Khmer Coders</SheetTitle>
+            <SheetDescription></SheetDescription>
             <div className="flex flex-col -m-2 my-4">
               {routes.map((route, routeIdx) => {
                 if (route === '---') {
