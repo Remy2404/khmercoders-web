@@ -32,7 +32,7 @@ export function UserProfileMenu() {
           </Avatar>
           <div className="text-sm">
             <p>Visal In</p>
-            <p className="text-muted-foreground">@invisal</p>
+            <p className="text-muted-foreground">@${profile?.alias ?? 'guest'}</p>
           </div>
         </button>
       </DropdownMenuTrigger>
