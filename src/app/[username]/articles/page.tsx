@@ -5,6 +5,7 @@ import { ProfileHeader } from '@/components/profile-header';
 import { getDB } from '@/libs/db';
 import { ArticlePreviewItem } from '@/components/article-item';
 import { bindingArticleListLikeStatus } from '@/server/services/article';
+import { MainLayout } from '@/components/blocks/layout/MainLayout';
 
 export default async function UserArticleListPage({
   params,
@@ -57,20 +58,20 @@ export default async function UserArticleListPage({
   );
 
   return (
-    <>
+    <MainLayout>
       <ProfileTrackingComponent userId={profile.user.id} />
       <ProfileHeader user={profile.user} profile={profile.member_profile} selectedTab="articles" />
 
       {articles.length === 0 && <EmptyArticleState />}
 
       {articles.length > 0 && (
-        <div className="max-w-4xl mx-auto my-8 mb-12 px-4 flex flex-col gap-4">
+        <div className="mx-auto mb-12 flex flex-col gap-4">
           {articles.map(article => (
             <ArticlePreviewItem key={article.id} data={article} showControlPanel={isOwner} />
           ))}
         </div>
       )}
-    </>
+    </MainLayout>
   );
 }
 

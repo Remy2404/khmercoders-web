@@ -16,6 +16,7 @@ import {
   AlertDialogTitle,
 } from '@/components/generated/alert-dialog';
 import { useNavigationGuard } from 'next-navigation-guard';
+import { MainLayout } from '@/components/blocks/layout/MainLayout';
 
 export default function BlogPage() {
   const router = useRouter();
@@ -91,7 +92,7 @@ export default function BlogPage() {
   }, [value, saveArticle]);
 
   return (
-    <>
+    <MainLayout hideRightNav>
       <ArticleEditorHeader
         onSaveDraft={handleSaveDraft}
         onPublish={handlePublish}
@@ -99,7 +100,7 @@ export default function BlogPage() {
         errorMessage={error?.message}
       />
 
-      <div className="bg-card max-w-5xl p-4 container mx-auto border rounded">
+      <div className="p-4">
         <ArticleEditor onChange={setValue} value={value} />
       </div>
 
@@ -123,6 +124,6 @@ export default function BlogPage() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-    </>
+    </MainLayout>
   );
 }

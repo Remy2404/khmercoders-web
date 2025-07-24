@@ -24,11 +24,11 @@ export function UserLeaderboardComponent({ data }: UserLeaderboardProps) {
   }, [data]);
 
   return (
-    <div className="font-mono text-lg">
-      <h2 className="text-2xl font-bold">Top Contributors</h2>
-      <p>Most active members in our community chats over the last 30 days</p>
+    <div className="border-t p-4">
+      <h2 className="font-bold">Top Contributors</h2>
+      <p className="text-sm">Most active members in our community chats over the last 30 days</p>
 
-      <div className="border rounded bg-card my-4">
+      <div className="border rounded bg-card my-4 text-sm">
         <Table>
           <TableHeader>
             <TableRow>

@@ -7,6 +7,8 @@ import { useMemo, useState } from 'react';
 
 import { Badge } from '@/components/generated/badge';
 import { type EventData, eventsDatabase } from '@/data/events';
+import { MainLayout } from '@/components/blocks/layout/MainLayout';
+import { StackNavigation } from '@/components/blocks/layout/StackNavigation';
 
 const LOCATION_CHIPS = ['All', 'Phnom Penh', 'Siem Reap'];
 
@@ -28,41 +30,35 @@ export default function EventsPage() {
   }, [selectedLocation, eventsReversed]);
 
   return (
-    <main className="container mx-auto px-4 pb-20">
-      <section className="mb-20">
-        <div className="flex items-center justify-center mb-12">
-          <div className="h-px bg-border flex-grow"></div>
-          <h2 className="text-2xl md:text-3xl font-bold px-6">Events</h2>
-          <div className="h-px bg-border flex-grow"></div>
-        </div>
+    <MainLayout>
+      <StackNavigation title="Events" />
 
-        {/* Location Filter Chips */}
-        <div className="flex flex-wrap gap-2 justify-start mb-8">
-          {LOCATION_CHIPS.map(loc => (
-            <button
-              key={loc}
-              className={`px-4 py-1 rounded-full border transition-colors text-sm font-medium
+      {/* Location Filter Chips */}
+      <div className="flex flex-wrap gap-2 justify-start p-4">
+        {LOCATION_CHIPS.map(loc => (
+          <button
+            key={loc}
+            className={`px-4 py-1 rounded-full border transition-colors text-sm font-medium
                 ${
                   selectedLocation === loc
                     ? 'bg-yellow-500 text-black border-yellow-500'
                     : 'bg-secondary text-secondary-foreground border-border hover:bg-yellow-700 hover:text-black hover:border-yellow-700'
                 }
               `}
-              onClick={() => setSelectedLocation(loc)}
-              type="button"
-            >
-              {loc}
-            </button>
-          ))}
-        </div>
+            onClick={() => setSelectedLocation(loc)}
+            type="button"
+          >
+            {loc}
+          </button>
+        ))}
+      </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredEvents.map(event => (
-            <EventCard key={event.id} event={event} />
-          ))}
-        </div>
-      </section>
-    </main>
+      <div className="flex flex-col gap-4 p-4">
+        {filteredEvents.map(event => (
+          <EventCard key={event.id} event={event} />
+        ))}
+      </div>
+    </MainLayout>
   );
 }
 

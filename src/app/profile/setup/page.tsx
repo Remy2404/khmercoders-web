@@ -1,93 +1,84 @@
 'use client';
 
 import Link from 'next/link';
-import { ChevronRight, AtSign, User, Briefcase, Image } from 'lucide-react';
-import { Card } from '@/components/generated/card';
+import { ChevronRight, AtSign, User, Briefcase, Image, LucideIcon } from 'lucide-react';
+import { MainLayout } from '@/components/blocks/layout/MainLayout';
+import { StackNavigation } from '@/components/blocks/layout/StackNavigation';
+
+interface SettingItemProps {
+  href: string;
+  icon: LucideIcon;
+  title: string;
+  description: string;
+  showBorder?: boolean;
+}
+
+function SettingItem({
+  href,
+  icon: Icon,
+  title,
+  description,
+  showBorder = true,
+}: SettingItemProps) {
+  return (
+    <Link href={href} className="block">
+      <div className={`p-4 hover:bg-muted/50 transition-colors ${showBorder ? 'border-b' : ''}`}>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <Icon className="h-5 w-5 text-muted-foreground" />
+            <div>
+              <h3 className="font-medium">{title}</h3>
+              <p className="text-sm text-muted-foreground">{description}</p>
+            </div>
+          </div>
+          <ChevronRight className="h-4 w-4 text-muted-foreground" />
+        </div>
+      </div>
+    </Link>
+  );
+}
 
 export default function ProfileSetupPage() {
   return (
-    <div className="container mx-auto py-8">
-      <div className="max-w-3xl mx-auto">
-        <h1 className="text-3xl font-bold mb-6">Profile Setup</h1>
+    <MainLayout>
+      <StackNavigation defaultBackURL="/" />
 
-        <p className="text-muted-foreground mb-8">
+      <div>
+        <p className="p-4">
           Complete your profile information to get the most out of KhmerCoders platform.
         </p>
 
-        <div className="space-y-4">
-          {/* Setup Alias Option */}
-          <Link href="/profile/setup/alias" className="block">
-            <Card className="p-6 hover:bg-accent/50 transition-colors">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                  <div className="bg-primary/10 p-3 rounded-full">
-                    <AtSign className="h-6 w-6 text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="font-medium text-lg">Setup Alias</h3>
-                    <p className="text-muted-foreground">Choose your unique username alias</p>
-                  </div>
-                </div>
-                <ChevronRight className="h-5 w-5 text-muted-foreground" />
-              </div>
-            </Card>
-          </Link>
+        <div>
+          <SettingItem
+            href="/profile/setup/alias"
+            icon={AtSign}
+            title="Setup Alias"
+            description="Choose your unique username alias"
+          />
 
-          {/* Setup Profile Detail Option */}
-          <Link href="/profile/setup/detail" className="block">
-            <Card className="p-6 hover:bg-accent/50 transition-colors">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                  <div className="bg-primary/10 p-3 rounded-full">
-                    <User className="h-6 w-6 text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="font-medium text-lg">Profile Details</h3>
-                    <p className="text-muted-foreground">Update your personal information</p>
-                  </div>
-                </div>
-                <ChevronRight className="h-5 w-5 text-muted-foreground" />
-              </div>
-            </Card>
-          </Link>
+          <SettingItem
+            href="/profile/setup/detail"
+            icon={User}
+            title="Profile Details"
+            description="Update your personal information"
+          />
 
-          {/* Setup Working Experience Option */}
-          <Link href="/profile/setup/experience" className="block">
-            <Card className="p-6 hover:bg-accent/50 transition-colors">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                  <div className="bg-primary/10 p-3 rounded-full">
-                    <Briefcase className="h-6 w-6 text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="font-medium text-lg">Working Experience</h3>
-                    <p className="text-muted-foreground">Add your work history and skills</p>
-                  </div>
-                </div>
-                <ChevronRight className="h-5 w-5 text-muted-foreground" />
-              </div>
-            </Card>
-          </Link>
+          <SettingItem
+            href="/profile/setup/experience"
+            icon={Briefcase}
+            title="Working Experience"
+            description="Add your work history and skills"
+          />
 
-          {/* Setup Profile Picture Option */}
-          <Link href="/profile/setup/picture" className="block">
-            <Card className="p-6 hover:bg-accent/50 transition-colors">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                  <div className="bg-primary/10 p-3 rounded-full">
-                    <Image className="h-6 w-6 text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="font-medium text-lg">Profile Picture</h3>
-                    <p className="text-muted-foreground">Upload or update your profile photo</p>
-                  </div>
-                </div>
-                <ChevronRight className="h-5 w-5 text-muted-foreground" />
-              </div>
-            </Card>
-          </Link>
+          <SettingItem
+            href="/profile/setup/picture"
+            icon={Image}
+            title="Profile Picture"
+            description="Upload or update your profile photo"
+            showBorder={false}
+          />
         </div>
       </div>
-    </div>
+    </MainLayout>
   );
 }

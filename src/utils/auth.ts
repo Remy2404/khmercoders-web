@@ -47,4 +47,27 @@ export const auth = betterAuth({
       clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
     },
   },
+  databaseHooks: {
+    user: {
+      create: {
+        // Automatically create a member profile when a new user is created
+        after: async user => {
+          console.log('Creating member profile for new user:', user.id);
+
+          const db = await getDB();
+
+          // Generate random alias for new user "user{randomNumber}" where random number is 7 digits
+          const alias = `user${1000000 + Math.floor(Math.random() * 9000000)}`;
+
+          // Create member profile for new user
+          await db.insert(schema.memberProfile).values({
+            userId: user.id,
+            alias,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+          });
+        },
+      },
+    },
+  },
 });

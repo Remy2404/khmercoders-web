@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { UserLevelBadge } from './user-level-badge';
 import { FollowButton } from './ui/FollowerButton';
 import { UserModeratorTool } from '@/app/[username]/moderator-tool';
+import { ProfileAiAssistance } from '@/app/[username]/ai-assistance';
+import { useSession } from './auth-provider';
 interface ProfileHeaderProps {
   profile: ProfileRecord;
   user: UserRecord;
@@ -12,6 +14,8 @@ interface ProfileHeaderProps {
 }
 
 export function ProfileHeader({ selectedTab = 'profile', profile, user }: ProfileHeaderProps) {
+  const { session } = useSession();
+
   return (
     <div className="relative border-b">
       <div className="container relative z-10 mx-auto py-4 flex gap-3">
@@ -50,6 +54,7 @@ export function ProfileHeader({ selectedTab = 'profile', profile, user }: Profil
         </div>
 
         <UserModeratorTool user={user} />
+        {session?.user.id === profile.userId && <ProfileAiAssistance />}
       </div>
 
       <nav className="container relative z-10 mx-auto text-sm flex">

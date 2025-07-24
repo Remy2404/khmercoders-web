@@ -8,7 +8,7 @@ import { LucideDot } from 'lucide-react';
 
 export function CommentItem({ comment }: { comment: PostRecordWithProfile }) {
   return (
-    <div key={comment.id} className="bg-card border my-4 p-4 rounded flex gap-4">
+    <div key={comment.id} className="p-4 rounded flex gap-4 border-t">
       <div>
         <Avatar className="w-10 h-10">
           {comment.user.image ? (
@@ -26,7 +26,9 @@ export function CommentItem({ comment }: { comment: PostRecordWithProfile }) {
           <span className="text-muted-foreground">{formatAgo(comment.createdAt)}</span>
         </div>
 
-        <MarkdownContent withoutMedia>{comment.content}</MarkdownContent>
+        <div className="markdown">
+          <MarkdownContent withoutMedia>{comment.content}</MarkdownContent>
+        </div>
       </div>
     </div>
   );

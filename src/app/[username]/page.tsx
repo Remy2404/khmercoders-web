@@ -9,12 +9,11 @@ import { eq } from 'drizzle-orm';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { ProfileTrackingComponent } from './tracker';
-import { UserModeratorTool } from './moderator-tool';
-import { ProfileSidebar } from './profile-sidebar';
 import { ProfileAiReviewProvider } from './profile-review-provider';
 import { ProfileExperienceListWithReview } from './profile-experience';
 import { bindingFollowerStatusFromUser } from '@/server/services/followers';
 import { getSession } from '../session';
+import { MainLayout } from '@/components/blocks/layout/MainLayout';
 
 export async function generateMetadata({
   params,
@@ -71,7 +70,7 @@ export default async function UserProfilePage({
   );
 
   return (
-    <>
+    <MainLayout>
       <ProfileTrackingComponent userId={profile.user.id} />
       <ProfileHeader user={profile.user} profile={profile.member_profile} />
 
@@ -119,10 +118,10 @@ export default async function UserProfilePage({
             <ProfileExperienceListWithReview experiences={experiences} />
           </div>
 
-          <ProfileSidebar profile={profile.member_profile} />
+          {/* <ProfileSidebar profile={profile.member_profile} /> */}
         </div>
       </ProfileAiReviewProvider>
-    </>
+    </MainLayout>
   );
 }
 

@@ -126,7 +126,7 @@ function ArticleEditorImageInput({
 
   if (value) {
     return (
-      <div className="border relative h-72 rounded overflow-hidden">
+      <div className="relative h-72 overflow-hidden">
         <img src={value} alt="Article Image" className="w-full h-full object-cover" />
         <Button
           className="absolute top-2 right-2 shadow-md"
@@ -147,7 +147,7 @@ function ArticleEditorImageInput({
   }
 
   return (
-    <div className="border h-64 rounded items-center justify-center flex flex-col gap-2">
+    <div className="h-64 items-center justify-center flex flex-col gap-2">
       <div className="text-gray-500 text-sm">
         Upload your image or browse existing uploaded file
       </div>

@@ -19,14 +19,16 @@ export function CommentList({ posts: defaultPostList, resourceId, resourceType }
   return (
     <div>
       {session?.user && (
-        <CommentEditor
-          resourceId={resourceId}
-          resourceType={resourceType}
-          onSuccess={newPost => {
-            setPosts(prevPosts => [newPost, ...prevPosts]);
-            console.log('New post added:', newPost);
-          }}
-        />
+        <div className="p-4 border-t">
+          <CommentEditor
+            resourceId={resourceId}
+            resourceType={resourceType}
+            onSuccess={newPost => {
+              setPosts(prevPosts => [newPost, ...prevPosts]);
+              console.log('New post added:', newPost);
+            }}
+          />
+        </div>
       )}
       {posts.map(post => (
         <CommentItem key={post.id} comment={post} />

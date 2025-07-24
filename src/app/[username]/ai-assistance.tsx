@@ -29,7 +29,7 @@ export function ProfileAiAssistance() {
 
   return (
     <Button
-      className="w-full justify-start"
+      className="justify-start"
       variant={'ghost'}
       onClick={handleReviewProfile}
       disabled={loading}
