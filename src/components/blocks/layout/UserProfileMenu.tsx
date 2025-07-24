@@ -31,7 +31,7 @@ export function UserProfileMenu() {
             <AvatarFallback>{user.name?.[0] || 'U'}</AvatarFallback>
           </Avatar>
           <div className="text-sm">
-            <p>Visal In</p>
+            <p>{user?.name}</p>
             <p className="text-muted-foreground">@${profile?.alias ?? 'guest'}</p>
           </div>
         </button>
