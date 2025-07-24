@@ -72,8 +72,8 @@ export function DesktopRightNavigation() {
         <hr />
 
         <p className="text-sm">
-          Our platform is open source. If you'd like to help us improve it, please submit a pull
-          request or contribute directly to{' '}
+          {`Our platform is open source. If you'd like to help us improve it, please submit a pull
+          request or contribute directly to `}
           <a
             href="https://github.com/KhmerCoders/khmercoders-web"
             className="text-blue-600 hover:underline"

@@ -10,7 +10,7 @@ export default function ShowcasePage() {
         <div className="text-center mb-12">
           <h1 className="text-3xl font-bold mb-3">Showcase Coming Soon</h1>
           <p className="text-gray-600">
-            We're working on something amazing. Launching at the end of Q3!
+            {`We're working on something amazing. Launching at the end of Q3!`}
           </p>
         </div>
 

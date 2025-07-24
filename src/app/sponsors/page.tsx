@@ -22,9 +22,9 @@ export default function SponsorPage() {
         <div className="p-4 flex flex-col gap-4 border-b">
           <h2 className="text-lg font-bold">Group Sponsors</h2>
           <p>
-            Group sponsors provide monthly contributions that support our community's growth. Funds
+            {`Group sponsors provide monthly contributions that support our community's growth. Funds
             help maintain platform moderation, infrastructure, and development. We're grateful for
-            their commitment to the Khmer coding community.{' '}
+            their commitment to the Khmer coding community.`}{' '}
             <Link href="/sponsors/howto" className="text-blue-600 hover:underline">
               Learn how to sponsor us
             </Link>

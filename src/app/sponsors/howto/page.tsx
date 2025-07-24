@@ -7,8 +7,8 @@ export default function SponsorHowToPage() {
         <div className="flex flex-col gap-4 p-4 border-b">
           <h2 className="text-lg font-bold">How to Sponsor Us</h2>
           <p>
-            Sponsoring our community is a great way to support the growth of the Khmer coding
-            ecosystem. Here's how you can get involved:
+            {`Sponsoring our community is a great way to support the growth of the Khmer coding
+            ecosystem. Here's how you can get involved:`}
           </p>
 
           <p className="mt-2 text-3xl">$200/month</p>
