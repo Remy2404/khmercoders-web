@@ -1,6 +1,22 @@
 import { GithubIcon } from '@/components/atoms/icons';
+import { KCLinks } from '@/data/link';
+import { getCloudflareContext } from '@opennextjs/cloudflare';
+import { ArrowUpRight, OutdentIcon } from 'lucide-react';
+import Link from 'next/link';
 
-export function DesktopRightNavigation() {
+export async function DesktopRightNavigation() {
+  const { env } = getCloudflareContext();
+
+  const counter = await env.KV.get([
+    'telegram_member_count',
+    'discord_member_count',
+    'facebook_member_count',
+  ]);
+
+  const telegramMemberCount = Number(counter.get('telegram_member_count') || 0);
+  const discordMemberCount = Number(counter.get('discord_member_count') || 0);
+  const facebookMemberCount = Number(counter.get('facebook_member_count') || 0);
+
   return (
     <div className="hidden lg:block lg:w-[280px] shrink-0 p-4">
       <div className="sticky top-4 flex flex-col gap-4">
@@ -20,20 +36,41 @@ export function DesktopRightNavigation() {
           </div>
 
           <div className="text-sm flex flex-col">
-            <h3 className="font-bold mb-1">Telegram Group</h3>
-            <span className="text-lg font-bold">1,531</span>
+            <Link
+              href={KCLinks.telegramLink}
+              target="_blank"
+              className="flex items-center hover:underline"
+            >
+              <h3 className="font-bold mb-1">Telegram</h3>
+              <ArrowUpRight className="w-4 h-4" />
+            </Link>
+            <span className="text-lg font-bold">{telegramMemberCount.toLocaleString()}</span>
             <span className="text-muted-foreground -mt-2">members</span>
           </div>
 
           <div className="text-sm flex flex-col">
-            <h3 className="font-bold mb-1">Facebook Group</h3>
-            <span className="text-lg font-bold">12,754</span>
+            <Link
+              href={KCLinks.facebookGroupLink}
+              target="_blank"
+              className="flex items-center hover:underline"
+            >
+              <h3 className="font-bold mb-1">Facebook</h3>
+              <ArrowUpRight className="w-4 h-4" />
+            </Link>
+            <span className="text-lg font-bold">{facebookMemberCount.toLocaleString()}</span>
             <span className="text-muted-foreground -mt-2">members</span>
           </div>
 
           <div className="text-sm flex flex-col">
-            <h3 className="font-bold mb-1">Discord Group</h3>
-            <span className="text-lg font-bold">1,500</span>
+            <Link
+              href={KCLinks.discordLink}
+              target="_blank"
+              className="flex items-center hover:underline"
+            >
+              <h3 className="font-bold mb-1">Discord</h3>
+              <ArrowUpRight className="w-4 h-4" />
+            </Link>
+            <span className="text-lg font-bold">{discordMemberCount.toLocaleString()}</span>
             <span className="text-muted-foreground -mt-2">members</span>
           </div>
         </div>
