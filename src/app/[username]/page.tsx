@@ -9,8 +9,6 @@ import { eq } from 'drizzle-orm';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { ProfileTrackingComponent } from './tracker';
-import { UserModeratorTool } from './moderator-tool';
-import { ProfileSidebar } from './profile-sidebar';
 import { ProfileAiReviewProvider } from './profile-review-provider';
 import { ProfileExperienceListWithReview } from './profile-experience';
 import { bindingFollowerStatusFromUser } from '@/server/services/followers';
