@@ -50,29 +50,6 @@ export function DesktopLeftNavigation() {
           <ModeToggle variant="ghost" />
           <UserProfileMenu />
         </div>
-
-        {/* <Link
-          href={KCLinks.telegramLink}
-          target="_blank"
-          className={cn(buttonVariants({ variant: 'ghost' }), 'text-left justify-start flex gap-2')}
-        >
-          <SendIcon className="w-4 h-4" />
-          Join Telegram
-        </Link>
-        <Link
-          href={KCLinks.discordLink}
-          className={cn(buttonVariants({ variant: 'ghost' }), 'text-left justify-start flex gap-2')}
-        >
-          <DiscordIcon className="w-4 h-4" />
-          Join Discord
-        </Link>
-        <Link
-          href={KCLinks.facebookGroupLink}
-          className={cn(buttonVariants({ variant: 'ghost' }), 'text-left justify-start flex gap-2')}
-        >
-          <FacebookIcon className="w-4 h-4" />
-          Join Facebook
-        </Link> */}
       </div>
     </div>
   );

@@ -1,21 +1,15 @@
 import { GithubIcon } from '@/components/atoms/icons';
+import { useServerStats } from '@/components/contexts/ServerStatsContext';
 import { KCLinks } from '@/data/link';
-import { getCloudflareContext } from '@opennextjs/cloudflare';
 import { ArrowUpRight, OutdentIcon } from 'lucide-react';
 import Link from 'next/link';
 
-export async function DesktopRightNavigation() {
-  const { env } = getCloudflareContext();
-
-  const counter = await env.KV.get([
-    'telegram_member_count',
-    'discord_member_count',
-    'facebook_member_count',
-  ]);
-
-  const telegramMemberCount = Number(counter.get('telegram_member_count') || 0);
-  const discordMemberCount = Number(counter.get('discord_member_count') || 0);
-  const facebookMemberCount = Number(counter.get('facebook_member_count') || 0);
+export function DesktopRightNavigation() {
+  const {
+    telegramMembers: telegramMemberCount,
+    discordMembers: discordMemberCount,
+    facebookMembers: facebookMemberCount,
+  } = useServerStats();
 
   return (
     <div className="hidden lg:block lg:w-[280px] shrink-0 p-4">
