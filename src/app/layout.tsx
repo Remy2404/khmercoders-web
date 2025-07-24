@@ -33,7 +33,7 @@ export default function RootLayout({
         />
         <title>{metadata.title}</title>
       </head>
-      <body className="overflow-hidden md:overflow-auto">
+      <body className="overflow-hidden-x md:overflow-x-auto">
         <NavigationGuardProvider>
           <ThemeProvider
             attribute="class"

@@ -27,13 +27,12 @@ export function useNavigationRoutes(): (NavigationRouteItem | '---')[] {
     },
     {
       title: 'Showcase',
-      path: '#',
+      path: '/showcase',
       icon: ProjectorIcon,
-      target: '_blank',
     },
     {
       title: 'Events',
-      path: '#',
+      path: '/events',
       icon: Home,
     },
     {
@@ -48,20 +47,19 @@ export function useNavigationRoutes(): (NavigationRouteItem | '---')[] {
     },
     {
       title: 'About us',
-      path: '#',
+      path: '/teams',
       icon: BookAIcon,
-      target: '_blank',
     },
-    '---', // Separator
-    {
+    profile && '---', // Separator
+    profile && {
       title: 'Profile',
       path: `/@${profile?.alias}`,
       icon: BookAIcon,
     },
-    {
+    profile && {
       title: 'Setting',
       path: '/profile/setup',
       icon: Settings,
     },
-  ];
+  ].filter(Boolean) as (NavigationRouteItem | '---')[];
 }
