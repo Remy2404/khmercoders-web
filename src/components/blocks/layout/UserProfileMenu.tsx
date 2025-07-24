@@ -31,8 +31,8 @@ export function UserProfileMenu() {
             <AvatarFallback>{user.name?.[0] || 'U'}</AvatarFallback>
           </Avatar>
           <div className="text-sm">
-            {user.name && <p>{user.name}</p>}
-            {profile && <p className="text-muted-foreground">@{profile.alias}</p>}
+            <p>{user?.name}</p>
+            <p className="text-muted-foreground">@{profile?.alias ?? 'guest'}</p>
           </div>
         </button>
       </DropdownMenuTrigger>

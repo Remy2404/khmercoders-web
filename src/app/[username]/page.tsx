@@ -71,10 +71,11 @@ export default async function UserProfilePage({
 
   return (
     <MainLayout>
-      <ProfileTrackingComponent userId={profile.user.id} />
-      <ProfileHeader user={profile.user} profile={profile.member_profile} />
-
       <ProfileAiReviewProvider>
+        <ProfileTrackingComponent userId={profile.user.id} />
+
+        <ProfileHeader user={profile.user} profile={profile.member_profile} />
+
         <div className="container mx-auto flex gap-4 my-4 mb-12">
           <div className="grow">
             <div className="my-4 flex gap-2 flex-wrap">
@@ -117,8 +118,6 @@ export default async function UserProfilePage({
 
             <ProfileExperienceListWithReview experiences={experiences} />
           </div>
-
-          {/* <ProfileSidebar profile={profile.member_profile} /> */}
         </div>
       </ProfileAiReviewProvider>
     </MainLayout>
