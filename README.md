@@ -34,3 +34,11 @@ npm run dev
 ## Contributing
 
 We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for detailed information on how to contribute to this project.
+
+## Sponsors
+
+We would like to thank our sponsors for their generous support in developing our developer community social network platform through monthly funding contributions.
+
+
+
+[<img src="https://cdn.khmercoder.com/34bbe2a8-4a6e-444d-a2d2-a0fcb21c3565.png" width="200px">](https://skaitechnology.com/)
