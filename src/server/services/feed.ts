@@ -17,8 +17,12 @@ export async function getFeed(
 
   const articles = await bindingArticleListLikeStatus(
     await db.query.article.findMany({
-      where: (article, { lte }) => {
-        return before ? lte(article.createdAt, new Date(before)) : undefined;
+      where: (article, { and, lte, eq }) => {
+        return and(
+          lte(article.createdAt, before ? new Date(before) : new Date()),
+          eq(article.approvedByAI, true),
+          eq(article.published, true)
+        );
       },
       limit,
       offset,
