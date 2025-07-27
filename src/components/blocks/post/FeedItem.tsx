@@ -8,15 +8,22 @@ export function FeedItem({ feed }: { feed: FeedRecord }) {
     return (
       <div className="p-4 border-b flex gap-2 w-full">
         <div className="shrink-0">
-          <img
-            src={feed.data.user.image ?? ''}
-            alt={feed.data.title}
-            className="w-12 h-12 rounded-full"
-          />
+          <Link href={`/@${feed.data.user?.profile?.alias}`}>
+            <img
+              src={feed.data.user.image ?? ''}
+              alt={feed.data.title}
+              className="w-12 h-12 rounded-full"
+            />
+          </Link>
         </div>
         <div className="flex flex-col grow gap-1">
           <div className="text-sm">
-            <strong>{feed.data.user.name}</strong>{' '}
+            <Link
+              className="hover:underline font-bold"
+              href={`/@${feed.data.user?.profile?.alias}`}
+            >
+              {feed.data.user.name}
+            </Link>{' '}
             <span className="text-muted-foreground">is posting article</span>
           </div>
           <time className="text-xs text-muted-foreground">{formatAgo(feed.data.createdAt)}</time>
