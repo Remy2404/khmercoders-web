@@ -1760,4 +1760,1326 @@ MongoDB is perfect for flexible, scalable applications! 🍃',
     NULL,
     1736114022,
     1736114022
+  ),
+
+  -- Article 12: Docker Containers
+  (
+    'art_01HQTG5BBRX3XY1JJVNN6CZ7ZC',
+    'usr_01HQTG5BBRX3XY1JJVNN6CZ7ZG',
+    'Docker Containers: Quick Start',
+    'docker-containers-quick-start',
+    'https://images.unsplash.com/photo-1605745341112-85968b19335b?w=800&h=600&fit=crop',
+    'Learn Docker basics for containerizing applications efficiently.',
+    '# Docker Containers: Quick Start
+
+Docker helps you package applications with their dependencies into containers.
+
+## Basic Commands
+
+```bash
+# Pull image
+docker pull nginx
+
+# Run container
+docker run -p 80:80 nginx
+
+# List containers
+docker ps
+
+# Stop container
+docker stop container_id
+```
+
+## Dockerfile Example
+
+```dockerfile
+FROM node:18
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+EXPOSE 3000
+CMD ["npm", "start"]
+```
+
+Docker makes deployment consistent! 🐳',
+    1,
+    1,
+    12,
+    2,
+    89,
+    0,
+    NULL,
+    NULL,
+    1736027622,
+    1736027622
+  ),
+
+  -- Article 13: Tailwind CSS
+  (
+    'art_01HQTG5BBRX3XY1JJVNN6CZ7ZD',
+    'usr_01HQTG5BBRX3XY1JJVNN6CZ7ZB',
+    'Tailwind CSS: Utility-First Styling',
+    'tailwind-css-utility-first-styling',
+    'https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=800&h=600&fit=crop',
+    'Master Tailwind CSS utility classes for rapid UI development.',
+    '# Tailwind CSS: Utility-First Styling
+
+Tailwind CSS provides utility classes for building UIs quickly.
+
+## Common Classes
+
+```html
+<!-- Flexbox -->
+<div class="flex items-center justify-between">
+  <h1 class="text-2xl font-bold">Title</h1>
+  <button class="px-4 py-2 bg-blue-500 text-white rounded">Click</button>
+</div>
+
+<!-- Grid -->
+<div class="grid grid-cols-3 gap-4">
+  <div class="bg-gray-100 p-4 rounded">Card 1</div>
+  <div class="bg-gray-100 p-4 rounded">Card 2</div>
+  <div class="bg-gray-100 p-4 rounded">Card 3</div>
+</div>
+```
+
+## Responsive Design
+
+```html
+<div class="w-full md:w-1/2 lg:w-1/3 xl:w-1/4">
+  Responsive width
+</div>
+```
+
+Tailwind speeds up development! ⚡',
+    1,
+    1,
+    16,
+    1,
+    95,
+    0,
+    NULL,
+    NULL,
+    1735941222,
+    1735941222
+  ),
+
+  -- Article 14: TypeScript Basics
+  (
+    'art_01HQTG5BBRX3XY1JJVNN6CZ7ZE',
+    'usr_01HQTG5BBRX3XY1JJVNN6CZ7ZC',
+    'TypeScript Fundamentals',
+    'typescript-fundamentals',
+    'https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800&h=600&fit=crop',
+    'Get started with TypeScript for better JavaScript development.',
+    '# TypeScript Fundamentals
+
+TypeScript adds static types to JavaScript for better development experience.
+
+## Basic Types
+
+```typescript
+// Primitives
+let name: string = "John";
+let age: number = 30;
+let isActive: boolean = true;
+
+// Arrays
+let numbers: number[] = [1, 2, 3];
+let fruits: Array<string> = ["apple", "banana"];
+
+// Objects
+interface User {
+  id: number;
+  name: string;
+  email?: string; // Optional
+}
+
+const user: User = {
+  id: 1,
+  name: "John"
+};
+```
+
+## Functions
+
+```typescript
+function greet(name: string): string {
+  return `Hello, ${name}!`;
+}
+
+const add = (a: number, b: number): number => a + b;
+```
+
+TypeScript catches errors early! 🛡️',
+    1,
+    1,
+    14,
+    3,
+    102,
+    0,
+    NULL,
+    NULL,
+    1735854822,
+    1735854822
+  ),
+
+  -- Article 15: REST API Design
+  (
+    'art_01HQTG5BBRX3XY1JJVNN6CZ7ZF',
+    'usr_01HQTG5BBRX3XY1JJVNN6CZ7ZD',
+    'REST API Design Best Practices',
+    'rest-api-design-best-practices',
+    'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&h=600&fit=crop',
+    'Learn how to design clean and consistent REST APIs.',
+    '# REST API Design Best Practices
+
+Good API design makes integration easier for developers.
+
+## HTTP Methods
+
+```
+GET    /api/users        # Get all users
+GET    /api/users/123    # Get user by ID
+POST   /api/users        # Create new user
+PUT    /api/users/123    # Update user
+DELETE /api/users/123    # Delete user
+```
+
+## Response Format
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": 123,
+    "name": "John",
+    "email": "john@example.com"
+  },
+  "message": "User retrieved successfully"
+}
+```
+
+## Error Handling
+
+```json
+{
+  "success": false,
+  "error": {
+    "code": "USER_NOT_FOUND",
+    "message": "User with ID 123 not found"
+  },
+  "status": 404
+}
+```
+
+Consistent APIs improve developer experience! 🔗',
+    1,
+    1,
+    8,
+    1,
+    67,
+    0,
+    NULL,
+    NULL,
+    1735768422,
+    1735768422
+  ),
+
+  -- Article 16: Webpack Configuration
+  (
+    'art_01HQTG5BBRX3XY1JJVNN6CZ7Z10',
+    'usr_01HQTG5BBRX3XY1JJVNN6CZ7ZE',
+    'Webpack Configuration Guide',
+    'webpack-configuration-guide',
+    'https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=800&h=600&fit=crop',
+    'Essential Webpack setup for modern JavaScript projects.',
+    '# Webpack Configuration Guide
+
+Webpack bundles your JavaScript modules for production.
+
+## Basic Config
+
+```javascript
+// webpack.config.js
+const path = require("path");
+
+module.exports = {
+  entry: "./src/index.js",
+  output: {
+    filename: "bundle.js",
+    path: path.resolve(__dirname, "dist")
+  },
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: "babel-loader"
+      },
+      {
+        test: /\.css$/,
+        use: ["style-loader", "css-loader"]
+      }
+    ]
+  }
+};
+```
+
+## Common Loaders
+
+- `babel-loader` - JavaScript transpiling
+- `css-loader` - CSS imports
+- `file-loader` - Assets
+
+Webpack optimizes your builds! 📦',
+    1,
+    1,
+    9,
+    2,
+    78,
+    0,
+    NULL,
+    NULL,
+    1735682022,
+    1735682022
+  ),
+
+  -- Article 17: PWA Basics
+  (
+    'art_01HQTG5BBRX3XY1JJVNN6CZ7Z11',
+    'usr_01HQTG5BBRX3XY1JJVNN6CZ7ZF',
+    'Progressive Web Apps (PWA) Basics',
+    'progressive-web-apps-pwa-basics',
+    'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&h=600&fit=crop',
+    'Build web apps that work like native mobile apps.',
+    '# Progressive Web Apps (PWA) Basics
+
+PWAs combine the best of web and mobile apps.
+
+## Manifest File
+
+```json
+{
+  "name": "My PWA",
+  "short_name": "PWA",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}
+```
+
+## Service Worker
+
+```javascript
+// sw.js
+self.addEventListener("install", event => {
+  event.waitUntil(
+    caches.open("v1").then(cache => {
+      return cache.addAll(["/", "/style.css", "/app.js"]);
+    })
+  );
+});
+```
+
+PWAs work offline and feel native! 📱',
+    1,
+    1,
+    11,
+    1,
+    84,
+    0,
+    NULL,
+    NULL,
+    1735595622,
+    1735595622
+  ),
+
+  -- Article 18: GraphQL Introduction
+  (
+    'art_01HQTG5BBRX3XY1JJVNN6CZ7Z12',
+    'usr_01HQTG5BBRX3XY1JJVNN6CZ7ZG',
+    'GraphQL: Query Language Introduction',
+    'graphql-query-language-introduction',
+    'https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=800&h=600&fit=crop',
+    'Learn GraphQL for flexible API queries.',
+    '# GraphQL: Query Language Introduction
+
+GraphQL lets clients request exactly the data they need.
+
+## Basic Query
+
+```graphql
+query GetUser {
+  user(id: "123") {
+    id
+    name
+    email
+    posts {
+      title
+      createdAt
+    }
+  }
+}
+```
+
+## Schema Definition
+
+```graphql
+type User {
+  id: ID!
+  name: String!
+  email: String!
+  posts: [Post!]!
+}
+
+type Post {
+  id: ID!
+  title: String!
+  content: String!
+  author: User!
+}
+```
+
+## Resolver Example
+
+```javascript
+const resolvers = {
+  Query: {
+    user: (parent, { id }) => {
+      return users.find(user => user.id === id);
+    }
+  }
+};
+```
+
+GraphQL reduces over-fetching! 🔍',
+    1,
+    1,
+    13,
+    2,
+    92,
+    0,
+    NULL,
+    NULL,
+    1735509222,
+    1735509222
+  ),
+
+  -- Article 19: Vue.js Basics
+  (
+    'art_01HQTG5BBRX3XY1JJVNN6CZ7Z13',
+    'usr_01HQTG5BBRX3XY1JJVNN6CZ7ZB',
+    'Vue.js: Progressive Framework',
+    'vuejs-progressive-framework',
+    'https://images.unsplash.com/photo-1593720213428-28a5b9e94613?w=800&h=600&fit=crop',
+    'Get started with Vue.js for reactive web applications.',
+    '# Vue.js: Progressive Framework
+
+Vue.js is a progressive framework for building user interfaces.
+
+## Vue Component
+
+```vue
+<template>
+  <div>
+    <h1>{{ title }}</h1>
+    <button @click="increment">Count: {{ count }}</button>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      title: "Hello Vue!",
+      count: 0
+    };
+  },
+  methods: {
+    increment() {
+      this.count++;
+    }
+  }
+};
+</script>
+
+<style scoped>
+h1 {
+  color: #42b883;
+}
+</style>
+```
+
+## Directives
+
+```html
+<!-- Conditional rendering -->
+<p v-if="isVisible">This is visible</p>
+
+<!-- List rendering -->
+<ul>
+  <li v-for="item in items" :key="item.id">
+    {{ item.name }}
+  </li>
+</ul>
+```
+
+Vue is approachable and powerful! 💚',
+    1,
+    1,
+    10,
+    1,
+    73,
+    0,
+    NULL,
+    NULL,
+    1735422822,
+    1735422822
+  ),
+
+  -- Article 20: Linux Commands
+  (
+    'art_01HQTG5BBRX3XY1JJVNN6CZ7Z14',
+    'usr_01HQTG5BBRX3XY1JJVNN6CZ7ZC',
+    'Essential Linux Commands for Developers',
+    'essential-linux-commands-developers',
+    'https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=800&h=600&fit=crop',
+    'Master the most useful Linux commands for development.',
+    '# Essential Linux Commands for Developers
+
+These commands will make you productive on Linux systems.
+
+## File Operations
+
+```bash
+# List files
+ls -la
+
+# Copy files
+cp source.txt destination.txt
+
+# Move/rename
+mv oldname.txt newname.txt
+
+# Remove files
+rm file.txt
+rm -rf directory/
+
+# Find files
+find . -name "*.js"
+```
+
+## Text Processing
+
+```bash
+# View file content
+cat file.txt
+less file.txt
+
+# Search in files
+grep "pattern" file.txt
+grep -r "pattern" directory/
+
+# Count lines
+wc -l file.txt
+```
+
+## Process Management
+
+```bash
+# List processes
+ps aux
+
+# Kill process
+kill PID
+killall process_name
+
+# Run in background
+command &
+```
+
+Linux commands boost productivity! 🐧',
+    1,
+    1,
+    7,
+    1,
+    58,
+    0,
+    NULL,
+    NULL,
+    1735336422,
+    1735336422
+  ),
+
+  -- Article 21: Sass/SCSS
+  (
+    'art_01HQTG5BBRX3XY1JJVNN6CZ7Z15',
+    'usr_01HQTG5BBRX3XY1JJVNN6CZ7ZD',
+    'Sass/SCSS: CSS with Superpowers',
+    'sass-scss-css-superpowers',
+    'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=600&fit=crop',
+    'Learn Sass/SCSS for more powerful CSS development.',
+    '# Sass/SCSS: CSS with Superpowers
+
+Sass extends CSS with variables, nesting, and mixins.
+
+## Variables
+
+```scss
+$primary-color: #3498db;
+$font-size-large: 1.5rem;
+$border-radius: 4px;
+
+.button {
+  background-color: $primary-color;
+  font-size: $font-size-large;
+  border-radius: $border-radius;
+}
+```
+
+## Nesting
+
+```scss
+.navbar {
+  background: #333;
+  
+  ul {
+    list-style: none;
+    
+    li {
+      display: inline-block;
+      
+      a {
+        color: white;
+        text-decoration: none;
+        
+        &:hover {
+          color: $primary-color;
+        }
+      }
+    }
+  }
+}
+```
+
+## Mixins
+
+```scss
+@mixin button-style($bg-color: #333) {
+  padding: 10px 20px;
+  background-color: $bg-color;
+  border: none;
+  border-radius: $border-radius;
+  cursor: pointer;
+}
+
+.primary-btn {
+  @include button-style($primary-color);
+}
+```
+
+Sass makes CSS more maintainable! 🎨',
+    1,
+    1,
+    15,
+    2,
+    96,
+    0,
+    NULL,
+    NULL,
+    1735250022,
+    1735250022
+  ),
+
+  -- Article 22: Testing with Jest
+  (
+    'art_01HQTG5BBRX3XY1JJVNN6CZ7Z16',
+    'usr_01HQTG5BBRX3XY1JJVNN6CZ7ZE',
+    'JavaScript Testing with Jest',
+    'javascript-testing-jest',
+    'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&h=600&fit=crop',
+    'Write reliable tests for JavaScript applications using Jest.',
+    '# JavaScript Testing with Jest
+
+Jest is a popular testing framework for JavaScript applications.
+
+## Basic Test
+
+```javascript
+// math.js
+function add(a, b) {
+  return a + b;
+}
+
+function multiply(a, b) {
+  return a * b;
+}
+
+module.exports = { add, multiply };
+```
+
+```javascript
+// math.test.js
+const { add, multiply } = require("./math");
+
+test("adds 1 + 2 to equal 3", () => {
+  expect(add(1, 2)).toBe(3);
+});
+
+test("multiplies 3 * 4 to equal 12", () => {
+  expect(multiply(3, 4)).toBe(12);
+});
+```
+
+## Async Testing
+
+```javascript
+test("async data fetch", async () => {
+  const data = await fetchData();
+  expect(data).toBe("data");
+});
+```
+
+## Mocking
+
+```javascript
+jest.mock("./api");
+
+test("mocked function", () => {
+  const mockFn = jest.fn();
+  mockFn("arg1", "arg2");
+  expect(mockFn).toHaveBeenCalledWith("arg1", "arg2");
+});
+```
+
+Testing ensures code quality! 🧪',
+    1,
+    1,
+    12,
+    1,
+    81,
+    0,
+    NULL,
+    NULL,
+    1735163622,
+    1735163622
+  ),
+
+  -- Article 23: Redux State Management
+  (
+    'art_01HQTG5BBRX3XY1JJVNN6CZ7Z17',
+    'usr_01HQTG5BBRX3XY1JJVNN6CZ7ZF',
+    'Redux: Predictable State Management',
+    'redux-predictable-state-management',
+    'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=600&fit=crop',
+    'Manage application state with Redux for React apps.',
+    '# Redux: Predictable State Management
+
+Redux helps manage application state in a predictable way.
+
+## Store Setup
+
+```javascript
+import { createStore } from "redux";
+
+const initialState = {
+  count: 0,
+  user: null
+};
+
+function rootReducer(state = initialState, action) {
+  switch (action.type) {
+    case "INCREMENT":
+      return { ...state, count: state.count + 1 };
+    case "SET_USER":
+      return { ...state, user: action.payload };
+    default:
+      return state;
+  }
+}
+
+const store = createStore(rootReducer);
+```
+
+## Actions
+
+```javascript
+const increment = () => ({ type: "INCREMENT" });
+const setUser = (user) => ({ type: "SET_USER", payload: user });
+
+store.dispatch(increment());
+store.dispatch(setUser({ name: "John" }));
+```
+
+## React Integration
+
+```javascript
+import { useSelector, useDispatch } from "react-redux";
+
+function Counter() {
+  const count = useSelector(state => state.count);
+  const dispatch = useDispatch();
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={() => dispatch(increment())}>+</button>
+    </div>
+  );
+}
+```
+
+Redux makes state predictable! 🔄',
+    1,
+    1,
+    9,
+    1,
+    76,
+    0,
+    NULL,
+    NULL,
+    1735077222,
+    1735077222
+  ),
+
+  -- Article 24: WebSockets Real-time
+  (
+    'art_01HQTG5BBRX3XY1JJVNN6CZ7Z18',
+    'usr_01HQTG5BBRX3XY1JJVNN6CZ7ZG',
+    'WebSockets for Real-time Communication',
+    'websockets-real-time-communication',
+    'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=600&fit=crop',
+    'Build real-time features with WebSocket connections.',
+    '# WebSockets for Real-time Communication
+
+WebSockets enable real-time, bidirectional communication.
+
+## Client Side
+
+```javascript
+const socket = new WebSocket("ws://localhost:8080");
+
+socket.onopen = () => {
+  console.log("Connected to WebSocket");
+  socket.send("Hello Server!");
+};
+
+socket.onmessage = (event) => {
+  console.log("Message from server:", event.data);
+};
+
+socket.onclose = () => {
+  console.log("Connection closed");
+};
+```
+
+## Server Side (Node.js)
+
+```javascript
+const WebSocket = require("ws");
+const wss = new WebSocket.Server({ port: 8080 });
+
+wss.on("connection", (ws) => {
+  console.log("New client connected");
+
+  ws.on("message", (message) => {
+    console.log("Received:", message);
+    // Broadcast to all clients
+    wss.clients.forEach((client) => {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(`Broadcast: ${message}`);
+      }
+    });
+  });
+
+  ws.on("close", () => {
+    console.log("Client disconnected");
+  });
+});
+```
+
+WebSockets power real-time apps! ⚡',
+    1,
+    1,
+    8,
+    1,
+    62,
+    0,
+    NULL,
+    NULL,
+    1734990822,
+    1734990822
+  ),
+
+  -- Article 25: Regular Expressions
+  (
+    'art_01HQTG5BBRX3XY1JJVNN6CZ7Z19',
+    'usr_01HQTG5BBRX3XY1JJVNN6CZ7ZB',
+    'Regular Expressions: Pattern Matching',
+    'regular-expressions-pattern-matching',
+    'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&h=600&fit=crop',
+    'Master regex patterns for text processing and validation.',
+    '# Regular Expressions: Pattern Matching
+
+Regex helps you find and manipulate text patterns efficiently.
+
+## Basic Patterns
+
+```javascript
+// Email validation
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+console.log(emailRegex.test("user@example.com")); // true
+
+// Phone number (US format)
+const phoneRegex = /^\(\d{3}\) \d{3}-\d{4}$/;
+console.log(phoneRegex.test("(123) 456-7890")); // true
+
+// Extract numbers
+const text = "Price: $25.99";
+const priceRegex = /\$(\d+\.\d{2})/;
+const match = text.match(priceRegex);
+console.log(match[1]); // "25.99"
+```
+
+## Common Patterns
+
+```javascript
+// Alphanumeric only
+/^[a-zA-Z0-9]+$/
+
+// URL validation
+/^https?:\/\/.+/
+
+// Password (8+ chars, letter + number)
+/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
+```
+
+## Replace and Split
+
+```javascript
+const text = "Hello World 123";
+const cleaned = text.replace(/\d+/g, ""); // Remove numbers
+const words = text.split(/\s+/); // Split by whitespace
+```
+
+Regex is powerful for text processing! 🔍',
+    1,
+    1,
+    6,
+    1,
+    54,
+    0,
+    NULL,
+    NULL,
+    1734904422,
+    1734904422
+  ),
+
+  -- Article 26: Next.js Basics
+  (
+    'art_01HQTG5BBRX3XY1JJVNN6CZ7Z20',
+    'usr_01HQTG5BBRX3XY1JJVNN6CZ7ZC',
+    'Next.js: React Framework',
+    'nextjs-react-framework',
+    'https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&h=600&fit=crop',
+    'Build production-ready React apps with Next.js.',
+    '# Next.js: React Framework
+
+Next.js provides everything you need for production React apps.
+
+## Getting Started
+
+```bash
+npx create-next-app@latest my-app
+cd my-app
+npm run dev
+```
+
+## Pages and Routing
+
+```javascript
+// pages/index.js
+export default function Home() {
+  return <h1>Welcome to Next.js!</h1>;
+}
+
+// pages/about.js
+export default function About() {
+  return <h1>About Page</h1>;
+}
+
+// pages/blog/[slug].js
+export default function BlogPost({ params }) {
+  return <h1>Post: {params.slug}</h1>;
+}
+```
+
+## API Routes
+
+```javascript
+// pages/api/users.js
+export default function handler(req, res) {
+  if (req.method === "GET") {
+    res.status(200).json({ users: [] });
+  }
+}
+```
+
+## Data Fetching
+
+```javascript
+// Static generation
+export async function getStaticProps() {
+  const data = await fetch("https://api.example.com/data");
+  return { props: { data } };
+}
+
+// Server-side rendering
+export async function getServerSideProps() {
+  const data = await fetch("https://api.example.com/data");
+  return { props: { data } };
+}
+```
+
+Next.js makes React production-ready! ⚛️',
+    1,
+    1,
+    11,
+    2,
+    79,
+    0,
+    NULL,
+    NULL,
+    1734818022,
+    1734818022
+  ),
+
+  -- Article 27: Package Managers
+  (
+    'art_01HQTG5BBRX3XY1JJVNN6CZ7Z21',
+    'usr_01HQTG5BBRX3XY1JJVNN6CZ7ZD',
+    'Package Managers: npm, yarn, pnpm',
+    'package-managers-npm-yarn-pnpm',
+    'https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=800&h=600&fit=crop',
+    'Compare and master different JavaScript package managers.',
+    '# Package Managers: npm, yarn, pnpm
+
+Choose the right package manager for your JavaScript projects.
+
+## npm (Node Package Manager)
+
+```bash
+# Initialize project
+npm init -y
+
+# Install dependencies
+npm install express
+npm install -D nodemon
+
+# Run scripts
+npm run start
+npm run build
+```
+
+## Yarn
+
+```bash
+# Initialize project
+yarn init -y
+
+# Install dependencies
+yarn add express
+yarn add -D nodemon
+
+# Run scripts
+yarn start
+yarn build
+```
+
+## pnpm (Fast, disk efficient)
+
+```bash
+# Initialize project
+pnpm init
+
+# Install dependencies
+pnpm add express
+pnpm add -D nodemon
+
+# Run scripts
+pnpm start
+pnpm build
+```
+
+## Lockfiles
+
+- npm: `package-lock.json`
+- yarn: `yarn.lock`
+- pnpm: `pnpm-lock.yaml`
+
+## Performance Comparison
+
+- **pnpm**: Fastest, saves disk space
+- **yarn**: Fast, good caching
+- **npm**: Standard, widely supported
+
+Choose based on your project needs! 📦',
+    1,
+    1,
+    5,
+    1,
+    49,
+    0,
+    NULL,
+    NULL,
+    1734731622,
+    1734731622
+  ),
+
+  -- Article 28: Async JavaScript
+  (
+    'art_01HQTG5BBRX3XY1JJVNN6CZ7Z22',
+    'usr_01HQTG5BBRX3XY1JJVNN6CZ7ZE',
+    'Async JavaScript: Promises and Async/Await',
+    'async-javascript-promises-async-await',
+    'https://images.unsplash.com/photo-1579468118864-1b9ea3c0db4a?w=800&h=600&fit=crop',
+    'Master asynchronous JavaScript with Promises and async/await.',
+    '# Async JavaScript: Promises and Async/Await
+
+Handle asynchronous operations effectively in JavaScript.
+
+## Promises
+
+```javascript
+// Creating a Promise
+const fetchData = () => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const success = true;
+      if (success) {
+        resolve("Data fetched successfully");
+      } else {
+        reject("Failed to fetch data");
+      }
+    }, 1000);
+  });
+};
+
+// Using Promises
+fetchData()
+  .then(data => console.log(data))
+  .catch(error => console.error(error));
+```
+
+## Async/Await
+
+```javascript
+async function getData() {
+  try {
+    const response = await fetch("/api/users");
+    const users = await response.json();
+    return users;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+}
+
+// Using async function
+async function main() {
+  const users = await getData();
+  console.log(users);
+}
+```
+
+## Promise Methods
+
+```javascript
+// Promise.all (parallel execution)
+const [users, posts] = await Promise.all([
+  fetch("/api/users"),
+  fetch("/api/posts")
+]);
+
+// Promise.race (first to complete)
+const result = await Promise.race([
+  fetch("/api/fast"),
+  fetch("/api/slow")
+]);
+```
+
+Async/await makes code more readable! ⏱️',
+    1,
+    1,
+    7,
+    1,
+    65,
+    0,
+    NULL,
+    NULL,
+    1734645222,
+    1734645222
+  ),
+
+  -- Article 29: Browser DevTools
+  (
+    'art_01HQTG5BBRX3XY1JJVNN6CZ7Z23',
+    'usr_01HQTG5BBRX3XY1JJVNN6CZ7ZF',
+    'Browser DevTools: Debug Like a Pro',
+    'browser-devtools-debug-like-pro',
+    'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&h=600&fit=crop',
+    'Master browser DevTools for efficient web debugging.',
+    '# Browser DevTools: Debug Like a Pro
+
+DevTools are essential for web development debugging.
+
+## Console Tips
+
+```javascript
+// Different log levels
+console.log("Info message");
+console.warn("Warning message");
+console.error("Error message");
+
+// Styled console output
+console.log("%cStyled text", "color: blue; font-size: 16px;");
+
+// Table view for objects
+console.table([{name: "John", age: 30}, {name: "Jane", age: 25}]);
+
+// Grouping logs
+console.group("User Info");
+console.log("Name: John");
+console.log("Age: 30");
+console.groupEnd();
+```
+
+## Elements Panel
+
+- Inspect HTML structure
+- Edit styles in real-time
+- View computed styles
+- Check accessibility properties
+
+## Network Panel
+
+- Monitor HTTP requests
+- Check response times
+- Analyze payload sizes
+- Test different network conditions
+
+## Sources Panel
+
+- Set breakpoints
+- Step through code
+- Watch variable values
+- Edit and save changes
+
+## Performance Panel
+
+- Record runtime performance
+- Identify bottlenecks
+- Analyze frame rates
+- Memory usage profiling
+
+DevTools boost debugging efficiency! 🔧',
+    1,
+    1,
+    4,
+    1,
+    43,
+    0,
+    NULL,
+    NULL,
+    1734558822,
+    1734558822
+  ),
+
+  -- Article 30: Code Review Best Practices
+  (
+    'art_01HQTG5BBRX3XY1JJVNN6CZ7Z24',
+    'usr_01HQTG5BBRX3XY1JJVNN6CZ7ZG',
+    'Code Review Best Practices',
+    'code-review-best-practices',
+    'https://images.unsplash.com/photo-1556075798-4825dfaaf498?w=800&h=600&fit=crop',
+    'Improve code quality through effective code review processes.',
+    '# Code Review Best Practices
+
+Good code reviews improve code quality and team collaboration.
+
+## What to Look For
+
+### Code Quality
+- Readability and clarity
+- Proper naming conventions
+- Code organization
+- Performance considerations
+
+### Functionality
+- Logic correctness
+- Edge case handling
+- Error handling
+- Test coverage
+
+### Security
+- Input validation
+- Authentication checks
+- Data sanitization
+- Secure coding practices
+
+## Review Guidelines
+
+### For Authors
+```markdown
+- Keep changes small and focused
+- Write clear commit messages
+- Add tests for new features
+- Update documentation
+- Self-review before submitting
+```
+
+### For Reviewers
+```markdown
+- Be constructive and respectful
+- Focus on the code, not the person
+- Provide specific feedback
+- Suggest improvements
+- Approve when satisfied
+```
+
+## Common Issues
+
+- **Nitpicking**: Focus on important issues
+- **Delayed reviews**: Review promptly
+- **Unclear feedback**: Be specific
+- **Missing context**: Add explanations
+
+## Tools
+
+- GitHub Pull Requests
+- GitLab Merge Requests
+- Bitbucket Code Reviews
+- Azure DevOps
+
+Good reviews make better code! ✅',
+    1,
+    1,
+    3,
+    0,
+    41,
+    0,
+    NULL,
+    NULL,
+    1734472422,
+    1734472422
   );

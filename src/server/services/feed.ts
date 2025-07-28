@@ -4,15 +4,18 @@ import { FeedRecord } from '@/types';
 
 export interface FeedFilterOptions {
   before?: number;
-  offset: number;
   limit: number;
+}
+
+export interface FeedPagination {
+  next?: string;
 }
 
 export async function getFeed(
   options: FeedFilterOptions,
   userId?: string
-): Promise<{ data: FeedRecord[] }> {
-  const { before, offset, limit } = options;
+): Promise<{ data: FeedRecord[]; pagination: FeedPagination }> {
+  const { before, limit } = options;
   const db = await getDB();
 
   const articles = await bindingArticleListLikeStatus(
@@ -24,8 +27,7 @@ export async function getFeed(
           eq(article.published, true)
         );
       },
-      limit,
-      offset,
+      limit: limit + 1,
       orderBy: (article, { desc }) => desc(article.createdAt),
       with: {
         user: {
@@ -38,12 +40,18 @@ export async function getFeed(
     userId
   );
 
+  const hasNextPage = articles.length > limit;
+  const slicedArticles = hasNextPage ? articles.slice(0, limit) : articles;
+
   return {
-    data: articles.map(article => ({
+    data: slicedArticles.map(article => ({
       id: article.id,
       type: 'article',
       createdAt: article.createdAt,
       data: article,
     })),
+    pagination: {
+      next: hasNextPage ? String(articles[articles.length - 1].createdAt.getTime()) : undefined,
+    },
   };
 }

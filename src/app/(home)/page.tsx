@@ -11,7 +11,6 @@ export default async function LandingPage() {
   const feeds = await getFeed(
     {
       limit: 20,
-      offset: 0,
     },
     session?.user?.id
   );
@@ -19,7 +18,7 @@ export default async function LandingPage() {
   return (
     <MainLayout>
       <div className="flex flex-col gap-4 lg:p-0">
-        <FeedList initialFeeds={feeds.data} />
+        <FeedList initialFeeds={feeds.data} cursor={feeds.pagination.next} />
       </div>
     </MainLayout>
   );
