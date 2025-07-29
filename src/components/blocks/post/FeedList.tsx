@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { getFeedAction } from '@/server/actions/feeds';
 import { Loader } from 'lucide-react';
 
-export function FeedList({
+export function FeedListWithLoadMore({
   initialFeeds,
   cursor,
 }: {
@@ -55,5 +55,15 @@ export function FeedList({
         </button>
       )}
     </>
+  );
+}
+
+export function FeedList({ feeds }: { feeds: FeedRecord[] }) {
+  return (
+    <div className="flex flex-col">
+      {feeds.map(f => (
+        <FeedItem feed={f} key={f.id} />
+      ))}
+    </div>
   );
 }

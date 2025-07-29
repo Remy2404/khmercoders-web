@@ -1,38 +1,44 @@
 'use client';
 
 import { useSession } from '@/components/auth-provider';
-import { PostableResourceType, PostRecordWithProfile } from '@/types';
+import { FeedRecord, PostableResourceType, PostRecordWithProfile } from '@/types';
 import { useState } from 'react';
 import { CommentEditor } from './CommentEditor';
-import { CommentItem } from './CommentItem';
+import { FeedList } from './FeedList';
 
 interface PostListProps {
-  posts: PostRecordWithProfile[];
+  posts: FeedRecord[];
   resourceType: PostableResourceType;
   resourceId: string | null;
 }
 
 export function CommentList({ posts: defaultPostList, resourceId, resourceType }: PostListProps) {
   const { session } = useSession();
-  const [posts, setPosts] = useState<PostRecordWithProfile[]>(defaultPostList);
+  const [posts, setPosts] = useState<FeedRecord[]>(defaultPostList);
 
   return (
     <div>
       {session?.user && (
-        <div className="p-4 border-t">
+        <div className="p-4 border-y">
           <CommentEditor
             resourceId={resourceId}
             resourceType={resourceType}
             onSuccess={newPost => {
-              setPosts(prevPosts => [newPost, ...prevPosts]);
+              setPosts(prevPosts => [
+                {
+                  data: { ...newPost, hasCurrentUserLiked: false },
+                  type: 'post',
+                  id: newPost.id,
+                  createdAt: newPost.createdAt,
+                },
+                ...prevPosts,
+              ]);
               console.log('New post added:', newPost);
             }}
           />
         </div>
       )}
-      {posts.map(post => (
-        <CommentItem key={post.id} comment={post} />
-      ))}
+      <FeedList feeds={posts} />
     </div>
   );
 }

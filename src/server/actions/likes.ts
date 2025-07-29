@@ -76,3 +76,77 @@ export const unlikeArticleAction = withAuthAction(async ({ db, user }, articleId
 
   return likeStats[0]?.count ?? null;
 });
+
+/**
+ * Action to like a post. Returns the updated like count if successful.
+ * If the user has already liked the post, it does nothing and returns the current like count
+ *
+ * @returns {Promise<number|null>} The updated like count or null if operation failed.
+ */
+export const likePostAction = withAuthAction(async ({ db, user }, postId: string) => {
+  // Check if it is valid post ID
+  const post = await db.query.posts.findFirst({
+    where: eq(schema.posts.id, postId),
+  });
+
+  if (!post) {
+    throw new Error('Post not found or invalid post ID.');
+  }
+
+  const [_, likeStats] = await db.batch([
+    db
+      .insert(schema.likes)
+      .values({
+        userId: user.id,
+        resourceId: postId,
+        type: 'post',
+        createdAt: new Date(),
+      })
+      .onConflictDoNothing(),
+    db
+      .update(schema.posts)
+      .set({
+        likeCount: sql`${schema.posts.likeCount} + 1`,
+      })
+      .where(and(eq(schema.posts.id, postId), sql`changes() > 0`))
+      .returning({
+        count: schema.posts.likeCount,
+      }),
+  ]);
+
+  return likeStats[0]?.count ?? null;
+});
+
+export const unlikePostAction = withAuthAction(async ({ db, user }, postId: string) => {
+  // Check if it is valid post ID
+  const post = await db.query.posts.findFirst({
+    where: eq(schema.posts.id, postId),
+  });
+
+  if (!post) {
+    throw new Error('Post not found or invalid post ID.');
+  }
+
+  const [_, likeStats] = await db.batch([
+    db
+      .delete(schema.likes)
+      .where(
+        and(
+          eq(schema.likes.resourceId, postId),
+          eq(schema.likes.userId, user.id),
+          eq(schema.likes.type, 'post')
+        )
+      ),
+    db
+      .update(schema.posts)
+      .set({
+        likeCount: sql`${schema.posts.likeCount} - 1`,
+      })
+      .where(and(eq(schema.posts.id, postId), sql`changes() > 0`))
+      .returning({
+        count: schema.posts.likeCount,
+      }),
+  ]);
+
+  return likeStats[0]?.count ?? null;
+});

@@ -1,33 +1,20 @@
 'use server';
 import { PostableResourceType } from '@/types';
 import { CommentList } from './CommentList';
-import { getDB } from '@/libs/db';
+import { getFeedFromArticle } from '@/server/services/feed';
 
 interface CommentWidgetProps {
   resourceType: PostableResourceType;
-  resourceId: string | null;
+  resourceId: string;
+  userId?: string;
 }
 
-export async function CommentWidget({ resourceId, resourceType }: CommentWidgetProps) {
-  const db = await getDB();
-
-  const posts = await db.query.posts.findMany({
-    where: (posts, { eq, isNull }) =>
-      eq(posts.resourceType, resourceType) &&
-      (resourceId == null ? isNull(posts.resourceId) : eq(posts.resourceId, resourceId)),
-    orderBy: (posts, { desc }) => desc(posts.createdAt),
-    with: {
-      user: {
-        with: {
-          profile: true,
-        },
-      },
-    },
-  });
+export async function CommentWidget({ resourceId, resourceType, userId }: CommentWidgetProps) {
+  const posts = await getFeedFromArticle(resourceId, userId);
 
   return (
     <div>
-      <CommentList posts={posts} resourceId={resourceId} resourceType={resourceType} />
+      <CommentList posts={posts.data} resourceId={resourceId} resourceType={resourceType} />
     </div>
   );
 }

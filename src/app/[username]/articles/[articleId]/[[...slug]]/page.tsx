@@ -2,7 +2,6 @@ import { ProfileTrackingComponent } from '@/app/[username]/tracker';
 import { UserSmallCard } from '@/components/user-card';
 import { getArtcleFromIdCache } from '@/server/cache/user';
 import { formatDate } from '@/utils/format';
-import Image from 'next/image';
 import { bindingArticleLikeStatus } from '@/server/services/article';
 import { CommentButton, LikeButton } from '@/components/interaction-button';
 import { getSession } from '@/app/session';
@@ -92,7 +91,7 @@ export default async function EditArticlePage({ params }: EditArticlePageProps) 
         </main>
       </article>
       <div className="mx-auto max-w-4xl my-4">
-        <CommentWidget resourceId={articleId} resourceType="article" />
+        <CommentWidget resourceId={articleId} resourceType="article" userId={session?.user?.id} />
       </div>
     </MainLayout>
   );

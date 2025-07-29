@@ -1,5 +1,10 @@
 'use client';
-import { likeArticleAction, unlikeArticleAction } from '@/server/actions/likes';
+import {
+  likeArticleAction,
+  likePostAction,
+  unlikeArticleAction,
+  unlikePostAction,
+} from '@/server/actions/likes';
 import { LikableResourceType } from '@/types';
 import { cn } from '@/utils';
 import { MessageSquare, ThumbsUp } from 'lucide-react';
@@ -36,6 +41,19 @@ export function LikeButton({
     if (resourceType === 'article') {
       setLoading(true);
       (liked ? unlikeArticleAction : likeArticleAction)(resourceId)
+        .then(newCount => {
+          setCount(oldCount => {
+            if (newCount === null) return oldCount; // If operation failed, keep old
+            return newCount; // Update count with new value
+          });
+        })
+        .finally(() => {
+          setLoading(false);
+          setLiked(!liked);
+        });
+    } else if (resourceType === 'post') {
+      setLoading(true);
+      (liked ? unlikePostAction : likePostAction)(resourceId)
         .then(newCount => {
           setCount(oldCount => {
             if (newCount === null) return oldCount; // If operation failed, keep old

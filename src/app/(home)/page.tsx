@@ -1,7 +1,7 @@
 import { getSession } from '../session';
 import { MainLayout } from '@/components/blocks/layout/MainLayout';
 import { getFeed } from '@/server/services/feed';
-import { FeedList } from '@/components/blocks/post/FeedList';
+import { FeedList, FeedListWithLoadMore } from '@/components/blocks/post/FeedList';
 
 export const revalidate = 3600; // Cache the page for 3600 seconds (1 hour)
 
@@ -18,7 +18,7 @@ export default async function LandingPage() {
   return (
     <MainLayout>
       <div className="flex flex-col gap-4 lg:p-0">
-        <FeedList initialFeeds={feeds.data} cursor={feeds.pagination.next} />
+        <FeedListWithLoadMore initialFeeds={feeds.data} cursor={feeds.pagination.next} />
       </div>
     </MainLayout>
   );

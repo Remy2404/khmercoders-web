@@ -80,7 +80,10 @@ export type UserRecordWithProfile = UserRecord & {
   profile?: ProfileRecord;
 };
 
-export type PostRecord = typeof schema.posts.$inferSelect;
+export type PostRecord = typeof schema.posts.$inferSelect & {
+  hasCurrentUserLiked?: boolean;
+};
+
 export type PostRecordWithProfile = PostRecord & {
   user: UserRecordWithProfile;
 };
