@@ -11,7 +11,9 @@ export function MainLayout({
   return (
     <div className="mx-auto max-w-[1200px] flex min-h-screen">
       <DesktopLeftNavigation />
-      <div className="border-x grow overflow-hidden">{children}</div>
+      <div className="border-x grow overflow-hidden">
+        <div className="pb-20 md:pb-0">{children}</div>
+      </div>
       {!hideRightNav && <DesktopRightNavigation />}
       <MobileTabNavigation />
     </div>
