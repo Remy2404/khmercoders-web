@@ -12,13 +12,14 @@ import { ServerStatsProvider } from '@/components/contexts/ServerStatsContext';
 export const metadata = {
   title: "Khmer Coders - Cambodia's Largest Coding Community",
   description: "Join Cambodia's largest community of developers, designers, and tech enthusiasts.",
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 1,
-    userScalable: false,
-    viewportFit: 'cover',
-  },
+};
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  viewportFit: 'cover',
 };
 
 export default async function RootLayout({
