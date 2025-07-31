@@ -53,7 +53,7 @@ export function CommentEditor({
   });
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 mb-4 md:mb-0">
       {/* Hidden textarea for measuring height */}
       <textarea
         ref={hiddenTextareaRef}

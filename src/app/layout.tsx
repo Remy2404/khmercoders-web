@@ -14,6 +14,14 @@ export const metadata = {
   description: "Join Cambodia's largest community of developers, designers, and tech enthusiasts.",
 };
 
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  viewportFit: 'cover',
+};
+
 export default async function RootLayout({
   children,
 }: Readonly<{

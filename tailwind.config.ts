@@ -73,6 +73,12 @@ const config = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
+      padding: {
+        'safe': 'max(0.75rem, env(safe-area-inset-bottom))',
+        'safe-top': 'max(0.75rem, env(safe-area-inset-top))',
+        'safe-left': 'max(0.75rem, env(safe-area-inset-left))',
+        'safe-right': 'max(0.75rem, env(safe-area-inset-right))',
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],
