@@ -8,6 +8,7 @@ import { SessionProvider } from './session';
 import { ThemeProvider } from 'next-themes';
 import { getCloudflareContext } from '@opennextjs/cloudflare';
 import { ServerStatsProvider } from '@/components/contexts/ServerStatsContext';
+import { Toaster } from '@/components/generated/toaster';
 
 export const metadata = {
   title: "Khmer Coders - Cambodia's Largest Coding Community",
@@ -65,6 +66,7 @@ export default async function RootLayout({
                       {/* Content container */}
                       <div className="relative">{children}</div>
                     </div>
+                    <Toaster />
                     {process.env.NODE_ENV === 'development' && <KhmerCoderDevtool />}
                   </UserUploadProvider>
                 </SessionProvider>
