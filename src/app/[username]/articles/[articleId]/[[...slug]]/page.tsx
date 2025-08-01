@@ -10,6 +10,7 @@ import { CommentWidget } from '@/components/blocks/post/CommentWidget';
 import { FollowButton } from '@/components/ui/FollowerButton';
 import { bindingFollowerStatusFromUser } from '@/server/services/followers';
 import { MainLayout } from '@/components/blocks/layout/MainLayout';
+import { ArticleModerateActions } from '../moderate';
 
 interface EditArticlePageProps {
   params: Promise<{ articleId: string; username: string }>;
@@ -68,7 +69,7 @@ export default async function EditArticlePage({ params }: EditArticlePageProps) 
               </div>
             </div>
 
-            <div className="flex gap-2 mt-4">
+            <div className="flex gap-2 mt-4 items-center">
               <LikeButton
                 defaultLiked={article.hasCurrentUserLiked}
                 defaultCount={article.likeCount}
@@ -76,6 +77,7 @@ export default async function EditArticlePage({ params }: EditArticlePageProps) 
                 resourceType="article"
               />
               <CommentButton count={article.commentCount} />
+              <ArticleModerateActions article={article} />
             </div>
           </div>
         </header>
