@@ -1,4 +1,5 @@
 'use client';
+import { useToast } from '@/hooks/use-toast';
 import {
   likeArticleAction,
   likePostAction,
@@ -25,6 +26,7 @@ export function LikeButton({
   resourceType,
 }: LikeButtonProps) {
   const { session } = useSession();
+  const { toast } = useToast();
   const [liked, setLiked] = useState(defaultLiked || false);
   const [count, setCount] = useState(defaultCount || 0);
   const [loading, setLoading] = useState(false);
@@ -38,6 +40,15 @@ export function LikeButton({
   );
 
   const handleToggleLike = useCallback(() => {
+    // Check if user is logged in
+    if (!session) {
+      toast({
+        description: 'You must sign in first to like content.',
+        variant: 'destructive',
+      });
+      return;
+    }
+
     if (resourceType === 'article') {
       setLoading(true);
       (liked ? unlikeArticleAction : likeArticleAction)(resourceId)
@@ -65,10 +76,10 @@ export function LikeButton({
           setLiked(!liked);
         });
     }
-  }, [liked]);
+  }, [liked, session, toast, resourceId, resourceType]);
 
   return (
-    <button className={className} disabled={!session || loading} onClick={handleToggleLike}>
+    <button className={className} disabled={loading} onClick={handleToggleLike}>
       <ThumbsUp className="w-4 h-4" />
       {count} Likes
     </button>
