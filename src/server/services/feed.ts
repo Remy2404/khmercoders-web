@@ -1,6 +1,6 @@
 import { getDB } from '@/libs/db';
 import { bindingArticleListLikeStatus } from './article';
-import { FeedRecord } from '@/types';
+import { ArticleReviewStatus, FeedRecord } from '@/types';
 import { bindingLikeStatus } from './likes';
 
 export interface FeedFilterOptions {
@@ -24,7 +24,7 @@ export async function getFeed(
       where: (article, { and, lte, eq }) => {
         return and(
           lte(article.createdAt, before ? new Date(before) : new Date()),
-          eq(article.approvedByAI, true),
+          eq(article.reviewStatus, ArticleReviewStatus.Approved),
           eq(article.published, true)
         );
       },
