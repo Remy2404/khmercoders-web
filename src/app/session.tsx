@@ -1,4 +1,5 @@
 import { AuthProvider } from '@/components/auth-provider';
+import { MODERATOR_ACCESS } from '@/constants';
 import { getDB } from '@/libs/db';
 import * as schema from '@/libs/db/schema';
 import { auth } from '@/utils/auth';
@@ -20,12 +21,11 @@ export async function getSession() {
 
   return {
     profile,
-    session: session
-      ? {
-          user: session.user as typeof schema.user.$inferSelect,
-          session: session.session as typeof schema.session.$inferSelect,
-        }
-      : undefined,
+    isModerator: MODERATOR_ACCESS.includes(session.user.level),
+    session: {
+      user: session.user as typeof schema.user.$inferSelect,
+      session: session.session as typeof schema.session.$inferSelect,
+    },
   };
 }
 

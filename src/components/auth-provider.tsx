@@ -8,6 +8,7 @@ interface AuthContextProps {
     session: typeof schema.session.$inferSelect;
     user: typeof schema.user.$inferSelect;
   };
+  isModerator?: boolean;
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);

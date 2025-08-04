@@ -86,9 +86,9 @@ export default async function ModerateArticlePage() {
               <TableCell>
                 <Link
                   href={`/@${article.user.profile?.alias}/articles/${article.id}/${article.slug}`}
-                  className="text-primary hover:underline"
+                  className="text-link hover:underline"
                 >
-                  {article.title}
+                  {article.title || 'Untitled Article'}
                 </Link>
               </TableCell>
               <TableCell>{article.user.name}</TableCell>
