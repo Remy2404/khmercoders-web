@@ -1,7 +1,7 @@
 import { getSession } from '../session';
 import { MainLayout } from '@/components/blocks/layout/MainLayout';
 import { getFeed } from '@/server/services/feed';
-import { FeedList, FeedListWithLoadMore } from '@/components/blocks/post/FeedList';
+import { FeedListWithLoadMore } from '@/components/blocks/post/FeedList';
 
 export const revalidate = 3600; // Cache the page for 3600 seconds (1 hour)
 

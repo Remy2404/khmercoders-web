@@ -3,12 +3,17 @@ import { StackNavigation } from '@/components/blocks/layout/StackNavigation';
 import { UserCard } from '@/components/user-card';
 import { USER_LEVEL_DESCRIPTION } from '@/constants';
 import { getUserFromLevels } from '@/libs/users';
-import { ITeamMember, UserLevel } from '@/types';
+import { UserLevel } from '@/types';
 import { Github, Globe, Linkedin, Twitter } from 'lucide-react';
-import Image from 'next/image';
-import Link from 'next/link';
+import { Metadata } from 'next';
 
 export const revalidate = 0; // This disables static generation and makes the page dynamic
+
+export const metadata: Metadata = {
+  title: 'Our Teams | Khmer Coders',
+  description:
+    "Meet the founding members, volunteers, and community moderators of Khmer Coders, Cambodia's largest coding community.",
+};
 
 export default async function TeamsPage() {
   const members = await getUserFromLevels([

@@ -92,7 +92,7 @@ export function ArticleEditClientPage({ data }: ArticleEditClientPageProps) {
         isUpdate
       />
 
-      <div className="bg-card max-w-5xl p-4 container mx-auto border rounded">
+      <div className="p-4">
         <ArticleEditor onChange={setValue} value={value} />
       </div>
 

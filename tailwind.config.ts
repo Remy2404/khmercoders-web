@@ -14,7 +14,7 @@ const config = {
     container: {
       center: true,
       padding: "2rem",
-      screens: { 
+      screens: {
         "2xl": "1400px",
       },
     },
@@ -53,6 +53,10 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        link: {
+          DEFAULT: "hsl(var(--link))",
+          foreground: "hsl(var(--link-foreground))",
+        }
       },
       borderRadius: {
         lg: "var(--radius)",

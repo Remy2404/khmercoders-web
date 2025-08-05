@@ -1,4 +1,10 @@
-import { UserLevel, BindingResourceType, LikableResourceType, PostableResourceType } from '@/types';
+import {
+  UserLevel,
+  BindingResourceType,
+  LikableResourceType,
+  PostableResourceType,
+  ArticleReviewStatus,
+} from '@/types';
 import { like, relations } from 'drizzle-orm';
 import { sqliteTable, text, integer, index, primaryKey } from 'drizzle-orm/sqlite-core';
 
@@ -166,11 +172,27 @@ export const article = sqliteTable(
     viewCount: integer('view_count').notNull().default(0),
 
     // For moderation
-    isBanned: integer('is_banned', { mode: 'boolean' }).notNull().default(false),
-    banReason: text('ban_reason'),
-    banByUserId: text('ban_by_user_id'),
+    reviewStatus: text('review_status')
+      .notNull()
+      .default(ArticleReviewStatus.Pending)
+      .$type<ArticleReviewStatus>(),
+
+    reviewBy: text('review_by'), // User ID of the reviewer
   },
   table => [index('article_user_id_idx').on(table.userId)]
+);
+
+export const articleReviewLog = sqliteTable(
+  'article_review_log',
+  {
+    id: text('id').primaryKey().notNull(),
+    articleId: text('article_id').notNull(),
+    reviewerId: text('reviewer_id').notNull(),
+    status: text('status').notNull().$type<ArticleReviewStatus>(),
+    feedback: text('feedback'), // Optional feedback from reviewer
+    createdAt: integer('created_at', { mode: 'timestamp' }).notNull(),
+  },
+  table => [index('article_review_log_article_id_idx').on(table.articleId)]
 );
 
 export const likes = sqliteTable(
