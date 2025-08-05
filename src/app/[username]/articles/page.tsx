@@ -5,6 +5,7 @@ import { ProfileHeader } from '@/components/profile-header';
 import { getDB } from '@/libs/db';
 import { ArticlePreviewItem } from '@/components/article-item';
 import { bindingArticleListLikeStatus } from '@/server/services/article';
+import { bindingFollowerStatusFromUser } from '@/server/services/followers';
 import { MainLayout } from '@/components/blocks/layout/MainLayout';
 
 export default async function UserArticleListPage({
@@ -15,6 +16,11 @@ export default async function UserArticleListPage({
   const { username } = await params;
   const { session } = await getSession();
   const profile = await getProfileFromUsernameCache(username);
+
+  // Bind follow status to user for proper display in ProfileHeader
+  profile.user = session?.user?.id
+    ? await bindingFollowerStatusFromUser(profile.user, session.user.id)
+    : profile.user;
 
   // Getting all the article
   const db = await getDB();
@@ -38,12 +44,11 @@ export default async function UserArticleListPage({
         published: true,
         userId: true,
         likeCount: true,
-        banByUserId: true,
-        banReason: true,
         approvedByAI: true,
         commentCount: true,
-        isBanned: true,
         viewCount: true,
+        reviewStatus: true,
+        reviewBy: true,
       },
       with: {
         user: {
