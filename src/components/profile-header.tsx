@@ -25,7 +25,7 @@ export function ProfileHeader({ selectedTab = 'profile', profile, user }: Profil
   }, [user.followersCount]);
 
   const handleFollowChange = (isFollowed: boolean) => {
-    setFollowersCount(prev => isFollowed ? prev + 1 : prev - 1);
+    setFollowersCount(prev => (isFollowed ? prev + 1 : prev - 1));
   };
 
   return (
@@ -54,8 +54,8 @@ export function ProfileHeader({ selectedTab = 'profile', profile, user }: Profil
       </div>
 
       <div className="flex gap-4 container mx-auto text-sm mb-2 items-center">
-        <FollowButton 
-          defaultFollowed={user.hasCurrentUserFollowed} 
+        <FollowButton
+          defaultFollowed={user.hasCurrentUserFollowed}
           targetUserId={profile.userId}
           onFollowChange={handleFollowChange}
         />

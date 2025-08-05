@@ -24,7 +24,7 @@ export function FollowButton({ defaultFollowed, targetUserId, onFollowChange }: 
   const handleToggleFollow = useCallback(() => {
     setLoading(true);
     const newFollowedState = !followed;
-    
+
     (followed ? unfollowUserAction : followUserAction)(targetUserId)
       .then(() => {
         setFollowed(newFollowedState);
