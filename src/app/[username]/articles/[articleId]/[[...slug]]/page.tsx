@@ -65,7 +65,6 @@ export default async function EditArticlePage({ params }: EditArticlePageProps) 
                 <FollowButton
                   defaultFollowed={article.user.hasCurrentUserFollowed}
                   targetUserId={article.user.id}
-                  onFollowChange={() => {}}
                 />
               </div>
             </div>

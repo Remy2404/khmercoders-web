@@ -7,8 +7,6 @@ import { FollowButton } from './ui/FollowerButton';
 import { UserModeratorTool } from '@/app/[username]/moderator-tool';
 import { ProfileAiAssistance } from '@/app/[username]/ai-assistance';
 import { useSession } from './auth-provider';
-import { useState, useEffect } from 'react';
-
 interface ProfileHeaderProps {
   profile: ProfileRecord;
   user: UserRecord;
@@ -17,16 +15,6 @@ interface ProfileHeaderProps {
 
 export function ProfileHeader({ selectedTab = 'profile', profile, user }: ProfileHeaderProps) {
   const { session } = useSession();
-  const [followersCount, setFollowersCount] = useState(user.followersCount);
-
-  // Update follower count when user prop changes (e.g., navigation between tabs)
-  useEffect(() => {
-    setFollowersCount(user.followersCount);
-  }, [user.followersCount]);
-
-  const handleFollowChange = (isFollowed: boolean) => {
-    setFollowersCount(prev => (isFollowed ? prev + 1 : prev - 1));
-  };
 
   return (
     <div className="relative border-b">
@@ -54,14 +42,10 @@ export function ProfileHeader({ selectedTab = 'profile', profile, user }: Profil
       </div>
 
       <div className="flex gap-4 container mx-auto text-sm mb-2 items-center">
-        <FollowButton
-          defaultFollowed={user.hasCurrentUserFollowed}
-          targetUserId={profile.userId}
-          onFollowChange={handleFollowChange}
-        />
+        <FollowButton defaultFollowed={user.hasCurrentUserFollowed} targetUserId={profile.userId} />
 
         <div>
-          <strong>{followersCount}</strong>{' '}
+          <strong>{user.followersCount}</strong>{' '}
           <span className="text-gray-400 dark:text-gray-500">Followers</span>
         </div>
         <div>
