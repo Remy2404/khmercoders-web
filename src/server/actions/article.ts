@@ -9,6 +9,8 @@ import { DrizzleD1Database } from 'drizzle-orm/d1';
 import { getCloudflareContext } from '@opennextjs/cloudflare';
 import { getDB } from '@/libs/db';
 import { generateArticleId } from '../generate-id';
+import { ArticleReviewStatus, UserLevel } from '@/types';
+import { MODERATOR_ACCESS } from '@/constants';
 
 export const createArticleAction = withAuthAction(
   async ({ db, user }, data: ArticleEditorValue) => {
@@ -271,3 +273,67 @@ async function syncResource(
     resourceId
   );
 }
+
+export const updateArticleStatusAction = withAuthAction(
+  async ({ db, user }, articleId: string, status: ArticleReviewStatus, feedback?: string) => {
+    try {
+      // Check if user has moderator permissions
+      if (!MODERATOR_ACCESS.includes(user.level)) {
+        throw new Error('You do not have permission to review articles');
+      }
+
+      // Check if the article exists
+      const article = await db.query.article.findFirst({
+        where: (article, { eq }) => eq(article.id, articleId),
+      });
+
+      if (!article) {
+        throw new Error('Article not found');
+      }
+
+      // Prevent moderators from reviewing their own articles (except SuperAdmin)
+      if (article.userId === user.id && user.level !== UserLevel.SuperAdmin) {
+        throw new Error('You cannot review your own articles');
+      }
+
+      const now = new Date();
+      const reviewLogId: string = crypto.randomUUID(); // Use UUID for review log ID
+
+      // Update article status and create review log in a transaction
+      await db.batch([
+        db
+          .update(schema.article)
+          .set({
+            reviewStatus: status,
+            reviewBy: user.id,
+            updatedAt: now,
+          })
+          .where(eq(schema.article.id, articleId)),
+        db.insert(schema.articleReviewLog).values({
+          id: reviewLogId,
+          articleId,
+          reviewerId: user.id,
+          status,
+          feedback: feedback?.trim() || null,
+          createdAt: now,
+        }),
+      ]);
+
+      // Fetch the updated article for the response
+      const updatedArticle = await db.query.article.findFirst({
+        where: (article, { eq }) => eq(article.id, articleId),
+      });
+
+      return {
+        success: true,
+        message: `Article ${status === ArticleReviewStatus.Approved ? 'approved' : status === ArticleReviewStatus.Rejected ? 'rejected' : 'status updated'} successfully`,
+        article: updatedArticle,
+      };
+    } catch (e) {
+      if (e instanceof Error) {
+        return { success: false, error: e.message };
+      }
+      return { success: false, error: 'Failed to update article status' };
+    }
+  }
+);

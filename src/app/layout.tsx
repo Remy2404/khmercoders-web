@@ -8,10 +8,19 @@ import { SessionProvider } from './session';
 import { ThemeProvider } from 'next-themes';
 import { getCloudflareContext } from '@opennextjs/cloudflare';
 import { ServerStatsProvider } from '@/components/contexts/ServerStatsContext';
+import { Toaster } from '@/components/generated/toaster';
 
 export const metadata = {
   title: "Khmer Coders - Cambodia's Largest Coding Community",
   description: "Join Cambodia's largest community of developers, designers, and tech enthusiasts.",
+};
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  viewportFit: 'cover',
 };
 
 export default async function RootLayout({
@@ -65,6 +74,7 @@ export default async function RootLayout({
                       {/* Content container */}
                       <div className="relative">{children}</div>
                     </div>
+                    <Toaster />
                     {process.env.NODE_ENV === 'development' && <KhmerCoderDevtool />}
                   </UserUploadProvider>
                 </SessionProvider>

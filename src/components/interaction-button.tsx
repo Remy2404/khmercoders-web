@@ -1,4 +1,5 @@
 'use client';
+import { useToast } from '@/hooks/use-toast';
 import {
   likeArticleAction,
   likePostAction,
@@ -8,7 +9,7 @@ import {
 import { LikableResourceType } from '@/types';
 import { cn } from '@/utils';
 import { MessageSquare, ThumbsUp } from 'lucide-react';
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import { useSession } from './auth-provider';
 
 interface LikeButtonProps {
@@ -25,9 +26,19 @@ export function LikeButton({
   resourceType,
 }: LikeButtonProps) {
   const { session } = useSession();
+  const { toast } = useToast();
   const [liked, setLiked] = useState(defaultLiked || false);
   const [count, setCount] = useState(defaultCount || 0);
   const [loading, setLoading] = useState(false);
+
+  // Update the local state when defaultLiked or defaultCount props change
+  useEffect(() => {
+    setLiked(defaultLiked || false);
+  }, [defaultLiked]);
+
+  useEffect(() => {
+    setCount(defaultCount || 0);
+  }, [defaultCount]);
 
   const className = cn(
     'flex items-center p-1 rounded cursor-pointer gap-2', // Base styles
@@ -38,6 +49,15 @@ export function LikeButton({
   );
 
   const handleToggleLike = useCallback(() => {
+    // Check if user is logged in
+    if (!session) {
+      toast({
+        description: 'You must sign in first to like content.',
+        variant: 'destructive',
+      });
+      return;
+    }
+
     if (resourceType === 'article') {
       setLoading(true);
       (liked ? unlikeArticleAction : likeArticleAction)(resourceId)
@@ -65,10 +85,10 @@ export function LikeButton({
           setLiked(!liked);
         });
     }
-  }, [liked]);
+  }, [liked, session, toast, resourceId, resourceType]);
 
   return (
-    <button className={className} disabled={!session || loading} onClick={handleToggleLike}>
+    <button className={className} disabled={loading} onClick={handleToggleLike}>
       <ThumbsUp className="w-4 h-4" />
       {count} Likes
     </button>

@@ -14,7 +14,7 @@ const config = {
     container: {
       center: true,
       padding: "2rem",
-      screens: { 
+      screens: {
         "2xl": "1400px",
       },
     },
@@ -53,6 +53,10 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        link: {
+          DEFAULT: "hsl(var(--link))",
+          foreground: "hsl(var(--link-foreground))",
+        }
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -72,6 +76,12 @@ const config = {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+      },
+      padding: {
+        'safe': 'max(0.75rem, env(safe-area-inset-bottom))',
+        'safe-top': 'max(0.75rem, env(safe-area-inset-top))',
+        'safe-left': 'max(0.75rem, env(safe-area-inset-left))',
+        'safe-right': 'max(0.75rem, env(safe-area-inset-right))',
       },
     },
   },

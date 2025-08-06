@@ -1,25 +1,35 @@
 'use client';
 import { followUserAction, unfollowUserAction } from '@/server/actions/follower';
 import { Loader, UserPlus } from 'lucide-react';
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import { Button } from '../generated/button';
 import { useSession } from '../auth-provider';
 
 interface FollowButtonProps {
   defaultFollowed?: boolean;
   targetUserId: string;
+  onFollowChange?: (isFollowed: boolean) => void;
 }
 
-export function FollowButton({ defaultFollowed, targetUserId }: FollowButtonProps) {
+export function FollowButton({ defaultFollowed, targetUserId, onFollowChange }: FollowButtonProps) {
   const { session } = useSession();
   const [followed, setFollowed] = useState(defaultFollowed || false);
   const [loading, setLoading] = useState(false);
 
+  // Update the local state when defaultFollowed prop changes
+  useEffect(() => {
+    setFollowed(defaultFollowed || false);
+  }, [defaultFollowed]);
+
   const handleToggleFollow = useCallback(() => {
     setLoading(true);
+    const newFollowedState = !followed;
+    
     (followed ? unfollowUserAction : followUserAction)(targetUserId)
       .then(() => {
-        setFollowed(!followed);
+        setFollowed(newFollowedState);
+        // Notify parent component about the follow status change
+        onFollowChange?.(newFollowedState);
       })
       .catch(error => {
         console.error('Error toggling follow:', error);
@@ -27,7 +37,7 @@ export function FollowButton({ defaultFollowed, targetUserId }: FollowButtonProp
       .finally(() => {
         setLoading(false);
       });
-  }, [followed, loading, targetUserId]);
+  }, [followed, targetUserId, onFollowChange]);
 
   if (!session || session.user.id === targetUserId) {
     return null; // or render a login prompt

@@ -32,6 +32,20 @@ based on light & dark themes */
   --breakpoint-lg: 80rem;
 }
 
+/* Mobile safe areas and viewport units for handling browser UI */
+/* Fallback for browsers that don't support env() */
+.pb-safe {
+  padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+}
+
+@supports (padding: env(safe-area-inset-bottom)) {
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* end of mobile safe areas */
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -63,6 +77,8 @@ based on light & dark themes */
     --ring: 0 0% 3.9%;
 
     --radius: 0.5rem;
+
+    --link: 220 90% 55%; /* Default link color for light mode */
   }
 
   .dark {
@@ -93,6 +109,8 @@ based on light & dark themes */
     --border: 0 0% 14.9%;
     --input: 0 0% 14.9%;
     --ring: 0 0% 83.1%;
+
+    --link: 220 90% 55%; /* Default link color for dark mode */
   }
 }
 
@@ -197,6 +215,12 @@ based on light & dark themes */
 
 .markdown a {
   @apply text-blue-600 dark:text-blue-400 underline;
+  color: hsl(var(--link));
+}
+
+.markdown a:hover,
+.markdown a:focus {
+  color: hsl(var(--link-foreground));
 }
 
 .markdown img {

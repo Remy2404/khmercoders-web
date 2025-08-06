@@ -6,10 +6,13 @@ import { useNavigationRoutes } from './NavigationRoute';
 import { ModeToggle } from '@/components/mode-toggle';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useSession } from '@/components/auth-provider';
+import { ShieldAlert } from 'lucide-react';
 
 export function DesktopLeftNavigation() {
   const path = usePathname();
   const routes = useNavigationRoutes();
+  const { isModerator } = useSession();
 
   return (
     <div className="hidden lg:block lg:w-[280px] shrink-0">
@@ -44,6 +47,18 @@ export function DesktopLeftNavigation() {
               </Link>
             );
           })}
+          {isModerator && (
+            <Link
+              href="/moderate/articles"
+              className={cn(
+                buttonVariants({ variant: path.startsWith('/moderate') ? 'default' : 'ghost' }),
+                'text-left justify-start flex gap-2 px-2'
+              )}
+            >
+              <ShieldAlert className="w-4 h-4" />
+              Moderator Panel
+            </Link>
+          )}
         </div>
 
         <div className="flex flex-col gap-2">

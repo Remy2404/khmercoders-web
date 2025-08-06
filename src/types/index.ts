@@ -3,36 +3,6 @@
 import { DrizzleD1Database } from 'drizzle-orm/d1';
 import * as schema from '@/libs/db/schema';
 
-// Define the type for the member object
-export interface ITeamMember {
-  name: string;
-  role: string;
-  bio?: string;
-  image?: string;
-  github?: string;
-  twitter?: string;
-  linkedin?: string;
-  website?: string;
-  telegram?: string;
-}
-
-// Member Card Component
-// Define the Member type
-export interface ICommunityMember {
-  id: string;
-  name: string;
-  role: string;
-  shortBio: string;
-  bio?: string;
-  badges?: string[];
-  image?: string;
-  coverImage?: string;
-  github?: string;
-  twitter?: string;
-  linkedin?: string;
-  website?: string;
-}
-
 export interface Session {
   session: {
     expiresAt: Date;
@@ -111,6 +81,12 @@ export type ArticleRecord = typeof schema.article.$inferSelect & {
   };
   hasCurrentUserLiked?: boolean;
 };
+
+export enum ArticleReviewStatus {
+  Pending = 'pending',
+  Approved = 'approved',
+  Rejected = 'rejected',
+}
 
 export type ArticlePreviewRecord = Omit<ArticleRecord, 'content'>;
 

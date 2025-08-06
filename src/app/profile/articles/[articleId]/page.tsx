@@ -2,6 +2,8 @@ import { getSession } from '@/app/session';
 import { getDB } from '@/libs/db';
 import { notFound } from 'next/navigation';
 import { ArticleEditClientPage } from './page-client';
+import { MainLayout } from '@/components/blocks/layout/MainLayout';
+import { StackNavigation } from '@/components/blocks/layout/StackNavigation';
 
 export default async function ArticleEditPage({
   params,
@@ -9,7 +11,7 @@ export default async function ArticleEditPage({
   params: Promise<{ articleId: string }>;
 }) {
   const { articleId } = await params;
-  const { session } = await getSession();
+  const { session, profile } = await getSession();
   const db = await getDB();
 
   if (!session) {
@@ -32,5 +34,10 @@ export default async function ArticleEditPage({
     notFound();
   }
 
-  return <ArticleEditClientPage data={article} />;
+  return (
+    <MainLayout hideRightNav>
+      <StackNavigation defaultBackURL={`/@${profile?.alias}/articles`} />
+      <ArticleEditClientPage data={article} />
+    </MainLayout>
+  );
 }

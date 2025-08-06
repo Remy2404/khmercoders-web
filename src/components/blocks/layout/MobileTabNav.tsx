@@ -13,7 +13,7 @@ export function MobileTabNavigation() {
   const tabButtonClass = 'flex text-center p-3 items-center justify-center focus:outline-none';
 
   return (
-    <div className="md:hidden fixed bottom-0 left-0 w-screen bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 z-50">
+    <div className="md:hidden fixed bottom-0 left-0 w-screen bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 z-50 pb-safe">
       <nav className="grid grid-cols-4">
         <Link className={tabButtonClass} href="/">
           <HomeIcon />
