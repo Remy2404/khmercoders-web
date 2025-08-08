@@ -137,7 +137,7 @@ export default function ProfileSetupExperiencePage() {
   }, []);
 
   return (
-    <div className="container mx-auto my-8 max-w-4xl px-4">
+    <div className="container mx-auto py-8 max-w-4xl px-4">
       <div className="mb-8 border-b border-gray-800 pb-4">
         <h1 className="text-3xl font-bold tracking-tight mb-2">Work Experience</h1>
         <p className="text-muted-foreground">
