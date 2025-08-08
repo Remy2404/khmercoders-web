@@ -32,7 +32,9 @@ export default function SponsorPage() {
 
           <div>
             <div className="bg-gray-700 rounded p-2 inline-block">
-              <img src="/assets/images/partners/skai_tech_white_tr.png" className="h-16" />
+              <Link href={'https://www.skaitechnology.com/'} target="_blank">
+                <img src="/assets/images/partners/skai_tech_white_tr.png" className="h-16" />
+              </Link>
             </div>
           </div>
         </div>
@@ -148,7 +150,11 @@ function EventSponsorSection() {
                   <TableCell>
                     <div className="w-8 h-8 bg-gray-500 rounded"></div>
                   </TableCell>
-                  <TableCell className="font-medium">{partner.name}</TableCell>
+                  <TableCell className="font-medium">
+                    <Link href={partner.website} target="_blank">
+                      {partner.name}
+                    </Link>
+                  </TableCell>
                   <TableCell className="text-center">{goldCount > 0 ? goldCount : '_'}</TableCell>
                   <TableCell className="text-center">
                     {silverCount > 0 ? silverCount : '-'}
