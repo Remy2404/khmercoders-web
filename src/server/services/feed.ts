@@ -161,9 +161,7 @@ export async function getFeedFromArticle(articleId: string, userId?: string) {
  * Calculate trending articles based on various metrics and
  * mostly like cache the result for performance.
  */
-export async function calculateTrending() {
-  const { env } = getCloudflareContext();
-
+export async function calculateTrending(env: CloudflareEnv) {
   console.log("Calculating trending articles...");
 
   const analyticsData = await requestWorkerAnalytic<{
