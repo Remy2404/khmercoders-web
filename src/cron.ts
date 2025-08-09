@@ -8,7 +8,7 @@ import { calculateTrending } from './server/services/feed';
 const KHMERCODERS_TELEGRAM_GROUP_ID = '-1002628888170';
 
 const EVERYONE_FIVE_MINUTES_CRON = '*/5 * * * *';
-const TRENDING_CRON = '*/10 * * * *'
+const TRENDING_CRON = '*/10 * * * *';
 
 export const handleCloudflareScheduled: ExportedHandlerScheduledHandler<CloudflareEnv> = async (
   event,

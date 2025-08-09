@@ -69,12 +69,17 @@ export async function getTrendingFeed(options: FeedFilterOptions, userId?: strin
   }
 
   try {
-    const articleIds = z.array(z.object({
-      id: z.string(),
-      score: z.number(),
-      freshScore: z.number(),
-      viewScore: z.number(),
-    })).parse(JSON.parse(trendingArticles)).map(article => article.id);
+    const articleIds = z
+      .array(
+        z.object({
+          id: z.string(),
+          score: z.number(),
+          freshScore: z.number(),
+          viewScore: z.number(),
+        })
+      )
+      .parse(JSON.parse(trendingArticles))
+      .map(article => article.id);
 
     if (!Array.isArray(articleIds) || articleIds.length === 0) {
       return { data: [], pagination: { next: undefined } };
@@ -106,16 +111,18 @@ export async function getTrendingFeed(options: FeedFilterOptions, userId?: strin
     );
 
     return {
-      data: articles.map(article => ({
-        id: article.id,
-        type: 'article',
-        createdAt: article.createdAt,
-        data: article,
-      })).slice(0, options.limit),
+      data: articles
+        .map(article => ({
+          id: article.id,
+          type: 'article',
+          createdAt: article.createdAt,
+          data: article,
+        }))
+        .slice(0, options.limit),
       pagination: {
         next: articleIds.length > options.limit ? String(articleIds[options.limit]) : undefined,
       },
-    }
+    };
   } catch (error) {
     console.error('Failed to parse trending articles from KV:', error);
     return { data: [], pagination: { next: undefined } };
@@ -162,14 +169,15 @@ export async function getFeedFromArticle(articleId: string, userId?: string) {
  * mostly like cache the result for performance.
  */
 export async function calculateTrending(env: CloudflareEnv) {
-  console.log("Calculating trending articles...");
+  console.log('Calculating trending articles...');
 
   const analyticsData = await requestWorkerAnalytic<{
     hour: string;
     articleId: string;
     pageview: number;
     uniqueVisitor: number;
-  }>(`
+  }>(
+    `
     SELECT 
       toStartOfInterval(timestamp, INTERVAL '1' HOUR) AS hour,
       blob7 AS articleId,
@@ -178,9 +186,11 @@ export async function calculateTrending(env: CloudflareEnv) {
     FROM profile_analytics
     WHERE blob1 = 'article' AND timestamp > NOW() - INTERVAL '3' DAY
     GROUP BY articleId, hour    
-  `, { accountId: env.ACCOUNT_ID, token: env.WAE_TOKEN });
+  `,
+    { accountId: env.ACCOUNT_ID, token: env.WAE_TOKEN }
+  );
 
-  console.log("Got analytics data for trending articles:", analyticsData.length);
+  console.log('Got analytics data for trending articles:', analyticsData.length);
 
   const db = getDBFromEnvironment(env);
 
@@ -190,13 +200,13 @@ export async function calculateTrending(env: CloudflareEnv) {
     limit: 100,
   });
 
-  console.log("Got latest articles for trending calculation:", latestArticles.length);
+  console.log('Got latest articles for trending calculation:', latestArticles.length);
 
-  const articleMap = new Map<string, { score: number, freshScore: number, viewScore: number }>();
+  const articleMap = new Map<string, { score: number; freshScore: number; viewScore: number }>();
   const decayDuration = 3 * 24 * 60 * 60 * 1000; // 3 days in milliseconds
 
   // Latest article will get max 100 score as a boost and it will decay over time 3 days.
-  latestArticles.forEach((article) => {
+  latestArticles.forEach(article => {
     const decayFactor = Math.max(0, (Date.now() - article.updatedAt.getTime()) / decayDuration);
     const decayFactorSquared = decayFactor * decayFactor; // Squared decay factor for more aggressive decay
     const score = Math.max(0, 100 - decayFactorSquared * 100);
@@ -211,10 +221,7 @@ export async function calculateTrending(env: CloudflareEnv) {
     // Calculate score based on pageview and unique visitor
     const decayFactor = Math.max(0, (Date.now() - new Date(data.hour).getTime()) / decayDuration);
     const decayFactorSquared = decayFactor * decayFactor; // Squared decay factor for more aggressive decay
-    const score = Math.max(
-      0,
-      (pageview + uniqueVisitor) * (1 - decayFactorSquared)
-    );
+    const score = Math.max(0, (pageview + uniqueVisitor) * (1 - decayFactorSquared));
 
     const found = articleMap.get(articleId);
     if (found) {
@@ -226,13 +233,15 @@ export async function calculateTrending(env: CloudflareEnv) {
   }
 
   // Sort articles by score in descending order
-  const sortedArticles = Array.from(articleMap.entries()).sort((a, b) => {
-    const scoreA = a[1].score;
-    const scoreB = b[1].score;
-    return scoreB - scoreA;
-  }).map(entry => ({ id: entry[0], ...entry[1] }));
+  const sortedArticles = Array.from(articleMap.entries())
+    .sort((a, b) => {
+      const scoreA = a[1].score;
+      const scoreB = b[1].score;
+      return scoreB - scoreA;
+    })
+    .map(entry => ({ id: entry[0], ...entry[1] }));
 
   // Pushing all the threading article to KV
-  console.log("Storing trending articles to KV:", sortedArticles.length);
+  console.log('Storing trending articles to KV:', sortedArticles.length);
   await env.KV.put('trending_articles', JSON.stringify(sortedArticles));
 }
