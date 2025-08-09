@@ -96,6 +96,6 @@ export const handleCloudflareScheduled: ExportedHandlerScheduledHandler<Cloudfla
       ]);
     }
   } else if (cron === TRENDING_CRON) {
-    await calculateTrending();
+    await calculateTrending(env);
   }
 };
