@@ -23,7 +23,7 @@ export interface EventData {
   agenda?: EventAgendaGroup[];
   sponsors: {
     type: SponsorType;
-    id: PartnerIds; 
+    id: PartnerIds;
   }[];
 }
 
