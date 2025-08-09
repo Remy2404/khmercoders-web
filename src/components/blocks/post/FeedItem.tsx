@@ -11,7 +11,7 @@ export function FeedItem({ feed }: { feed: FeedRecord }) {
       <FeedPostWrapper
         user={feed.data.user}
         createdAt={feed.data.createdAt}
-        label="is posting article"
+        label="posted an article"
       >
         <ArticlePreview data={feed.data} />
 
@@ -32,7 +32,7 @@ export function FeedItem({ feed }: { feed: FeedRecord }) {
       <FeedPostWrapper
         user={feed.data.user}
         createdAt={feed.data.createdAt}
-        label={feed.data.resourceType === 'article' ? 'is commenting' : ''}
+        label={feed.data.resourceType === 'article' ? 'commented' : ''}
       >
         <div className="markdown">
           <MarkdownContent withoutMedia>{feed.data.content}</MarkdownContent>
