@@ -1,4 +1,4 @@
-import { getDB } from '@/libs/db';
+import { getDB, getDBFromEnvironment } from '@/libs/db';
 import { bindingArticleListLikeStatus } from './article';
 import { ArticleReviewStatus, FeedRecord } from '@/types';
 import { bindingLikeStatus } from './likes';
@@ -182,7 +182,7 @@ export async function calculateTrending(env: CloudflareEnv) {
 
   console.log("Got analytics data for trending articles:", analyticsData.length);
 
-  const db = await getDB();
+  const db = getDBFromEnvironment(env);
 
   const latestArticles = await db.query.article.findMany({
     where: (article, { eq }) => eq(article.reviewStatus, ArticleReviewStatus.Approved),
