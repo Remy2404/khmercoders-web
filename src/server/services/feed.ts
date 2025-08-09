@@ -162,6 +162,8 @@ export async function getFeedFromArticle(articleId: string, userId?: string) {
  * mostly like cache the result for performance.
  */
 export async function calculateTrending() {
+  console.log("Calculating trending articles...");
+
   const analyticsData = await requestWorkerAnalytic<{
     hour: string;
     articleId: string;
@@ -175,8 +177,10 @@ export async function calculateTrending() {
       COUNT(DISTINCT blob4) AS uniqueVisitor
     FROM profile_analytics
     WHERE blob1 = 'article' AND timestamp > NOW() - INTERVAL '3' DAY
-    GROUP BY blob7, hour    
+    GROUP BY articleId, hour    
   `);
+
+  console.log("Got analytics data for trending articles:", analyticsData.length);
 
   const db = await getDB();
 
@@ -185,6 +189,8 @@ export async function calculateTrending() {
     orderBy: (article, { desc }) => desc(article.updatedAt),
     limit: 100,
   });
+
+  console.log("Got latest articles for trending calculation:", latestArticles.length);
 
   const articleMap = new Map<string, { score: number, freshScore: number, viewScore: number }>();
   const decayDuration = 3 * 24 * 60 * 60 * 1000; // 3 days in milliseconds
@@ -201,8 +207,6 @@ export async function calculateTrending() {
   // Using analytics data to add additional score
   for (const data of analyticsData) {
     const { articleId, pageview, uniqueVisitor } = data;
-
-
 
     // Calculate score based on pageview and unique visitor
     const decayFactor = Math.max(0, (Date.now() - new Date(data.hour).getTime()) / decayDuration);
@@ -230,5 +234,7 @@ export async function calculateTrending() {
 
   // Pushing all the threading article to KV
   const { env } = getCloudflareContext();
+
+  console.log("Storing trending articles to KV:", sortedArticles.length);
   await env.KV.put('trending_articles', JSON.stringify(sortedArticles));
 }
