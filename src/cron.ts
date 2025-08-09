@@ -3,10 +3,12 @@ import { getDBFromEnvironment } from './libs/db';
 import { requestWorkerAnalytic } from './libs/wae';
 import * as schema from './libs/db/schema';
 import { eq, sql } from 'drizzle-orm';
+import { calculateTrending } from './server/services/feed';
 
 const KHMERCODERS_TELEGRAM_GROUP_ID = '-1002628888170';
 
 const EVERYONE_FIVE_MINUTES_CRON = '*/5 * * * *';
+const TRENDING_CRON = '"*/5 * * * *"'
 
 export const handleCloudflareScheduled: ExportedHandlerScheduledHandler<CloudflareEnv> = async (
   event,
@@ -93,5 +95,7 @@ export const handleCloudflareScheduled: ExportedHandlerScheduledHandler<Cloudfla
         ...batchUpdates,
       ]);
     }
+  } else if (cron === TRENDING_CRON) {
+    await calculateTrending();
   }
 };

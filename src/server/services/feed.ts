@@ -2,6 +2,9 @@ import { getDB } from '@/libs/db';
 import { bindingArticleListLikeStatus } from './article';
 import { ArticleReviewStatus, FeedRecord } from '@/types';
 import { bindingLikeStatus } from './likes';
+import { getCloudflareContext } from '@opennextjs/cloudflare';
+import { requestWorkerAnalytic } from '@/libs/wae';
+import { z } from 'zod';
 
 export interface FeedFilterOptions {
   before?: number;
@@ -57,6 +60,68 @@ export async function getFeed(
   };
 }
 
+export async function getTrendingFeed(options: FeedFilterOptions, userId?: string) {
+  // Getting the trending article from KV
+  const { env } = getCloudflareContext();
+  const trendingArticles = await env.KV.get<string>('trending_articles');
+  if (!trendingArticles) {
+    return { data: [], pagination: { next: undefined } };
+  }
+
+  try {
+    const articleIds = z.array(z.object({
+      id: z.string(),
+      score: z.number(),
+      freshScore: z.number(),
+      viewScore: z.number(),
+    })).parse(JSON.parse(trendingArticles)).map(article => article.id);
+
+    if (!Array.isArray(articleIds) || articleIds.length === 0) {
+      return { data: [], pagination: { next: undefined } };
+    }
+
+    const offset = options.before ?? 0;
+    const slicedArticles = articleIds.slice(offset, offset + options.limit + 1);
+    const db = await getDB();
+
+    const articles = await bindingArticleListLikeStatus(
+      await db.query.article.findMany({
+        where: (article, { and, eq, inArray }) => {
+          return and(
+            eq(article.reviewStatus, ArticleReviewStatus.Approved),
+            eq(article.published, true),
+            inArray(article.id, slicedArticles)
+          );
+        },
+        orderBy: (article, { desc }) => desc(article.createdAt),
+        with: {
+          user: {
+            with: {
+              profile: true,
+            },
+          },
+        },
+      }),
+      userId
+    );
+
+    return {
+      data: articles.map(article => ({
+        id: article.id,
+        type: 'article',
+        createdAt: article.createdAt,
+        data: article,
+      })).slice(0, options.limit),
+      pagination: {
+        next: articleIds.length > options.limit ? String(articleIds[options.limit]) : undefined,
+      },
+    }
+  } catch (error) {
+    console.error('Failed to parse trending articles from KV:', error);
+    return { data: [], pagination: { next: undefined } };
+  }
+}
+
 export async function getFeedFromArticle(articleId: string, userId?: string) {
   const db = await getDB();
 
@@ -90,4 +155,80 @@ export async function getFeedFromArticle(articleId: string, userId?: string) {
       next: undefined,
     },
   };
+}
+
+/**
+ * Calculate trending articles based on various metrics and
+ * mostly like cache the result for performance.
+ */
+export async function calculateTrending() {
+  const analyticsData = await requestWorkerAnalytic<{
+    hour: string;
+    articleId: string;
+    pageview: number;
+    uniqueVisitor: number;
+  }>(`
+    SELECT 
+      toStartOfInterval(timestamp, INTERVAL '1' HOUR) AS hour,
+      blob7 AS articleId,
+      COUNT() AS pageview,
+      COUNT(DISTINCT blob4) AS uniqueVisitor
+    FROM profile_analytics
+    WHERE blob1 = 'article' AND timestamp > NOW() - INTERVAL '3' DAY
+    GROUP BY blob7, hour    
+  `);
+
+  const db = await getDB();
+
+  const latestArticles = await db.query.article.findMany({
+    where: (article, { eq }) => eq(article.reviewStatus, ArticleReviewStatus.Approved),
+    orderBy: (article, { desc }) => desc(article.updatedAt),
+    limit: 100,
+  });
+
+  const articleMap = new Map<string, { score: number, freshScore: number, viewScore: number }>();
+  const decayDuration = 3 * 24 * 60 * 60 * 1000; // 3 days in milliseconds
+
+  // Latest article will get max 100 score as a boost and it will decay over time 3 days.
+  latestArticles.forEach((article) => {
+    const decayFactor = Math.max(0, (Date.now() - article.updatedAt.getTime()) / decayDuration);
+    const decayFactorSquared = decayFactor * decayFactor; // Squared decay factor for more aggressive decay
+    const score = Math.max(0, 100 - decayFactorSquared * 100);
+
+    articleMap.set(article.id, { score: score, freshScore: score, viewScore: 0 });
+  });
+
+  // Using analytics data to add additional score
+  for (const data of analyticsData) {
+    const { articleId, pageview, uniqueVisitor } = data;
+
+
+
+    // Calculate score based on pageview and unique visitor
+    const decayFactor = Math.max(0, (Date.now() - new Date(data.hour).getTime()) / decayDuration);
+    const decayFactorSquared = decayFactor * decayFactor; // Squared decay factor for more aggressive decay
+    const score = Math.max(
+      0,
+      (pageview + uniqueVisitor) * (1 - decayFactorSquared)
+    );
+
+    const found = articleMap.get(articleId);
+    if (found) {
+      found.score += score;
+      found.viewScore += score;
+    } else {
+      articleMap.set(articleId, { score: score, freshScore: 0, viewScore: score });
+    }
+  }
+
+  // Sort articles by score in descending order
+  const sortedArticles = Array.from(articleMap.entries()).sort((a, b) => {
+    const scoreA = a[1].score;
+    const scoreB = b[1].score;
+    return scoreB - scoreA;
+  }).map(entry => ({ id: entry[0], ...entry[1] }));
+
+  // Pushing all the threading article to KV
+  const { env } = getCloudflareContext();
+  await env.KV.put('trending_articles', JSON.stringify(sortedArticles));
 }
