@@ -162,6 +162,8 @@ export async function getFeedFromArticle(articleId: string, userId?: string) {
  * mostly like cache the result for performance.
  */
 export async function calculateTrending() {
+  const { env } = getCloudflareContext();
+
   console.log("Calculating trending articles...");
 
   const analyticsData = await requestWorkerAnalytic<{
@@ -178,7 +180,7 @@ export async function calculateTrending() {
     FROM profile_analytics
     WHERE blob1 = 'article' AND timestamp > NOW() - INTERVAL '3' DAY
     GROUP BY articleId, hour    
-  `);
+  `, { accountId: env.ACCOUNT_ID, token: env.WAE_TOKEN });
 
   console.log("Got analytics data for trending articles:", analyticsData.length);
 
@@ -233,8 +235,6 @@ export async function calculateTrending() {
   }).map(entry => ({ id: entry[0], ...entry[1] }));
 
   // Pushing all the threading article to KV
-  const { env } = getCloudflareContext();
-
   console.log("Storing trending articles to KV:", sortedArticles.length);
   await env.KV.put('trending_articles', JSON.stringify(sortedArticles));
 }
