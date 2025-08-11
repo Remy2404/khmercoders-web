@@ -29,7 +29,7 @@ export function ArticleEditorHeader({
               <Button variant={'secondary'} onClick={onSaveDraft} disabled={loading}>
                 {isUpdate ? 'Save' : 'Save Draft'}
               </Button>
-              <Button onClick={onPublish} disabled={ value.summary.length >300 ||loading}>
+              <Button onClick={onPublish} disabled={value.summary.length > 300 || loading}>
                 {isUpdate ? 'Save and Publish' : 'Publish'}
               </Button>
             </div>
