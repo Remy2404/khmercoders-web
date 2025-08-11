@@ -1,7 +1,9 @@
 'use client';
 import { Button } from '@/components/generated/button';
+import { ArticleEditorValue } from '@/app/profile/articles/components/ArticleEditor';
 
 interface ArticleEditorHeaderProps {
+  value: ArticleEditorValue;
   isUpdate?: boolean;
   onSaveDraft: () => void;
   onPublish: () => void;
@@ -10,6 +12,7 @@ interface ArticleEditorHeaderProps {
 }
 
 export function ArticleEditorHeader({
+  value,
   onSaveDraft,
   onPublish,
   loading,
@@ -26,7 +29,7 @@ export function ArticleEditorHeader({
               <Button variant={'secondary'} onClick={onSaveDraft} disabled={loading}>
                 {isUpdate ? 'Save' : 'Save Draft'}
               </Button>
-              <Button onClick={onPublish} disabled={loading}>
+              <Button onClick={onPublish} disabled={ value.summary.length >300 ||loading}>
                 {isUpdate ? 'Save and Publish' : 'Publish'}
               </Button>
             </div>

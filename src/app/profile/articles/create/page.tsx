@@ -94,6 +94,7 @@ export default function BlogPage() {
   return (
     <MainLayout hideRightNav>
       <ArticleEditorHeader
+        value={value}
         onSaveDraft={handleSaveDraft}
         onPublish={handlePublish}
         loading={isPending}
