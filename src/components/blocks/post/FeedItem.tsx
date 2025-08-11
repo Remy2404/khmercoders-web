@@ -67,8 +67,8 @@ function ArticlePreview({ data }: { data: ArticlePreviewRecord }) {
           </div>
         )}
         <div className="p-4">
-          <h2 className="text-lg font-semibold">{data.title}</h2>
-          <p className="text-sm text-muted-foreground">{data.summary}</p>
+          <h2 className="text-lg font-semibold line-clamp-2">{data.title}</h2>
+          <p className="text-sm text-muted-foreground line-clamp-4 break-all">{data.summary}</p>
         </div>
       </article>
     </Link>
