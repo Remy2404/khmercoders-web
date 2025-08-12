@@ -7,6 +7,7 @@ import {
   MessageSquareShare,
   BookAIcon,
   Settings,
+  TrendingUp,
 } from 'lucide-react';
 
 interface NavigationRouteItem {
@@ -24,6 +25,11 @@ export function useNavigationRoutes(): (NavigationRouteItem | '---')[] {
       title: 'Home',
       path: '/',
       icon: Home,
+    },
+    profile && {
+      title: 'Trending',
+      path: '/trending',
+      icon: TrendingUp,
     },
     {
       title: 'Showcase',

@@ -6,20 +6,47 @@ import { getCloudflareContext } from '@opennextjs/cloudflare';
 import { requestWorkerAnalytic } from '@/libs/wae';
 import { z } from 'zod';
 
+interface FeedCursor {
+  type: "trend" | "latest";
+  offset: number;
+}
+
 export interface FeedFilterOptions {
-  before?: number;
+  type?: "trend" | "latest";
+  before?: string;
   limit: number;
 }
+
+interface FeedCursorResponse { data: FeedRecord[]; pagination: FeedPagination }
 
 export interface FeedPagination {
   next?: string;
 }
 
+function encodeCursor(cursor: FeedCursor) {
+  return Buffer.from(JSON.stringify(cursor), "utf-8").toString("base64");
+}
+
+function decodeCursor(encodedCursor: string) {
+  const json = Buffer.from(encodedCursor, "base64").toString("utf8");
+  return JSON.parse(json) as FeedCursor;
+}
+
 export async function getFeed(
   options: FeedFilterOptions,
   userId?: string
-): Promise<{ data: FeedRecord[]; pagination: FeedPagination }> {
-  const { before, limit } = options;
+): Promise<FeedCursorResponse> {
+  const decodedCursor = options.before ? decodeCursor(options.before) : undefined;
+  const type = decodedCursor?.type ?? options.type;
+
+  if (type === "trend" && process.env.NODE_ENV === 'production') {
+    return getTrendingFeed(decodedCursor?.offset, options.limit, userId);
+  } else {
+    return getLatestFeed(decodedCursor?.offset, options.limit, userId);
+  }
+}
+
+async function getLatestFeed(before: number | undefined, limit: number, userId?: string): Promise<FeedCursorResponse> {
   const db = await getDB();
 
   const articles = await bindingArticleListLikeStatus(
@@ -55,15 +82,18 @@ export async function getFeed(
       data: article,
     })),
     pagination: {
-      next: hasNextPage ? String(articles[articles.length - 1].createdAt.getTime()) : undefined,
+      next: hasNextPage ? encodeCursor({
+        type: 'latest',
+        offset: articles[articles.length - 1].createdAt.getTime()
+      }) : undefined,
     },
   };
 }
 
-export async function getTrendingFeed(options: FeedFilterOptions, userId?: string) {
+export async function getTrendingFeed(before: number | undefined, limit: number, userId?: string): Promise<FeedCursorResponse> {
   // Getting the trending article from KV
   const { env } = getCloudflareContext();
-  const trendingArticles = await env.KV.get<string>('trending_articles');
+  const trendingArticles = await env.KV.get<string>(TRENDING_ARTICLE_KEY);
   if (!trendingArticles) {
     return { data: [], pagination: { next: undefined } };
   }
@@ -85,8 +115,8 @@ export async function getTrendingFeed(options: FeedFilterOptions, userId?: strin
       return { data: [], pagination: { next: undefined } };
     }
 
-    const offset = options.before ?? 0;
-    const slicedArticles = articleIds.slice(offset, offset + options.limit + 1);
+    const offset = Number(before ?? 0);
+    const slicedArticles = articleIds.slice(offset, offset + limit + 1);
     const db = await getDB();
 
     const articles = await bindingArticleListLikeStatus(
@@ -112,15 +142,20 @@ export async function getTrendingFeed(options: FeedFilterOptions, userId?: strin
 
     return {
       data: articles
-        .map(article => ({
-          id: article.id,
-          type: 'article',
-          createdAt: article.createdAt,
-          data: article,
-        }))
-        .slice(0, options.limit),
+        .map(article => {
+          return {
+            id: article.id,
+            type: 'article',
+            createdAt: article.createdAt,
+            data: article,
+          } as FeedRecord
+        })
+        .slice(0, limit),
       pagination: {
-        next: articleIds.length > options.limit ? String(articleIds[options.limit]) : undefined,
+        next: articleIds.length > limit ? encodeCursor({
+          type: 'trend',
+          offset: offset + limit
+        }) : undefined,
       },
     };
   } catch (error) {
@@ -243,5 +278,7 @@ export async function calculateTrending(env: CloudflareEnv) {
 
   // Pushing all the threading article to KV
   console.log('Storing trending articles to KV:', sortedArticles.length);
-  await env.KV.put('trending_articles', JSON.stringify(sortedArticles));
+  await env.KV.put(TRENDING_ARTICLE_KEY, JSON.stringify(sortedArticles));
 }
+
+const TRENDING_ARTICLE_KEY = 'trending_articles';

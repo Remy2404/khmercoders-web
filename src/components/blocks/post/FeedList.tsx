@@ -22,7 +22,7 @@ export function FeedListWithLoadMore({
     setIsLoading(true);
     try {
       const moreFeeds = await getFeedAction({
-        before: Number(nextCursor),
+        before: nextCursor,
         limit: 20,
       });
 
