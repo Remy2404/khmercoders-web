@@ -1,6 +1,6 @@
 import { getDB, getDBFromEnvironment } from '@/libs/db';
 import { bindingArticleListLikeStatus } from './article';
-import { ArticleReviewStatus, FeedRecord } from '@/types';
+import { ArticlePreviewRecord, ArticleReviewStatus, FeedRecord } from '@/types';
 import { bindingLikeStatus } from './likes';
 import { getCloudflareContext } from '@opennextjs/cloudflare';
 import { requestWorkerAnalytic } from '@/libs/wae';
@@ -128,7 +128,6 @@ export async function getTrendingFeed(before: number | undefined, limit: number,
             inArray(article.id, slicedArticles)
           );
         },
-        orderBy: (article, { desc }) => desc(article.createdAt),
         with: {
           user: {
             with: {
@@ -140,8 +139,10 @@ export async function getTrendingFeed(before: number | undefined, limit: number,
       userId
     );
 
+    const sortedArticles = slicedArticles.map(id => articles.find(article => article.id === id)).filter(Boolean) as ArticlePreviewRecord[];
+
     return {
-      data: articles
+      data: sortedArticles
         .map(article => {
           return {
             id: article.id,
