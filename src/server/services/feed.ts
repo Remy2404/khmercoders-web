@@ -39,7 +39,7 @@ export async function getFeed(
   const decodedCursor = options.before ? decodeCursor(options.before) : undefined;
   const type = decodedCursor?.type ?? options.type;
 
-  if (type === "trend" && process.env.NODE_ENV === 'production') {
+  if (type === "trend") {
     return getTrendingFeed(decodedCursor?.offset, options.limit, userId);
   } else {
     return getLatestFeed(decodedCursor?.offset, options.limit, userId);
