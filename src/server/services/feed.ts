@@ -7,28 +7,31 @@ import { requestWorkerAnalytic } from '@/libs/wae';
 import { z } from 'zod';
 
 interface FeedCursor {
-  type: "trend" | "latest";
+  type: 'trend' | 'latest';
   offset: number;
 }
 
 export interface FeedFilterOptions {
-  type?: "trend" | "latest";
+  type?: 'trend' | 'latest';
   before?: string;
   limit: number;
 }
 
-interface FeedCursorResponse { data: FeedRecord[]; pagination: FeedPagination }
+interface FeedCursorResponse {
+  data: FeedRecord[];
+  pagination: FeedPagination;
+}
 
 export interface FeedPagination {
   next?: string;
 }
 
 function encodeCursor(cursor: FeedCursor) {
-  return Buffer.from(JSON.stringify(cursor), "utf-8").toString("base64");
+  return Buffer.from(JSON.stringify(cursor), 'utf-8').toString('base64');
 }
 
 function decodeCursor(encodedCursor: string) {
-  const json = Buffer.from(encodedCursor, "base64").toString("utf8");
+  const json = Buffer.from(encodedCursor, 'base64').toString('utf8');
   return JSON.parse(json) as FeedCursor;
 }
 
@@ -39,14 +42,18 @@ export async function getFeed(
   const decodedCursor = options.before ? decodeCursor(options.before) : undefined;
   const type = decodedCursor?.type ?? options.type;
 
-  if (type === "trend") {
+  if (type === 'trend') {
     return getTrendingFeed(decodedCursor?.offset, options.limit, userId);
   } else {
     return getLatestFeed(decodedCursor?.offset, options.limit, userId);
   }
 }
 
-async function getLatestFeed(before: number | undefined, limit: number, userId?: string): Promise<FeedCursorResponse> {
+async function getLatestFeed(
+  before: number | undefined,
+  limit: number,
+  userId?: string
+): Promise<FeedCursorResponse> {
   const db = await getDB();
 
   const articles = await bindingArticleListLikeStatus(
@@ -82,15 +89,21 @@ async function getLatestFeed(before: number | undefined, limit: number, userId?:
       data: article,
     })),
     pagination: {
-      next: hasNextPage ? encodeCursor({
-        type: 'latest',
-        offset: articles[articles.length - 1].createdAt.getTime()
-      }) : undefined,
+      next: hasNextPage
+        ? encodeCursor({
+            type: 'latest',
+            offset: articles[articles.length - 1].createdAt.getTime(),
+          })
+        : undefined,
     },
   };
 }
 
-export async function getTrendingFeed(before: number | undefined, limit: number, userId?: string): Promise<FeedCursorResponse> {
+export async function getTrendingFeed(
+  before: number | undefined,
+  limit: number,
+  userId?: string
+): Promise<FeedCursorResponse> {
   // Getting the trending article from KV
   const { env } = getCloudflareContext();
   const trendingArticles = await env.KV.get<string>(TRENDING_ARTICLE_KEY);
@@ -139,7 +152,9 @@ export async function getTrendingFeed(before: number | undefined, limit: number,
       userId
     );
 
-    const sortedArticles = slicedArticles.map(id => articles.find(article => article.id === id)).filter(Boolean) as ArticlePreviewRecord[];
+    const sortedArticles = slicedArticles
+      .map(id => articles.find(article => article.id === id))
+      .filter(Boolean) as ArticlePreviewRecord[];
 
     return {
       data: sortedArticles
@@ -149,14 +164,17 @@ export async function getTrendingFeed(before: number | undefined, limit: number,
             type: 'article',
             createdAt: article.createdAt,
             data: article,
-          } as FeedRecord
+          } as FeedRecord;
         })
         .slice(0, limit),
       pagination: {
-        next: articleIds.length > limit ? encodeCursor({
-          type: 'trend',
-          offset: offset + limit
-        }) : undefined,
+        next:
+          articleIds.length > limit
+            ? encodeCursor({
+                type: 'trend',
+                offset: offset + limit,
+              })
+            : undefined,
       },
     };
   } catch (error) {
