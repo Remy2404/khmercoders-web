@@ -85,6 +85,7 @@ export function ArticleEditClientPage({ data }: ArticleEditClientPageProps) {
   return (
     <>
       <ArticleEditorHeader
+        value={value}
         onSaveDraft={handleSaveDraft}
         onPublish={handlePublish}
         loading={isPending}
