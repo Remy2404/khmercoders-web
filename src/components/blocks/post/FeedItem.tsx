@@ -2,6 +2,7 @@ import { CommentButton, LikeButton } from '@/components/interaction-button';
 import { MarkdownContent } from '@/components/MarkdownContent';
 import { ArticlePreviewRecord, FeedRecord, UserRecordWithProfile } from '@/types';
 import { formatAgo } from '@/utils/format';
+import { Eye } from 'lucide-react';
 import Link from 'next/link';
 import { PropsWithChildren } from 'react';
 
@@ -15,7 +16,7 @@ export function FeedItem({ feed }: { feed: FeedRecord }) {
       >
         <ArticlePreview data={feed.data} />
 
-        <div className="flex gap-2">
+        <div className="flex gap-2 items-center">
           <LikeButton
             defaultCount={feed.data.likeCount}
             defaultLiked={feed.data.hasCurrentUserLiked}
@@ -27,12 +28,12 @@ export function FeedItem({ feed }: { feed: FeedRecord }) {
             <CommentButton count={feed.data.commentCount} />
           </div>
 
-          <div>
+          <div className="text-muted-foreground items-center text-sm pr-2 flex gap-1">
             {(feed.data.viewCount ?? 0).toLocaleString(undefined, {
               maximumFractionDigits: 0,
               minimumFractionDigits: 0,
             })}{' '}
-            views
+            <Eye className="w-4 h-4" />
           </div>
         </div>
       </FeedPostWrapper>
