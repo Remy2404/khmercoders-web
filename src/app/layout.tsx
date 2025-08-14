@@ -9,6 +9,7 @@ import { ThemeProvider } from 'next-themes';
 import { getCloudflareContext } from '@opennextjs/cloudflare';
 import { ServerStatsProvider } from '@/components/contexts/ServerStatsContext';
 import { Toaster } from '@/components/generated/toaster';
+import { TooltipProvider } from '@/components/generated/tooltip';
 
 export const metadata = {
   title: "Khmer Coders - Cambodia's Largest Coding Community",
@@ -55,33 +56,35 @@ export default async function RootLayout({
         <title>{metadata.title}</title>
       </head>
       <body className="overflow-hidden-x md:overflow-x-auto">
-        <NavigationGuardProvider>
-          <ServerStatsProvider
-            telegramMembers={telegramMemberCount}
-            discordMembers={discordMemberCount}
-            facebookMembers={facebookMemberCount}
-          >
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="system"
-              enableSystem
-              disableTransitionOnChange
+        <TooltipProvider>
+          <NavigationGuardProvider>
+            <ServerStatsProvider
+              telegramMembers={telegramMemberCount}
+              discordMembers={discordMemberCount}
+              facebookMembers={facebookMemberCount}
             >
-              <ReactQueryProvider>
-                <SessionProvider>
-                  <UserUploadProvider>
-                    <div className="min-h-screen relative">
-                      {/* Content container */}
-                      <div className="relative">{children}</div>
-                    </div>
-                    <Toaster />
-                    {process.env.NODE_ENV === 'development' && <KhmerCoderDevtool />}
-                  </UserUploadProvider>
-                </SessionProvider>
-              </ReactQueryProvider>
-            </ThemeProvider>
-          </ServerStatsProvider>
-        </NavigationGuardProvider>
+              <ThemeProvider
+                attribute="class"
+                defaultTheme="system"
+                enableSystem
+                disableTransitionOnChange
+              >
+                <ReactQueryProvider>
+                  <SessionProvider>
+                    <UserUploadProvider>
+                      <div className="min-h-screen relative">
+                        {/* Content container */}
+                        <div className="relative">{children}</div>
+                      </div>
+                      <Toaster />
+                      {process.env.NODE_ENV === 'development' && <KhmerCoderDevtool />}
+                    </UserUploadProvider>
+                  </SessionProvider>
+                </ReactQueryProvider>
+              </ThemeProvider>
+            </ServerStatsProvider>
+          </NavigationGuardProvider>
+        </TooltipProvider>
       </body>
     </html>
   );

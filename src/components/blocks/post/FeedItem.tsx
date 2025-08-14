@@ -1,7 +1,9 @@
+import { TooltipContent, TooltipTrigger } from '@/components/generated/tooltip';
 import { CommentButton, LikeButton } from '@/components/interaction-button';
 import { MarkdownContent } from '@/components/MarkdownContent';
 import { ArticlePreviewRecord, FeedRecord, UserRecordWithProfile } from '@/types';
 import { formatAgo } from '@/utils/format';
+import { Tooltip } from '@radix-ui/react-tooltip';
 import { Eye } from 'lucide-react';
 import Link from 'next/link';
 import { PropsWithChildren } from 'react';
@@ -28,13 +30,23 @@ export function FeedItem({ feed }: { feed: FeedRecord }) {
             <CommentButton count={feed.data.commentCount} />
           </div>
 
-          <div className="text-muted-foreground items-center text-sm pr-2 flex gap-1">
-            {(feed.data.viewCount ?? 0).toLocaleString(undefined, {
-              maximumFractionDigits: 0,
-              minimumFractionDigits: 0,
-            })}{' '}
-            <Eye className="w-4 h-4" />
-          </div>
+          <Tooltip>
+            <TooltipTrigger>
+              <div className="text-muted-foreground items-center text-sm pr-2 flex gap-1">
+                {(feed.data.viewCount ?? 0).toLocaleString(undefined, {
+                  maximumFractionDigits: 0,
+                  minimumFractionDigits: 0,
+                })}{' '}
+                <Eye className="w-4 h-4" />
+              </div>
+            </TooltipTrigger>
+            <TooltipContent style={{ maxWidth: 300 }}>
+              <p>
+                Views are counted only when a user clicks and reads the article. Impressions in the
+                feed are not included.
+              </p>
+            </TooltipContent>
+          </Tooltip>
         </div>
       </FeedPostWrapper>
     );
