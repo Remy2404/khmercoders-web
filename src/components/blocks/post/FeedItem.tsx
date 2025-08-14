@@ -23,7 +23,17 @@ export function FeedItem({ feed }: { feed: FeedRecord }) {
             resourceType="article"
           />
 
-          <CommentButton count={feed.data.commentCount} />
+          <div className="grow">
+            <CommentButton count={feed.data.commentCount} />
+          </div>
+
+          <div>
+            {(feed.data.viewCount ?? 0).toLocaleString(undefined, {
+              maximumFractionDigits: 0,
+              minimumFractionDigits: 0,
+            })}{' '}
+            views
+          </div>
         </div>
       </FeedPostWrapper>
     );
