@@ -12,6 +12,8 @@ import { Toaster } from '@/components/generated/toaster';
 import { TooltipProvider } from '@/components/generated/tooltip';
 import { getDB } from '@/libs/db';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata = {
   title: "Khmer Coders - Cambodia's Largest Coding Community",
   description: "Join Cambodia's largest community of developers, designers, and tech enthusiasts.",
