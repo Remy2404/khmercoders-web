@@ -10,6 +10,7 @@ import { getCloudflareContext } from '@opennextjs/cloudflare';
 import { ServerStatsProvider } from '@/components/contexts/ServerStatsContext';
 import { Toaster } from '@/components/generated/toaster';
 import { TooltipProvider } from '@/components/generated/tooltip';
+import { getDB } from '@/libs/db';
 
 export const metadata = {
   title: "Khmer Coders - Cambodia's Largest Coding Community",
@@ -31,15 +32,27 @@ export default async function RootLayout({
 }>) {
   const { env } = getCloudflareContext();
 
-  const counter = await env.KV.get([
-    'telegram_member_count',
-    'discord_member_count',
-    'facebook_member_count',
-  ]);
+  const db = await getDB();
+  const stats = await db.query.cacheTable.findMany({
+    where: (cacheTable, { inArray }) =>
+      inArray(cacheTable.key, [
+        'telegram_member_count',
+        'discord_member_count',
+        'facebook_member_count',
+      ]),
+  });
 
-  const telegramMemberCount = Number(counter.get('telegram_member_count') || 0);
-  const discordMemberCount = Number(counter.get('discord_member_count') || 0);
-  const facebookMemberCount = Number(counter.get('facebook_member_count') || 0);
+  const telegramMemberCount = Number(
+    stats.find(stat => stat.key === 'telegram_member_count')?.value || 0
+  );
+
+  const discordMemberCount = Number(
+    stats.find(stat => stat.key === 'discord_member_count')?.value || 0
+  );
+
+  const facebookMemberCount = Number(
+    stats.find(stat => stat.key === 'facebook_member_count')?.value || 0
+  );
 
   return (
     <html lang="en" suppressHydrationWarning>
