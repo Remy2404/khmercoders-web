@@ -3,6 +3,7 @@ import { CommentButton, LikeButton } from '@/components/interaction-button';
 import { MarkdownContent } from '@/components/MarkdownContent';
 import { ArticlePreviewRecord, FeedRecord, UserRecordWithProfile } from '@/types';
 import { formatAgo } from '@/utils/format';
+import { getResizeImage } from '@/utils/image';
 import { Tooltip } from '@radix-ui/react-tooltip';
 import { Eye } from 'lucide-react';
 import Link from 'next/link';
@@ -83,7 +84,7 @@ function ArticlePreview({ data }: { data: ArticlePreviewRecord }) {
           <div className="relative w-full">
             <div className="pb-[50%]"></div>
             <img
-              src={data.image}
+              src={getResizeImage(data.image, { width: 550, height: 250, quality: 100 })}
               alt={data.title}
               className="absolute inset-0 w-full h-full object-cover"
             />
