@@ -11,6 +11,7 @@ import { ServerStatsProvider } from '@/components/contexts/ServerStatsContext';
 import { Toaster } from '@/components/generated/toaster';
 import { TooltipProvider } from '@/components/generated/tooltip';
 import { getDB } from '@/libs/db';
+import { KV_TELERAM_MEMBER_COUNT, KV_TOTAL_MEMBER_COUNT } from '@/constants';
 
 export const dynamic = 'force-dynamic';
 
@@ -38,14 +39,15 @@ export default async function RootLayout({
   const stats = await db.query.cacheTable.findMany({
     where: (cacheTable, { inArray }) =>
       inArray(cacheTable.key, [
-        'telegram_member_count',
+        KV_TELERAM_MEMBER_COUNT,
         'discord_member_count',
         'facebook_member_count',
+        KV_TOTAL_MEMBER_COUNT,
       ]),
   });
 
   const telegramMemberCount = Number(
-    stats.find(stat => stat.key === 'telegram_member_count')?.value || 0
+    stats.find(stat => stat.key === KV_TELERAM_MEMBER_COUNT)?.value || 0
   );
 
   const discordMemberCount = Number(
@@ -54,6 +56,10 @@ export default async function RootLayout({
 
   const facebookMemberCount = Number(
     stats.find(stat => stat.key === 'facebook_member_count')?.value || 0
+  );
+
+  const totalMemberCount = Number(
+    stats.find(stat => stat.key === KV_TOTAL_MEMBER_COUNT)?.value || 0
   );
 
   return (
@@ -77,6 +83,7 @@ export default async function RootLayout({
               telegramMembers={telegramMemberCount}
               discordMembers={discordMemberCount}
               facebookMembers={facebookMemberCount}
+              totalMembers={totalMemberCount}
             >
               <ThemeProvider
                 attribute="class"

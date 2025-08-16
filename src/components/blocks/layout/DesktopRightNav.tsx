@@ -9,6 +9,7 @@ export function DesktopRightNavigation() {
     telegramMembers: telegramMemberCount,
     discordMembers: discordMemberCount,
     facebookMembers: facebookMemberCount,
+    totalMembers: totalMemberCount,
   } = useServerStats();
 
   return (
@@ -25,7 +26,7 @@ export function DesktopRightNavigation() {
         <div className="grid grid-cols-2 gap-4">
           <div className="text-sm flex flex-col">
             <h3 className="font-bold mb-1">Website</h3>
-            <span className="text-lg font-bold">455</span>
+            <span className="text-lg font-bold">{totalMemberCount.toLocaleString()}</span>
             <span className="text-muted-foreground -mt-2">members</span>
           </div>
 
