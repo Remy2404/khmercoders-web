@@ -11,7 +11,7 @@ export function DesktopRightNavigation() {
   return (
     <div className="hidden lg:block lg:w-[280px] shrink-0 p-4">
       <div className="sticky top-4 flex flex-col gap-4">
-        <img src="/logo.svg" alt="Khmer Coders Logo" className="w-16 h-16 h-auto mb-4" />
+        <img src="/logo.svg" alt="Khmer Coders Logo" className="w-16 h-16 mb-4" />
 
         <p className="text-sm">
           <strong>Khmer Coders</strong>
