@@ -263,6 +263,12 @@ export const userLinkCode = sqliteTable('user_link_code', {
   updatedAt: integer('updated_at', { mode: 'timestamp' }).notNull(),
 });
 
+export const cacheTable = sqliteTable('caches', {
+  key: text('key').primaryKey().notNull(),
+  value: text('value').notNull(),
+  updatedAt: integer('updated_at', { mode: 'timestamp' }).notNull(),
+});
+
 // Relations
 export const userUploadRelationship = relations(userUpload, ({ one, many }) => ({
   bindings: many(userUploadBinding),

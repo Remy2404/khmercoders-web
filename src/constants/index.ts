@@ -9,6 +9,7 @@ export const USER_UPLOAD_URL =
     : 'https://cdn.khmercoder.com';
 
 export const KV_TELERAM_MEMBER_COUNT = 'telegram_member_count';
+export const KV_TOTAL_MEMBER_COUNT = 'member_count';
 
 export const USER_LEVEL_DESCRIPTION: Record<
   UserLevel,
