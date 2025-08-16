@@ -93,10 +93,17 @@ export type ArticlePreviewRecord = Omit<ArticleRecord, 'content'>;
 export type FeedRecord = (
   | { type: 'article'; data: ArticlePreviewRecord }
   | {
-      type: 'post';
-      data: PostRecordWithProfile;
-    }
+    type: 'post';
+    data: PostRecordWithProfile;
+  }
 ) & {
   createdAt: Date;
   id: string;
 };
+
+export interface ServerStats {
+  telegramMembers: number;
+  discordMembers: number;
+  facebookMembers: number;
+  totalMembers: number;
+}
