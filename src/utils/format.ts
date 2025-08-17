@@ -29,3 +29,7 @@ export function formatDate(date: Date | string): string {
     minute: '2-digit',
   });
 }
+
+export function trimSpace(str: string) {
+  return str.replace(/^[\s\u200B-\u200D\u2060\uFEFF]+|[\s\u200B-\u200D\u2060\uFEFF]+$/g, '');
+}
