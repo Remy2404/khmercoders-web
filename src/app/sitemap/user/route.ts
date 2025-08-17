@@ -1,6 +1,6 @@
-import { getDB } from "@/libs/db";
+import { getDB } from '@/libs/db';
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 
 export const GET = async () => {
   const db = await getDB();
@@ -10,13 +10,17 @@ export const GET = async () => {
     columns: {
       alias: true,
       updatedAt: true,
-    }
+    },
   });
 
-  const url = users.map(user => `<url>
+  const url = users
+    .map(
+      user => `<url>
     <loc>${`https://khmercoder.com/@${user.alias}`}</loc>
     <lastmod>${user.updatedAt.toISOString()}</lastmod>
-  </url>`).join('');
+  </url>`
+    )
+    .join('');
 
   const result = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

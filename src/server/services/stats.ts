@@ -1,8 +1,8 @@
-"use server";
+'use server';
 
-import { KV_TELERAM_MEMBER_COUNT, KV_TOTAL_MEMBER_COUNT } from "@/constants";
-import { getDB } from "@/libs/db";
-import { type ServerStats } from "@/types";
+import { KV_TELERAM_MEMBER_COUNT, KV_TOTAL_MEMBER_COUNT } from '@/constants';
+import { getDB } from '@/libs/db';
+import { type ServerStats } from '@/types';
 
 export async function getServerStats(): Promise<ServerStats> {
   const db = await getDB();
@@ -37,5 +37,5 @@ export async function getServerStats(): Promise<ServerStats> {
     discordMembers: discordMemberCount,
     facebookMembers: facebookMemberCount,
     totalMembers: totalMemberCount,
-  }
+  };
 }
