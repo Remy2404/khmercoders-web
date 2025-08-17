@@ -1,5 +1,5 @@
 User-agent: *
 Disallow:
 
-Sitemap: https://khmercoders.com/sitemap/user
-Sitemap: https://khmercoders.com/sitemap/article
+Sitemap: https://khmercoder.com/sitemap/user
+Sitemap: https://khmercoder.com/sitemap/article
