@@ -1,5 +1,7 @@
 import { getDB } from "@/libs/db";
 
+export const dynamic = "force-dynamic";
+
 export const GET = async () => {
   const db = await getDB();
 
