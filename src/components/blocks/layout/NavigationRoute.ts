@@ -47,6 +47,10 @@ export function useNavigationRoutes(): (NavigationRouteItem | '---')[] {
       icon: Package,
     },
     {
+      title: "Members",
+      path: '/users',
+    },
+    {
       title: 'Chatroom',
       path: '/community',
       icon: MessageSquareShare,

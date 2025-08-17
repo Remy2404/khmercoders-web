@@ -11,6 +11,7 @@ import {
   PaginationPrevious,
 } from '@/components/generated/pagination';
 import { getUserCount, getUserList } from '@/server/services/users';
+import Link from 'next/link';
 
 interface UserPageProps {
   searchParams: {
@@ -50,15 +51,19 @@ export default async function UserPage({ searchParams }: UserPageProps) {
               <TableRow key={user.id}>
                 <TableCell className="text-right">{(page - 1) * pageSize + idx + 1}</TableCell>
                 <TableCell>
-                  <Avatar>
-                    {user.image ? <AvatarImage src={user.image} /> : <AvatarFallback />}
-                  </Avatar>
+                  <Link href={`/@${member_profile.alias}`}>
+                    <Avatar>
+                      {user.image ? <AvatarImage src={user.image} /> : <AvatarFallback />}
+                    </Avatar>
+                  </Link>
                 </TableCell>
                 <TableCell>
-                  <p className="font-semibold">{user.name}</p>
-                  {member_profile.title && (
-                    <p className="text-muted-foreground">{member_profile.title}</p>
-                  )}
+                  <Link href={`/@${member_profile.alias}`} className="cursor-pointer">
+                    <p className="font-semibold hover:underline">{user.name}</p>
+                    {member_profile.title && (
+                      <p className="text-muted-foreground">{member_profile.title}</p>
+                    )}
+                  </Link>
                 </TableCell>
                 <TableCell className="text-right" style={{ width: 50 }}>
                   {user.followersCount}
