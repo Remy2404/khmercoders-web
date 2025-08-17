@@ -5,7 +5,7 @@ import {
   PostableResourceType,
   ArticleReviewStatus,
 } from '@/types';
-import { like, relations } from 'drizzle-orm';
+import { desc, relations, sql } from 'drizzle-orm';
 import { sqliteTable, text, integer, index, primaryKey } from 'drizzle-orm/sqlite-core';
 
 export const user = sqliteTable('user', {
@@ -32,7 +32,9 @@ export const user = sqliteTable('user', {
   isBanned: integer('is_banned', { mode: 'boolean' }).notNull().default(false),
   banReason: text('ban_reason'),
   banByUserId: text('ban_by_user_id'),
-});
+}, table => ([
+  index('user_follower_idx').on(desc(table.followersCount), desc(table.followingCount), table.name)
+]));
 
 export const session = sqliteTable('session', {
   id: text('id').primaryKey(),
