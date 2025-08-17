@@ -8,6 +8,7 @@ import {
   BookAIcon,
   Settings,
   TrendingUp,
+  User,
 } from 'lucide-react';
 
 interface NavigationRouteItem {
@@ -49,6 +50,7 @@ export function useNavigationRoutes(): (NavigationRouteItem | '---')[] {
     {
       title: "Members",
       path: '/users',
+      icon: User
     },
     {
       title: 'Chatroom',
