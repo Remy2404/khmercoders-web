@@ -35,7 +35,7 @@ export const handleCloudflareScheduled: ExportedHandlerScheduledHandler<Cloudfla
 
       console.log('Telegram group member count:', JSON.stringify(data, null, 2));
 
-      await env.DB.prepare('INSERT OR REPLACE caches(key, value, updated_at) VALUES(?, ?, ?)')
+      await env.DB.prepare('INSERT OR REPLACE INTO caches(key, value, updated_at) VALUES(?, ?, ?)')
         .bind([KV_TELERAM_MEMBER_COUNT, data.result.toString(), Date.now()])
         .run();
     } catch (error) {
@@ -45,7 +45,7 @@ export const handleCloudflareScheduled: ExportedHandlerScheduledHandler<Cloudfla
     // Update total member
     const userCountResult = await env.DB.prepare('SELECT COUNT(*) AS t FROM user').run();
 
-    await env.DB.prepare('INSERT OR REPLACE caches(key, value, updated_at) VALUES(?, ?, ?)')
+    await env.DB.prepare('INSERT OR REPLACE INTO caches(key, value, updated_at) VALUES(?, ?, ?)')
       .bind([KV_TOTAL_MEMBER_COUNT, userCountResult.results[0].t, Date.now()])
       .run();
   } else if (cron === EVERYONE_FIVE_MINUTES_CRON) {
