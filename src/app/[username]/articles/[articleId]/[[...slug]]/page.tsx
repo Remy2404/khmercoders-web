@@ -11,23 +11,27 @@ import { FollowButton } from '@/components/ui/FollowerButton';
 import { bindingFollowerStatusFromUser } from '@/server/services/followers';
 import { MainLayout } from '@/components/blocks/layout/MainLayout';
 import { ArticleModerateActions } from '../moderate';
+import { Metadata } from 'next';
 
 interface EditArticlePageProps {
   params: Promise<{ articleId: string; username: string }>;
 }
 
 // Generate metadata for the page
-export async function generateMetadata({ params }: EditArticlePageProps) {
+export async function generateMetadata({ params }: EditArticlePageProps): Promise<Metadata> {
   const { articleId } = await params;
   const article = await getArtcleFromIdCache(articleId);
 
   return {
     title: article.title,
     description: article.summary,
+    alternates: {
+      canonical: `${process.env.NEXT_PUBLIC_BASE_URL}/@${article.user.profile.alias}/articles/${article.id}`,
+    },
     openGraph: {
       title: article.title,
-      description: article.summary,
-      url: `/@${article.user.profile.alias}/articles/${article.id}`,
+      description: article.summary ?? '',
+      url: `${process.env.NEXT_PUBLIC_BASE_URL}/@${article.user.profile.alias}/articles/${article.id}`,
       images: [
         {
           url: article.image || '/default-article-image.png',
@@ -65,7 +69,6 @@ export default async function EditArticlePage({ params }: EditArticlePageProps) 
                 <FollowButton
                   defaultFollowed={article.user.hasCurrentUserFollowed}
                   targetUserId={article.user.id}
-                  onFollowChange={() => {}}
                 />
               </div>
             </div>

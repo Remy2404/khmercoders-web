@@ -1,12 +1,14 @@
-import { KV_TELERAM_MEMBER_COUNT } from './constants';
+import { KV_TELERAM_MEMBER_COUNT, KV_TOTAL_MEMBER_COUNT } from './constants';
 import { getDBFromEnvironment } from './libs/db';
 import { requestWorkerAnalytic } from './libs/wae';
 import * as schema from './libs/db/schema';
 import { eq, sql } from 'drizzle-orm';
+import { calculateTrending } from './server/services/feed';
 
 const KHMERCODERS_TELEGRAM_GROUP_ID = '-1002628888170';
 
 const EVERYONE_FIVE_MINUTES_CRON = '*/5 * * * *';
+const TRENDING_CRON = '*/10 * * * *';
 
 export const handleCloudflareScheduled: ExportedHandlerScheduledHandler<CloudflareEnv> = async (
   event,
@@ -33,10 +35,19 @@ export const handleCloudflareScheduled: ExportedHandlerScheduledHandler<Cloudfla
 
       console.log('Telegram group member count:', JSON.stringify(data, null, 2));
 
-      await env.KV.put(KV_TELERAM_MEMBER_COUNT, data.result.toString());
+      await env.DB.prepare('INSERT OR REPLACE INTO caches(key, value, updated_at) VALUES(?, ?, ?)')
+        .bind([KV_TELERAM_MEMBER_COUNT, data.result.toString(), Date.now()])
+        .run();
     } catch (error) {
       console.error('Error fetching chat members count:', error);
     }
+
+    // Update total member
+    const userCountResult = await env.DB.prepare('SELECT COUNT(*) AS t FROM user').run();
+
+    await env.DB.prepare('INSERT OR REPLACE INTO caches(key, value, updated_at) VALUES(?, ?, ?)')
+      .bind([KV_TOTAL_MEMBER_COUNT, userCountResult.results[0].t, Date.now()])
+      .run();
   } else if (cron === EVERYONE_FIVE_MINUTES_CRON) {
     // Updating the analytics view_count
     // Getting the last cron execution time
@@ -93,5 +104,7 @@ export const handleCloudflareScheduled: ExportedHandlerScheduledHandler<Cloudfla
         ...batchUpdates,
       ]);
     }
+  } else if (cron === TRENDING_CRON) {
+    await calculateTrending(env);
   }
 };

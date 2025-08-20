@@ -1,7 +1,11 @@
+import { TooltipContent, TooltipTrigger } from '@/components/generated/tooltip';
 import { CommentButton, LikeButton } from '@/components/interaction-button';
 import { MarkdownContent } from '@/components/MarkdownContent';
 import { ArticlePreviewRecord, FeedRecord, UserRecordWithProfile } from '@/types';
 import { formatAgo } from '@/utils/format';
+import { getResizeImage } from '@/utils/image';
+import { Tooltip } from '@radix-ui/react-tooltip';
+import { Eye } from 'lucide-react';
 import Link from 'next/link';
 import { PropsWithChildren } from 'react';
 
@@ -11,11 +15,11 @@ export function FeedItem({ feed }: { feed: FeedRecord }) {
       <FeedPostWrapper
         user={feed.data.user}
         createdAt={feed.data.createdAt}
-        label="is posting article"
+        label="posted an article"
       >
         <ArticlePreview data={feed.data} />
 
-        <div className="flex gap-2">
+        <div className="flex gap-2 items-center">
           <LikeButton
             defaultCount={feed.data.likeCount}
             defaultLiked={feed.data.hasCurrentUserLiked}
@@ -23,7 +27,27 @@ export function FeedItem({ feed }: { feed: FeedRecord }) {
             resourceType="article"
           />
 
-          <CommentButton count={feed.data.commentCount} />
+          <div className="grow">
+            <CommentButton count={feed.data.commentCount} />
+          </div>
+
+          <Tooltip>
+            <TooltipTrigger>
+              <div className="text-muted-foreground items-center text-sm pr-2 flex gap-1">
+                {(feed.data.viewCount ?? 0).toLocaleString(undefined, {
+                  maximumFractionDigits: 0,
+                  minimumFractionDigits: 0,
+                })}{' '}
+                <Eye className="w-4 h-4" />
+              </div>
+            </TooltipTrigger>
+            <TooltipContent style={{ maxWidth: 300 }}>
+              <p>
+                Views are counted only when a user clicks and reads the article. Impressions in the
+                feed are not included.
+              </p>
+            </TooltipContent>
+          </Tooltip>
         </div>
       </FeedPostWrapper>
     );
@@ -32,7 +56,7 @@ export function FeedItem({ feed }: { feed: FeedRecord }) {
       <FeedPostWrapper
         user={feed.data.user}
         createdAt={feed.data.createdAt}
-        label={feed.data.resourceType === 'article' ? 'is commenting' : ''}
+        label={feed.data.resourceType === 'article' ? 'commented' : ''}
       >
         <div className="markdown">
           <MarkdownContent withoutMedia>{feed.data.content}</MarkdownContent>
@@ -60,15 +84,15 @@ function ArticlePreview({ data }: { data: ArticlePreviewRecord }) {
           <div className="relative w-full">
             <div className="pb-[50%]"></div>
             <img
-              src={data.image}
+              src={getResizeImage(data.image, { width: 550, height: 250, quality: 100 })}
               alt={data.title}
               className="absolute inset-0 w-full h-full object-cover"
             />
           </div>
         )}
         <div className="p-4">
-          <h2 className="text-lg font-semibold">{data.title}</h2>
-          <p className="text-sm text-muted-foreground">{data.summary}</p>
+          <h2 className="text-lg font-semibold line-clamp-2">{data.title}</h2>
+          <p className="text-sm text-muted-foreground line-clamp-4 break-all">{data.summary}</p>
         </div>
       </article>
     </Link>

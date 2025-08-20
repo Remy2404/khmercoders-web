@@ -7,6 +7,8 @@ import {
   MessageSquareShare,
   BookAIcon,
   Settings,
+  TrendingUp,
+  User,
 } from 'lucide-react';
 
 interface NavigationRouteItem {
@@ -25,6 +27,11 @@ export function useNavigationRoutes(): (NavigationRouteItem | '---')[] {
       path: '/',
       icon: Home,
     },
+    profile && {
+      title: 'Trending',
+      path: '/trending',
+      icon: TrendingUp,
+    },
     {
       title: 'Showcase',
       path: '/showcase',
@@ -39,6 +46,11 @@ export function useNavigationRoutes(): (NavigationRouteItem | '---')[] {
       title: 'Sponsors',
       path: '/sponsors',
       icon: Package,
+    },
+    {
+      title: "Members",
+      path: '/users',
+      icon: User
     },
     {
       title: 'Chatroom',

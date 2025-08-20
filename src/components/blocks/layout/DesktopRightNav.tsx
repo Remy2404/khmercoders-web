@@ -1,20 +1,17 @@
 import { GithubIcon } from '@/components/atoms/icons';
 import { useServerStats } from '@/components/contexts/ServerStatsContext';
+import { SkeletonLine } from '@/components/ui/SkeletonLine';
 import { KCLinks } from '@/data/link';
 import { ArrowUpRight, OutdentIcon } from 'lucide-react';
 import Link from 'next/link';
 
 export function DesktopRightNavigation() {
-  const {
-    telegramMembers: telegramMemberCount,
-    discordMembers: discordMemberCount,
-    facebookMembers: facebookMemberCount,
-  } = useServerStats();
+  const stats = useServerStats();
 
   return (
     <div className="hidden lg:block lg:w-[280px] shrink-0 p-4">
       <div className="sticky top-4 flex flex-col gap-4">
-        <img src="/logo.svg" alt="Khmer Coders Logo" className="w-16 h-16 h-auto mb-4" />
+        <img src="/logo.svg" alt="Khmer Coders Logo" className="w-16 h-16 mb-4" />
 
         <p className="text-sm">
           <strong>Khmer Coders</strong>
@@ -25,7 +22,13 @@ export function DesktopRightNavigation() {
         <div className="grid grid-cols-2 gap-4">
           <div className="text-sm flex flex-col">
             <h3 className="font-bold mb-1">Website</h3>
-            <span className="text-lg font-bold">455</span>
+            <div className="h-8 flex items-center">
+              {stats ? (
+                <span className="text-lg font-bold">{stats.totalMembers.toLocaleString()}</span>
+              ) : (
+                <SkeletonLine />
+              )}
+            </div>
             <span className="text-muted-foreground -mt-2">members</span>
           </div>
 
@@ -38,7 +41,13 @@ export function DesktopRightNavigation() {
               <h3 className="font-bold mb-1">Telegram</h3>
               <ArrowUpRight className="w-4 h-4" />
             </Link>
-            <span className="text-lg font-bold">{telegramMemberCount.toLocaleString()}</span>
+            <div className="h-8 flex items-center">
+              {stats ? (
+                <span className="text-lg font-bold">{stats.telegramMembers.toLocaleString()}</span>
+              ) : (
+                <SkeletonLine />
+              )}
+            </div>
             <span className="text-muted-foreground -mt-2">members</span>
           </div>
 
@@ -51,7 +60,13 @@ export function DesktopRightNavigation() {
               <h3 className="font-bold mb-1">Facebook</h3>
               <ArrowUpRight className="w-4 h-4" />
             </Link>
-            <span className="text-lg font-bold">{facebookMemberCount.toLocaleString()}</span>
+            <div className="h-8 flex items-center">
+              {stats ? (
+                <span className="text-lg font-bold">{stats.facebookMembers.toLocaleString()}</span>
+              ) : (
+                <SkeletonLine />
+              )}
+            </div>
             <span className="text-muted-foreground -mt-2">members</span>
           </div>
 
@@ -64,7 +79,13 @@ export function DesktopRightNavigation() {
               <h3 className="font-bold mb-1">Discord</h3>
               <ArrowUpRight className="w-4 h-4" />
             </Link>
-            <span className="text-lg font-bold">{discordMemberCount.toLocaleString()}</span>
+            <div className="h-8 flex items-center">
+              {stats ? (
+                <span className="text-lg font-bold">{stats.discordMembers.toLocaleString()}</span>
+              ) : (
+                <SkeletonLine />
+              )}
+            </div>
             <span className="text-muted-foreground -mt-2">members</span>
           </div>
         </div>

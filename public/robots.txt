@@ -1,0 +1,5 @@
+User-agent: *
+Disallow:
+
+Sitemap: https://khmercoder.com/sitemap/user
+Sitemap: https://khmercoder.com/sitemap/article

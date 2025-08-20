@@ -100,3 +100,10 @@ export type FeedRecord = (
   createdAt: Date;
   id: string;
 };
+
+export interface ServerStats {
+  telegramMembers: number;
+  discordMembers: number;
+  facebookMembers: number;
+  totalMembers: number;
+}

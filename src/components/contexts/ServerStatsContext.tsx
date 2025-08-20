@@ -1,34 +1,21 @@
 'use client';
 
-import { createContext, PropsWithChildren, useContext } from 'react';
+import { getServerStats } from '@/server/services/stats';
+import { ServerStats } from '@/types';
+import { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react';
 
-const ServerStatsContext = createContext<{
-  telegramMembers: number;
-  discordMembers: number;
-  facebookMembers: number;
-}>({
-  telegramMembers: 0,
-  discordMembers: 0,
-  facebookMembers: 0,
-});
+const ServerStatsContext = createContext<ServerStats | undefined>(undefined);
 
 export function useServerStats() {
   return useContext(ServerStatsContext);
 }
 
-export function ServerStatsProvider({
-  telegramMembers,
-  discordMembers,
-  facebookMembers,
-  children,
-}: PropsWithChildren<{
-  telegramMembers: number;
-  discordMembers: number;
-  facebookMembers: number;
-}>) {
-  return (
-    <ServerStatsContext.Provider value={{ telegramMembers, discordMembers, facebookMembers }}>
-      {children}
-    </ServerStatsContext.Provider>
-  );
+export function ServerStatsProvider({ children }: PropsWithChildren) {
+  const [stats, setStats] = useState<ServerStats>();
+
+  useEffect(() => {
+    getServerStats().then(setStats);
+  }, []);
+
+  return <ServerStatsContext.Provider value={stats}>{children}</ServerStatsContext.Provider>;
 }

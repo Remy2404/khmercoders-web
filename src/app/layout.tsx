@@ -6,9 +6,9 @@ import { NavigationGuardProvider } from 'next-navigation-guard';
 import type React from 'react';
 import { SessionProvider } from './session';
 import { ThemeProvider } from 'next-themes';
-import { getCloudflareContext } from '@opennextjs/cloudflare';
 import { ServerStatsProvider } from '@/components/contexts/ServerStatsContext';
 import { Toaster } from '@/components/generated/toaster';
+import { TooltipProvider } from '@/components/generated/tooltip';
 
 export const metadata = {
   title: "Khmer Coders - Cambodia's Largest Coding Community",
@@ -28,18 +28,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { env } = getCloudflareContext();
-
-  const counter = await env.KV.get([
-    'telegram_member_count',
-    'discord_member_count',
-    'facebook_member_count',
-  ]);
-
-  const telegramMemberCount = Number(counter.get('telegram_member_count') || 0);
-  const discordMemberCount = Number(counter.get('discord_member_count') || 0);
-  const facebookMemberCount = Number(counter.get('facebook_member_count') || 0);
-
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -55,33 +43,31 @@ export default async function RootLayout({
         <title>{metadata.title}</title>
       </head>
       <body className="overflow-hidden-x md:overflow-x-auto">
-        <NavigationGuardProvider>
-          <ServerStatsProvider
-            telegramMembers={telegramMemberCount}
-            discordMembers={discordMemberCount}
-            facebookMembers={facebookMemberCount}
-          >
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="system"
-              enableSystem
-              disableTransitionOnChange
-            >
-              <ReactQueryProvider>
-                <SessionProvider>
-                  <UserUploadProvider>
-                    <div className="min-h-screen relative">
-                      {/* Content container */}
-                      <div className="relative">{children}</div>
-                    </div>
-                    <Toaster />
-                    {process.env.NODE_ENV === 'development' && <KhmerCoderDevtool />}
-                  </UserUploadProvider>
-                </SessionProvider>
-              </ReactQueryProvider>
-            </ThemeProvider>
-          </ServerStatsProvider>
-        </NavigationGuardProvider>
+        <TooltipProvider>
+          <NavigationGuardProvider>
+            <ServerStatsProvider>
+              <ThemeProvider
+                attribute="class"
+                defaultTheme="system"
+                enableSystem
+                disableTransitionOnChange
+              >
+                <ReactQueryProvider>
+                  <SessionProvider>
+                    <UserUploadProvider>
+                      <div className="min-h-screen relative">
+                        {/* Content container */}
+                        <div className="relative">{children}</div>
+                      </div>
+                      <Toaster />
+                      {process.env.NODE_ENV === 'development' && <KhmerCoderDevtool />}
+                    </UserUploadProvider>
+                  </SessionProvider>
+                </ReactQueryProvider>
+              </ThemeProvider>
+            </ServerStatsProvider>
+          </NavigationGuardProvider>
+        </TooltipProvider>
       </body>
     </html>
   );

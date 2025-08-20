@@ -6,6 +6,7 @@ import { MarkdownEditor } from '@/components/markdown-editor';
 import { useUserUpload } from '@/components/user-upload/context';
 import { produce } from 'immer';
 import { Dispatch, SetStateAction, useCallback } from 'react';
+import { cn } from '@/utils';
 
 export interface ArticleEditorValue {
   title: string;
@@ -76,6 +77,11 @@ export function ArticleEditor({ value, onChange }: ArticleEditorProps) {
     [onChange]
   );
 
+  const maxSummaryLength = 300;
+  const summaryLength = value.summary.length;
+
+  const summaryPercentage = (summaryLength / maxSummaryLength) * 100;
+
   return (
     <div>
       <div className="flex flex-col gap-4">
@@ -94,8 +100,46 @@ export function ArticleEditor({ value, onChange }: ArticleEditorProps) {
         </div>
 
         <div className="flex flex-col gap-2">
-          <Label>Summary</Label>
-          <Textarea placeholder="Summary" value={value.summary} onChange={handleSummaryChange} />
+          <div className="flex justify-between items-center">
+            <Label>Summary</Label>
+            <span
+              className={cn(
+                'text-sm',
+                summaryLength < 240
+                  ? 'text-muted-foreground'
+                  : summaryLength < 300
+                    ? 'text-yellow-500'
+                    : 'text-red-500'
+              )}
+            >
+              {summaryLength}/{maxSummaryLength}
+            </span>
+          </div>
+
+          <div className="relative border border-gray-200 rounded-md p-1">
+            <Textarea
+              placeholder="Summary"
+              value={value.summary}
+              onChange={handleSummaryChange}
+              className="border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+              rows={4}
+            />
+            <div className="absolute bottom-0 left-0 right-0 h-1 bg-gray-100 overflow-hidden rounded-b-md">
+              <div
+                className={cn(
+                  'h-full bg-muted-foreground transition-all duration-200 ease-in-out',
+                  summaryLength < 250
+                    ? 'bg-green-500'
+                    : summaryLength < 300
+                      ? 'bg-yellow-500'
+                      : 'bg-red-500'
+                )}
+                style={{
+                  width: `${summaryPercentage}%`,
+                }}
+              />
+            </div>
+          </div>
         </div>
 
         <ArticleEditorImageInput value={value.image} onChange={handleImageChange} />

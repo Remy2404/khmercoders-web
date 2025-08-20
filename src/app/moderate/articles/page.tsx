@@ -12,6 +12,7 @@ import {
 import { MODERATOR_ACCESS } from '@/constants';
 import { getDB } from '@/libs/db';
 import { ArticleReviewStatus } from '@/types';
+import { trimSpace } from '@/utils/format';
 import Link from 'next/link';
 
 export default async function ModerateArticlePage() {
@@ -88,7 +89,7 @@ export default async function ModerateArticlePage() {
                   href={`/@${article.user.profile?.alias}/articles/${article.id}/${article.slug}`}
                   className="text-link hover:underline"
                 >
-                  {article.title || 'Untitled Article'}
+                  {trimSpace(article.title ?? '') || 'Untitled Article'}
                 </Link>
               </TableCell>
               <TableCell>{article.user.name}</TableCell>
