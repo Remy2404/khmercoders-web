@@ -48,9 +48,9 @@ export function useNavigationRoutes(): (NavigationRouteItem | '---')[] {
       icon: Package,
     },
     {
-      title: "Members",
+      title: 'Members',
       path: '/users',
-      icon: User
+      icon: User,
     },
     {
       title: 'Chatroom',
