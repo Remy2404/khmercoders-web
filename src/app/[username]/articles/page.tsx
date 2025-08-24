@@ -38,12 +38,11 @@ export default async function UserArticleListPage({
         published: true,
         userId: true,
         likeCount: true,
-        banByUserId: true,
-        banReason: true,
         approvedByAI: true,
         commentCount: true,
-        isBanned: true,
         viewCount: true,
+        reviewStatus: true,
+        reviewBy: true,
       },
       with: {
         user: {

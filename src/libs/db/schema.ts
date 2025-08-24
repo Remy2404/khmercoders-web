@@ -8,33 +8,41 @@ import {
 import { desc, relations, sql } from 'drizzle-orm';
 import { sqliteTable, text, integer, index, primaryKey } from 'drizzle-orm/sqlite-core';
 
-export const user = sqliteTable('user', {
-  id: text('id').primaryKey(),
-  name: text('name').notNull(),
-  email: text('email').notNull().unique(),
-  emailVerified: integer('email_verified', { mode: 'boolean' }).notNull(),
-  image: text('image'),
-  createdAt: integer('created_at', { mode: 'timestamp' }).notNull(),
-  updatedAt: integer('updated_at', { mode: 'timestamp' }).notNull(),
+export const user = sqliteTable(
+  'user',
+  {
+    id: text('id').primaryKey(),
+    name: text('name').notNull(),
+    email: text('email').notNull().unique(),
+    emailVerified: integer('email_verified', { mode: 'boolean' }).notNull(),
+    image: text('image'),
+    createdAt: integer('created_at', { mode: 'timestamp' }).notNull(),
+    updatedAt: integer('updated_at', { mode: 'timestamp' }).notNull(),
 
-  // Additional fields for user profile
-  reputation: integer('reputation').notNull().default(0),
-  followersCount: integer('followers_count').notNull().default(0),
-  followingCount: integer('following_count').notNull().default(0),
+    // Additional fields for user profile
+    reputation: integer('reputation').notNull().default(0),
+    followersCount: integer('followers_count').notNull().default(0),
+    followingCount: integer('following_count').notNull().default(0),
 
-  // User level represented as integer but mapped to enum
-  level: integer('level').notNull().default(UserLevel.Regular).$type<UserLevel>(),
+    // User level represented as integer but mapped to enum
+    level: integer('level').notNull().default(UserLevel.Regular).$type<UserLevel>(),
 
-  // Storage usages
-  storageUsed: integer('storage_used').notNull().default(0),
+    // Storage usages
+    storageUsed: integer('storage_used').notNull().default(0),
 
-  // Moderation
-  isBanned: integer('is_banned', { mode: 'boolean' }).notNull().default(false),
-  banReason: text('ban_reason'),
-  banByUserId: text('ban_by_user_id'),
-}, table => ([
-  index('user_follower_idx').on(desc(table.followersCount), desc(table.followingCount), table.name)
-]));
+    // Moderation
+    isBanned: integer('is_banned', { mode: 'boolean' }).notNull().default(false),
+    banReason: text('ban_reason'),
+    banByUserId: text('ban_by_user_id'),
+  },
+  table => [
+    index('user_follower_idx').on(
+      desc(table.followersCount),
+      desc(table.followingCount),
+      table.name
+    ),
+  ]
+);
 
 export const session = sqliteTable('session', {
   id: text('id').primaryKey(),
