@@ -1,15 +1,13 @@
 'use client';
 import { DialogTitle } from '@radix-ui/react-dialog';
 import { Dialog, DialogContent, DialogDescription, DialogHeader } from '../generated/dialog';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../generated/table';
 import { useEffect, useState } from 'react';
 import { UserUploadRecord } from '@/types';
 import { getFileListAction } from '@/server/actions/file';
-import { formatAgo, formatSize } from '@/utils/format';
 import { File } from 'lucide-react';
-import { renderIconFromContentType } from '@/utils/icons';
 import { cn } from '@/utils';
 import { UserUploadPhotoTab } from './photo';
+import { UserUploadListTab } from './list';
 
 type FileManagerMode = 'file' | 'upload' | 'photo';
 
@@ -46,23 +44,23 @@ export function UserUpload({ onSelect, onClose, mode }: UserUploadProps) {
         <div className="-mx-6 flex flex-col" style={{ height: 500 }}>
           <ul className="flex shrink-0">
             <li
-              className={`px-6 p-2 border-b-2 flex cursor-pointer ${
+              className={`text-sm px-6 p-2 border-b-2 flex cursor-pointer ${
                 selectedTab === 'file' ? 'border-yellow-500' : 'border-surface'
               }`}
               onClick={() => setSelectedTab('file')}
             >
-              File
+              Files
             </li>
             <li
-              className={`px-6 p-2 border-b-2 flex cursor-pointer ${
+              className={`text-sm px-6 p-2 border-b-2 flex cursor-pointer ${
                 selectedTab === 'photo' ? 'border-yellow-500' : 'border-surface'
               }`}
               onClick={() => setSelectedTab('photo')}
             >
-              Photo
+              Photos
             </li>
             <li
-              className={`px-6 p-2 border-b-2 flex cursor-pointer ${
+              className={`text-sm px-6 p-2 border-b-2 flex cursor-pointer ${
                 selectedTab === 'upload' ? 'border-yellow-500' : 'border-surface'
               }`}
               onClick={() => setSelectedTab('upload')}
@@ -75,7 +73,7 @@ export function UserUpload({ onSelect, onClose, mode }: UserUploadProps) {
           <div className="flex grow overflow-y-auto overflow-x-hidden">
             {selectedTab === 'upload' && <FileUploadTabContent onSelect={onSelect} />}
             {selectedTab === 'photo' && <UserUploadPhotoTab files={files} onSelect={onSelect} />}
-            {selectedTab === 'file' && <FileListTabContent files={files} onSelect={onSelect} />}
+            {selectedTab === 'file' && <UserUploadListTab files={files} onSelect={onSelect} />}
           </div>
         </div>
       </DialogContent>
@@ -250,39 +248,5 @@ function FileUploadTabContent({ onSelect }: { onSelect: (file: string) => void }
         </div>
       )}
     </div>
-  );
-}
-
-function FileListTabContent({
-  files,
-  onSelect,
-}: {
-  files: UserUploadRecord[];
-  onSelect: (file: string) => void;
-}) {
-  return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead>File Description</TableHead>
-          <TableHead className="text-right">Size</TableHead>
-          <TableHead style={{ width: 150 }}>Created at</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {files.map(file => (
-          <TableRow key={file.id} className="cursor-pointer" onClick={() => onSelect(file.fileUrl)}>
-            <TableCell>
-              <div className="flex gap-2 items-center line-clamp-1">
-                {renderIconFromContentType(file.fileType)}
-                {file.fileName}
-              </div>
-            </TableCell>
-            <TableCell className="text-right">{formatSize(file.fileSize)}</TableCell>
-            <TableCell>{formatAgo(file.createdAt)}</TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
   );
 }
