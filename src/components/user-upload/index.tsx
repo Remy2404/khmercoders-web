@@ -9,15 +9,18 @@ import { formatAgo, formatSize } from '@/utils/format';
 import { File } from 'lucide-react';
 import { renderIconFromContentType } from '@/utils/icons';
 import { cn } from '@/utils';
+import { UserUploadPhotoTab } from './photo';
+
+type FileManagerMode = 'file' | 'upload' | 'photo';
 
 interface UserUploadProps {
   onSelect: (file: string) => void;
   onClose: () => void;
-  mode?: 'file' | 'upload';
+  mode?: FileManagerMode;
 }
 
 export function UserUpload({ onSelect, onClose, mode }: UserUploadProps) {
-  const [selectedTab, setSelectedTab] = useState<'file' | 'upload'>(mode ?? 'file');
+  const [selectedTab, setSelectedTab] = useState<FileManagerMode>(mode ?? 'file');
   const [files, setFiles] = useState<UserUploadRecord[]>([]);
 
   useEffect(() => {
@@ -52,6 +55,14 @@ export function UserUpload({ onSelect, onClose, mode }: UserUploadProps) {
             </li>
             <li
               className={`px-6 p-2 border-b-2 flex cursor-pointer ${
+                selectedTab === 'photo' ? 'border-yellow-500' : 'border-surface'
+              }`}
+              onClick={() => setSelectedTab('photo')}
+            >
+              Photo
+            </li>
+            <li
+              className={`px-6 p-2 border-b-2 flex cursor-pointer ${
                 selectedTab === 'upload' ? 'border-yellow-500' : 'border-surface'
               }`}
               onClick={() => setSelectedTab('upload')}
@@ -63,6 +74,7 @@ export function UserUpload({ onSelect, onClose, mode }: UserUploadProps) {
 
           <div className="flex grow overflow-y-auto overflow-x-hidden">
             {selectedTab === 'upload' && <FileUploadTabContent onSelect={onSelect} />}
+            {selectedTab === 'photo' && <UserUploadPhotoTab files={files} onSelect={onSelect} />}
             {selectedTab === 'file' && <FileListTabContent files={files} onSelect={onSelect} />}
           </div>
         </div>
@@ -225,7 +237,7 @@ function FileUploadTabContent({ onSelect }: { onSelect: (file: string) => void }
       )}
 
       {uploadProgress !== null && (
-        <div className="w-full mt-4">
+        <div className="w-full p-4">
           <div className="w-full bg-gray-200 rounded-full h-2">
             <div
               className="bg-yellow-500 h-2 rounded-full"
