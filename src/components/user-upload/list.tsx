@@ -32,7 +32,10 @@ export function UserUploadListTab({
         <TableHeader className="sticky top-0">
           <TableRow className="bg-secondary">
             <TableHead>File Description</TableHead>
-            <TableHead className="text-right">Size</TableHead>
+            <TableHead style={{ width: 100 }}>Type</TableHead>
+            <TableHead style={{ width: 100 }} className="text-right">
+              Size
+            </TableHead>
             <TableHead style={{ width: 150 }}>Created at</TableHead>
           </TableRow>
         </TableHeader>
@@ -49,6 +52,7 @@ export function UserUploadListTab({
                   {file.fileName}
                 </div>
               </TableCell>
+              <TableCell>{file.fileType}</TableCell>
               <TableCell className="text-right">{formatSize(file.fileSize)}</TableCell>
               <TableCell>{formatAgo(file.createdAt)}</TableCell>
             </TableRow>
