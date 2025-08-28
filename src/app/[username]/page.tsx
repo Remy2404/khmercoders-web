@@ -23,6 +23,8 @@ export async function generateMetadata({
   const { username } = await params;
   const profile = await getProfileFromUsernameCache(username);
 
+  const ogImageUrl = `https://preview.khmercoder.com/preview/${profile.member_profile.alias}`;
+
   return {
     title: `${profile.user.name} (${profile.member_profile.title}) | Khmer Coders`,
     description:
@@ -35,7 +37,7 @@ export async function generateMetadata({
         `${profile.user.name} is a member of Khmer Coders.`,
       type: 'profile',
       url: `https://khmercoder.com/${username}`,
-      images: [profile.user.image || '/placeholder-user.jpg'],
+      images: [ogImageUrl],
     },
     twitter: {
       card: 'summary',
@@ -43,7 +45,7 @@ export async function generateMetadata({
       description:
         profile.member_profile.bio?.substring(0, 200) ||
         `${profile.user.name} is a member of Khmer Coders.`,
-      images: [profile.user.image || '/placeholder-user.jpg'],
+      images: [ogImageUrl],
     },
   };
 }
