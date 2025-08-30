@@ -30,7 +30,7 @@ export function UserUploadPhotoTab({ onSelect, files }: UserUploadPhotoProps) {
         {imageFiles.map(file => (
           <div
             key={file.id}
-            onClick={() => onSelect(file.id)}
+            onClick={() => onSelect(file.fileUrl)}
             className="flex flex-col items-center cursor-pointer gap-2"
           >
             <div className="w-full aspect-square flex items-center justify-center border-2 border-gray-300 rounded overflow-hidden">
