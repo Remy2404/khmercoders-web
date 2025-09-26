@@ -63,16 +63,17 @@ export function withApiAuth<ResponseType = any>(
 export function withOptionalApiAuth<ResponseType = any>(
   handler: (
     req: NextRequest,
-    authContext: Partial<ApiAuthContext>
+    authContext: Partial<ApiAuthContext>,
+    params: any,
   ) => Promise<NextResponse<ResponseType> | Response>
 ) {
-  return async function (req: NextRequest): Promise<NextResponse<ResponseType> | Response> {
+  return async function (req: NextRequest, params: any): Promise<NextResponse<ResponseType> | Response> {
     const session = await auth.api.getSession({
       headers: await headers(),
     });
 
     if (!session) {
-      return handler(req, { db: await getDB() });
+      return handler(req, { db: await getDB() }, params);
     }
 
     const db = await getDB();
@@ -87,6 +88,6 @@ export function withOptionalApiAuth<ResponseType = any>(
       user: session.user as typeof schema.user.$inferSelect,
     };
 
-    return handler(req, authContext);
+    return handler(req, authContext, params);
   };
 }

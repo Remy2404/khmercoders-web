@@ -1,13 +1,15 @@
-"use server"
+'use server';
 
-import { getDB } from "@/libs/db"
-import * as schema from "@/libs/db/schema"
-import { desc, eq } from "drizzle-orm";
+import { getDB } from '@/libs/db';
+import * as schema from '@/libs/db/schema';
+import { desc, eq } from 'drizzle-orm';
 
 export async function getUserList(page: number, size: number) {
   const db = await getDB();
 
-  return await db.select().from(schema.user)
+  return await db
+    .select()
+    .from(schema.user)
     .innerJoin(schema.memberProfile, eq(schema.user.id, schema.memberProfile.userId))
     .limit(size)
     .offset((page - 1) * size)
